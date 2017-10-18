@@ -24,3 +24,7 @@ Assignment/cocos2d/plugin/plugins/facebook/proj.ios/FacebookSDK.framework/Versio
 Assignment/cocos2d/plugin/plugins/facebook/proj.ios/FacebookSDK.framework/Versions/Current/DeprecatedHeaders/FBOpenGraphActionShareDialogParams.h
 Assignment/cocos2d/plugin/plugins/facebook/proj.ios/FacebookSDK.framework/Versions/Current/DeprecatedHeaders/FBSessionManualTokenCachingStrategy.h
 Assignment/cocos2d/plugin/plugins/facebook/proj.ios/FacebookSDK.framework/Versions/Current/DeprecatedHeaders/FBTaggableFriendPickerViewController.h
+Release.win32/
+Debug.win32/
+*.db
+*.ipch
