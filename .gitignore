@@ -28,3 +28,4 @@ Release.win32/
 Debug.win32/
 *.db
 *.ipch
+*.opendb
