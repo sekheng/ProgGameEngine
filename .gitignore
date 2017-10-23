@@ -29,3 +29,7 @@ Debug.win32/
 *.db
 *.ipch
 *.opendb
+*.suo
+*.db-shm
+*.db-wal
+.vs/
