@@ -13,6 +13,8 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    // Sek Heng here trying to do branching.
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
