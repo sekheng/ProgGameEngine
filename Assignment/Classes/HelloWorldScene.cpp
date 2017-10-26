@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 USING_NS_CC;
 
@@ -24,6 +25,10 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+    // Trying to figure out the Lua stuff
+    LuaEngine *zeLuaEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(zeLuaEngine);
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
