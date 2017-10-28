@@ -1,9 +1,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
+#include "scripting/lua-bindings/manual/lua_module_register.h"
 
 USING_NS_CC;
-using namespace::std;
 
 Scene* HelloWorld::createScene()
 {
@@ -28,8 +28,6 @@ bool HelloWorld::init()
     }
 
     // Trying to figure out the Lua stuff
-    LuaEngine *zeLuaEngine = LuaEngine::getInstance();
-    ScriptEngineManager::getInstance()->setScriptEngine(zeLuaEngine);
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -98,7 +96,13 @@ bool HelloWorld::init()
         this->addChild(sprite, 0);
     }
 
-    // Sek Heng here trying to branching
+    LuaEngine *zeLuaEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(zeLuaEngine);
+    lua_State* L = zeLuaEngine->getLuaStack()->getLuaState();
+    lua_module_register(L);
+
+    FileUtils::getInstance()->addSearchPath("Resources");
+    zeLuaEngine->executeScriptFile("DataDriven.lua");
 
     return true;
 }
