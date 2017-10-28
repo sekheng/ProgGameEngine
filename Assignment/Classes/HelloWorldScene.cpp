@@ -3,6 +3,7 @@
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 
 USING_NS_CC;
+using namespace::std;
 
 Scene* HelloWorld::createScene()
 {
