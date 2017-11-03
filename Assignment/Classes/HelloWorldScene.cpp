@@ -81,20 +81,20 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-    // add "HelloWorld" splash screen"
+    //// add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
     if (sprite == nullptr)
     {
         problemLoading("'HelloWorld.png'");
     }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    //else
+    //{
+    //    // position the sprite on the center of the screen
+    //    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+    //    // add the sprite as a child to this layer
+    //    this->addChild(sprite, 0);
+    //}
 
     LuaEngine *zeLuaEngine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(zeLuaEngine);
@@ -103,6 +103,18 @@ bool HelloWorld::init()
 
     FileUtils::getInstance()->addSearchPath("Resources");
     zeLuaEngine->executeScriptFile("DataDriven.lua");
+
+    Animation *zeHengAnim = Animation::create();
+    zeHengAnim->addSpriteFrame(sprite->getSpriteFrame());
+    zeHengAnim->addSpriteFrameWithFile("CloseNormal.png");
+    zeHengAnim->addSpriteFrameWithFile("CloseSelected.png");
+    zeHengAnim->init();
+    zeHengAnim->setDelayPerUnit(1.f);
+    zeHengAnim->setUnlimitedLoop(true);
+    Sprite *zeHengSprite = Sprite::create();
+    zeHengSprite->runAction(Animate::create(zeHengAnim));
+    this->addChild(zeHengSprite);
+    zeHengSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
     return true;
 }

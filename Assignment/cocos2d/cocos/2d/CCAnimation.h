@@ -266,17 +266,40 @@ public:
      */
     void setRestoreOriginalFrame(bool restoreOriginalFrame) { _restoreOriginalFrame = restoreOriginalFrame; };
     
-    /** Gets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
+    /** Gets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... unless it is to be executed unlimited times
      *
      * @return The times the animation is going to loop.
      */
-    unsigned int getLoops() const { return _loops; };
+    unsigned int getLoops() const { 
+        switch (_unLimitedTimes)
+        {
+        case true:
+            return 9999;
+            break;
+        default:
+            return _loops; 
+            break;
+        }
+    };
     
     /** Sets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
      *
      * @param loops The times the animation is going to loop.
      */
     void setLoops(unsigned int loops) { _loops = loops; };
+
+    /** Get whether is this animation looping unlimited times.
+    *
+    * @return the flag that indicates it is looping unlimited times.
+    */
+    bool isUnlimitedLoop() { return _unLimitedTimes; }
+
+    /** To set the animation to loop unlimited times
+    *
+    *
+    * @param isUnlimited to set the flag that the animation to loop unlimited times
+    */
+    void setUnlimitedLoop(bool isUnlimited) { _unLimitedTimes = isUnlimited; }
     
     // overrides
     virtual Animation *clone() const override;
@@ -316,6 +339,8 @@ protected:
 
     /** how many times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... */
     unsigned int _loops;
+    /** The flag to indicate it is to animate countless of times. */
+    bool _unLimitedTimes;
     
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Animation);

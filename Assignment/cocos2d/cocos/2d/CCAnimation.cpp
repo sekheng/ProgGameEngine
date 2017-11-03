@@ -151,6 +151,7 @@ Animation::Animation()
 , _duration(0.0f)
 , _restoreOriginalFrame(false)
 , _loops(0)
+, _unLimitedTimes(false)
 {
 
 }
