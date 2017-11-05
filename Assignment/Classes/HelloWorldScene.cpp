@@ -3,6 +3,7 @@
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
 #include "Sek Heng scripts/AnimationHandlerNode.h"
+#include "Sek Heng scripts/AnimTransAct.h"
 
 USING_NS_CC;
 
@@ -122,8 +123,15 @@ bool HelloWorld::init()
     Sprite *testTransitionSpr = Sprite::create();
     AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
-    zeTestAnimTrans->InsertAnimSheet("WalkUp", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    zeTestAnimTrans->InsertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    zeTestAnimTrans->InsertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
+    DelayTime *zeDelay = DelayTime::create(0.5f);
+    AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
+    AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
+    Sequence  *zeSeq = Sequence::create(zeUp, zeDelay, zeDown, nullptr);
+    zeTestAnimTrans->stopAllActions();
+    zeTestAnimTrans->runAction(zeSeq);
     this->addChild(testTransitionSpr);
 
     return true;

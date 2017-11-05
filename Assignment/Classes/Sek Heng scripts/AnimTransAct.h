@@ -12,7 +12,11 @@ public:
     static AnimTransAct* create();
     static AnimTransAct* create(const std::string &_AnimStateName);
 
+    AnimTransAct* setAnimStateName(const std::string &_AnimStateName);
+
     virtual void startWithTarget(cocos2d::Node *target);
+    /** Wait till i find a purpose with this
+    */
     virtual void update(float time);
     virtual void stop();
 

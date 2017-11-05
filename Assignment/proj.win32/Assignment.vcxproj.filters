@@ -27,7 +27,7 @@
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AnimTransAct.cpp">
+    <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,16 +35,16 @@
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="AnimTransAct.h">
+    <ClInclude Include="..\Classes\Sek Heng scripts\AnimTransAct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
