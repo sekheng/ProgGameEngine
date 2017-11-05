@@ -10,8 +10,14 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
-      <UniqueIdentifier>{cc10c86b-a213-4ad6-a545-50af33dced76}</UniqueIdentifier>
+    <Filter Include="MK">
+      <UniqueIdentifier>{5e430df4-0c8d-4884-b026-ce5923a16c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MK\Common">
+      <UniqueIdentifier>{2b1f798e-4f13-4546-8cae-f42c00438e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MK\Input">
+      <UniqueIdentifier>{3dfc451b-fdab-4458-9a57-e06f1d28ddb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +30,15 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\MK\Input\MKInputDefinition.cpp">
+      <Filter>MK\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MK\Input\MKInputManager.cpp">
+      <Filter>MK\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MK\Input\MKKeyboardHandler.cpp">
+      <Filter>MK\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -34,6 +49,39 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInput.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInputContext.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInputControllerIndex.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInputDefinition.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInputManager.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKInputName.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Common\MKMacros.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Common\MKSingletonTemplate.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Input\MKKeyboardHandler.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Common\MKAssertions.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MK\Common\MKPasskey.h">
+      <Filter>MK\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

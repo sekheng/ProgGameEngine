@@ -1,9 +1,14 @@
-#include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
+// Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
+#include "SimpleAudioEngine.h"
 
-USING_NS_CC;
+// Include Input Device Handlers
+#include "Common/MKMacros.h"
+#include "Input/MKKeyboardHandler.h"
+
+// Include Assignment
+#include "HelloWorldScene.h"
 
 Scene* HelloWorld::createScene()
 {
@@ -26,6 +31,20 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+	// Input Testing
+	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT0);
+	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(HelloWorld::OnButtonInput, this));
+
+	// Adding Inputs during runtime test.
+	{
+		MKKeyboardHandler* keyboardHandler = MKKeyboardHandler::GetInstance();
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT0, 0x0001, (mkU32)EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
+		MKInputManager::GetInstance()->GetInputDefinition(MKInputName::SMASH)->Register1(
+			CC_CALLBACK_2(MKKeyboardHandler::RegisterButton, keyboardHandler),
+			CC_CALLBACK_2(MKKeyboardHandler::UnregisterButton, keyboardHandler),
+			jumpMask);
+	}
 
     // Trying to figure out the Lua stuff
 
@@ -96,17 +115,65 @@ bool HelloWorld::init()
         this->addChild(sprite, 0);
     }
 
-    LuaEngine *zeLuaEngine = LuaEngine::getInstance();
-    ScriptEngineManager::getInstance()->setScriptEngine(zeLuaEngine);
-    lua_State* L = zeLuaEngine->getLuaStack()->getLuaState();
+    LuaEngine *luaEngine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(luaEngine);
+    lua_State* L = luaEngine->getLuaStack()->getLuaState();
     lua_module_register(L);
 
     FileUtils::getInstance()->addSearchPath("Resources");
-    zeLuaEngine->executeScriptFile("DataDriven.lua");
+	luaEngine->executeScriptFile("DataDriven.lua");
+
+	scheduleUpdate();
 
     return true;
 }
 
+void HelloWorld::OnButtonInput(EventCustom* _event)
+{
+	MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
+
+	std::string inputName;
+	switch (buttonEvent->m_InputName)
+	{
+	case MinamiKotori::MKInputName::JUMP:
+		inputName = "Jump";
+		break;
+	case MinamiKotori::MKInputName::SLIDE:
+		inputName = "Slide";
+		break;
+	case MinamiKotori::MKInputName::SMASH:
+		inputName = "Smash";
+		break;
+	default:
+		inputName = "Unknown InputName";
+		break;
+	}
+
+	std::string buttonState;
+	switch (buttonEvent->m_ButtonState)
+	{
+	case MinamiKotori::MKInputButton::ButtonState::PRESS:
+		buttonState = "Pressed";
+		break;
+	case MinamiKotori::MKInputButton::ButtonState::HOLD:
+		buttonState = "Held";
+		break;
+	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
+		buttonState = "Released";
+		break;
+	default:
+		buttonState = "Unknown ButtonState";
+		break;
+	}
+
+	std::string logMessage = inputName + " " + buttonState;
+	CCLOG(logMessage.c_str());
+}
+
+void HelloWorld::update(float _deltaTime)
+{
+	MKInputManager::GetInstance()->Update();
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
