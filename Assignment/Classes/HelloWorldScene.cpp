@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
+#include "Sek Heng scripts/AnimationHandlerNode.h"
 
 USING_NS_CC;
 
@@ -82,11 +83,12 @@ bool HelloWorld::init()
     }
 
     //// add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
+    //auto sprite = Sprite::create("HelloWorld.png");
+    //auto sprite = Sprite::create("mainspritecharaidlespritesheet.png", Rect(64, 0, 64, 64));
+    //if (sprite == nullptr)
+    //{
+    //    problemLoading("'HelloWorld.png'");
+    //}
     //else
     //{
     //    // position the sprite on the center of the screen
@@ -102,19 +104,27 @@ bool HelloWorld::init()
     lua_module_register(L);
 
     FileUtils::getInstance()->addSearchPath("Resources");
+    FileUtils::getInstance()->addSearchPath("PlaceHolder");
     zeLuaEngine->executeScriptFile("DataDriven.lua");
 
-    Animation *zeHengAnim = Animation::create();
-    zeHengAnim->addSpriteFrame(sprite->getSpriteFrame());
-    zeHengAnim->addSpriteFrameWithFile("CloseNormal.png");
-    zeHengAnim->addSpriteFrameWithFile("CloseSelected.png");
-    zeHengAnim->init();
-    zeHengAnim->setDelayPerUnit(1.f);
-    zeHengAnim->setUnlimitedLoop(true);
-    Sprite *zeHengSprite = Sprite::create();
-    zeHengSprite->runAction(Animate::create(zeHengAnim));
-    this->addChild(zeHengSprite);
-    zeHengSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    //Animation *zeHengAnim = Animation::create();
+    //zeHengAnim->addSpriteFrame(sprite->getSpriteFrame());
+    //zeHengAnim->addSpriteFrameWithFile("CloseNormal.png");
+    //zeHengAnim->addSpriteFrameWithFile("CloseSelected.png");
+    //zeHengAnim->init();
+    //zeHengAnim->setDelayPerUnit(1.f);
+    //zeHengAnim->setUnlimitedLoop(true);
+    //Sprite *zeHengSprite = Sprite::create();
+    //zeHengSprite->runAction(Animate::create(zeHengAnim));
+    //this->addChild(zeHengSprite);
+    //zeHengSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    Sprite *testTransitionSpr = Sprite::create();
+    AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+    zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
+    zeTestAnimTrans->InsertAnimSheet("WalkUp", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
+    this->addChild(testTransitionSpr);
 
     return true;
 }

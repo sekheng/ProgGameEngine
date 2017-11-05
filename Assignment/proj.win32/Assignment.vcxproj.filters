@@ -24,7 +24,10 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationHandlerNode.cpp">
+    <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimTransAct.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +41,10 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationHandlerNode.h">
+    <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimTransAct.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
