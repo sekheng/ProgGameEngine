@@ -59,6 +59,7 @@ protected:
     std::unordered_map<std::string, cocos2d::Animation*> m_NameAnimMap;
     std::string m_CurrentAnimName;
     std::vector<std::string> m_HistoryOfStates;
+	cocos2d::Action *m_CurrentAnimate;
 
 CC_CONSTRUCTOR_ACCESS:
     AnimationHandlerNode();

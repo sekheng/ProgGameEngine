@@ -41,7 +41,6 @@ AnimTransAct::AnimTransAct() :
     m_targetNode(nullptr)
     , m_transitStateName("")
 {
-    initWithDuration(0.001f);
 }
 
 
