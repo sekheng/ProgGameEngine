@@ -35,10 +35,10 @@ bool AnimationHandlerNode::TransitState(const std::string &_AnimStateName)
         switch (m_CurrentAnim->isUnlimitedLoop())
         {
         case true:
-            m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
+            m_CurrentAnimate = m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
             break;
         default:
-            m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
+			m_CurrentAnimate = m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
             break;
         }
         m_HistoryOfStates.push_back(_AnimStateName);
@@ -99,8 +99,8 @@ bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, co
     {
         for (int j = 0; j < zeColOfSpr; ++j)
         {
-            SpriteFrame *zeSpr = SpriteFrame::create(_fileName, Rect(zeMinXSpr + (zeSpriteWidth * j), zeMinYSpr + (i * zeSpriteHeight), zeSpriteWidth, zeSpriteHeight));
-            zeNewAnim->addSpriteFrame(zeSpr);
+            SpriteFrame *zeSpr = SpriteFrame::create(_fileName, Rect(zeMinXSpr + (zeSpriteWidth * j), zeMinYSpr + (i * zeSpriteHeight), zeSpriteWidth, zeSpriteHeight), false, Vec2(0,0), Size(zeSpriteWidth, zeSpriteHeight));
+			zeNewAnim->addSpriteFrame(zeSpr);
         }
     }
     return InsertAnimSheet(_AnimStateName, zeNewAnim);
@@ -109,6 +109,7 @@ bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, co
 AnimationHandlerNode::AnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
+	, m_CurrentAnimate(nullptr)
 {
 }
 

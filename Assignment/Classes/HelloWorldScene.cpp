@@ -35,7 +35,7 @@ bool HelloWorld::init()
     }
 
 	// Input Testing
-	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT0);
+	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT3);
 	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(HelloWorld::OnButtonInput, this));
 
 	// Adding Inputs during runtime test.
@@ -141,7 +141,8 @@ bool HelloWorld::init()
     //zeHengSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
     Sprite *testTransitionSpr = Sprite::create();
-    AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
+	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     zeTestAnimTrans->InsertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->InsertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
@@ -150,10 +151,10 @@ bool HelloWorld::init()
     AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
     AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
     Sequence  *zeSeq = Sequence::create(zeUp, zeDelay, zeDown, nullptr);
-    zeTestAnimTrans->stopAllActions();
+    //zeTestAnimTrans->stopAllActions();
     zeTestAnimTrans->runAction(zeSeq);
-    this->addChild(testTransitionSpr);
-
+	this->addChild(testTransitionSpr);
+ 
     return true;
 }
 
