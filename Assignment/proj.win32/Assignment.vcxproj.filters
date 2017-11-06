@@ -19,6 +19,9 @@
     <Filter Include="MK\Input">
       <UniqueIdentifier>{3dfc451b-fdab-4458-9a57-e06f1d28ddb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{df9a1a76-a852-461d-8b5b-d28443b92f32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,16 +42,16 @@
     <ClCompile Include="..\MK\Input\MKKeyboardHandler.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\MK\Input\MKInput.h">
       <Filter>MK\Input</Filter>
@@ -82,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="..\MK\Common\MKPasskey.h">
       <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sek Heng scripts\AnimTransAct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
