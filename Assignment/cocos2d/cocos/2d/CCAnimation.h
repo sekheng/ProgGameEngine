@@ -271,16 +271,16 @@ public:
      * @return The times the animation is going to loop.
      */
     unsigned int getLoops() const { 
-        //switch (_unLimitedTimes)
-        //{
-        //case true:
-        //    return 9999;
-        //    break;
-        //default:
-        //    return _loops; 
-        //    break;
-        //}
-        return _loops;
+        switch (_unLimitedTimes)
+        {
+        case true:
+            return 9999;
+            break;
+        default:
+            return _loops; 
+            break;
+        }
+        //return _loops;
     };
     
     /** Sets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 

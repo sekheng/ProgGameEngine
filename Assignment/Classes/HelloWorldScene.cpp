@@ -143,18 +143,21 @@ bool HelloWorld::init()
     Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
 	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+    zeTestAnimTrans->setTag(69);
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
-    zeTestAnimTrans->InsertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-    zeTestAnimTrans->InsertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    testTransitionSpr->addChild(zeTestAnimTrans);
+    zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
-    DelayTime *zeDelay = DelayTime::create(0.5f);
+    DelayTime *zeDelay = DelayTime::create(1.5f);
     AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
     AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
-    Sequence  *zeSeq = Sequence::create(zeUp, zeDelay, zeDown, nullptr);
-    //zeTestAnimTrans->stopAllActions();
+    Sequence  *zeSeq = Sequence::create(zeDelay, zeDown, zeDelay, zeUp, zeDelay, nullptr);
+    zeTestAnimTrans->runAction(zeDown);
+    // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
- 
+
     return true;
 }
 

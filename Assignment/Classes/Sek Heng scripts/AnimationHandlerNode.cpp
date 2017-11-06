@@ -18,7 +18,7 @@ Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
     return nullptr;
 }
 
-bool AnimationHandlerNode::TransitState(const std::string &_AnimStateName)
+bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
 {
     std::unordered_map<std::string, Animation*>::iterator it = m_NameAnimMap.find(_AnimStateName);
     if (it != m_NameAnimMap.end())
@@ -30,24 +30,30 @@ bool AnimationHandlerNode::TransitState(const std::string &_AnimStateName)
             // need to ensure there will be linking
             m_SpriteNode = dynamic_cast<Sprite*>(getParent());
             if (!m_SpriteNode)
-                throw;
+            {
+                log("Something is wrong with this node as there is no reference to the sprite!");
+                return false;
+            }
         }
-        switch (m_CurrentAnim->isUnlimitedLoop())
-        {
-        case true:
-            m_CurrentAnimate = m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
-            break;
-        default:
-			m_CurrentAnimate = m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
-            break;
-        }
+        //switch (m_CurrentAnim->isUnlimitedLoop())
+        //{
+        //case true:
+        //    m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
+        //    break;
+        //default:
+        //    m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
+        //    break;
+        //}
+        //if (m_CurrentAnim)
+        //    m_SpriteNode->stopAction(m_CurrentAnimate);
+        m_CurrentAnimate = m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
         m_HistoryOfStates.push_back(_AnimStateName);
         return true;
     }
     return false;
 }
 
-bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, cocos2d::Animation *_AnimState)
+bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, cocos2d::Animation *_AnimState)
 {
     switch (m_NameAnimMap.count(_AnimStateName))
     {
@@ -63,7 +69,7 @@ bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, co
             if (!m_CurrentAnim)
             {
                 // then we shall start the animation in this state since it is not yet initialized
-                TransitState(_AnimStateName);
+                transitState(_AnimStateName);
             }
         }
         break;
@@ -71,7 +77,7 @@ bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, co
     return false;
 }
 
-bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, const std::string &_fileName, const cocos2d::Rect &_totalPixelSize, const cocos2d::Rect &_SpriteInterval, const float &_framePerSec, const int &_loopTimes)
+bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, const std::string &_fileName, const cocos2d::Rect &_totalPixelSize, const cocos2d::Rect &_SpriteInterval, const float &_framePerSec, const int &_loopTimes)
 {
     // we will make use of this and start create the Animation class then pass it to the other overloaded function
     Animation *zeNewAnim = Animation::create();
@@ -100,16 +106,24 @@ bool AnimationHandlerNode::InsertAnimSheet(const std::string &_AnimStateName, co
         for (int j = 0; j < zeColOfSpr; ++j)
         {
             SpriteFrame *zeSpr = SpriteFrame::create(_fileName, Rect(zeMinXSpr + (zeSpriteWidth * j), zeMinYSpr + (i * zeSpriteHeight), zeSpriteWidth, zeSpriteHeight), false, Vec2(0,0), Size(zeSpriteWidth, zeSpriteHeight));
-			zeNewAnim->addSpriteFrame(zeSpr);
+            zeNewAnim->addSpriteFrame(zeSpr);
         }
     }
-    return InsertAnimSheet(_AnimStateName, zeNewAnim);
+    return insertAnimSheet(_AnimStateName, zeNewAnim);
+}
+
+bool AnimationHandlerNode::insertSpritePList(const std::string &_AnimStateName, const std::string &_pListFile)
+{
+    Animation *zeNewAnim = Animation::create();
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
+
+    return insertAnimSheet(_AnimStateName, zeNewAnim)
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
-	, m_CurrentAnimate(nullptr)
+    , m_CurrentAnimate(nullptr)
 {
 }
 
