@@ -152,7 +152,7 @@ bool HelloWorld::init()
     DelayTime *zeDelay = DelayTime::create(1.5f);
     AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
     AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
-    Sequence  *zeSeq = Sequence::create(zeDelay, zeDown, zeDelay, zeUp, zeDelay, nullptr);
+    Sequence  *zeSeq = Sequence::create(zeDown, zeDelay, zeUp, zeDelay, zeDown, nullptr);
     zeTestAnimTrans->runAction(zeDown);
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     zeTestAnimTrans->runAction(zeSeq);

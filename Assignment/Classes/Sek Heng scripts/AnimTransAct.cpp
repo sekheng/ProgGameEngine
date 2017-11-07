@@ -23,18 +23,22 @@ AnimTransAct *AnimTransAct::setAnimStateName(const std::string &_AnimStateName)
 
 void AnimTransAct::startWithTarget(cocos2d::Node *target)
 {
-    m_targetNode = dynamic_cast<AnimationHandlerNode*>(target);
+    target->stopActionByTag(_tag);
+    m_targetNode = static_cast<AnimationHandlerNode*>(target);
     m_targetNode->transitState(m_transitStateName);
+    stop();
 }
 
 void AnimTransAct::update(float time)
 {
-    ActionInterval::update(time);
+    if (time >= 1.f)
+        stop();
 }
 
 void AnimTransAct::stop()
 {
     ActionInterval::stop();
+    _done = true;
 }
 
 AnimTransAct::AnimTransAct() : 
@@ -42,6 +46,7 @@ AnimTransAct::AnimTransAct() :
     , m_transitStateName("")
 {
     _done = false;
+    _tag = 69;
 }
 
 

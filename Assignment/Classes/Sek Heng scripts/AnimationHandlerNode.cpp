@@ -44,8 +44,12 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
         //    m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
         //    break;
         //}
-        //if (m_CurrentAnim)
-        //    m_SpriteNode->stopAction(m_CurrentAnimate);
+        if (m_CurrentAnim)
+        {
+            m_SpriteNode->stopAction(m_CurrentAnimate);
+            // need to retain the animation!
+            m_CurrentAnim->retain();
+        }
         m_CurrentAnimate = m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
         m_HistoryOfStates.push_back(_AnimStateName);
         return true;
@@ -68,6 +72,7 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
             m_NameAnimMap.insert(std::pair<std::string, Animation*>(_AnimStateName, _AnimState));
             if (!m_CurrentAnim)
             {
+                _AnimState->retain();
                 // then we shall start the animation in this state since it is not yet initialized
                 transitState(_AnimStateName);
             }
@@ -117,7 +122,7 @@ bool AnimationHandlerNode::insertSpritePList(const std::string &_AnimStateName, 
     Animation *zeNewAnim = Animation::create();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 
-    return insertAnimSheet(_AnimStateName, zeNewAnim)
+    return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
@@ -130,6 +135,14 @@ AnimationHandlerNode::AnimationHandlerNode() :
 
 AnimationHandlerNode::~AnimationHandlerNode()
 {
+    for (std::unordered_map<std::string, cocos2d::Animation*>::iterator it = m_NameAnimMap.begin(), end = m_NameAnimMap.end(); it != end; ++it)
+    {
+        // just in case the animation is not released
+        it->second->release();
+        it->second->release();
+        it->second->release();
+        it->second->release();
+    }
     m_NameAnimMap.clear();
     m_CurrentAnim = nullptr;
 }
