@@ -31,6 +31,8 @@ void AnimTransAct::startWithTarget(cocos2d::Node *target)
 
 void AnimTransAct::update(float time)
 {
+    // stop this action since it is pointless
+    m_targetNode->stopAction(this);
 }
 
 void AnimTransAct::stop()

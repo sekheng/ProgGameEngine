@@ -153,18 +153,17 @@ bool HelloWorld::init()
     zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->insertAnimFromCache("walk_right");
+    zeTestAnimTrans->insertAnimFromSPlist("walk_up", 0.3f, -1, { "Blue_Front1.png", "Blue_Front2.png", "Blue_Front3.png" });
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     DelayTime *zeDelay = DelayTime::create(1.5f);
     AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
     AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
     AnimTransAct *zeOtherThing = AnimTransAct::create("walk_right");
-    Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, zeDown, nullptr);
+    Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, AnimTransAct::create("walk_up"), nullptr);
     zeTestAnimTrans->runAction(zeDown);
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
-
-
 
     return true;
 }

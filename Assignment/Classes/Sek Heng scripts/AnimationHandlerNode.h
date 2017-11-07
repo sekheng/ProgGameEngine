@@ -55,9 +55,19 @@ public:
     
     /** This should only be used when the animation and sprite is inside the SpriteFrameCache and AnimationCache
     *
-    *@ true if successful in inserting the animation. false if there is no such animation.
+    * @param _AnimStateName is the name of the animation in the animation cache
+    * @return true if successful in inserting the animation. false if there is no such animation.
     */
     bool insertAnimFromCache(const std::string &_AnimStateName);
+
+    /** To be used only by SpriteFrameCache as it only takes in Sprite frame references straight from plist
+    *
+    * @param _AnimStateName is the name of this animation
+    * @param _framePerSec is the animation frame in seconds
+    * @param _looptimes number of times this should loop. putting it in 0 or below will make it loop infinitely
+    * @param _AnimSprRef will be the sprite image reference from plist
+    */
+    bool insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef);
 
     cocos2d::Animation *m_CurrentAnim;
     cocos2d::Sprite *m_SpriteNode;

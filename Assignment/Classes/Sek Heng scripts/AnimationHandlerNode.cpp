@@ -66,13 +66,13 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
         return false;
         break;
     default:
-        // making sure it is not a nullpointer
+        // making sure it is not a null pointer
         if (_AnimState)
         {
             m_NameAnimMap.insert(std::pair<std::string, Animation*>(_AnimStateName, _AnimState));
+            _AnimState->retain();
             if (!m_CurrentAnim)
             {
-                _AnimState->retain();
                 // then we shall start the animation in this state since it is not yet initialized
                 transitState(_AnimStateName);
             }
@@ -126,6 +126,34 @@ bool AnimationHandlerNode::insertAnimFromCache(const std::string &_AnimStateName
     }
     log("Unsuccessful getting the animation cache of this animation: {0}", _AnimStateName);
     return false;
+}
+
+bool AnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef)
+{
+    Animation *zeNewAnim = Animation::create();
+    auto zeSprCache = SpriteFrameCache::getInstance();
+    for (std::vector<std::string>::const_iterator it = _AnimSprRef.begin(), end = _AnimSprRef.end(); it != end; ++it)
+    {
+        SpriteFrame* zeSprFrame = zeSprCache->getSpriteFrameByName(*it);
+        if (zeSprFrame)
+        {
+            zeNewAnim->addSpriteFrame(zeSprFrame);
+        }
+        else
+        {
+            log("Failed to load sprite at insertAnimFromSPlist");
+            return false;
+        }
+    }
+    zeNewAnim->setDelayPerUnit(_framePerSec);
+    // Then decides what to do with the animation stats
+    if (_loopTimes > 0)
+    {
+        zeNewAnim->setLoops(_loopTimes);
+    }
+    else
+        zeNewAnim->setUnlimitedLoop(true);
+    return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
