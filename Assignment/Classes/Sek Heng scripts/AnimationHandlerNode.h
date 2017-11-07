@@ -49,10 +49,15 @@ public:
     * @param _SpriteInterval will be the size of the sprite to start the interval with
     * @param _framePerSec which will be the animation time
     * @param _loopTimes which is the number of times it should be playing. Setting it beyond negative will set the Animation to be infinite times
+    * @return true if successful otherwise false
     */
     bool insertAnimSheet(const std::string &_AnimStateName, const std::string &_fileName, const cocos2d::Rect &_totalPixelSize, const cocos2d::Rect &_SpriteInterval, const float &_framePerSec, const int &_loopTimes);
-
-    bool insertSpritePList(const std::string &_AnimStateName, const std::string &_pListFile);
+    
+    /** This should only be used when the animation and sprite is inside the SpriteFrameCache and AnimationCache
+    *
+    *@ true if successful in inserting the animation. false if there is no such animation.
+    */
+    bool insertAnimFromCache(const std::string &_AnimStateName);
 
     cocos2d::Animation *m_CurrentAnim;
     cocos2d::Sprite *m_SpriteNode;

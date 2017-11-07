@@ -102,6 +102,10 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
+    AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
+
+
     //// add "HelloWorld" splash screen"
     //auto sprite = Sprite::create("HelloWorld.png");
     //auto sprite = Sprite::create("mainspritecharaidlespritesheet.png", Rect(64, 0, 64, 64));
@@ -148,15 +152,19 @@ bool HelloWorld::init()
     testTransitionSpr->addChild(zeTestAnimTrans);
     zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    zeTestAnimTrans->insertAnimFromCache("walk_right");
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     DelayTime *zeDelay = DelayTime::create(1.5f);
     AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
     AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
-    Sequence  *zeSeq = Sequence::create(zeDown, zeDelay, zeUp, zeDelay, zeDown, nullptr);
+    AnimTransAct *zeOtherThing = AnimTransAct::create("walk_right");
+    Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, zeDown, nullptr);
     zeTestAnimTrans->runAction(zeDown);
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
+
+
 
     return true;
 }

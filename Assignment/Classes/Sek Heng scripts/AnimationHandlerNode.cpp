@@ -117,12 +117,15 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
     return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
-bool AnimationHandlerNode::insertSpritePList(const std::string &_AnimStateName, const std::string &_pListFile)
+bool AnimationHandlerNode::insertAnimFromCache(const std::string &_AnimStateName)
 {
-    Animation *zeNewAnim = Animation::create();
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
-
-    return insertAnimSheet(_AnimStateName, zeNewAnim);
+    auto zeAnim = AnimationCache::getInstance()->getAnimation(_AnimStateName);
+    if (zeAnim)
+    {
+        return insertAnimSheet(_AnimStateName, zeAnim);
+    }
+    log("Unsuccessful getting the animation cache of this animation: {0}", _AnimStateName);
+    return false;
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
