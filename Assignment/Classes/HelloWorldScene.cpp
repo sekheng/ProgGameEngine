@@ -11,8 +11,13 @@
 // Include Assignment
 #include "HelloWorldScene.h"
 #include "AudioEngine.h"
+#include "external/json/document.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
 
 using namespace experimental;
+using namespace RAPIDJSON_NAMESPACE;
 
 Scene* HelloWorld::createScene()
 {
@@ -170,6 +175,27 @@ bool HelloWorld::init()
     // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
     AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
     
+
+    // Reading from file. It is a success!
+    FILE *fp = fopen("PlaceHolder/TryJson.txt", "rb");
+    char zeBuffer[256];
+    FileReadStream zeIS(fp, zeBuffer, sizeof(zeBuffer));
+    Document zeD;
+    zeD.ParseStream(zeIS);
+    fclose(fp);
+
+    fp = fopen("PlaceHolder/TryJson.txt", "w");
+    // This does not work and i dont know why!
+    //char *zeNothing = "Nothing";
+    //size_t zeNothingBufferSZ = strlen(zeNothing);
+    // Only this work!!
+    char zeNothing[256];
+    size_t zeNothingBufferSZ = sizeof(zeNothing);
+    FileWriteStream zeFWS(fp, zeNothing, zeNothingBufferSZ);
+    Writer<FileWriteStream> writer(zeFWS);
+    zeD.Accept(writer);
+    fclose(fp);
+
     return true;
 }
 
