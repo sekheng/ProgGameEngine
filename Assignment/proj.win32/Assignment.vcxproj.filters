@@ -33,13 +33,16 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\MK\Input\MKInputDefinition.cpp">
+    <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\MK\Input\MKInputManager.cpp">
+    <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\MK\Input\MKKeyboardHandler.cpp">
+    <ClCompile Include="..\Classes\MK\Input\MKKeyboardHandler.cpp">
+      <Filter>MK\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MK\Input\MKTouchHandler.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp">
@@ -53,38 +56,50 @@
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInput.h">
-      <Filter>MK\Input</Filter>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInputContext.h">
-      <Filter>MK\Input</Filter>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInputControllerIndex.h">
-      <Filter>MK\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInputDefinition.h">
-      <Filter>MK\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInputManager.h">
-      <Filter>MK\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MK\Input\MKInputName.h">
-      <Filter>MK\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MK\Common\MKMacros.h">
+    <ClInclude Include="..\Classes\MK\Common\MKAssertions.h">
       <Filter>MK\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Common\MKSingletonTemplate.h">
+    <ClInclude Include="..\Classes\MK\Common\MKMacros.h">
       <Filter>MK\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Input\MKKeyboardHandler.h">
+    <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Common\MKPasskey.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Common\MKSingletonTemplate.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKInput.h">
       <Filter>MK\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Common\MKAssertions.h">
-      <Filter>MK\Common</Filter>
+    <ClInclude Include="..\Classes\MK\Input\MKInputContext.h">
+      <Filter>MK\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\MK\Common\MKPasskey.h">
-      <Filter>MK\Common</Filter>
+    <ClInclude Include="..\Classes\MK\Input\MKInputControllerIndex.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKInputDefinition.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKInputManager.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKInputName.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKKeyboardHandler.h">
+      <Filter>MK\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Input\MKTouchHandler.h">
+      <Filter>MK\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h">
       <Filter>Header</Filter>

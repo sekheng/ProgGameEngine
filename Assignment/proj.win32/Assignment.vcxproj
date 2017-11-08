@@ -76,7 +76,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua;../MK</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USRLUASTATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -151,11 +151,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp" />
+	<ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp" />
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp" />
-    <ClCompile Include="..\MK\Input\MKInputDefinition.cpp" />
-    <ClCompile Include="..\MK\Input\MKInputManager.cpp" />
-    <ClCompile Include="..\MK\Input\MKKeyboardHandler.cpp" />
+	<ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
+    <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />
+    <ClCompile Include="..\Classes\MK\Input\MKKeyboardHandler.cpp" />
+    <ClCompile Include="..\Classes\MK\Input\MKTouchHandler.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,17 +164,19 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h" />
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimTransAct.h" />
-    <ClInclude Include="..\MK\Common\MKAssertions.h" />
-    <ClInclude Include="..\MK\Common\MKMacros.h" />
-    <ClInclude Include="..\MK\Common\MKPasskey.h" />
-    <ClInclude Include="..\MK\Common\MKSingletonTemplate.h" />
-    <ClInclude Include="..\MK\Input\MKInput.h" />
-    <ClInclude Include="..\MK\Input\MKInputContext.h" />
-    <ClInclude Include="..\MK\Input\MKInputControllerIndex.h" />
-    <ClInclude Include="..\MK\Input\MKInputDefinition.h" />
-    <ClInclude Include="..\MK\Input\MKInputManager.h" />
-    <ClInclude Include="..\MK\Input\MKInputName.h" />
-    <ClInclude Include="..\MK\Input\MKKeyboardHandler.h" />
+    <ClInclude Include="..\Classes\MK\Common\MKAssertions.h" />
+    <ClInclude Include="..\Classes\MK\Common\MKMacros.h" />
+    <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h" />
+    <ClInclude Include="..\Classes\MK\Common\MKPasskey.h" />
+    <ClInclude Include="..\Classes\MK\Common\MKSingletonTemplate.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInput.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInputContext.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInputControllerIndex.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInputDefinition.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInputManager.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKInputName.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKKeyboardHandler.h" />
+    <ClInclude Include="..\Classes\MK\Input\MKTouchHandler.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
