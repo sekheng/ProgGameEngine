@@ -3,7 +3,6 @@
 #include "scripting/lua-bindings/manual/lua_module_register.h"
 #include "Sek Heng scripts/AnimationHandlerNode.h"
 #include "Sek Heng scripts/AnimTransAct.h"
-#include "SimpleAudioEngine.h"
 
 // Include Input Device Handlers
 #include "Common/MKMacros.h"
@@ -11,6 +10,9 @@
 
 // Include Assignment
 #include "HelloWorldScene.h"
+#include "AudioEngine.h"
+
+using namespace experimental;
 
 Scene* HelloWorld::createScene()
 {
@@ -165,6 +167,9 @@ bool HelloWorld::init()
     zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
 
+    // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
+    AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
+    
     return true;
 }
 

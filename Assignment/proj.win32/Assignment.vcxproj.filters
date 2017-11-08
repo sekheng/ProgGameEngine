@@ -48,6 +48,9 @@
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Sek Heng scripts\SimperMusicSys.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -96,6 +99,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sek Heng scripts\SimperMusicSys.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

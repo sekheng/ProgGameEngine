@@ -153,6 +153,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp" />
     <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp" />
+    <ClCompile Include="..\Classes\Sek Heng scripts\SimperMusicSys.cpp" />
     <ClCompile Include="..\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\MK\Input\MKInputManager.cpp" />
     <ClCompile Include="..\MK\Input\MKKeyboardHandler.cpp" />
@@ -163,6 +164,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h" />
     <ClInclude Include="..\Classes\Sek Heng scripts\AnimTransAct.h" />
+    <ClInclude Include="..\Classes\Sek Heng scripts\SimperMusicSys.h" />
     <ClInclude Include="..\MK\Common\MKAssertions.h" />
     <ClInclude Include="..\MK\Common\MKMacros.h" />
     <ClInclude Include="..\MK\Common\MKPasskey.h" />
