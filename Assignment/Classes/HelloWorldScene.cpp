@@ -1,8 +1,9 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "Sek Heng scripts/AnimationHandlerNode.h"
-#include "Sek Heng scripts/AnimTransAct.h"
+#include "GT/AnimationHandlerNode.h"
+#include "GT/AnimTransAct.h"
+#include "GT/SimperMusicSys.h"
 
 // Include Input Device Handlers
 #include "MK/Common/MKMacros.h"
@@ -186,6 +187,12 @@ bool HelloWorld::init()
     }
     if (!zeD.HasMember("tryArr"))
         zeD.AddMember("tryArr", zeValArr, zeD.GetAllocator());
+    if (!zeD.HasMember("testingObj"))
+    {
+        RAPIDJSON_NAMESPACE::Value zeValObj(kObjectType);
+        zeValObj.AddMember("LOL", "What", zeD.GetAllocator());
+        zeD.AddMember("testingObj", zeValObj, zeD.GetAllocator());
+    }
 
     fp = fopen("PlaceHolder/TryJson.txt", "w");
     // This does not work and i dont know why!
@@ -198,6 +205,8 @@ bool HelloWorld::init()
     Writer<FileWriteStream> writer(zeFWS);
     zeD.Accept(writer);
     fclose(fp);
+
+    SakataGintoki::SimperMusicSys::GetInstance()->playSound("testbgm");
 
     return true;
 }

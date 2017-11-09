@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "Sek Heng scripts/AnimationHandlerNode.h"
+#include "GT/AnimationHandlerNode.h"
 
 /** To provide a simper transitioning between the actions so that it will be able to make use of other ActionInterval such as DelayTime
 * Should only be used by AnimationHandlerNode!

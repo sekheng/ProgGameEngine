@@ -45,13 +45,13 @@
     <ClCompile Include="..\Classes\MK\Input\MKTouchHandler.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.cpp">
+    <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Sek Heng scripts\AnimTransAct.cpp">
+    <ClCompile Include="..\Classes\GT\AnimTransAct.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Sek Heng scripts\SimperMusicSys.cpp">
+    <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,19 +104,19 @@
     <ClInclude Include="..\Classes\MK\Input\MKTouchHandler.h">
       <Filter>MK\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Sek Heng scripts\AnimationHandlerNode.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Sek Heng scripts\AnimTransAct.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Sek Heng scripts\SimperMusicSys.h">
+    <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
