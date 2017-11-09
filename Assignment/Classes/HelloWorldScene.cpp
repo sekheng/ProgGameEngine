@@ -178,11 +178,25 @@ bool HelloWorld::init()
 
     // Reading from file. It is a success!
     FILE *fp = fopen("PlaceHolder/TryJson.txt", "rb");
+    // Looks like the 256 char array is meant to allocate memory
     char zeBuffer[256];
     FileReadStream zeIS(fp, zeBuffer, sizeof(zeBuffer));
     Document zeD;
     zeD.ParseStream(zeIS);
     fclose(fp);
+
+    int numArr[] = { 5,4,3,2,1 };
+    RAPIDJSON_NAMESPACE::Value zeValArr(kArrayType);
+    for (auto i : numArr)
+    {
+        zeValArr.PushBack(i, zeD.GetAllocator());
+    }
+    if (!zeD.HasMember("lol"))
+    {
+        zeD.AddMember(StringRef("lol"), "Lol", zeD.GetAllocator());
+    }
+    if (!zeD.HasMember("tryArr"))
+        zeD.AddMember("tryArr", zeValArr, zeD.GetAllocator());
 
     fp = fopen("PlaceHolder/TryJson.txt", "w");
     // This does not work and i dont know why!
