@@ -1,0 +1,11 @@
+{  
+   "master_vol":1.0,
+   "audiodata_arr":[  
+      {  
+         "location":"PlaceHolder/testbgm.mp3",
+		 "NameID":"testbgm",
+		 "volume":0.5,
+		 "loop":true
+      }
+   ]
+}
