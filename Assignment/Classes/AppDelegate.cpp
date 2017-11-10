@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "Scenes\AvailableScenes.h"
+#include "Scenes\MainMenuScene.h"
 #include "HelloWorldScene.h"
 
 #include "SceneManager.h"

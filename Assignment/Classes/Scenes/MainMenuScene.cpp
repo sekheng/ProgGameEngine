@@ -1,23 +1,30 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "Sek Heng scripts/AnimationHandlerNode.h"
-#include "Sek Heng scripts/AnimTransAct.h"
-#include "SimpleAudioEngine.h"
+#include "GT/AnimationHandlerNode.h"
+#include "GT/AnimTransAct.h"
+#include "GT/SimperMusicSys.h"
 
 // Include Input Device Handlers
-#include "Common/MKMacros.h"
-#include "Input/MKKeyboardHandler.h"
+#include "MK/Common/MKMacros.h"
+#include "MK/Input/MKKeyboardHandler.h"
 
 // Include Assignment
+#include "AudioEngine.h"
+#include "external/json/document.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
+
+#include "SceneManager.h"
 #include "AvailableScenes.h"
 
-//Include SceneManager
-#include "SceneManager.h"
+using namespace experimental;
+using namespace RAPIDJSON_NAMESPACE;
 
 Scene* MainMenuScene::createScene()
 {
-	return SceneManager::GetInstance()->CreateScene<MainMenuScene>("MainMenu");
+	return MainMenuScene::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -37,24 +44,13 @@ bool MainMenuScene::init()
 		return false;
 	}
 
-	// Input Testing
-	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT3);
-	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(MainMenuScene::OnButtonInput, this));
-
-	// Adding Inputs during runtime test.
-	{
-		MKKeyboardHandler* keyboardHandler = MKKeyboardHandler::GetInstance();
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT0, 0x0001, (mkU32)EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
-		MKInputManager::GetInstance()->GetInputDefinition(MKInputName::SMASH)->Register1(
-			CC_CALLBACK_2(MKKeyboardHandler::RegisterButton, keyboardHandler),
-			CC_CALLBACK_2(MKKeyboardHandler::UnregisterButton, keyboardHandler),
-			jumpMask);
-	}
-
 	// Trying to figure out the Lua stuff
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	// Input Testing
+	InitialiseInput();
 
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -105,6 +101,10 @@ bool MainMenuScene::init()
 		this->addChild(label, 1);
 	}
 
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
+
+
 	//// add "MainMenuScene" splash screen"
 	//auto sprite = Sprite::create("MainMenuScene.png");
 	//auto sprite = Sprite::create("mainspritecharaidlespritesheet.png", Rect(64, 0, 64, 64));
@@ -146,32 +146,100 @@ bool MainMenuScene::init()
 	Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
 	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+	zeTestAnimTrans->setTag(69);
 	zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
-	zeTestAnimTrans->InsertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-	zeTestAnimTrans->InsertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+	testTransitionSpr->addChild(zeTestAnimTrans);
+	zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+	zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+	zeTestAnimTrans->insertAnimFromCache("walk_right");
+	zeTestAnimTrans->insertAnimFromSPlist("walk_up", 0.3f, -1, { "Blue_Front1.png", "Blue_Front2.png", "Blue_Front3.png" });
 	testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
-	DelayTime *zeDelay = DelayTime::create(0.5f);
+	DelayTime *zeDelay = DelayTime::create(1.5f);
 	AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
 	AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
-	Sequence  *zeSeq = Sequence::create(zeUp, zeDelay, zeDown, nullptr);
-	//zeTestAnimTrans->stopAllActions();
+	AnimTransAct *zeOtherThing = AnimTransAct::create("walk_right");
+	Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, AnimTransAct::create("walk_up"), nullptr);
+	zeTestAnimTrans->runAction(zeDown);
+	// AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
 	zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
+
+	// mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
+	AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
+
+
+	// Reading from file. It is a success!
+	FILE *fp = fopen("PlaceHolder/TryJson.txt", "rb");
+	// Looks like the 256 char array is meant to allocate memory
+	char zeBuffer[256];
+	FileReadStream zeIS(fp, zeBuffer, sizeof(zeBuffer));
+	Document zeD;
+	zeD.ParseStream(zeIS);
+	fclose(fp);
+
+	int numArr[] = { 5,4,3,2,1 };
+	RAPIDJSON_NAMESPACE::Value zeValArr(kArrayType);
+	for (auto i : numArr)
+	{
+		zeValArr.PushBack(i, zeD.GetAllocator());
+	}
+	if (!zeD.HasMember("lol"))
+	{
+		zeD.AddMember(StringRef("lol"), "Lol", zeD.GetAllocator());
+	}
+	if (!zeD.HasMember("tryArr"))
+		zeD.AddMember("tryArr", zeValArr, zeD.GetAllocator());
+	if (!zeD.HasMember("testingObj"))
+	{
+		RAPIDJSON_NAMESPACE::Value zeValObj(kObjectType);
+		zeValObj.AddMember("LOL", "What", zeD.GetAllocator());
+		zeD.AddMember("testingObj", zeValObj, zeD.GetAllocator());
+	}
+
+	fp = fopen("PlaceHolder/TryJson.txt", "w");
+	// This does not work and i dont know why!
+	//char *zeNothing = "Nothing";
+	//size_t zeNothingBufferSZ = strlen(zeNothing);
+	// Only this work!!
+	char zeNothing[256];
+	size_t zeNothingBufferSZ = sizeof(zeNothing);
+	FileWriteStream zeFWS(fp, zeNothing, zeNothingBufferSZ);
+	Writer<FileWriteStream> writer(zeFWS);
+	zeD.Accept(writer);
+	fclose(fp);
+
+	SakataGintoki::SimperMusicSys::GetInstance()->playSound("testbgm");
 
 	return true;
 }
 
+void MainMenuScene::InitialiseInput()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
+	// position the label on the center of the screen
+	m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
+	this->addChild(m_InputLabel, 1);
+
+	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT0);
+	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(MainMenuScene::OnButton, this));
+	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(MainMenuScene::OnClick, this));
+	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(MainMenuScene::OnAxis, this));
+}
+
 void MainMenuScene::toGameScene()
 {
-	MKInputManager::GetInstance()->RemoveEventListener(m_ButtonListener);
+	//MKInputManager::GetInstance()->RemoveEventListener(m_ButtonListener);
 
 	//get the game scene and run it.
 	SceneManager::GetInstance()->CreateScene<GameScene>("GameScene");
-	SceneManager::GetInstance()->RemoveScene("MainMenu");
+	//SceneManager::GetInstance()->RemoveScene("MainMenu");
 	SceneManager::GetInstance()->SetActiveScene("GameScene");
 }
 
-void MainMenuScene::OnButtonInput(EventCustom* _event)
+void MainMenuScene::OnButton(EventCustom* _event)
 {
 	MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
 
@@ -211,13 +279,85 @@ void MainMenuScene::OnButtonInput(EventCustom* _event)
 
 	std::string logMessage = inputName + " " + buttonState;
 	CCLOG(logMessage.c_str());
+	m_InputLabel->setString(logMessage);
+}
+
+void MainMenuScene::OnClick(EventCustom* _event)
+{
+	MKInputClick* clickEvent = static_cast<MKInputClick*>(_event->getUserData());
+
+	std::string inputName;
+	switch (clickEvent->m_InputName)
+	{
+	case MinamiKotori::MKInputName::JUMP:
+		inputName = "Jump";
+		break;
+	case MinamiKotori::MKInputName::SLIDE:
+		inputName = "Slide";
+		break;
+	case MinamiKotori::MKInputName::SMASH:
+		inputName = "Smash";
+		break;
+	default:
+		inputName = "Unknown InputName";
+		break;
+	}
+
+	std::string buttonState;
+	switch (clickEvent->m_ButtonState)
+	{
+	case MinamiKotori::MKInputButton::ButtonState::PRESS:
+		buttonState = "Pressed";
+		break;
+	case MinamiKotori::MKInputButton::ButtonState::HOLD:
+		buttonState = "Held";
+		break;
+	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
+		buttonState = "Released";
+		break;
+	default:
+		buttonState = "Unknown ButtonState";
+		break;
+	}
+
+	std::string logMessage = inputName + " " + buttonState;
+	CCLOG(logMessage.c_str());
+	m_InputLabel->setString(logMessage);
+}
+
+void MainMenuScene::OnAxis(EventCustom* _event)
+{
+	MKInputAxis* axisEvent = static_cast<MKInputAxis*>(_event->getUserData());
+
+	std::string inputName;
+	switch (axisEvent->m_InputName)
+	{
+	case MinamiKotori::MKInputName::JUMP:
+		inputName = "Jump";
+		break;
+	case MinamiKotori::MKInputName::SLIDE:
+		inputName = "Slide";
+		break;
+	case MinamiKotori::MKInputName::SMASH:
+		inputName = "Smash";
+		break;
+	default:
+		inputName = "Unknown InputName";
+		break;
+	}
+
+	std::string axisValue;
+	axisValue += axisEvent->m_AxisValue;
+
+	std::string logMessage = inputName + " " + axisValue;
+	CCLOG(logMessage.c_str());
+	m_InputLabel->setString(logMessage);
 }
 
 void MainMenuScene::update(float _deltaTime)
 {
 	MKInputManager::GetInstance()->Update();
-	toGameScene();
-	//SceneManager::GetInstance()->SetActiveScene("GameScene");
+	//toGameScene();
 }
 
 void MainMenuScene::menuCloseCallback(Ref* pSender)

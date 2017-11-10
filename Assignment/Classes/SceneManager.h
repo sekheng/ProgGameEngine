@@ -1,10 +1,10 @@
-#ifndef SCENE_MANAGER_H
-#define SCENE_MANAGER_H
+#ifndef SCENE_MANAGER_H_
+#define SCENE_MANAGER_H_
 
 //Include MKMacros
-#include "Common\MKAssertions.h"
-#include "Common\MKMacros.h"
-#include "Common\MKSingletonTemplate.h"
+#include "MK\Common\MKAssertions.h"
+#include "MK\Common\MKMacros.h"
+#include "MK\Common\MKSingletonTemplate.h"
 
 //Include Cocos
 #include "cocos2d.h"

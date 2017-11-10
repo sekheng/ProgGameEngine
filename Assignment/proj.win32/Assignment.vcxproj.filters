@@ -60,10 +60,10 @@
     <ClCompile Include="..\Classes\SceneManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
+    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
       <Filter>GameScenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>GameScenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,10 +137,10 @@
     <ClInclude Include="..\Classes\Scenes\AvailableScenes.h">
       <Filter>GameScenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\GameScene.h">
+    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
       <Filter>GameScenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
+    <ClInclude Include="..\Classes\Scenes\GameScene.h">
       <Filter>GameScenes</Filter>
     </ClInclude>
   </ItemGroup>
