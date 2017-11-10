@@ -1,5 +1,8 @@
 #include "AppDelegate.h"
+#include "Scenes\AvailableScenes.h"
 #include "HelloWorldScene.h"
+
+#include "SceneManager.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -94,10 +97,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    //auto scene = HelloWorld::createScene();
+	SceneManager::GetInstance()->CreateScene<MainMenuScene>("MainMenu");
 
     // run
-    director->runWithScene(scene);
+    //director->runWithScene(scene);
+	SceneManager::GetInstance()->SetActiveScene("MainMenu");
+	director->runWithScene(SceneManager::GetInstance()->GetActiveScene());
 
     return true;
 }
