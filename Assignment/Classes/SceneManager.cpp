@@ -56,14 +56,16 @@ void SceneManager::SetActiveScene(const std::string& _sceneName)
 	{
 		//set m_currentScene = m_sceneMap[_sceneName]
 		m_currentScene = m_sceneMap[_sceneName];
-		Director::getInstance()->runWithScene(m_currentScene);
+		auto scene = m_currentScene;
+		//Director::getInstance()->pushScene(m_currentScene);
+		Director::getInstance()->runWithScene(scene);
 	}
 	else
 	{
 		//set m_nextScene = m_sceneMap[_sceneName];
 		m_nextScene = m_sceneMap[_sceneName];
-		m_currentScene = m_nextScene;
-		Director::getInstance()->runWithScene(m_currentScene);
+		auto scene = m_nextScene;
+		Director::getInstance()->pushScene(scene);
 	}
 }
 

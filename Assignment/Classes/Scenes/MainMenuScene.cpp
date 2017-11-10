@@ -232,11 +232,9 @@ void MainMenuScene::InitialiseInput()
 
 void MainMenuScene::toGameScene()
 {
-	//MKInputManager::GetInstance()->RemoveEventListener(m_ButtonListener);
-
 	//get the game scene and run it.
 	SceneManager::GetInstance()->CreateScene<GameScene>("GameScene");
-	//SceneManager::GetInstance()->RemoveScene("MainMenu");
+
 	SceneManager::GetInstance()->SetActiveScene("GameScene");
 }
 
@@ -358,7 +356,7 @@ void MainMenuScene::OnAxis(EventCustom* _event)
 void MainMenuScene::update(float _deltaTime)
 {
 	MKInputManager::GetInstance()->Update();
-	//toGameScene();
+	//UI Button to go to next scene
 }
 
 void MainMenuScene::menuCloseCallback(Ref* pSender)
