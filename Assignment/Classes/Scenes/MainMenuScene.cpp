@@ -21,6 +21,7 @@
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
+using namespace GinTama;
 
 Scene* MainMenuScene::createScene()
 {
@@ -208,7 +209,7 @@ bool MainMenuScene::init()
 	zeD.Accept(writer);
 	fclose(fp);
 
-	SakataGintoki::SimperMusicSys::GetInstance()->playSound("testbgm");
+	GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
 	return true;
 }
