@@ -4,7 +4,7 @@
 #include "MK/Common/MKSingletonTemplate.h"
 #include "external/json/document.h"
 
-namespace SakataGintoki {
+namespace GinTama {
     struct SoundData
     {
         float m_Volume;

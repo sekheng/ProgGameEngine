@@ -4,7 +4,7 @@
 #include "external/json/writer.h"
 #include "AudioEngine.h"
 
-using namespace SakataGintoki;
+using namespace GinTama;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace cocos2d;
 using namespace experimental;
