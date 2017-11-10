@@ -22,6 +22,9 @@
     <Filter Include="Header">
       <UniqueIdentifier>{df9a1a76-a852-461d-8b5b-d28443b92f32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameScenes">
+      <UniqueIdentifier>{07f3c998-ed46-43bb-bf48-49ffcda09fcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SceneManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
+      <Filter>GameScenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
+      <Filter>GameScenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +130,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SceneManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\AvailableScenes.h">
+      <Filter>GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameScene.h">
+      <Filter>GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
+      <Filter>GameScenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
