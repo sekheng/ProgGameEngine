@@ -1,6 +1,7 @@
 #include "AnimationHandlerNode.h"
 
 USING_NS_CC;
+using namespace GinTama;
 
 std::string AnimationHandlerNode::getCurrAnimName()
 {

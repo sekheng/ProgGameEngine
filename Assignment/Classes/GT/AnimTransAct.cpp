@@ -1,4 +1,5 @@
 #include "AnimTransAct.h"
+using namespace GinTama;
 
 AnimTransAct* AnimTransAct::create()
 {
