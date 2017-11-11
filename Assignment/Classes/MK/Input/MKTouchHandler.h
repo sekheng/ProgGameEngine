@@ -34,15 +34,15 @@ class MKTouchHandler : public MKSingletonTemplate<MKTouchHandler>
 private:
 	EventListenerTouchAllAtOnce* m_TouchListener = nullptr;
 	mkS32* m_HeldClicks;
-	std::unordered_map<mkU64, std::unordered_set<mkInputNameU32> > m_RegisteredClicks;
-	std::unordered_map<mkU64, std::unordered_set<mkInputNameU32> > m_RegisteredAxis;
-	std::unordered_map<mkInputNameU32, MKCursorPosition> m_CursorPositions;
+	std::unordered_map<mkU64, std::unordered_set<MK_INPUTNAME> > m_RegisteredClicks;
+	std::unordered_map<mkU64, std::unordered_set<MK_INPUTNAME> > m_RegisteredAxis;
+	std::unordered_map<MK_INPUTNAME, MKCursorPosition> m_CursorPositions;
 
 	MKTouchHandler();
 	virtual ~MKTouchHandler();
 
-	unordered_set<mkInputNameU32> GetValidClicks(mkU64 _mask);
-	unordered_set<mkInputNameU32> GetValidAxis(mkU64 _mask);
+	unordered_set<MK_INPUTNAME> GetValidClicks(mkU64 _mask);
+	unordered_set<MK_INPUTNAME> GetValidAxis(mkU64 _mask);
 	void SendClickHeldEvents();
 	void ResetHeldClicks();
 	void ResetCursorPositions();

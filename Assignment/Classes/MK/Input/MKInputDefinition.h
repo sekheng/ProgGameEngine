@@ -38,7 +38,11 @@ private:
 public:
 	MKInputDefinition(MKInputName _inputName)
 		: m_InputName(_inputName) {}
-	virtual ~MKInputDefinition() {}
+	virtual ~MKInputDefinition()
+	{
+		Unregister1();
+		Unregister2();
+	}
 
 	MKInputName GetInputName() const { return m_InputName; }
 

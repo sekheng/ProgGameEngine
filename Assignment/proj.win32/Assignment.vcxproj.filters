@@ -19,11 +19,14 @@
     <Filter Include="MK\Input">
       <UniqueIdentifier>{3dfc451b-fdab-4458-9a57-e06f1d28ddb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
-      <UniqueIdentifier>{df9a1a76-a852-461d-8b5b-d28443b92f32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScenes">
       <UniqueIdentifier>{07f3c998-ed46-43bb-bf48-49ffcda09fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MK\SceneManagement">
+      <UniqueIdentifier>{4d78e300-3918-4987-adb1-f40e02693f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{9fe1cc27-ca39-4f2c-b1fb-0825799ad67e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,9 +34,6 @@
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp">
@@ -57,25 +57,22 @@
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SceneManager.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneManager.cpp">
+      <Filter>MK\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
-      <Filter>GameScenes</Filter>
+    <ClCompile Include="..\Classes\MK\SceneManagement\MKScene.cpp">
+      <Filter>MK\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
-      <Filter>GameScenes</Filter>
+    <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneDerived.cpp">
+      <Filter>MK\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MK\Common\MKAssertions.h">
       <Filter>MK\Common</Filter>
@@ -116,32 +113,34 @@
     <ClInclude Include="..\Classes\MK\Input\MKTouchHandler.h">
       <Filter>MK\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneManager.h">
+      <Filter>MK\SceneManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="..\Classes\MK\SceneManagement\MKScene.h">
+      <Filter>MK\SceneManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SceneManager.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneDerived.h">
+      <Filter>MK\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\HelloWorldScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\Scenes\AvailableScenes.h">
-      <Filter>GameScenes</Filter>
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
-      <Filter>GameScenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\GameScene.h">
-      <Filter>GameScenes</Filter>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

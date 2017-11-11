@@ -41,14 +41,16 @@ private:
 	void SendAllInputEvents();
 	void FlushBuffer();
 
+	void Update();
+
 public:
 	void SetCurrentContext(MKInputContext _currentContext);
 	MKInputContext GetCurrentContext() const;
 
-	cocos2d::EventDispatcher* GetEventDispatcher() { return &m_EventDispatcher; }
-	const cocos2d::EventDispatcher* GetEventDispatcher() const { return &m_EventDispatcher; }
+	inline cocos2d::EventDispatcher* GetEventDispatcher() { return &m_EventDispatcher; }
+	inline const cocos2d::EventDispatcher* GetEventDispatcher() const { return &m_EventDispatcher; }
 	
-	void Update();
+	inline void update(float _deltaTime) { Update(); }
 
 	MKInputDefinition* GetInputDefinition(MKInputName _inputName) { return m_InputDefinitions[_inputName]; }
 	const MKInputDefinition* GetInputDefinition(MKInputName _inputName) const { return m_InputDefinitions[_inputName]; }

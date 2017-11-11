@@ -1,5 +1,7 @@
 // Include Cocos
 #include "base/ccMacros.h"
+#include "base/CCScheduler.h"
+#include "base/CCDirector.h"
 
 // Include MK
 #include "MKInputManager.h"
@@ -63,6 +65,9 @@ MKInputManager::MKInputManager()
 #endif // MK_USE_TOUCH
 
 	InitializeDefinitions();
+
+	// Schedule Update
+	Director::getInstance()->getScheduler()->scheduleUpdate(this, 1, false);
 }
 
 MKInputManager::~MKInputManager()

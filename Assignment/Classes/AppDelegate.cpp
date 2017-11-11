@@ -1,8 +1,11 @@
 #include "AppDelegate.h"
-#include "Scenes\MainMenuScene.h"
-#include "HelloWorldScene.h"
 
-#include "SceneManager.h"
+// Include MK
+#include "MK/SceneManagement/MKSceneManager.h"
+
+// Include Scenes
+#include "MK/SceneManagement/MKSceneDerived.h"
+#include "Classes/Scenes/AvailableScenes.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -97,13 +100,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    //auto scene = HelloWorld::createScene();
-	SceneManager::GetInstance()->CreateScene<MainMenuScene>("MainMenu");
-
-    // run
-    //director->runWithScene(scene);
-	SceneManager::GetInstance()->SetActiveScene("MainMenu");
-	director->runWithScene(SceneManager::GetInstance()->GetActiveScene());
+	MKSceneManager::GetInstance()->AddScene<MKSceneDerived>("MKSceneDerived");
+    MKSceneManager::GetInstance()->AddScene<HelloWorld>("HelloWorld");
+	MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
 
     return true;
 }

@@ -55,6 +55,27 @@ static __TYPE__* create() \
     } \
 }
 
+ /** @def CREATE_FUNC(__TYPE__)
+ * Define a create function for a specific type, such as Layer.
+ *
+ * @param __TYPE__  class type to add create(), such as Layer.
+ */
+#define CREATEWITHPHYSICS_FUNC(__TYPE__) \
+static __TYPE__* createWithPhysics() \
+{ \
+	__TYPE__* ret = new (std::nothrow) __TYPE__(); \
+	if (ret && ret->initWithPhysics()) \
+	{ \
+		ret->autorelease(); \
+		return ret; \
+	} \
+	else \
+	{ \
+		CC_SAFE_DELETE(ret); \
+		return nullptr; \
+	} \
+}
+
 /** @def NODE_FUNC(__TYPE__)
  * Define a node function for a specific type, such as Layer.
  *

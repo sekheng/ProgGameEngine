@@ -38,16 +38,16 @@ MKTouchHandler::~MKTouchHandler()
 	delete[] m_HeldClicks;
 }
 
-unordered_set<mkInputNameU32> MKTouchHandler::GetValidClicks(mkU64 _mask)
+unordered_set<MK_INPUTNAME> MKTouchHandler::GetValidClicks(mkU64 _mask)
 {
-	unordered_set<mkInputNameU32> result;
-	for (unordered_map<mkU64, unordered_set<mkInputNameU32> >::const_iterator i = m_RegisteredClicks.begin(); i != m_RegisteredClicks.end(); ++i)
+	unordered_set<MK_INPUTNAME> result;
+	for (unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::const_iterator i = m_RegisteredClicks.begin(); i != m_RegisteredClicks.end(); ++i)
 	{
 		if (!MKInputManager::CompareMask(_mask, i->first))
 		{
 			continue;
 		}
-		for (unordered_set<mkInputNameU32>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
+		for (unordered_set<MK_INPUTNAME>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
 		{
 			result.insert(*j);
 		}
@@ -56,16 +56,16 @@ unordered_set<mkInputNameU32> MKTouchHandler::GetValidClicks(mkU64 _mask)
 	return result;
 }
 
-unordered_set<mkInputNameU32> MKTouchHandler::GetValidAxis(mkU64 _mask)
+unordered_set<MK_INPUTNAME> MKTouchHandler::GetValidAxis(mkU64 _mask)
 {
-	unordered_set<mkInputNameU32> result;
-	for (unordered_map<mkU64, unordered_set<mkInputNameU32> >::const_iterator i = m_RegisteredAxis.begin(); i != m_RegisteredAxis.end(); ++i)
+	unordered_set<MK_INPUTNAME> result;
+	for (unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::const_iterator i = m_RegisteredAxis.begin(); i != m_RegisteredAxis.end(); ++i)
 	{
 		if (!MKInputManager::CompareMask(_mask, i->first))
 		{
 			continue;
 		}
-		for (unordered_set<mkInputNameU32>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
+		for (unordered_set<MK_INPUTNAME>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
 		{
 			result.insert(*j);
 		}
@@ -83,7 +83,7 @@ void MKTouchHandler::SendClickHeldEvents()
 		if (m_HeldClicks[i] > 0)
 		{
 			// Find a way to get cursor position.
-			std::unordered_map<mkInputNameU32, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(static_cast<MKInputName>(i));
+			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(static_cast<MKInputName>(i));
 			MK_ASSERTWITHMSG((cursorIter != m_CursorPositions.end()), "MKTouchHandler::SendClickHeldEvents - Cursor Position not found!");
 			
 			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(i), MKInputButton::HOLD, cursorIter->second);
@@ -118,12 +118,12 @@ void MKTouchHandler::Update(MKPasskey<MKInputManager> _key)
 
 void MKTouchHandler::RegisterAxis(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredAxis.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredAxis.find(_mask);
 	if (mapIter == m_RegisteredAxis.end())
 	{
-		unordered_set<mkInputNameU32> inputNames;
+		unordered_set<MK_INPUTNAME> inputNames;
 		inputNames.insert(_inputName);
-		m_RegisteredAxis.insert(std::pair<mkU64, unordered_set<mkInputNameU32> >(_mask, inputNames));
+		m_RegisteredAxis.insert(std::pair<mkU64, unordered_set<MK_INPUTNAME> >(_mask, inputNames));
 	}
 	else
 	{
@@ -138,21 +138,21 @@ void MKTouchHandler::RegisterAxis(mkU64 _mask, MKInputName _inputName)
 
 void MKTouchHandler::UnregisterAxis(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredAxis.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredAxis.find(_mask);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKTouchHandler::UnregisterAxis - There are no the specified mask is not registered!";
-		MK_ASSERTWITHMSG((mapIter == m_RegisteredAxis.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter != m_RegisteredAxis.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
-	unordered_set<mkInputNameU32>::iterator setIter = mapIter->second.find(_inputName);
+	unordered_set<MK_INPUTNAME>::iterator setIter = mapIter->second.find(_inputName);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKTouchHandler::UnregisterAxis - There are no InputNames registered using the specified mask!";
-		MK_ASSERTWITHMSG((setIter == mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
@@ -165,12 +165,12 @@ void MKTouchHandler::UnregisterAxis(mkU64 _mask, MKInputName _inputName)
 
 void MKTouchHandler::RegisterClick(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredClicks.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredClicks.find(_mask);
 	if (mapIter == m_RegisteredClicks.end())
 	{
-		unordered_set<mkInputNameU32> inputNames;
+		unordered_set<MK_INPUTNAME> inputNames;
 		inputNames.insert(_inputName);
-		m_RegisteredClicks.insert(std::pair<mkU64, unordered_set<mkInputNameU32> >(_mask, inputNames));
+		m_RegisteredClicks.insert(std::pair<mkU64, unordered_set<MK_INPUTNAME> >(_mask, inputNames));
 	}
 	else
 	{
@@ -187,21 +187,21 @@ void MKTouchHandler::RegisterClick(mkU64 _mask, MKInputName _inputName)
 
 void MKTouchHandler::UnregisterClick(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredClicks.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredClicks.find(_mask);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKTouchHandler::UnregisterClick - There are no the specified mask is not registered!";
-		MK_ASSERTWITHMSG((mapIter == m_RegisteredClicks.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter != m_RegisteredClicks.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
-	unordered_set<mkInputNameU32>::iterator setIter = mapIter->second.find(_inputName);
+	unordered_set<MK_INPUTNAME>::iterator setIter = mapIter->second.find(_inputName);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKTouchHandler::UnregisterClick - There are no InputNames registered using the specified mask!";
-		MK_ASSERTWITHMSG((setIter == mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
@@ -227,18 +227,18 @@ void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* 
 		mkU16 controllerMaskIndexMask = 0x0001 << touch->getID();
 		mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, 0);
 
-		std::unordered_set<mkInputNameU32> inputNames = GetValidClicks(mask);
-		for (std::unordered_set<mkInputNameU32>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+		std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 		{
 			++m_HeldClicks[*j];
 
 			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), MKInputButton::PRESS, cursorPosition);
 			MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
 
-			std::unordered_map<mkInputNameU32, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
+			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
 			if (cursorIter == m_CursorPositions.end())
 			{
-				m_CursorPositions.insert(std::pair<mkInputNameU32, MKCursorPosition>(*j, cursorPosition));
+				m_CursorPositions.insert(std::pair<MK_INPUTNAME, MKCursorPosition>(*j, cursorPosition));
 			}
 			else
 			{
@@ -260,8 +260,8 @@ void MKTouchHandler::OnTouchesEnded(const std::vector<Touch*>& _touches, Event* 
 		mkU16 controllerMaskIndexMask = 0x0001 << touch->getID();
 		mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, 0);
 
-		std::unordered_set<mkInputNameU32> inputNames = GetValidClicks(mask);
-		for (std::unordered_set<mkInputNameU32>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+		std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 		{
 			mkS32 oldValue = m_HeldClicks[*j];
 			m_HeldClicks[*j] = MKMathsHelper::Max<mkS32>(0, m_HeldClicks[*j] - 1);
@@ -271,7 +271,7 @@ void MKTouchHandler::OnTouchesEnded(const std::vector<Touch*>& _touches, Event* 
 				MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), MKInputButton::RELEASE, cursorPosition);
 				MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
 
-				std::unordered_map<mkInputNameU32, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
+				std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
 				if (cursorIter != m_CursorPositions.end())
 				{
 					m_CursorPositions.erase(cursorIter);
@@ -294,9 +294,9 @@ void MKTouchHandler::OnTouchesMoved(const std::vector<Touch*>& _touches, Event* 
 		{
 			float horizontalValue = touchDelta.x;
 			mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::HORIZONTAL);
-			std::unordered_set<mkInputNameU32> inputNames = GetValidAxis(mask);
+			std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
 
-			for (std::unordered_set<mkInputNameU32>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 			{
 				// Horizontal
 				MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), horizontalValue);
@@ -308,9 +308,9 @@ void MKTouchHandler::OnTouchesMoved(const std::vector<Touch*>& _touches, Event* 
 		{
 			float verticalValue = touchDelta.y;
 			mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::VERTICAL);
-			std::unordered_set<mkInputNameU32> inputNames = GetValidAxis(mask);
+			std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
 
-			for (std::unordered_set<mkInputNameU32>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 			{
 				// Horizontal
 				MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), verticalValue);
@@ -323,11 +323,11 @@ void MKTouchHandler::OnTouchesMoved(const std::vector<Touch*>& _touches, Event* 
 			Vec2 touchLocation = touch->getLocation();
 			MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
 			mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, 0);
-			std::unordered_set<mkInputNameU32> inputNames = GetValidClicks(mask);
+			std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
 
-			for (std::unordered_set<mkInputNameU32>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 			{
-				std::unordered_map<mkInputNameU32, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
+				std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
 				if (cursorIter != m_CursorPositions.end())
 				{
 					cursorIter->second = cursorPosition;
