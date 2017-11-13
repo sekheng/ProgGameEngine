@@ -6,6 +6,9 @@ $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external)
 $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos)
 $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/audio/include)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external/lua/lua)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external/lua/tolua)
+$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/scripting/lua-bindings)
 
 LOCAL_MODULE := MyGame_shared
 
@@ -19,7 +22,10 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
 				   $(LOCAL_PATH)/../../../Classes/MK/Input/MKKeyboardHandler.cpp \
 				   $(LOCAL_PATH)/../../../Classes/MK/Input/MKTouchHandler.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
+					$(LOCAL_PATH)/../../../cocos2d/cocos/scripting/lua-bindings/manual \
+					$(LOCAL_PATH)/../../../cocos2d/external/lua/lua \
+					$(LOCAL_PATH)/../../../cocos2d/external/lua/tolua \
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END

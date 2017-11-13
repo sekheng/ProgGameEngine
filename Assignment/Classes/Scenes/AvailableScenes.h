@@ -1,7 +1,7 @@
 #ifndef AVAILABLE_SCENES_H
 #define AVAILABLE_SCENES_H
 
-#include "MainMenuScene.h"
-#include "GameScene.h"
+//PLEASE ADD YOUR SCENE HEADER FILES HERE
+#include "HelloWorldScene.h"
 
 #endif
