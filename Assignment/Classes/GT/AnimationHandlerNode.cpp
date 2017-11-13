@@ -1,7 +1,12 @@
 #include "AnimationHandlerNode.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
+#include "external/json/document.h"
 
 USING_NS_CC;
 using namespace GinTama;
+using namespace RAPIDJSON_NAMESPACE;
 
 std::string AnimationHandlerNode::getCurrAnimName()
 {
@@ -157,11 +162,26 @@ bool AnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateNam
     return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
+bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
+{
+	// Will be initialized with the PList filetype
+	FILE *zefp = fopen(_JsonTag.c_str(), "r");
+	// this means there can only be an array of 65536 characters!
+	char zeBuffer[65536];
+	FileReadStream zeIS(zefp, zeBuffer, sizeof(zeBuffer));
+	RAPIDJSON_NAMESPACE::Document zeAnimDoc;
+	zeAnimDoc.ParseStream(zeIS);
+	fclose(zefp);
+
+	return true;
+}
+
 AnimationHandlerNode::AnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
     , m_CurrentAnimate(nullptr)
 {
+	setTag(69);
 }
 
 
