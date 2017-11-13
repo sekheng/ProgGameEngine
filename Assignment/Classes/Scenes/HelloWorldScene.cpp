@@ -155,7 +155,6 @@ bool HelloWorld::init()
     Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
 	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
-    zeTestAnimTrans->setTag(69);
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
     zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);

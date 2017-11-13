@@ -71,6 +71,8 @@ namespace GinTama
         */
         bool insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef);
 
+		bool initWithJSON_tag(const std::string &_JsonTag);
+
         cocos2d::Animation *m_CurrentAnim;
         cocos2d::Sprite *m_SpriteNode;
 
