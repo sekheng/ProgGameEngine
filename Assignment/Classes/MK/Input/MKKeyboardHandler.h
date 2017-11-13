@@ -32,13 +32,13 @@ class MKKeyboardHandler : public MKSingletonTemplate<MKKeyboardHandler>
 
 private:
 	EventListenerKeyboard* m_KeyboardListener = nullptr;
-	std::unordered_map<mkU64, std::unordered_set<mkInputNameU32> > m_RegisteredButtons;
+	std::unordered_map<mkU64, std::unordered_set<MK_INPUTNAME> > m_RegisteredButtons;
 	mkS32* m_HeldButtons;
 
 	MKKeyboardHandler();
 	virtual ~MKKeyboardHandler();
 
-	unordered_set<mkInputNameU32> GetValidButtons(mkU64 _mask);
+	unordered_set<MK_INPUTNAME> GetValidButtons(mkU64 _mask);
 	void SendButtonHeldEvents();
 	void ResetHeldButtons();
 

@@ -1,9 +1,6 @@
 #ifndef MK_MACROS_H
 #define MK_MACROS_H
 
-namespace MinamiKotori
-{
-
 #define NS_MK_BEGIN namespace MinamiKotori {
 #define NS_MK_END }
 #define USING_NS_MK using namespace MinamiKotori;
@@ -23,13 +20,11 @@ typedef unsigned short mkU16;
 typedef unsigned int mkU32;
 typedef unsigned long long int mkU64;
 
-// You know why we do this? You know why? Because when fucking compiling for fucking android
-// the fucking std::hash does not fucking work on fucking Enums that's fuck why.
-typedef mkU32 mkInputNameU32;
+// This is for when compiling for android.
+// std::hash does not work on Enums.
+#define MK_INPUTNAME mkU32
 
 typedef float mkF32;
 typedef double mkF64;
-
-}
 
 #endif

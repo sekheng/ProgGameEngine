@@ -37,16 +37,16 @@ MKKeyboardHandler::~MKKeyboardHandler()
 	delete[] m_HeldButtons;
 }
 
-unordered_set<mkInputNameU32> MKKeyboardHandler::GetValidButtons(mkU64 _mask)
+unordered_set<MK_INPUTNAME> MKKeyboardHandler::GetValidButtons(mkU64 _mask)
 {
-	unordered_set<mkInputNameU32> result;
-	for (unordered_map<mkU64, unordered_set<mkInputNameU32> >::const_iterator i = m_RegisteredButtons.begin(); i != m_RegisteredButtons.end(); ++i)
+	unordered_set<MK_INPUTNAME> result;
+	for (unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::const_iterator i = m_RegisteredButtons.begin(); i != m_RegisteredButtons.end(); ++i)
 	{
 		if (!MKInputManager::CompareMask(_mask, i->first))
 		{
 			continue;
 		}
-		for (unordered_set<mkInputNameU32>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
+		for (unordered_set<MK_INPUTNAME>::const_iterator j = i->second.begin(); j != i->second.end(); ++j)
 		{
 			result.insert(*j);
 		}
@@ -62,8 +62,8 @@ void MKKeyboardHandler::OnKeyPressed(cocos2d::EventKeyboard::KeyCode _keyCode, c
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
 	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER0, (mkU64)_keyCode);
 	
-	std::unordered_set<mkInputNameU32> inputNames = GetValidButtons(mask);
-	for (std::unordered_set<mkInputNameU32>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
+	std::unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
+	for (std::unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
 	{
 		++m_HeldButtons[*i];
 
@@ -78,8 +78,8 @@ void MKKeyboardHandler::OnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode, 
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
 	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER0, (mkU64)_keyCode);
 	
-	unordered_set<mkInputNameU32> inputNames = GetValidButtons(mask);
-	for (unordered_set<mkInputNameU32>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
+	unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
+	for (unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
 	{
 		mkS32 oldValue = m_HeldButtons[*i];
 		m_HeldButtons[*i] = MKMathsHelper::Max<mkS32>(0, m_HeldButtons[*i] - 1);
@@ -94,12 +94,12 @@ void MKKeyboardHandler::OnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode, 
 
 void MKKeyboardHandler::RegisterButton(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredButtons.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredButtons.find(_mask);
 	if (mapIter == m_RegisteredButtons.end())
 	{
-		unordered_set<mkInputNameU32> inputNames;
+		unordered_set<MK_INPUTNAME> inputNames;
 		inputNames.insert(_inputName);
-		m_RegisteredButtons.insert(std::pair<mkU64, unordered_set<mkInputNameU32> >(_mask, inputNames));
+		m_RegisteredButtons.insert(std::pair<mkU64, unordered_set<MK_INPUTNAME> >(_mask, inputNames));
 	}
 	else
 	{
@@ -116,21 +116,21 @@ void MKKeyboardHandler::RegisterButton(mkU64 _mask, MKInputName _inputName)
 
 void MKKeyboardHandler::UnregisterButton(mkU64 _mask, MKInputName _inputName)
 {
-	unordered_map<mkU64, unordered_set<mkInputNameU32> >::iterator mapIter = m_RegisteredButtons.find(_mask);
+	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredButtons.find(_mask);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKKeyboardHandler::UnregisterButton - There are no the specified mask is not registered!";
-		MK_ASSERTWITHMSG((mapIter == m_RegisteredButtons.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter != m_RegisteredButtons.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
-	unordered_set<mkInputNameU32>::iterator setIter = mapIter->second.find(_inputName);
+	unordered_set<MK_INPUTNAME>::iterator setIter = mapIter->second.find(_inputName);
 
 #if MK_DEBUG
 	{
 		std::string assertMessage = "MKKeyboardHandler::UnregisterButton - There are no InputNames registered using the specified mask!";
-		MK_ASSERTWITHMSG((setIter == mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
 	}
 #endif // MK_DEBUG
 
