@@ -29,6 +29,7 @@ class MKSceneManager : public MKSingletonTemplate<MKSceneManager>
 
 private:
 	std::unordered_map<std::string, std::function<MKScene*()> > m_SceneMap;
+	mkF32 m_SceneTransitionDuration = 0.8f;
 
 	// Constructor(s) & Destructor
 	MKSceneManager();
