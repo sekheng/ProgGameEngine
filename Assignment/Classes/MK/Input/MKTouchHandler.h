@@ -53,7 +53,8 @@ private:
 	void OnTouchesEnded(const std::vector<Touch*>& _touches, Event* _event);
 
 public:
-	void OnContextChange(MKPasskey<MKInputManager> _key);
+	void PreContextChange(MKPasskey<MKInputManager> _key);
+	void PostContextChange(MKPasskey<MKInputManager> _key);
 	void Update(MKPasskey<MKInputManager> _key);
 
 	void RegisterAxis(mkU64 _mask, MKInputName _inputName);

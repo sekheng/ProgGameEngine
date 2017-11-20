@@ -19,9 +19,6 @@
     <Filter Include="MK\Input">
       <UniqueIdentifier>{3dfc451b-fdab-4458-9a57-e06f1d28ddb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameScenes">
-      <UniqueIdentifier>{07f3c998-ed46-43bb-bf48-49ffcda09fcb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MK\SceneManagement">
       <UniqueIdentifier>{4d78e300-3918-4987-adb1-f40e02693f3c}</UniqueIdentifier>
     </Filter>
@@ -67,6 +64,9 @@
       <Filter>MK\SceneManagement</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\Terry_TestScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,7 +129,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneDerived.h">
       <Filter>MK\SceneManagement</Filter>
     </ClInclude>
@@ -141,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\Terry_TestScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

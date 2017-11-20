@@ -102,7 +102,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
 	MKSceneManager::GetInstance()->AddScene<MKSceneDerived>("MKSceneDerived");
     MKSceneManager::GetInstance()->AddScene<HelloWorld>("HelloWorld");
-	MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
+	MKSceneManager::GetInstance()->AddScene<Terry_TestScene>("TTS");
+	MKSceneManager::GetInstance()->ReplaceScene("TTS");
 
     return true;
 }
