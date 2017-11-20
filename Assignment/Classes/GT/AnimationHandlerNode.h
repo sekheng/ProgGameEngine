@@ -70,6 +70,11 @@ namespace GinTama
         * @param _AnimSprRef will be the sprite image reference from plist
         */
         bool insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef);
+		/* To load the animation through JSON data. However the sprite plist is expected to be loaded beforehand
+		*
+		* @param _JsonTag which is the JSON file path from Resources Folder
+		*/
+		bool initWithJSON_tag(const std::string &_JsonTag);
 
         cocos2d::Animation *m_CurrentAnim;
         cocos2d::Sprite *m_SpriteNode;

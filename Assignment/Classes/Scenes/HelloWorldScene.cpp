@@ -151,26 +151,25 @@ bool HelloWorld::init()
     Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
 	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
-    zeTestAnimTrans->setTag(69);
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
-    zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-    zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-    zeTestAnimTrans->insertAnimFromCache("walk_right");
-    zeTestAnimTrans->insertAnimFromSPlist("walk_up", 0.3f, -1, { "Blue_Front1.png", "Blue_Front2.png", "Blue_Front3.png" });
+	zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    //zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    //zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
+    //zeTestAnimTrans->insertAnimFromCache("walk_right");
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     DelayTime *zeDelay = DelayTime::create(1.5f);
-    AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
-    AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
+    AnimTransAct *zeDown = AnimTransAct::create("walk_down");
+    AnimTransAct *zeUp = AnimTransAct::create("walk_up");
     AnimTransAct *zeOtherThing = AnimTransAct::create("walk_right");
-    Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, AnimTransAct::create("walk_up"), nullptr);
+    Sequence  *zeSeq = Sequence::create(zeDelay, zeOtherThing, zeDelay, zeDown, zeDelay, zeUp, nullptr);
     zeTestAnimTrans->runAction(zeDown);
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     zeTestAnimTrans->runAction(zeSeq);
 	this->addChild(testTransitionSpr);
 
     // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
-    AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
+    //AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
     
 
     // Reading from file. It is a success!

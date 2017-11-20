@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp" />
     <ClCompile Include="..\Classes\GT\AnimTransAct.cpp" />
+    <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />
@@ -168,6 +169,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h" />
     <ClInclude Include="..\Classes\GT\AnimTransAct.h" />
+    <ClInclude Include="..\Classes\GT\CharacterStatNode.h" />
     <ClInclude Include="..\Classes\GT\SimperMusicSys.h" />
     <ClInclude Include="..\Classes\MK\Common\MKAssertions.h" />
     <ClInclude Include="..\Classes\MK\Common\MKMacros.h" />

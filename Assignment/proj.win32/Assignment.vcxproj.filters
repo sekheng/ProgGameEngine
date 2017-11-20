@@ -25,6 +25,18 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{9fe1cc27-ca39-4f2c-b1fb-0825799ad67e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GT">
+      <UniqueIdentifier>{49aae912-44d8-4b2a-8a1d-f753a656128c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Anim Related">
+      <UniqueIdentifier>{2f5eae7b-3341-4a1c-bcd4-e962ce7ddb63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Music">
+      <UniqueIdentifier>{1c66e851-bd6b-4b85-9360-af5da407cb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Game Logic">
+      <UniqueIdentifier>{ac1f8e4c-0130-4561-be90-fca84b936798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,15 +57,6 @@
     <ClCompile Include="..\Classes\MK\Input\MKTouchHandler.cpp">
       <Filter>MK\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\AnimTransAct.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneManager.cpp">
       <Filter>MK\SceneManagement</Filter>
     </ClCompile>
@@ -68,6 +71,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\Terry_TestScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp">
+      <Filter>GT\Anim Related</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\AnimTransAct.cpp">
+      <Filter>GT\Anim Related</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
+      <Filter>GT\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp">
+      <Filter>GT\Game Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,15 +134,6 @@
     <ClInclude Include="..\Classes\MK\SceneManagement\MKScene.h">
       <Filter>MK\SceneManagement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneDerived.h">
       <Filter>MK\SceneManagement</Filter>
@@ -143,6 +149,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\Terry_TestScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
+      <Filter>GT\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\CharacterStatNode.h">
+      <Filter>GT\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

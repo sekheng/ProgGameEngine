@@ -1,7 +1,12 @@
 #include "AnimationHandlerNode.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
+#include "external/json/document.h"
 
 USING_NS_CC;
 using namespace GinTama;
+using namespace RAPIDJSON_NAMESPACE;
 
 std::string AnimationHandlerNode::getCurrAnimName()
 {
@@ -36,15 +41,6 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
                 return false;
             }
         }
-        //switch (m_CurrentAnim->isUnlimitedLoop())
-        //{
-        //case true:
-        //    m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
-        //    break;
-        //default:
-        //    m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
-        //    break;
-        //}
         if (m_CurrentAnim)
         {
             m_SpriteNode->stopAction(m_CurrentAnimate);
@@ -157,11 +153,48 @@ bool AnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateNam
     return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
+bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
+{
+	// Will be initialized with the PList filetype
+	FILE *zefp = fopen(_JsonTag.c_str(), "r");
+	// this means there can only be an array of 65536 characters!
+	char zeBuffer[65536];
+	FileReadStream zeIS(zefp, zeBuffer, sizeof(zeBuffer));
+	RAPIDJSON_NAMESPACE::Document zeAnimDoc;
+	zeAnimDoc.ParseStream(zeIS);
+	fclose(zefp);
+	// So we will need to iterate through the member and get the data so that it will work and make sure it is an array
+	if (zeAnimDoc.IsArray())
+	{
+		for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimDoc.Begin(), end = zeAnimDoc.End(); it != end; ++it)
+		{
+			// And then we get the hardcoded string members from it!
+            if (it->IsObject())
+            {
+                std::string zeStateName = it->FindMember("StateName")->value.GetString();
+                float zeFramesPerSec = it->FindMember("FPS")->value.GetFloat();
+                int zeNumLoop = it->FindMember("loop")->value.GetInt();
+                auto zeSpriteRefArr = it->FindMember("SpriteReference")->value.GetArray();
+                std::vector<std::string> zeVectorOfSprFile;
+                // for an array, we will need the ConstValueIterator
+                for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator sprRefIt = zeSpriteRefArr.Begin(), sprRefEnd = zeSpriteRefArr.End(); sprRefIt != sprRefEnd; ++sprRefIt)
+                {
+                    zeVectorOfSprFile.push_back(sprRefIt->GetString());
+                }
+                // then we call the function when all of the pieces are in place!
+                insertAnimFromSPlist(zeStateName, zeFramesPerSec, zeNumLoop, zeVectorOfSprFile);
+            }
+		}
+	}
+	return true;
+}
+
 AnimationHandlerNode::AnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
     , m_CurrentAnimate(nullptr)
 {
+	setTag(69);
 }
 
 
