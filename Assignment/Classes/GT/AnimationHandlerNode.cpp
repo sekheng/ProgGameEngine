@@ -41,15 +41,6 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
                 return false;
             }
         }
-        //switch (m_CurrentAnim->isUnlimitedLoop())
-        //{
-        //case true:
-        //    m_SpriteNode->runAction(RepeatForever::create(Animate::create(m_CurrentAnim)));
-        //    break;
-        //default:
-        //    m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
-        //    break;
-        //}
         if (m_CurrentAnim)
         {
             m_SpriteNode->stopAction(m_CurrentAnimate);
@@ -172,7 +163,14 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 	RAPIDJSON_NAMESPACE::Document zeAnimDoc;
 	zeAnimDoc.ParseStream(zeIS);
 	fclose(zefp);
-
+	// So we will need to iterate through the member and get the data so that it will work and make sure it is an array
+	if (zeAnimDoc.IsArray())
+	{
+		for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimDoc.Begin(), end = zeAnimDoc.End(); it != end; ++it)
+		{
+			
+		}
+	}
 	return true;
 }
 

@@ -157,6 +157,7 @@ bool HelloWorld::init()
 	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
+	zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
     zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     zeTestAnimTrans->insertAnimFromCache("walk_right");

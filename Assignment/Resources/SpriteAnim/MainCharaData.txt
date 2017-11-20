@@ -3,7 +3,7 @@
       "StateName":"Idle",
       "FPS":0.3,
       "loop":-1,
-      "SpriteReference":[  
+      "SpriteReference":[
          "Blue_Front1.png",
          "Blue_Front2.png",
          "Blue_Front3.png"
