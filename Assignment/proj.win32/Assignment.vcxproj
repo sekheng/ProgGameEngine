@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\AnimTransAct.cpp" />
     <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp" />
+    <ClCompile Include="..\Classes\MK\Gameplay\MKBackgrounds.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKKeyboardHandler.cpp" />
@@ -176,6 +177,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h" />
     <ClInclude Include="..\Classes\MK\Common\MKPasskey.h" />
     <ClInclude Include="..\Classes\MK\Common\MKSingletonTemplate.h" />
+    <ClInclude Include="..\Classes\MK\Gameplay\MKBackgrounds.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInput.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInputContext.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInputControllerIndex.h" />

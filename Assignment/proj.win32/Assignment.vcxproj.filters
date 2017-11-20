@@ -37,6 +37,9 @@
     <Filter Include="GT\Game Logic">
       <UniqueIdentifier>{ac1f8e4c-0130-4561-be90-fca84b936798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MK\Gameplay">
+      <UniqueIdentifier>{e0d8ac99-c343-45e5-938d-2b5ade1b228d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp">
       <Filter>GT\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MK\Gameplay\MKBackgrounds.cpp">
+      <Filter>MK\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\CharacterStatNode.h">
       <Filter>GT\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Gameplay\MKBackgrounds.h">
+      <Filter>MK\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
