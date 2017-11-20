@@ -168,7 +168,22 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 	{
 		for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimDoc.Begin(), end = zeAnimDoc.End(); it != end; ++it)
 		{
-			
+			// And then we get the hardcoded string members from it!
+            if (it->IsObject())
+            {
+                std::string zeStateName = it->FindMember("StateName")->value.GetString();
+                float zeFramesPerSec = it->FindMember("FPS")->value.GetFloat();
+                int zeNumLoop = it->FindMember("loop")->value.GetInt();
+                auto zeSpriteRefArr = it->FindMember("SpriteReference")->value.GetArray();
+                std::vector<std::string> zeVectorOfSprFile;
+                // for an array, we will need the ConstValueIterator
+                for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator sprRefIt = zeSpriteRefArr.Begin(), sprRefEnd = zeSpriteRefArr.End(); sprRefIt != sprRefEnd; ++sprRefIt)
+                {
+                    zeVectorOfSprFile.push_back(sprRefIt->GetString());
+                }
+                // then we call the function when all of the pieces are in place!
+                insertAnimFromSPlist(zeStateName, zeFramesPerSec, zeNumLoop, zeVectorOfSprFile);
+            }
 		}
 	}
 	return true;
