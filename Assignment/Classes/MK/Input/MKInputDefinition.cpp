@@ -12,7 +12,7 @@ void MKInputDefinition::Register(const HandlerRegisterFunction& _registerFunctio
 	m_InputRegisterData[_index]->m_UnregisterFunction = _unregisterFunction;
 	m_InputRegisterData[_index]->m_Mask = _mask;
 
-	_registerFunction(_mask, m_InputName);
+	_registerFunction({}, _mask, m_InputName);
 }
 
 void MKInputDefinition::Unregister(mkU32 _index)
@@ -23,7 +23,7 @@ void MKInputDefinition::Unregister(mkU32 _index)
 	}
 
 	mkU64 mask = m_InputRegisterData[_index]->m_Mask;
-	m_InputRegisterData[_index]->m_UnregisterFunction(mask, m_InputName);
+	m_InputRegisterData[_index]->m_UnregisterFunction({}, mask, m_InputName);
 
 	delete m_InputRegisterData[_index];
 	m_InputRegisterData[_index] = nullptr;

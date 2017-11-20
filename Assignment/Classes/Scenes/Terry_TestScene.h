@@ -29,6 +29,8 @@ private:
 	Sprite** m_Backgrounds = nullptr;
 	mkF32 m_BackgroundScrollSpeeds[(mkU32)BackgroundLayer::NUM_BACKGROUNDLAYER];
 
+	mkF32 m_ContextChangeTimer = 0.0f;
+
 public:
 	Terry_TestScene();
 	virtual ~Terry_TestScene();

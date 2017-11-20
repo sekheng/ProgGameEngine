@@ -230,4 +230,20 @@ void Terry_TestScene::update(float _deltaTime)
 	}
 
 	ScrollBackground(m_Backgrounds[REAR], m_BackgroundScrollSpeeds[REAR] * _deltaTime);
+
+	m_ContextChangeTimer -= _deltaTime;
+	if (m_ContextChangeTimer < 0.0f)
+	{
+		/*CCLOG("Changezo");
+		m_ContextChangeTimer = 1.0f;
+
+		if (MKInputManager::GetInstance()->GetCurrentContext() == MK_CONTEXT1)
+		{
+			MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT2);
+		}
+		else
+		{
+			MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+		}*/
+	}
 }

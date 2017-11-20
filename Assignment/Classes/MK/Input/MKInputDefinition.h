@@ -10,6 +10,7 @@
 #include "../Common/MKMacros.h"
 #include "MKInputName.h"
 #include "MKInput.h"
+#include "../Common/MKPasskey.h"
 
 NS_MK_BEGIN
 
@@ -18,8 +19,8 @@ class MKInputDefinition
 public:
 	//typedef void(*HandlerRegisterFunction)(mkU64 _mask, MKInputName _inputName);
 	//typedef void(*HandlerUnregisterFunction)(mkU64 _mask, MKInputName _inputName);
-	typedef std::function<void(mkU64 _mask, MKInputName _inputName)> HandlerRegisterFunction;
-	typedef std::function<void(mkU64 _mask, MKInputName _inputName)> HandlerUnregisterFunction;
+	typedef std::function<void(MKPasskey<MKInputDefinition>, mkU64 _mask, MKInputName _inputName)> HandlerRegisterFunction;
+	typedef std::function<void(MKPasskey<MKInputDefinition>, mkU64 _mask, MKInputName _inputName)> HandlerUnregisterFunction;
 
 private:
 	struct InputRegisterData

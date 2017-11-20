@@ -52,6 +52,8 @@ public:
 	
 	inline void update(float _deltaTime) { Update(); }
 
+	// I didn't really test to see if changing the key bindings while keys are being held down etc. will cause any problems. Use with
+	// caution. Tell me if anything bad happens. Theorectically it SHOULD (not definitely, just should) work.
 	MKInputDefinition* GetInputDefinition(MKInputName _inputName) { return m_InputDefinitions[_inputName]; }
 	const MKInputDefinition* GetInputDefinition(MKInputName _inputName) const { return m_InputDefinitions[_inputName]; }
 

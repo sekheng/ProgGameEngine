@@ -38,6 +38,34 @@ MKTouchHandler::~MKTouchHandler()
 	delete[] m_HeldClicks;
 }
 
+void MKTouchHandler::AddHeldTouch(cocos2d::Touch* _touch)
+{
+	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
+	if (mapIter == m_HeldTouches.end())
+	{
+		_touch->retain();
+		m_HeldTouches.insert(std::pair<cocos2d::Touch*, mkU32>(_touch, 1));
+	}
+	else
+	{
+		mapIter->second += 1;
+	}
+}
+
+void MKTouchHandler::RemoveHeldTouch(cocos2d::Touch* _touch)
+{
+	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
+	MK_ASSERTWITHMSG((mapIter != m_HeldTouches.end()), "MKKeyboardHandler::RemoveHeldTouch - Key not found in m_HeldKeys!");
+	MK_ASSERTWITHMSG((mapIter->second != 0), "MKKeyboardHandler::RemoveHeldTouch - Invalid value for counter of _touch!");
+
+	mapIter->second -= 1;
+	if (mapIter->second == 0)
+	{
+		mapIter->first->release();
+		m_HeldTouches.erase(mapIter);
+	}
+}
+
 unordered_set<MK_INPUTNAME> MKTouchHandler::GetValidClicks(mkU64 _mask)
 {
 	unordered_set<MK_INPUTNAME> result;
@@ -105,42 +133,36 @@ void MKTouchHandler::ResetCursorPositions()
 	m_CursorPositions.clear();
 }
 
-void MKTouchHandler::PreContextChange(MKPasskey<MKInputManager> _key)
+void MKTouchHandler::PreStateChange()
 {
-	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-	for (mkS32 i = 0; i < (mkS32)MKInputName::NUM_INPUTNAME; ++i)
+	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
-		if (m_HeldClicks[i] > 0)
+		for (mkU32 j = 0; j < i->second; ++j)
 		{
-			// Get the cursor position.
-			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(i);
-			MK_ASSERTWITHMSG((cursorIter != m_CursorPositions.end()), "MKTouchHandler::PreContextChange - Cursor Position not found!");
-			MKCursorPosition cursorPosition = cursorIter->second;
-
-			// Send release events. During context change, treat it as the clicks are released and pressed again.
-			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(i), currentContext, MKInputButton::RELEASE, cursorPosition);
-			MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
+			HandleTouchEnded(i->first);
 		}
 	}
 }
 
-void MKTouchHandler::PostContextChange(MKPasskey<MKInputManager> _key)
+void MKTouchHandler::PostStateChange()
 {
-	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-	for (mkS32 i = 0; i < (mkS32)MKInputName::NUM_INPUTNAME; ++i)
+	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
-		if (m_HeldClicks[i] > 0)
+		for (mkU32 j = 0; j < i->second; ++j)
 		{
-			// Get the cursor position.
-			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(i);
-			MK_ASSERTWITHMSG((cursorIter != m_CursorPositions.end()), "MKTouchHandler::PostContextChange - Cursor Position not found!");
-			MKCursorPosition cursorPosition = cursorIter->second;
-
-			// Send press events. During context change, treat it as the clicks are released and pressed again.
-			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(i), currentContext, MKInputButton::PRESS, cursorPosition);
-			MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
+			HandleTouchBegan(i->first);
 		}
 	}
+}
+
+void MKTouchHandler::PreContextChange(MKPasskey<MKInputManager> _key)
+{
+	PreStateChange();
+}
+
+void MKTouchHandler::PostContextChange(MKPasskey<MKInputManager> _key)
+{
+	PostStateChange();
 }
 
 void MKTouchHandler::Update(MKPasskey<MKInputManager> _key)
@@ -148,7 +170,7 @@ void MKTouchHandler::Update(MKPasskey<MKInputManager> _key)
 	SendClickHeldEvents();
 }
 
-void MKTouchHandler::RegisterAxis(mkU64 _mask, MKInputName _inputName)
+void MKTouchHandler::RegisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName)
 {
 	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredAxis.find(_mask);
 	if (mapIter == m_RegisteredAxis.end())
@@ -168,7 +190,7 @@ void MKTouchHandler::RegisterAxis(mkU64 _mask, MKInputName _inputName)
 	}
 }
 
-void MKTouchHandler::UnregisterAxis(mkU64 _mask, MKInputName _inputName)
+void MKTouchHandler::UnregisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName)
 {
 	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredAxis.find(_mask);
 
@@ -195,8 +217,10 @@ void MKTouchHandler::UnregisterAxis(mkU64 _mask, MKInputName _inputName)
 	}
 }
 
-void MKTouchHandler::RegisterClick(mkU64 _mask, MKInputName _inputName)
+void MKTouchHandler::RegisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName)
 {
+	PreStateChange();
+
 	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredClicks.find(_mask);
 	if (mapIter == m_RegisteredClicks.end())
 	{
@@ -214,11 +238,13 @@ void MKTouchHandler::RegisterClick(mkU64 _mask, MKInputName _inputName)
 		mapIter->second.insert(_inputName);
 	}
 
-	ResetHeldClicks();
+	PostStateChange();
 }
 
-void MKTouchHandler::UnregisterClick(mkU64 _mask, MKInputName _inputName)
+void MKTouchHandler::UnregisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName)
 {
+	PreStateChange();
+
 	unordered_map<mkU64, unordered_set<MK_INPUTNAME> >::iterator mapIter = m_RegisteredClicks.find(_mask);
 
 #if MK_DEBUG
@@ -243,36 +269,83 @@ void MKTouchHandler::UnregisterClick(mkU64 _mask, MKInputName _inputName)
 		m_RegisteredClicks.erase(mapIter);
 	}
 
-	ResetHeldClicks();
+	PostStateChange();
 }
 
-// Callbacks
-void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* _event)
+void MKTouchHandler::HandleTouchBegan(cocos2d::Touch* _touch)
 {
-	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
+	Vec2 touchLocation = _touch->getLocation();
+	MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
+
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	mkU16 controllerMaskIndexMask = 0x0001 << _touch->getID();
+	mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, 0);
+
+	std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+	for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 	{
-		Touch* touch = *i;
-		Vec2 touchLocation = touch->getLocation();
-		MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
+		++m_HeldClicks[*j];
 
-		MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-		mkU16 controllerMaskIndexMask = 0x0001 << touch->getID();
-		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, 0);
+		MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), currentContext, MKInputButton::PRESS, cursorPosition);
+		MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
 
-		std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+		std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
+		if (cursorIter == m_CursorPositions.end())
+		{
+			m_CursorPositions.insert(std::pair<MK_INPUTNAME, MKCursorPosition>(*j, cursorPosition));
+		}
+		else
+		{
+			cursorIter->second = cursorPosition;
+		}
+	}
+}
+
+void MKTouchHandler::HandleTouchMoved(cocos2d::Touch* _touch)
+{
+	Vec2 touchDelta = _touch->getDelta();
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	mkU16 controllerMaskIndexMask = 0x0001 << _touch->getID();
+
+	// Horizontal
+	{
+		float horizontalValue = touchDelta.x;
+		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::HORIZONTAL);
+		std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
+
 		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
 		{
-			++m_HeldClicks[*j];
+			// Horizontal
+			MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), currentContext, horizontalValue);
+			MKInputManager::GetInstance()->AddInput<MKInputAxis>(axis);
+		}
+	}
 
-			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), currentContext, MKInputButton::PRESS, cursorPosition);
-			MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
+	// Vertical
+	{
+		float verticalValue = touchDelta.y;
+		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::VERTICAL);
+		std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
 
+		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+		{
+			// Horizontal
+			MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), currentContext, verticalValue);
+			MKInputManager::GetInstance()->AddInput<MKInputAxis>(axis);
+		}
+	}
+
+	// Update CursorPosition
+	{
+		Vec2 touchLocation = _touch->getLocation();
+		MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
+		mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, 0);
+		std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+
+		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+		{
 			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
-			if (cursorIter == m_CursorPositions.end())
-			{
-				m_CursorPositions.insert(std::pair<MK_INPUTNAME, MKCursorPosition>(*j, cursorPosition));
-			}
-			else
+			if (cursorIter != m_CursorPositions.end())
 			{
 				cursorIter->second = cursorPosition;
 			}
@@ -280,36 +353,51 @@ void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* 
 	}
 }
 
+void MKTouchHandler::HandleTouchEnded(cocos2d::Touch* _touch)
+{
+	Vec2 touchLocation = _touch->getLocation();
+	MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
+
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	mkU16 controllerMaskIndexMask = 0x0001 << _touch->getID();
+	mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, 0);
+
+	std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
+	for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
+	{
+		mkS32 oldValue = m_HeldClicks[*j];
+		m_HeldClicks[*j] = MKMathsHelper::Max<mkS32>(0, m_HeldClicks[*j] - 1);
+
+		if (m_HeldClicks[*j] == 0 && oldValue > 0)
+		{
+			MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), currentContext, MKInputButton::RELEASE, cursorPosition);
+			MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
+
+			std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
+			if (cursorIter != m_CursorPositions.end())
+			{
+				m_CursorPositions.erase(cursorIter);
+			}
+		}
+	}
+}
+
+// Callbacks
+void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* _event)
+{
+	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
+	{
+		AddHeldTouch(*i);
+		HandleTouchBegan(*i);
+	}
+}
+
 void MKTouchHandler::OnTouchesEnded(const std::vector<Touch*>& _touches, Event* _event)
 {
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
-		Touch* touch = *i;
-		Vec2 touchLocation = touch->getLocation();
-		MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
-
-		MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-		mkU16 controllerMaskIndexMask = 0x0001 << touch->getID();
-		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, 0);
-
-		std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
-		for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
-		{
-			mkS32 oldValue = m_HeldClicks[*j];
-			m_HeldClicks[*j] = MKMathsHelper::Max<mkS32>(0, m_HeldClicks[*j] - 1);
-
-			if (m_HeldClicks[*j] == 0 && oldValue > 0)
-			{
-				MKInputClick* click = new MKInputClick(static_cast<MKInputName>(*j), currentContext, MKInputButton::RELEASE, cursorPosition);
-				MKInputManager::GetInstance()->AddInput<MKInputClick>(click);
-
-				std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
-				if (cursorIter != m_CursorPositions.end())
-				{
-					m_CursorPositions.erase(cursorIter);
-				}
-			}
-		}
+		RemoveHeldTouch(*i);
+		HandleTouchEnded(*i);		
 	}
 }
 
@@ -317,55 +405,7 @@ void MKTouchHandler::OnTouchesMoved(const std::vector<Touch*>& _touches, Event* 
 {
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
-		Touch* touch = *i;
-		Vec2 touchDelta = touch->getDelta();
-		MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-		mkU16 controllerMaskIndexMask = 0x0001 << touch->getID();
-
-		// Horizontal
-		{
-			float horizontalValue = touchDelta.x;
-			mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::HORIZONTAL);
-			std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
-
-			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
-			{
-				// Horizontal
-				MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), currentContext, horizontalValue);
-				MKInputManager::GetInstance()->AddInput<MKInputAxis>(axis);
-			}
-		}
-		
-		// Vertical
-		{
-			float verticalValue = touchDelta.y;
-			mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::VERTICAL);
-			std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
-
-			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
-			{
-				// Horizontal
-				MKInputAxis* axis = new MKInputAxis(static_cast<MKInputName>(*j), currentContext, verticalValue);
-				MKInputManager::GetInstance()->AddInput<MKInputAxis>(axis);
-			}
-		}
-
-		// Update CursorPosition
-		{
-			Vec2 touchLocation = touch->getLocation();
-			MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
-			mkU64 mask = MKInputManager::GenerateMask(currentContext, controllerMaskIndexMask, 0);
-			std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
-
-			for (std::unordered_set<MK_INPUTNAME>::iterator j = inputNames.begin(); j != inputNames.end(); ++j)
-			{
-				std::unordered_map<MK_INPUTNAME, MKCursorPosition>::iterator cursorIter = m_CursorPositions.find(*j);
-				if (cursorIter != m_CursorPositions.end())
-				{
-					cursorIter->second = cursorPosition;
-				}
-			}
-		}
+		HandleTouchMoved(*i);
 	}
 }
 

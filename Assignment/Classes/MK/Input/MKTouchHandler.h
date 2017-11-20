@@ -26,6 +26,7 @@ using namespace std;
 NS_MK_BEGIN
 
 class MKInputManager;
+class MKInputDefinition;
 
 class MKTouchHandler : public MKSingletonTemplate<MKTouchHandler>
 {
@@ -38,8 +39,23 @@ private:
 	std::unordered_map<mkU64, std::unordered_set<MK_INPUTNAME> > m_RegisteredAxis;
 	std::unordered_map<MK_INPUTNAME, MKCursorPosition> m_CursorPositions;
 
+	// The reason why we have a counter is because if the player is using some macros they might
+	// register the key as pressed twice.
+	std::map<cocos2d::Touch*, mkU32> m_HeldTouches;
+
 	MKTouchHandler();
 	virtual ~MKTouchHandler();
+
+	void AddHeldTouch(cocos2d::Touch* _touch);
+	void RemoveHeldTouch(cocos2d::Touch* _touch);
+
+	void HandleTouchBegan(cocos2d::Touch* _touch);
+	void HandleTouchMoved(cocos2d::Touch* _touch);
+	void HandleTouchEnded(cocos2d::Touch* _touch);
+
+	// Whenever there's a change in state (InputContext, Button Registered/Unregistered etc...) we wanna do this.
+	void PreStateChange();
+	void PostStateChange();
 
 	unordered_set<MK_INPUTNAME> GetValidClicks(mkU64 _mask);
 	unordered_set<MK_INPUTNAME> GetValidAxis(mkU64 _mask);
@@ -48,19 +64,19 @@ private:
 	void ResetCursorPositions();
 
 	// Callbacks
-	void OnTouchesBegan(const std::vector<Touch*>& _touches, Event* _event);
-	void OnTouchesMoved(const std::vector<Touch*>& _touches, Event* _event);
-	void OnTouchesEnded(const std::vector<Touch*>& _touches, Event* _event);
+	void OnTouchesBegan(const std::vector<cocos2d::Touch*>& _touches, Event* _event);
+	void OnTouchesMoved(const std::vector<cocos2d::Touch*>& _touches, Event* _event);
+	void OnTouchesEnded(const std::vector<cocos2d::Touch*>& _touches, Event* _event);
 
 public:
 	void PreContextChange(MKPasskey<MKInputManager> _key);
 	void PostContextChange(MKPasskey<MKInputManager> _key);
 	void Update(MKPasskey<MKInputManager> _key);
 
-	void RegisterAxis(mkU64 _mask, MKInputName _inputName);
-	void UnregisterAxis(mkU64 _mask, MKInputName _inputName);
-	void RegisterClick(mkU64 _mask, MKInputName _inputName);
-	void UnregisterClick(mkU64 _mask, MKInputName _inputName);
+	void RegisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
+	void UnregisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
+	void RegisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
+	void UnregisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
 
 };
 

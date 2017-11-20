@@ -25,6 +25,7 @@ using namespace std;
 NS_MK_BEGIN
 
 class MKInputManager;
+class MKInputDefinition;
 
 class MKKeyboardHandler : public MKSingletonTemplate<MKKeyboardHandler>
 {
@@ -35,8 +36,21 @@ private:
 	std::unordered_map<mkU64, std::unordered_set<MK_INPUTNAME> > m_RegisteredButtons;
 	mkS32* m_HeldButtons;
 
+	// The reason why we have a counter is because if the player is using 2 keyboards(?) or some macros they might
+	// register the key as pressed twice.
+	std::map<cocos2d::EventKeyboard::KeyCode, mkU32> m_HeldKeys;
+
 	MKKeyboardHandler();
 	virtual ~MKKeyboardHandler();
+
+	void AddHeldKey(cocos2d::EventKeyboard::KeyCode _keyCode);
+	void RemoveHeldKey(cocos2d::EventKeyboard::KeyCode _keyCode);
+	void HandleOnKeyPressed(cocos2d::EventKeyboard::KeyCode _keyCode);
+	void HandleOnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode);
+
+	// Whenever there's a change in state (InputContext, Button Registered/Unregistered etc...) we wanna do this.
+	void PreStateChange();
+	void PostStateChange();
 
 	unordered_set<MK_INPUTNAME> GetValidButtons(mkU64 _mask);
 	void SendButtonHeldEvents();
@@ -52,8 +66,8 @@ public:
 
 	void Update(MKPasskey<MKInputManager> _key);
 
-	void RegisterButton(mkU64 _mask, MKInputName _inputName);
-	void UnregisterButton(mkU64 _mask, MKInputName _inputName);
+	void RegisterButton(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
+	void UnregisterButton(MKPasskey<MKInputDefinition> _key, mkU64 _mask, MKInputName _inputName);
 
 };
 
