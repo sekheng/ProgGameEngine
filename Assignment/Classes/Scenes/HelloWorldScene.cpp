@@ -26,14 +26,10 @@ using namespace GinTama;
 
 HelloWorld::HelloWorld()
 {
-	int breakpoint = 0;
-	return;
 }
 
 HelloWorld::~HelloWorld()
 {
-	int breakpoint = 0;
-	return;
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -231,7 +227,7 @@ void HelloWorld::InitialiseInput()
 		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
 	this->addChild(m_InputLabel, 1);
 
-	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT0);
+	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
 	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(HelloWorld::OnButton, this));
 	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(HelloWorld::OnClick, this));
 	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(HelloWorld::OnAxis, this));

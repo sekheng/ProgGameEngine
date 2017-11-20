@@ -47,7 +47,9 @@ private:
 	void OnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode, cocos2d::Event* _event);
 
 public:
-	void OnContextChange(MKPasskey<MKInputManager> _key);
+	void PreContextChange(MKPasskey<MKInputManager> _key);
+	void PostContextChange(MKPasskey<MKInputManager> _key);
+
 	void Update(MKPasskey<MKInputManager> _key);
 
 	void RegisterButton(mkU64 _mask, MKInputName _inputName);

@@ -58,25 +58,25 @@ unordered_set<MK_INPUTNAME> MKKeyboardHandler::GetValidButtons(mkU64 _mask)
 // Callbacks
 void MKKeyboardHandler::OnKeyPressed(cocos2d::EventKeyboard::KeyCode _keyCode, cocos2d::Event* _event)
 {
-	mkU16 currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
-	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER0, (mkU64)_keyCode);
+	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER1, (mkU64)_keyCode);
 	
 	std::unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
 	for (std::unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
 	{
 		++m_HeldButtons[*i];
 
-		MKInputButton* press = new MKInputButton(static_cast<MKInputName>(*i), MKInputButton::PRESS);
+		MKInputButton* press = new MKInputButton(static_cast<MKInputName>(*i), currentContext, MKInputButton::PRESS);
 		MKInputManager::GetInstance()->AddInput<MKInputButton>(press);
 	}
 }
 
 void MKKeyboardHandler::OnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode, cocos2d::Event* _event)
 {
-	mkU16 currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
-	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER0, (mkU64)_keyCode);
+	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER1, (mkU64)_keyCode);
 	
 	unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
 	for (unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
@@ -86,7 +86,7 @@ void MKKeyboardHandler::OnKeyReleased(cocos2d::EventKeyboard::KeyCode _keyCode, 
 
 		if (m_HeldButtons[*i] == 0 && oldValue > 0)
 		{
-			MKInputButton* press = new MKInputButton(static_cast<MKInputName>(*i), MKInputButton::RELEASE);
+			MKInputButton* press = new MKInputButton(static_cast<MKInputName>(*i), currentContext, MKInputButton::RELEASE);
 			MKInputManager::GetInstance()->AddInput<MKInputButton>(press);
 		}
 	}
@@ -154,21 +154,44 @@ void MKKeyboardHandler::ResetHeldButtons()
 void MKKeyboardHandler::SendButtonHeldEvents()
 {
 	// Send out events for the buttons that are being held.
-	mkU16 currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	for (mkS32 i = 0; i < (mkS32)MKInputName::NUM_INPUTNAME; ++i)
 	{
 		MK_ASSERTWITHMSG((m_HeldButtons[i] >= 0), "MKKeyboardHandler::SendButtonHeldEvents - Held Buttons counter should never be less than 0.");
 		if (m_HeldButtons[i] > 0)
 		{
-			MKInputButton* hold = new MKInputButton(static_cast<MKInputName>(i), MKInputButton::HOLD);
+			MKInputButton* hold = new MKInputButton(static_cast<MKInputName>(i), currentContext, MKInputButton::HOLD);
 			MKInputManager::GetInstance()->AddInput<MKInputButton>(hold);
 		}
 	}
 }
 
-void MKKeyboardHandler::OnContextChange(MKPasskey<MKInputManager> _key)
+void MKKeyboardHandler::PreContextChange(MKPasskey<MKInputManager> _key)
 {
-	ResetHeldButtons();
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	for (mkS32 i = 0; i < (mkS32)MKInputName::NUM_INPUTNAME; ++i)
+	{
+		MK_ASSERTWITHMSG((m_HeldButtons[i] >= 0), "MKKeyboardHandler::PreContextChange - Held Buttons counter should never be less than 0.");
+		if (m_HeldButtons[i] > 0)
+		{
+			MKInputButton* press = new MKInputButton(static_cast<MKInputName>(i), currentContext, MKInputButton::RELEASE);
+			MKInputManager::GetInstance()->AddInput<MKInputButton>(press);
+		}
+	}
+}
+
+void MKKeyboardHandler::PostContextChange(MKPasskey<MKInputManager> _key)
+{
+	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
+	for (mkS32 i = 0; i < (mkS32)MKInputName::NUM_INPUTNAME; ++i)
+	{
+		MK_ASSERTWITHMSG((m_HeldButtons[i] >= 0), "MKKeyboardHandler::PostContextChange - Held Buttons counter should never be less than 0.");
+		if (m_HeldButtons[i] > 0)
+		{
+			MKInputButton* press = new MKInputButton(static_cast<MKInputName>(i), currentContext, MKInputButton::PRESS);
+			MKInputManager::GetInstance()->AddInput<MKInputButton>(press);
+		}
+	}
 }
 
 void MKKeyboardHandler::Update(MKPasskey<MKInputManager> _key)

@@ -24,7 +24,7 @@ void MKInputManager::InitializeDefinitions()
 
 	// Add Input Definitions here.
 	{
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL | MK_CONTEXT1, MK_CONTROLLER0 | MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL | MK_CONTEXT1, MK_CONTROLLER1 | MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
 		m_InputDefinitions[MKInputName::JUMP]->Register1(
 			CC_CALLBACK_2(MKKeyboardHandler::RegisterButton, keyboardHandler),
 			CC_CALLBACK_2(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -32,7 +32,7 @@ void MKInputManager::InitializeDefinitions()
 	}
 
 	{
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER0, MKInputAxis::KeyCode::VERTICAL);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, MKInputAxis::KeyCode::VERTICAL);
 		m_InputDefinitions[MKInputName::JUMP]->Register2(
 			CC_CALLBACK_2(MKTouchHandler::RegisterAxis, touchHandler),
 			CC_CALLBACK_2(MKTouchHandler::UnregisterAxis, touchHandler),
@@ -42,7 +42,7 @@ void MKInputManager::InitializeDefinitions()
 
 MKInputManager::MKInputManager()
 {
-	m_CurrentContext = MK_CONTEXT_NONE;
+	m_CurrentContext = MKInputContext::MK_CONTEXT_DEFAULT;
 
 	// Initialise Event Dispatcher.
 	m_EventDispatcher.setEnabled(true);
@@ -92,16 +92,28 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 		return;
 	}
 
+	// Pre-Context Change
 #if MK_USE_KEYBOARD
-	MKKeyboardHandler::GetInstance()->OnContextChange({});
+	MKKeyboardHandler::GetInstance()->PreContextChange({});
 #endif // MK_USE_KEYBOARD
 
 #if MK_USE_TOUCH
-	MKTouchHandler::GetInstance()->OnContextChange({});
+	MKTouchHandler::GetInstance()->PreContextChange({});
 #endif // MK_USE_TOUCH
 
+	SendAllInputEvents();
+
+	// Context Change
 	m_CurrentContext = _currentContext;
-	FlushBuffer();
+
+	// Post Context Change
+#if MK_USE_KEYBOARD
+	MKKeyboardHandler::GetInstance()->PostContextChange({});
+#endif // MK_USE_KEYBOARD
+
+#if MK_USE_TOUCH
+	MKTouchHandler::GetInstance()->PostContextChange({});
+#endif // MK_USE_TOUCH
 }
 
 MKInputContext MKInputManager::GetCurrentContext() const
