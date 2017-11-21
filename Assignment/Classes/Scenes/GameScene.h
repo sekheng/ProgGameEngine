@@ -1,47 +1,46 @@
-#ifndef __GAME_SCENE_H__
-#define __GAME_SCENE_H__
-
-// Include Cocos
-#include "cocos2d.h"
+#ifndef GAME_SCENE_H
+#define GAME_SCENE_H
 
 // Include MK
-#include "MK/Common/MKMacros.h"
-#include "MK/Input/MKInputManager.h"
-#include "MK/Input/MKInput.h"
 #include "MK/SceneManagement/MKScene.h"
+#include "MK/Gameplay/MKScrollableSprite.h"
+#include "MK/Graphics/MKSprite.h"
 
 USING_NS_CC;
 USING_NS_MK
 
 class GameScene : public MKScene
 {
-private:
-	EventListenerCustom* m_ButtonListener = nullptr;
-	EventListenerCustom* m_ClickListener = nullptr;
-	EventListenerCustom* m_AxisListener = nullptr;
-	Label* m_InputLabel = nullptr;
+	typedef MKScene Super;
 
-	float m_SceneChangeCounter = 3.0f;
+private:
+	enum BackgroundLayers
+	{
+		REAR,
+		MIDDLE,
+		FRONT,
+
+		NUM_BACKGROUNDLAYERS,
+	};
+
+	MKScrollableSprite** m_Backgrounds = nullptr;
+	MKSprite* m_Ground = nullptr;
+
+	void InitialiseGround();
+	void InitialiseBackgrounds();
+
+	// Input Callbacks
+	virtual void OnButton(EventCustom * _event);
+	virtual void OnClick(EventCustom * _event);
+	virtual void OnAxis(EventCustom * _event);
+	MK_INITIALISEINPUT(GameScene);
 
 public:
-	GameScene();
-	virtual ~GameScene();
+	CREATE_FUNC(GameScene);
 
-	virtual bool init();
+	virtual bool init() override;
 	virtual void update(float _deltaTime) override;
 
-	// a selector callback	
-	void menuCloseCallback(cocos2d::Ref* pSender);
-
-	void InitialiseInput();
-	void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
-
-	// Sek Heng here trying to do branching.
-
-	// implement the "static create()" method manually
-	CREATE_FUNC(GameScene);
 };
 
-#endif // __GAME_SCENE_H__
+#endif

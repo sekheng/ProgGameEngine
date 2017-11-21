@@ -154,13 +154,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\AnimTransAct.cpp" />
     <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp" />
-    <ClCompile Include="..\Classes\MK\Gameplay\MKBackgrounds.cpp" />
+    <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKKeyboardHandler.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKTouchHandler.cpp" />
-    <ClCompile Include="..\Classes\MK\SceneManagement\MKScene.cpp" />
-    <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneDerived.cpp" />
     <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneManager.cpp" />
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp" />
     <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp" />
@@ -179,7 +177,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h" />
     <ClInclude Include="..\Classes\MK\Common\MKPasskey.h" />
     <ClInclude Include="..\Classes\MK\Common\MKSingletonTemplate.h" />
-    <ClInclude Include="..\Classes\MK\Gameplay\MKBackgrounds.h" />
+    <ClInclude Include="..\Classes\MK\Graphics\MKSprite.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInput.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInputContext.h" />
     <ClInclude Include="..\Classes\MK\Input\MKInputControllerIndex.h" />
@@ -188,7 +186,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MK\Input\MKInputName.h" />
     <ClInclude Include="..\Classes\MK\Input\MKKeyboardHandler.h" />
     <ClInclude Include="..\Classes\MK\Input\MKTouchHandler.h" />
-    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneDerived.h" />
+    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneMacros.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneManager.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKScene.h" />
     <ClInclude Include="..\Classes\Scenes\AvailableScenes.h" />
