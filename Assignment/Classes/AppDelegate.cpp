@@ -105,7 +105,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	MKSceneManager::GetInstance()->AddScene<MenuScene>("MenuScene");
 	MKSceneManager::GetInstance()->AddScene<GameScene>("GameScene");
 	MKSceneManager::GetInstance()->AddScene<Terry_TestScene>("TTS");
-	MKSceneManager::GetInstance()->ReplaceScene("MenuScene");
+	MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
 	//MKSceneManager::GetInstance()->ReplaceScene("TTS");+
 
     return true;

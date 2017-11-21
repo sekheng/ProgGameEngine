@@ -3,6 +3,7 @@
 #include "external/json/filereadstream.h"
 #include "external/json/writer.h"
 #include "external/json/document.h"
+#include "AnimTransAct.h"
 
 USING_NS_CC;
 using namespace GinTama;
@@ -26,7 +27,23 @@ Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
 
 bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
 {
-    std::unordered_map<std::string, Animation*>::iterator it = m_NameAnimMap.find(_AnimStateName);
+    std::unordered_map<std::string, AnimTransCondition*>::iterator it = m_NameActTransMap.find(_AnimStateName);
+    if (it != m_NameActTransMap.end())
+    {
+        if (it->second->m_TransCondition == "" || it->second->m_TransCondition == m_CurrentAnimTransit)
+        {
+            // just run the action lol
+            runAction(it->second->m_ActionPtr);
+            m_CurrentAnimTransit = it->second->m_TransName;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool AnimationHandlerNode::playAnim(const std::string &_AnimName)
+{
+    std::unordered_map<std::string, Animation*>::iterator it = m_NameAnimMap.find(_AnimName);
     if (it != m_NameAnimMap.end())
     {
         m_CurrentAnim = it->second;
@@ -48,7 +65,7 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
             m_CurrentAnim->retain();
         }
         m_CurrentAnimate = m_SpriteNode->runAction(Animate::create(m_CurrentAnim));
-        m_HistoryOfStates.push_back(_AnimStateName);
+        m_HistoryOfStates.push_back(_AnimName);
         return true;
     }
     return false;
@@ -71,7 +88,7 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
             if (!m_CurrentAnim)
             {
                 // then we shall start the animation in this state since it is not yet initialized
-                transitState(_AnimStateName);
+                playAnim(_AnimStateName);
             }
         }
         break;
@@ -163,10 +180,11 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 	RAPIDJSON_NAMESPACE::Document zeAnimDoc;
 	zeAnimDoc.ParseStream(zeIS);
 	fclose(zefp);
+    auto zeAnimLoadingArr = zeAnimDoc.FindMember("AnimationLoading");
 	// So we will need to iterate through the member and get the data so that it will work and make sure it is an array
-	if (zeAnimDoc.IsArray())
+	if (zeAnimLoadingArr->value.IsArray())
 	{
-		for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimDoc.Begin(), end = zeAnimDoc.End(); it != end; ++it)
+		for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimLoadingArr->value.Begin(), end = zeAnimLoadingArr->value.End(); it != end; ++it)
 		{
 			// And then we get the hardcoded string members from it!
             if (it->IsObject())
@@ -186,7 +204,62 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
             }
 		}
 	}
-	return true;
+    // To load the animation transition between the states
+    auto zeAnimTransLoad = zeAnimDoc.FindMember("AnimationTransition");
+    if (zeAnimTransLoad->value.IsArray())
+    {
+        for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = zeAnimTransLoad->value.Begin(), end = zeAnimTransLoad->value.End(); it != end; ++it)
+        {
+            // we get the name and transit condition
+            std::string zeTransName = it->FindMember("TransitName")->value.GetString();
+            std::string zeTransCond = it->FindMember("TransitCondition")->value.GetString();
+            auto zeActSeqJSON = it->FindMember("ActionSequence");
+            cocos2d::Vector<cocos2d::FiniteTimeAction*> zeActionVector;
+            std::string zeActName;
+            // then we iterate through the array in this object!
+            for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator AnimTransIt = zeActSeqJSON->value.Begin(), AnimTransEnd = zeActSeqJSON->value.End(); AnimTransIt != AnimTransEnd; ++AnimTransIt)
+            {
+                // then we iterate though the member
+                for (RAPIDJSON_NAMESPACE::Value::ConstMemberIterator ActionTransIt = AnimTransIt->MemberBegin(), ActionTransEnd = AnimTransIt->MemberEnd(); ActionTransIt != ActionTransEnd; ++ActionTransIt)
+                {
+                    if (ActionTransIt->name == "ActionName")
+                        zeActName = ActionTransIt->value.GetString();
+                    else if (ActionTransIt->name == "ActionValue")
+                    {
+                        // Then check what is the action name then extract the variable!
+                        if (zeActName == "AnimTrans")
+                        {
+                            zeActionVector.pushBack(AnimTransAct::create(ActionTransIt->value.GetString()));
+                        }
+                        else if (zeActName == "Delay")
+                        {
+                            zeActionVector.pushBack(DelayTime::create(ActionTransIt->value.GetFloat()));
+                        }
+                    }
+                }
+            }
+            insertAnimTransSeq(zeTransName, zeActionVector, zeTransCond);
+        }
+    }
+    return true;
+}
+
+bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction *> &_sequenceOfAct, const std::string &_conditionStr)
+{
+    Sequence *zeSeqAct = Sequence::create(_sequenceOfAct);
+    return insertAnimTransSeq(_AnimTransName, zeSeqAct, _conditionStr);
+}
+
+bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, cocos2d::Sequence* _sequenceAct, const std::string &_conditionStr)
+{
+    if (!m_NameActTransMap.count(_AnimTransName))
+    {
+        _sequenceAct->retain();
+        AnimTransCondition *zeTransCondition = new AnimTransCondition(_AnimTransName, _conditionStr, _sequenceAct);
+        m_NameActTransMap.insert(std::pair<std::string, AnimTransCondition*>(_AnimTransName, zeTransCondition));
+        return true;
+    }
+    return false;
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
@@ -210,6 +283,13 @@ AnimationHandlerNode::~AnimationHandlerNode()
     }
     m_NameAnimMap.clear();
     m_CurrentAnim = nullptr;
+    for (std::unordered_map<std::string, AnimTransCondition*>::iterator it = m_NameActTransMap.begin(), end = m_NameActTransMap.end(); it != end; ++it)
+    {
+        it->second->m_ActionPtr->release();
+        it->second->m_ActionPtr->release();
+        delete it->second;
+    }
+    m_NameActTransMap.clear();
 }
 
 AnimationHandlerNode *AnimationHandlerNode::create()

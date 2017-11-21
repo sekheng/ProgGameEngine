@@ -5,13 +5,26 @@
 #include <string>
 #include "cocos2d.h"
 
-/** To handle the transition between the animations that are being created.
-* And to be attached to the sprite as a node so that it can handle the transition anytime
-* otherwise make sure it has reference to the Sprite class.
-* You must also have knowledge regarding how Cocos2dx Animation class works
-*/
 namespace GinTama
 {
+    struct AnimTransCondition
+    {
+        std::string m_TransName;
+        std::string m_TransCondition;
+        cocos2d::Action* m_ActionPtr;
+        AnimTransCondition(const std::string &_name, const std::string &_condStr, cocos2d::Action *_action)
+        {
+            m_TransName = _name;
+            m_TransCondition = _condStr;
+            m_ActionPtr = _action;
+        }
+    };
+
+    /** To handle the transition between the animations that are being created.
+    * And to be attached to the sprite as a node so that it can handle the transition anytime
+    * otherwise make sure it has reference to the Sprite class.
+    * You must also have knowledge regarding how Cocos2dx Animation class works
+    */
     class AnimationHandlerNode : public cocos2d::Node
     {
     public:
@@ -36,6 +49,13 @@ namespace GinTama
         * @return true if successful. And vice versa
         */
         bool transitState(const std::string &_AnimStateName);
+
+        /** It will play the animation straight away
+        *
+        * @param _AnimName which is the animation name
+        *@return true if found the animation name to play
+        */
+        bool playAnim(const std::string &_AnimName);
 
         /** To Insert an animation state based on the name provided the information is filled up at Animation class
         *
@@ -78,12 +98,22 @@ namespace GinTama
 		*/
 		bool initWithJSON_tag(const std::string &_JsonTag);
 
+        /** AnimationHandlerNode will then change this array of action into a sequence of actions for it to do transition from 1 place to another
+        *
+        * @param _AnimTransName which will be the name to trigger this specific action
+        * @param _sequenceOfAct which will be the actions to execute that later then put into the sequence. Do always remember to put nullptr at the very end of the vector
+        * @return true if _AnimTransName has never existed so as to ensure clarity
+        */
+        bool insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction*> &_sequenceOfAct, const std::string &_conditionStr = "");
+        bool insertAnimTransSeq(const std::string &_AnimTransName, cocos2d::Sequence* _sequenceAct, const std::string &_conditionStr = "");
+
         cocos2d::Animation *m_CurrentAnim;
         cocos2d::Sprite *m_SpriteNode;
-
     protected:
         std::unordered_map<std::string, cocos2d::Animation*> m_NameAnimMap;
+        std::unordered_map<std::string, AnimTransCondition*> m_NameActTransMap;
         std::string m_CurrentAnimName;
+        std::string m_CurrentAnimTransit;
         std::vector<std::string> m_HistoryOfStates;
         cocos2d::Action *m_CurrentAnimate;
 

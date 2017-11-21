@@ -11,14 +11,14 @@ AnimTransAct* AnimTransAct::create()
 AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName)
 {
     AnimTransAct *zeNewAct = new AnimTransAct();
-    zeNewAct->m_transitStateName = _AnimStateName;
+    zeNewAct->m_AnimName = _AnimStateName;
     zeNewAct->autorelease();
     return zeNewAct;
 }
 
 AnimTransAct *AnimTransAct::setAnimStateName(const std::string &_AnimStateName)
 {
-    m_transitStateName = m_transitStateName;
+    m_AnimName = m_AnimName;
     return this;
 }
 
@@ -26,7 +26,7 @@ void AnimTransAct::startWithTarget(cocos2d::Node *target)
 {
     target->stopActionByTag(_tag);
     m_targetNode = static_cast<AnimationHandlerNode*>(target);
-    m_targetNode->transitState(m_transitStateName);
+    m_targetNode->playAnim(m_AnimName);
     stop();
 }
 
@@ -44,7 +44,7 @@ void AnimTransAct::stop()
 
 AnimTransAct::AnimTransAct() : 
     m_targetNode(nullptr)
-    , m_transitStateName("")
+    , m_AnimName("")
 {
     _done = false;
     _tag = 69;
