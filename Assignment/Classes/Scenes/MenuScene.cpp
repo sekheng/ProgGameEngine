@@ -74,6 +74,7 @@ bool MenuScene::init()
 		Vec2(visibleSize.width / 2, visibleSize.height / 4), 
 		"ButtonNormal.png", 
 		"ButtonSelected.png",
+		"Play Game",
 		[](Ref*, ui::Widget::TouchEventType) -> void
 		{
 			MKSceneManager::GetInstance()->ReplaceScene("GameScene");
