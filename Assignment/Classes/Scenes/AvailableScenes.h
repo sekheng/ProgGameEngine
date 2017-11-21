@@ -4,5 +4,7 @@
 //PLEASE ADD YOUR SCENE HEADER FILES HERE
 #include "HelloWorldScene.h"
 #include "Terry_TestScene.h"
+#include "MenuScene.h"
+#include "GameScene.h"
 
 #endif

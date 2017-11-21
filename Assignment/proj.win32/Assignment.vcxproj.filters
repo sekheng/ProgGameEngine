@@ -40,6 +40,9 @@
     <Filter Include="MK\Gameplay">
       <UniqueIdentifier>{e0d8ac99-c343-45e5-938d-2b5ade1b228d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{3388f86c-15a1-48b6-9e78-d41066a8aa24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\MK\Gameplay\MKBackgrounds.cpp">
       <Filter>MK\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\MenuScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +179,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\MK\Gameplay\MKBackgrounds.h">
       <Filter>MK\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\MenuScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UIClass\UICreator.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
