@@ -36,6 +36,7 @@ SimperMusicSys::SimperMusicSys()
                     zeNewData->m_fileLocation = it->FindMember("location")->value.GetString();
                     zeNewData->m_Volume = it->FindMember("volume")->value.GetFloat();
                     zeNewData->m_Loop = it->FindMember("loop")->value.GetBool();
+					m_NameSoundMap.insert(std::pair<std::string, SoundData*>(it->FindMember("NameID")->value.GetString(), zeNewData));
                 }
             }
         }

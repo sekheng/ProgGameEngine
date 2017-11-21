@@ -93,7 +93,7 @@ bool MenuScene::init()
 			{
 				ui::Slider *slider = dynamic_cast<ui::Slider*>(_sender);
 				int percent = slider->getPercent();
-				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent);
+				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent/100);
 				log("%f", GinTama::SimperMusicSys::GetInstance()->getMasterVol());
 			}
 		}
@@ -208,7 +208,7 @@ bool MenuScene::init()
 	this->addChild(testTransitionSpr);
 
 	// mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
-	AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 2.0f);
+	//AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 2.0f);
 
 
 	// Reading from file. It is a success!
