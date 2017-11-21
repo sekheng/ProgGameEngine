@@ -10,6 +10,7 @@ namespace GinTama {
         float m_Volume;
         int m_AudioID = -1;
         std::string m_fileLocation;
+        std::string m_SoundName;
         bool m_Loop;
     };
 
@@ -21,6 +22,7 @@ namespace GinTama {
         SoundData* accessSound(const std::string &_songName);
 
         bool setSoundVol(const std::string &_songName, const float &_vol);
+        bool setSoundVol(SoundData* _song, const float &_vol);
         bool setSoundLoop(const std::string &_songName, const bool &_loop);
 
         void setMasterVol(const float &_vol);
@@ -30,10 +32,9 @@ namespace GinTama {
     protected:
         virtual ~SimperMusicSys();
 
-        void resetSoundID(int _id, const std::string &_log);
-
         float m_MasterVol;
         RAPIDJSON_NAMESPACE::Document m_MusicDocs;
         std::unordered_map<std::string, SoundData*> m_NameSoundMap;
+        std::map<std::string, std::list<SoundData*> > m_NamePlayingSound;
     };
 };

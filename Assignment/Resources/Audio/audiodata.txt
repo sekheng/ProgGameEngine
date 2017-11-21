@@ -6,6 +6,12 @@
 		 "NameID":"testbgm",
 		 "volume":0.5,
 		 "loop":true
+      },
+	  {  
+         "location":"PlaceHolder/earthquake.mp3",
+		 "NameID":"testEQ",
+		 "volume":1,
+		 "loop":false
       }
    ]
 }
