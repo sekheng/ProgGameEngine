@@ -3,11 +3,11 @@
 #include "cocos2d.h"
 #include "GT/AnimationHandlerNode.h"
 
-/** To provide a simper transitioning between the actions so that it will be able to make use of other ActionInterval such as DelayTime
-* Should only be used by AnimationHandlerNode!
-*/
 namespace GinTama
 {
+    /** To provide a simper transitioning between the actions so that it will be able to make use of other ActionInterval such as DelayTime
+    * Should only be used by AnimationHandlerNode! so it will only play the animation
+    */
     class AnimTransAct : public cocos2d::ActionInterval
     {
     public:
@@ -28,6 +28,6 @@ namespace GinTama
         AnimTransAct();
 
         AnimationHandlerNode *m_targetNode;
-        std::string m_transitStateName;
+        std::string m_AnimName;
     };
 }
