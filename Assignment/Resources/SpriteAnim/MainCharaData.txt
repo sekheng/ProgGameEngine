@@ -17,7 +17,7 @@
          "Blue_Front1.png",
          "Blue_Front2.png",
          "Blue_Front3.png"
-      ]
+      ]6
    },
    {  
       "StateName":"walk_right",

@@ -36,7 +36,8 @@ SimperMusicSys::SimperMusicSys()
                     zeNewData->m_fileLocation = it->FindMember("location")->value.GetString();
                     zeNewData->m_Volume = it->FindMember("volume")->value.GetFloat();
                     zeNewData->m_Loop = it->FindMember("loop")->value.GetBool();
-					m_NameSoundMap.insert(std::pair<std::string, SoundData*>(it->FindMember("NameID")->value.GetString(), zeNewData));
+                    zeNewData->m_SoundName = it->FindMember("NameID")->value.GetString();
+					m_NameSoundMap.insert(std::pair<std::string, SoundData*>(zeNewData->m_SoundName, zeNewData));
                 }
             }
         }
@@ -55,10 +56,17 @@ bool SimperMusicSys::playSound(const std::string &_songName)
     if (zeData)
     {
         zeData->m_AudioID = AudioEngine::play2d(zeData->m_fileLocation, zeData->m_Loop, m_MasterVol * zeData->m_Volume);
+        if (m_NamePlayingSound.count(_songName))
+        {
+            m_NamePlayingSound[_songName].remove(zeData);
+        }
+        else
+            m_NamePlayingSound.insert(std::pair<std::string, std::list<SoundData*> >(_songName, { zeData }));
         // unfortunately need the lambda function here then it can work!
         AudioEngine::setFinishCallback(zeData->m_AudioID, 
-            [zeData](int _id, const std::string &_log) {
+            [&, zeData, _songName](int _id, const std::string &_log) {
             zeData->m_AudioID = -1;
+            m_NamePlayingSound[_songName].pop_front();
             cocos2d::log("Audio finish playing {0}", _log);
         });
         return true;
@@ -82,7 +90,7 @@ bool SimperMusicSys::setSoundVol(const std::string &_songName, const float &_vol
     if (zeSoundData)
     {
         zeSoundData->m_Volume = _vol;
-        if (zeSoundData->m_AudioID >= 0)
+        if (m_NameSoundMap.count(_songName))
         {
             AudioEngine::setVolume(zeSoundData->m_AudioID, _vol);
         }
@@ -91,13 +99,22 @@ bool SimperMusicSys::setSoundVol(const std::string &_songName, const float &_vol
     return false;
 }
 
+bool SimperMusicSys::setSoundVol(SoundData* _song, const float &_vol)
+{
+    _song->m_Volume = _vol;
+    if (m_NameSoundMap.count(_song->m_SoundName))
+    {
+        AudioEngine::setVolume(_song->m_AudioID, _vol);
+    }
+    return true;
+}
+
 bool SimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_loop)
 {
     SoundData *zeSoundData = accessSound(_songName);
     if (zeSoundData && zeSoundData->m_Loop != _loop)
     {
         zeSoundData->m_Loop = _loop;
-
         return true;
     }
     return false;
@@ -106,6 +123,14 @@ bool SimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_loo
 void SimperMusicSys::setMasterVol(const float &_vol)
 {
     m_MasterVol = _vol;
+    // then we will have to iterate through the map and list then set the volume of each effect
+    for (std::map<std::string, std::list<SoundData*>>::iterator it = m_NamePlayingSound.begin(), end = m_NamePlayingSound.end(); it != end; ++it)
+    {
+        for (std::list<SoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        {
+            setSoundVol(*listIt, _vol);
+        }
+    }
 }
 
 float SimperMusicSys::getMasterVol()

@@ -252,7 +252,7 @@ bool MenuScene::init()
 	fclose(fp);
 
 	GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
-
+    GinTama::SimperMusicSys::GetInstance()->playSound("testEQ");
 	return true;
 }
 

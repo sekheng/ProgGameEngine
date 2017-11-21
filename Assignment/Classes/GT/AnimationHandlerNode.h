@@ -68,11 +68,13 @@ namespace GinTama
         * @param _framePerSec is the animation frame in seconds
         * @param _looptimes number of times this should loop. putting it in 0 or below will make it loop infinitely
         * @param _AnimSprRef will be the sprite image reference from plist
+        * @return true if successful.
         */
         bool insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef);
 		/* To load the animation through JSON data. However the sprite plist is expected to be loaded beforehand
 		*
 		* @param _JsonTag which is the JSON file path from Resources Folder
+        * @return true if the file is successfully loaded and lots of states name
 		*/
 		bool initWithJSON_tag(const std::string &_JsonTag);
 
