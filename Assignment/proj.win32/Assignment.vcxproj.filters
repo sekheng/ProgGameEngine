@@ -99,6 +99,9 @@
     <ClCompile Include="..\Classes\Scenes\MenuScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\ObstacleNode.cpp">
+      <Filter>GT\Game Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\ObstacleNode.h">
+      <Filter>GT\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
