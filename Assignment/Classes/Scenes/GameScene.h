@@ -3,7 +3,7 @@
 
 // Include MK
 #include "MK/SceneManagement/MKScene.h"
-#include "MK/Gameplay/MKScrollableSprite.h"
+//#include "MK/Gameplay/MKScrollableSprite.h"
 #include "MK/Graphics/MKSprite.h"
 
 USING_NS_CC;
@@ -23,7 +23,7 @@ private:
 		NUM_BACKGROUNDLAYERS,
 	};
 
-	MKScrollableSprite** m_Backgrounds = nullptr;
+	//MKScrollableSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
 
 	void InitialiseGround();

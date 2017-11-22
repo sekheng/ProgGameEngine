@@ -22,6 +22,7 @@
 
 //#include "ui/UIButton.h"
 #include "UIClass/UICreator.h"
+#include "MenuScene.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;

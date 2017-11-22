@@ -27,16 +27,20 @@ Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
 
 bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
 {
-    std::unordered_map<std::string, AnimTransCondition*>::iterator it = m_NameActTransMap.find(_AnimStateName);
+    std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.find(_AnimStateName);
     if (it != m_NameActTransMap.end())
     {
-        if (it->second->m_TransCondition == "" || it->second->m_TransCondition == m_CurrentAnimTransit)
+        // then we will need to iterate through the vector!
+        for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
         {
-            // just run the action lol
-            runAction(it->second->m_ActionPtr);
-            m_CurrentAnimTransit = it->second->m_TransName;
+            if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
+            {
+                // just run the action lol
+                runAction((*AnimIt)->m_ActionPtr);
+                m_CurrentAnimTransit = (*AnimIt)->m_TransName;
+                return true;
+            }
         }
-        return true;
     }
     return false;
 }
@@ -252,14 +256,17 @@ bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName,
 
 bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, cocos2d::Sequence* _sequenceAct, const std::string &_conditionStr)
 {
+    _sequenceAct->retain();
+    AnimTransCondition *zeTransCondition = new AnimTransCondition(_AnimTransName, _conditionStr, _sequenceAct);
     if (!m_NameActTransMap.count(_AnimTransName))
     {
-        _sequenceAct->retain();
-        AnimTransCondition *zeTransCondition = new AnimTransCondition(_AnimTransName, _conditionStr, _sequenceAct);
-        m_NameActTransMap.insert(std::pair<std::string, AnimTransCondition*>(_AnimTransName, zeTransCondition));
-        return true;
+        m_NameActTransMap.insert(std::pair<std::string, std::vector<AnimTransCondition*>>(_AnimTransName, { zeTransCondition }));
     }
-    return false;
+    else
+    {
+        m_NameActTransMap[_AnimTransName].push_back(zeTransCondition);
+    }
+    return true;
 }
 
 AnimationHandlerNode::AnimationHandlerNode() :
@@ -283,11 +290,13 @@ AnimationHandlerNode::~AnimationHandlerNode()
     }
     m_NameAnimMap.clear();
     m_CurrentAnim = nullptr;
-    for (std::unordered_map<std::string, AnimTransCondition*>::iterator it = m_NameActTransMap.begin(), end = m_NameActTransMap.end(); it != end; ++it)
+    for (std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.begin(), end = m_NameActTransMap.end(); it != end; ++it)
     {
-        it->second->m_ActionPtr->release();
-        it->second->m_ActionPtr->release();
-        delete it->second;
+        for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
+        {
+            (*AnimIt)->m_ActionPtr->release();
+            //(*AnimIt)->m_ActionPtr->release();
+        }
     }
     m_NameActTransMap.clear();
 }

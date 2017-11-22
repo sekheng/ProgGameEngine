@@ -12,8 +12,6 @@ namespace GinTama
 		bool setHealth(const int &_health);
 		bool adjustHealth(const int &_value);
 
-		int getHealth();
-
 	protected:
 		CharacterStatNode();
 		virtual ~CharacterStatNode();

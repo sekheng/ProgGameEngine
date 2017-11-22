@@ -111,7 +111,8 @@ namespace GinTama
         cocos2d::Sprite *m_SpriteNode;
     protected:
         std::unordered_map<std::string, cocos2d::Animation*> m_NameAnimMap;
-        std::unordered_map<std::string, AnimTransCondition*> m_NameActTransMap;
+        // Since thr can be multiple Animation Transition that relies on it
+        std::unordered_map<std::string, std::vector<AnimTransCondition*>> m_NameActTransMap;
         std::string m_CurrentAnimName;
         std::string m_CurrentAnimTransit;
         std::vector<std::string> m_HistoryOfStates;
