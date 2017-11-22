@@ -32,4 +32,4 @@ typedef double mkF64;
 #define MK_BESTGIRL "Minami Kotori"
 #define MK_BESTGIRLINFO "http://love-live.wikia.com/wiki/Kotori_Minami"
 
-#endif
+#endif // MK_MACROS_H

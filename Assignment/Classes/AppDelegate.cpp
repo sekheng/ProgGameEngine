@@ -4,7 +4,6 @@
 #include "MK/SceneManagement/MKSceneManager.h"
 
 // Include Scenes
-#include "MK/SceneManagement/MKSceneDerived.h"
 #include "Classes/Scenes/AvailableScenes.h"
 
 // #define USE_AUDIO_ENGINE 1
@@ -24,10 +23,11 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(800, 450);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
+// Design Aspect Ratio = 16:9
+static cocos2d::Size designResolutionSize = cocos2d::Size(1280, 720);
+static cocos2d::Size smallResolutionSize = cocos2d::Size(1280, 720);
+static cocos2d::Size mediumResolutionSize = cocos2d::Size(1920, 1080);
+static cocos2d::Size largeResolutionSize = cocos2d::Size(2560, 1440);
 
 AppDelegate::AppDelegate()
 {
@@ -75,8 +75,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // turn on display FPS
     director->setDisplayStats(true);
 
-    // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0f / 60);
+    // set FPS. the default value is 1.0/60.0f if you don't call this
+    director->setAnimationInterval(1.0f / 60.0f);
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
@@ -100,13 +100,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-	MKSceneManager::GetInstance()->AddScene<MKSceneDerived>("MKSceneDerived");
-	MKSceneManager::GetInstance()->AddScene<HelloWorld>("HelloWorld");
-	MKSceneManager::GetInstance()->AddScene<MenuScene>("MenuScene");
 	MKSceneManager::GetInstance()->AddScene<GameScene>("GameScene");
-	MKSceneManager::GetInstance()->AddScene<Terry_TestScene>("TTS");
-	MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
-	//MKSceneManager::GetInstance()->ReplaceScene("TTS");+
+	MKSceneManager::GetInstance()->ReplaceScene("GameScene");
 
     return true;
 }

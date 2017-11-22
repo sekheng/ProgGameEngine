@@ -37,8 +37,8 @@
     <Filter Include="GT\Game Logic">
       <UniqueIdentifier>{ac1f8e4c-0130-4561-be90-fca84b936798}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MK\Gameplay">
-      <UniqueIdentifier>{e0d8ac99-c343-45e5-938d-2b5ade1b228d}</UniqueIdentifier>
+    <Filter Include="MK\Graphics">
+      <UniqueIdentifier>{6da56af1-2c92-4fb5-b832-0d6520c08149}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{3388f86c-15a1-48b6-9e78-d41066a8aa24}</UniqueIdentifier>
@@ -66,12 +66,6 @@
     <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneManager.cpp">
       <Filter>MK\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MK\SceneManagement\MKScene.cpp">
-      <Filter>MK\SceneManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MK\SceneManagement\MKSceneDerived.cpp">
-      <Filter>MK\SceneManagement</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -90,8 +84,11 @@
     <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp">
       <Filter>GT\Game Logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MK\Gameplay\MKBackgrounds.cpp">
-      <Filter>MK\Gameplay</Filter>
+    <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp">
+      <Filter>MK\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>Scene</Filter>
@@ -153,9 +150,6 @@
       <Filter>MK\SceneManagement</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneDerived.h">
-      <Filter>MK\SceneManagement</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Scenes\HelloWorldScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -180,8 +174,14 @@
     <ClInclude Include="..\Classes\GT\CharacterStatNode.h">
       <Filter>GT\Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MK\Gameplay\MKBackgrounds.h">
-      <Filter>MK\Gameplay</Filter>
+    <ClInclude Include="..\Classes\Scenes\GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneMacros.h">
+      <Filter>MK\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Graphics\MKSprite.h">
+      <Filter>MK\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameScene.h">
       <Filter>Scene</Filter>
