@@ -27,18 +27,21 @@ Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
 
 bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
 {
-    std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.find(_AnimStateName);
-    if (it != m_NameActTransMap.end())
+    if (m_CurrentAnimTransit != _AnimStateName)
     {
-        // then we will need to iterate through the vector!
-        for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
+        std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.find(_AnimStateName);
+        if (it != m_NameActTransMap.end())
         {
-            if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
+            // then we will need to iterate through the vector!
+            for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
             {
-                // just run the action lol
-                runAction((*AnimIt)->m_ActionPtr);
-                m_CurrentAnimTransit = (*AnimIt)->m_TransName;
-                return true;
+                if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
+                {
+                    // just run the action lol
+                    runAction((*AnimIt)->m_ActionPtr);
+                    m_CurrentAnimTransit = (*AnimIt)->m_TransName;
+                    return true;
+                }
             }
         }
     }
