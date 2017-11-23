@@ -52,7 +52,7 @@
       {  
          "StateName":"died",
          "FPS":0.06,
-         "loop":-1,
+         "loop":1,
          "SpriteReference":[  
             "Dead (1).png",
             "Dead (2).png",
