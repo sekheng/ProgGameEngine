@@ -23,7 +23,7 @@ namespace GinTama
 			
 			//PHYSICS BODY FOR THIS OBSTACLE + EVENTLISTENER
 			//TRY NOT TO RETYPE THIS IN INIT
-			obsBody = cocos2d::PhysicsBody::createBox(cocos2d::Size(obsSprite->getContentSize.x, obsSprite->getContentSize.y));
+			obsBody = cocos2d::PhysicsBody::createBox(cocos2d::Size(obsSprite->getContentSize().width, obsSprite->getContentSize().height));
 
 			auto contactListener = cocos2d::EventListenerPhysicsContact::create();
 			contactListener->onContactBegin = _checkCollision;
