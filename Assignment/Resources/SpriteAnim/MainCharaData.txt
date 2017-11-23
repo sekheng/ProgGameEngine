@@ -48,6 +48,23 @@
             "Jump (9).png",
             "Jump (10).png"
          ]
+      },
+      {  
+         "StateName":"died",
+         "FPS":0.06,
+         "loop":-1,
+         "SpriteReference":[  
+            "Dead (1).png",
+            "Dead (2).png",
+            "Dead (3).png",
+            "Dead (4).png",
+            "Dead (5).png",
+            "Dead (6).png",
+            "Dead (7).png",
+            "Dead (8).png",
+            "Dead (9).png",
+            "Dead (10).png"
+         ]
       }
    ],
    "AnimationTransition":[  
