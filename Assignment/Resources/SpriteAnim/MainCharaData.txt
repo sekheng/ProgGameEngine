@@ -1,33 +1,52 @@
 {  
    "AnimationLoading":[  
       {  
-         "StateName":"walk_up",
-         "FPS":0.3,
+         "StateName":"run",
+         "FPS":0.06,
          "loop":-1,
          "SpriteReference":[  
-            "Blue_Back1.png",
-            "Blue_Back2.png",
-            "Blue_Back3.png"
+            "Run (1).png",
+            "Run (2).png",
+            "Run (3).png",
+            "Run (4).png",
+            "Run (5).png",
+            "Run (6).png",
+            "Run (7).png",
+            "Run (8).png",
+            "Run (9).png",
+            "Run (10).png"
          ]
       },
       {  
-         "StateName":"walk_down",
-         "FPS":0.3,
-         "loop":-1,
+         "StateName":"begin_jump",
+         "FPS":0.09,
+         "loop":1,
          "SpriteReference":[  
-            "Blue_Front1.png",
-            "Blue_Front2.png",
-            "Blue_Front3.png"
+            "Jump (1).png",
+            "Jump (2).png",
+            "Jump (3).png",
+            "Jump (4).png"
          ]
       },
       {  
-         "StateName":"walk_right",
-         "FPS":0.3,
+         "StateName":"jump_loop",
+         "FPS":0.09,
          "loop":-1,
          "SpriteReference":[  
-            "Blue_Right1.png",
-            "Blue_Right2.png",
-            "Blue_Right3.png"
+            "Jump (4).png",
+            "Jump (5).png"
+         ]
+      },
+      {  
+         "StateName":"jump_end",
+         "FPS":0.09,
+         "loop":1,
+         "SpriteReference":[  
+            "Jump (6).png",
+            "Jump (7).png",
+            "Jump (8).png",
+            "Jump (9).png",
+            "Jump (10).png"
          ]
       }
    ],
@@ -38,23 +57,33 @@
          "ActionSequence":[  
             {  
                "ActionName":"AnimTrans",
-               "ActionValue":"walk_up"
+               "ActionValue":"begin_jump"
             },
             {  
                "ActionName":"Delay",
-               "ActionValue":1.5
+               "ActionValue":0.4
             },
             {  
                "ActionName":"AnimTrans",
-               "ActionValue":"walk_down"
+               "ActionValue":"jump_loop"
+            }
+         ]
+      },
+      {  
+         "TransitName":"EndJump",
+         "TransitCondition":"BeginJump",
+         "ActionSequence":[  
+            {  
+               "ActionName":"AnimTrans",
+               "ActionValue":"jump_end"
             },
             {  
                "ActionName":"Delay",
-               "ActionValue":1.5
+               "ActionValue":0.49
             },
             {  
                "ActionName":"AnimTrans",
-               "ActionValue":"walk_right"
+               "ActionValue":"run"
             }
          ]
       }
