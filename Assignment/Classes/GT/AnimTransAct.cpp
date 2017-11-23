@@ -16,6 +16,13 @@ AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName)
     return zeNewAct;
 }
 
+AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName, const bool &_WaitForComplete)
+{
+    AnimTransAct *zeNewAct = create(_AnimStateName);
+    zeNewAct->m_WaitForComplete = _WaitForComplete;
+    return zeNewAct;
+}
+
 AnimTransAct *AnimTransAct::setAnimStateName(const std::string &_AnimStateName)
 {
     m_AnimName = m_AnimName;
@@ -45,6 +52,7 @@ void AnimTransAct::stop()
 AnimTransAct::AnimTransAct() : 
     m_targetNode(nullptr)
     , m_AnimName("")
+    , m_WaitForComplete(false)
 {
     _done = false;
     _tag = 69;

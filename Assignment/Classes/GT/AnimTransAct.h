@@ -13,6 +13,7 @@ namespace GinTama
     public:
         static AnimTransAct* create();
         static AnimTransAct* create(const std::string &_AnimStateName);
+        static AnimTransAct* create(const std::string &_AnimStateName, const bool &_WaitForComplete);
 
         AnimTransAct* setAnimStateName(const std::string &_AnimStateName);
 
@@ -29,5 +30,6 @@ namespace GinTama
 
         AnimationHandlerNode *m_targetNode;
         std::string m_AnimName;
+        bool m_WaitForComplete;
     };
 }
