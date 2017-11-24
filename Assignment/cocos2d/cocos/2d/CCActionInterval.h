@@ -1540,13 +1540,6 @@ public:
      * @return int  the index of sprite frame currently displayed.
      */
     int getCurrentFrameIndex() { return _currFrameIndex; }
-
-    /*
-    * Gets the normalised frame index between 0 and 1 in float
-    * @return float between 0 and 1
-    */
-    float getNormalizedFrameIndex() { return (float)(_currFrameIndex) /(float)(_animation->getFrames().size()); }
-
     //
     // Overrides
     //

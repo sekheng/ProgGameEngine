@@ -106,8 +106,8 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
-    //AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
+    AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
 
 
     //// add "HelloWorld" splash screen"
@@ -150,17 +150,17 @@ bool HelloWorld::init()
 
     Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
-	m_MainCharaAnim = AnimationHandlerNode::create();
-    m_MainCharaAnim->m_SpriteNode = testTransitionSpr;
-    testTransitionSpr->addChild(m_MainCharaAnim);
-    m_MainCharaAnim->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+    zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
+    testTransitionSpr->addChild(zeTestAnimTrans);
+	zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
     //zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     //zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
     //zeTestAnimTrans->insertAnimFromCache("walk_right");
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
 	this->addChild(testTransitionSpr);
-    //zeTestAnimTrans->transitState("BeginJump");
+    zeTestAnimTrans->transitState("BeginJump");
 
     // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
     //AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
@@ -235,7 +235,7 @@ void HelloWorld::OnButton(EventCustom* _event)
 	switch (buttonEvent->m_InputName)
 	{
 	case MinamiKotori::MKInputName::JUMP:
-        inputName = "Jump";
+		inputName = "Jump";
 		break;
 	case MinamiKotori::MKInputName::SLIDE:
 		inputName = "Slide";
@@ -253,15 +253,7 @@ void HelloWorld::OnButton(EventCustom* _event)
 	{
 	case MinamiKotori::MKInputButton::ButtonState::PRESS:
 		buttonState = "Pressed";
-        switch (buttonEvent->m_InputName)
-        {
-        case MinamiKotori::MKInputName::JUMP:
-            m_MainCharaAnim->transitState("BeginJump");
-            break;
-        default:
-            break;
-        }
-        break;
+		break;
 	case MinamiKotori::MKInputButton::ButtonState::HOLD:
 		buttonState = "Held";
 		break;
@@ -286,7 +278,7 @@ void HelloWorld::OnClick(EventCustom* _event)
 	switch (clickEvent->m_InputName)
 	{
 	case MinamiKotori::MKInputName::JUMP:
-        inputName = "Jump";
+		inputName = "Jump";
 		break;
 	case MinamiKotori::MKInputName::SLIDE:
 		inputName = "Slide";

@@ -88,6 +88,11 @@ public:
 		return listener;
 	}
 
+	void RemoveEventListener(EventListenerCustom* _eventListener)
+	{
+		m_EventDispatcher.removeEventListener(_eventListener);
+	}
+
 	// Static Functions
 	static mkU64 GenerateMask(mkU16 _context, mkU16 _controllerIndex, mkU32 _keyCode)
 	{

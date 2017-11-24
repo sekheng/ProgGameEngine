@@ -24,7 +24,7 @@ void MKInputManager::InitializeDefinitions()
 
 	// Add Input Definitions here.
 	{
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT1, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
 		m_InputDefinitions[MKInputName::JUMP]->Register1(
 			CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
 			CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -32,8 +32,7 @@ void MKInputManager::InitializeDefinitions()
 	}
 
 	{
-		//mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, MKInputAxis::KeyCode::VERTICAL);
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT2, MK_CONTROLLER1, 0);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, 0);
 		m_InputDefinitions[MKInputName::JUMP]->Register2(
 			CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
 			CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
