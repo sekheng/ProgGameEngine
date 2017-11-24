@@ -16,10 +16,18 @@ AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName)
     return zeNewAct;
 }
 
-AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName, const bool &_WaitForComplete)
+AnimTransAct *AnimTransAct::create(const std::string &_AnimStateName, const bool &_WaitForComplete, AnimationHandlerNode *_parentNode)
 {
     AnimTransAct *zeNewAct = create(_AnimStateName);
-    zeNewAct->m_WaitForComplete = _WaitForComplete;
+    zeNewAct->m_targetNode = _parentNode;
+    switch (_WaitForComplete)
+    {
+    case true:
+        zeNewAct->initWithDuration(_parentNode->getAnimation(_AnimStateName)->getDuration());
+        break;
+    default:
+        break;
+    }
     return zeNewAct;
 }
 
@@ -31,10 +39,13 @@ AnimTransAct *AnimTransAct::setAnimStateName(const std::string &_AnimStateName)
 
 void AnimTransAct::startWithTarget(cocos2d::Node *target)
 {
-    target->stopActionByTag(_tag);
-    m_targetNode = static_cast<AnimationHandlerNode*>(target);
+    if (!m_targetNode)
+    {
+        target->stopActionByTag(_tag);
+        m_targetNode = static_cast<AnimationHandlerNode*>(target);
+    }
+    // before that we check whether is WaitForComplete is true!
     m_targetNode->playAnim(m_AnimName);
-    stop();
 }
 
 void AnimTransAct::update(float time)
@@ -52,7 +63,6 @@ void AnimTransAct::stop()
 AnimTransAct::AnimTransAct() : 
     m_targetNode(nullptr)
     , m_AnimName("")
-    , m_WaitForComplete(false)
 {
     _done = false;
     _tag = 69;

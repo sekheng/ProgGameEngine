@@ -77,10 +77,6 @@
                "ActionValue":"begin_jump"
             },
             {  
-               "ActionName":"Delay",
-               "ActionValue":0.4
-            },
-            {  
                "ActionName":"AnimTrans",
                "ActionValue":"jump_loop"
             }
@@ -93,10 +89,6 @@
             {  
                "ActionName":"AnimTrans",
                "ActionValue":"jump_end"
-            },
-            {  
-               "ActionName":"Delay",
-               "ActionValue":0.49
             },
             {  
                "ActionName":"AnimTrans",
