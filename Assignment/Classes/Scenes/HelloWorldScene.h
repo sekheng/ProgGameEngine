@@ -14,9 +14,6 @@
 USING_NS_CC;
 USING_NS_MK
 
-
-class GinTama::AnimationHandlerNode;
-
 class HelloWorld : public MKScene
 {
 private:
