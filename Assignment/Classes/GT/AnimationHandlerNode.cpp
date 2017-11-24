@@ -236,7 +236,7 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
                         // Then check what is the action name then extract the variable!
                         if (zeActName == "AnimTrans")
                         {
-                            zeActionVector.pushBack(AnimTransAct::create(ActionTransIt->value.GetString()));
+                            zeActionVector.pushBack(AnimTransAct::create(ActionTransIt->value.GetString(), true, this));
                         }
                         else if (zeActName == "Delay")
                         {
