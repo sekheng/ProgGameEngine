@@ -9,7 +9,6 @@
 #include "MK/Input/MKInputManager.h"
 #include "MK/Input/MKInput.h"
 #include "MK/SceneManagement/MKScene.h"
-#include "../GT/AnimationHandlerNode.h"
 
 USING_NS_CC;
 USING_NS_MK
@@ -43,8 +42,6 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
-
-    GinTama::AnimationHandlerNode* m_MainCharaAnim;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

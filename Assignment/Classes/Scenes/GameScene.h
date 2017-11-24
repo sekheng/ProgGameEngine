@@ -16,6 +16,7 @@ class GameScene : public MKScene
 private:
 	enum BackgroundLayers
 	{
+		SKY,
 		REAR,
 		MIDDLE,
 		FRONT,
@@ -23,19 +24,27 @@ private:
 		NUM_BACKGROUNDLAYERS,
 	};
 
-	//MKScrollableSprite** m_Backgrounds = nullptr;
+	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
 
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 
+	void ScrollBackgrounds(float _deltaTime);
+
+	void Deinitialise();
+
 	// Input Callbacks
+	MK_INITIALISEINPUT(GameScene);
+	MK_DEINITIALISEINPUT(GameScene);
 	virtual void OnButton(EventCustom * _event);
 	virtual void OnClick(EventCustom * _event);
-	virtual void OnAxis(EventCustom * _event);
-	MK_INITIALISEINPUT(GameScene);
+	virtual void OnAxis(EventCustom * _event);	
 
 public:
+	GameScene() {}
+	virtual ~GameScene() {}
+
 	CREATE_FUNC(GameScene);
 
 	virtual bool init() override;
