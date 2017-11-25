@@ -39,7 +39,7 @@ private:
 	MK_DEINITIALISEINPUT(GameScene);
 	virtual void OnButton(EventCustom * _event);
 	virtual void OnClick(EventCustom * _event);
-	virtual void OnAxis(EventCustom * _event);	
+	virtual void OnAxis(EventCustom * _event);
 
 public:
 	GameScene() {}

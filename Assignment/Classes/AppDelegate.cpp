@@ -100,8 +100,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
+    MKSceneManager::GetInstance()->AddScene<StartScreenScene>("StartScreenScene");
     MKSceneManager::GetInstance()->AddSceneWithPhysics<GameScene>("GameScene");
-    MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+    MKSceneManager::GetInstance()->ReplaceScene("StartScreenScene");
 
 	return true;
 }

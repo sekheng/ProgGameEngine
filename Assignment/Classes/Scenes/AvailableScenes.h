@@ -4,5 +4,6 @@
 //PLEASE ADD YOUR SCENE HEADER FILES HERE
 #include "GameScene.h"
 #include "CrashTestScene.h"
+#include "StartScreenScene.h"
 
 #endif

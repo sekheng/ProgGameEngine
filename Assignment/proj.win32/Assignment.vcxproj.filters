@@ -99,7 +99,7 @@
     <ClCompile Include="..\Classes\Scenes\CrashTestScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
+    <ClCompile Include="..\Classes\Scenes\StartScreenScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,7 +198,7 @@
     <ClInclude Include="..\Classes\Scenes\CrashTestScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\SH_TestScene.h">
+    <ClInclude Include="..\Classes\Scenes\StartScreenScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
