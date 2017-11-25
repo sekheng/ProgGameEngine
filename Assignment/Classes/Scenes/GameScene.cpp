@@ -1,5 +1,6 @@
 // Include Game
 #include "GameScene.h"
+#include "MK/SceneManagement/MKSceneManager.h"
 
 bool GameScene::init()
 {
@@ -74,6 +75,20 @@ void GameScene::InitialiseBackgrounds()
 
 void GameScene::OnButton(EventCustom * _event)
 {
+    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
+    switch (buttonEvent->m_ButtonState)
+    {
+    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+        break;
+    case MinamiKotori::MKInputButton::ButtonState::HOLD:
+        break;
+    case MinamiKotori::MKInputButton::ButtonState::RELEASE:
+        Deinitialise();
+        MKSceneManager::GetInstance()->ReplaceScene("SH_TestScene");
+        break;
+    default:
+        break;
+    }
 }
 
 void GameScene::OnClick(EventCustom * _event)

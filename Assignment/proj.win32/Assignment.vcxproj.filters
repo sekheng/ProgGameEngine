@@ -99,6 +99,9 @@
     <ClCompile Include="..\Classes\GT\ObstacleNode.cpp">
       <Filter>GT\Game Logic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\ObstacleNode.h">
       <Filter>GT\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\SH_TestScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

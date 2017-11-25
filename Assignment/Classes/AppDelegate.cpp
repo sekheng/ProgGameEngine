@@ -5,6 +5,8 @@
 
 // Include Scenes
 #include "Classes/Scenes/AvailableScenes.h"
+#include "Classes\GT\SH_TestScene.h"
+#include "Scenes/HelloWorldScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -100,11 +102,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    MKSceneManager::GetInstance()->AddScene<GameScene>("GameScene");
-    MKSceneManager::GetInstance()->ReplaceScene("GameScene");
-    //TODO: remove these lines
+    MKSceneManager::GetInstance()->AddSceneWithPhysics<HelloWorld>("HelloWorld");
     //MKSceneManager::GetInstance()->AddScene<HelloWorld>("HelloWorld");
-    //MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
+    MKSceneManager::GetInstance()->PushScene("HelloWorld");
+
 
     return true;
 }
