@@ -1,5 +1,7 @@
 // Include Game
 #include "GameScene.h"
+
+// Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
 
 bool GameScene::init()
@@ -11,9 +13,12 @@ bool GameScene::init()
 
 	InitialiseBackgrounds();
 	InitialiseGround();
-	InitialiseInput();
 
 	scheduleUpdate();
+
+    InitialiseInput();
+
+    MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
 
 	return true;
 }
@@ -75,26 +80,33 @@ void GameScene::InitialiseBackgrounds()
 
 void GameScene::OnButton(EventCustom * _event)
 {
-    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
-    switch (buttonEvent->m_ButtonState)
+    /*MKInputButton* input = (MKInputButton*)_event->getUserData();
+    switch (input->m_ButtonState)
     {
-    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+    case MKInputButton::ButtonState::HOLD:
+        CCLOG("GameScene Button Hold");
         break;
-    case MinamiKotori::MKInputButton::ButtonState::HOLD:
+    case MKInputButton::ButtonState::RELEASE:
+        CCLOG("GameScene Button Release");
         break;
-    case MinamiKotori::MKInputButton::ButtonState::RELEASE:
-        Deinitialise();
-        MKSceneManager::GetInstance()->ReplaceScene("SH_TestScene");
+    case MKInputButton::ButtonState::PRESS:
+        CCLOG("GameScene Button Press");
         break;
-    default:
-        break;
-    }
+    }*/
+
+    Deinitialise();
+    MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
 }
 
 void GameScene::OnClick(EventCustom * _event)
 {
-	Deinitialise();
-	Director::getInstance()->end();
+	MKInputClick* input = (MKInputClick*)_event->getUserData();
+
+	if (input->m_ButtonState == MKInputButton::RELEASE)
+	{
+		Deinitialise();
+		MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
+	}
 }
 
 void GameScene::OnAxis(EventCustom * _event)
@@ -118,4 +130,9 @@ void GameScene::Deinitialise()
 void GameScene::update(float _deltaTime)
 {
 	ScrollBackgrounds(_deltaTime);
+
+    //Deinitialise();
+    //QuitGame();
+    //Director::getInstance()->end();
+    //MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
 }

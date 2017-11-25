@@ -69,9 +69,6 @@
     <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\Terry_TestScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp">
       <Filter>GT\Anim Related</Filter>
     </ClCompile>
@@ -99,7 +96,7 @@
     <ClCompile Include="..\Classes\GT\ObstacleNode.cpp">
       <Filter>GT\Game Logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
+    <ClCompile Include="..\Classes\Scenes\CrashTestScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,9 +159,6 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\Terry_TestScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
       <Filter>GT\Anim Related</Filter>
     </ClInclude>
@@ -198,7 +192,7 @@
     <ClInclude Include="..\Classes\GT\ObstacleNode.h">
       <Filter>GT\Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\SH_TestScene.h">
+    <ClInclude Include="..\Classes\Scenes\CrashTestScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>

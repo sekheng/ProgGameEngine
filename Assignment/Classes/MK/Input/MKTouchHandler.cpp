@@ -36,10 +36,12 @@ MKTouchHandler::MKTouchHandler()
 MKTouchHandler::~MKTouchHandler()
 {
 	delete[] m_HeldClicks;
+	Director::getInstance()->getEventDispatcher()->removeEventListener(m_TouchListener);
 }
 
 void MKTouchHandler::AddHeldTouch(cocos2d::Touch* _touch)
 {
+	CCLOG("Adding Held Touch");
 	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
 	if (mapIter == m_HeldTouches.end())
 	{
@@ -54,7 +56,9 @@ void MKTouchHandler::AddHeldTouch(cocos2d::Touch* _touch)
 
 void MKTouchHandler::RemoveHeldTouch(cocos2d::Touch* _touch)
 {
+	CCLOG("Removing Held Touch");
 	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
+	if (mapIter == m_HeldTouches.end()) { return; }
 	MK_ASSERTWITHMSG((mapIter != m_HeldTouches.end()), "MKKeyboardHandler::RemoveHeldTouch - Key not found in m_HeldKeys!");
 	MK_ASSERTWITHMSG((mapIter->second != 0), "MKKeyboardHandler::RemoveHeldTouch - Invalid value for counter of _touch!");
 
@@ -135,6 +139,7 @@ void MKTouchHandler::ResetCursorPositions()
 
 void MKTouchHandler::PreStateChange()
 {
+	CCLOG("PreStateChange");
 	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
 		for (mkU32 j = 0; j < i->second; ++j)
@@ -146,6 +151,7 @@ void MKTouchHandler::PreStateChange()
 
 void MKTouchHandler::PostStateChange()
 {
+	CCLOG("PostStateChange");
 	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
 		for (mkU32 j = 0; j < i->second; ++j)
@@ -359,7 +365,7 @@ void MKTouchHandler::HandleTouchEnded(cocos2d::Touch* _touch)
 	MKCursorPosition cursorPosition(touchLocation.x, touchLocation.y);
 
 	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
-	mkU16 controllerMaskIndexMask = 0x0001 << _touch->getID();
+	mkU16 controllerMaskIndexMask = (0x0001 << _touch->getID());
 	mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, 0);
 
 	std::unordered_set<MK_INPUTNAME> inputNames = GetValidClicks(mask);
@@ -385,8 +391,11 @@ void MKTouchHandler::HandleTouchEnded(cocos2d::Touch* _touch)
 // Callbacks
 void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* _event)
 {
+	CCLOG("On Touch Began");
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
+		int id = (*i)->getID();
+		CCLOG(std::to_string(id).c_str());
 		AddHeldTouch(*i);
 		HandleTouchBegan(*i);
 	}
@@ -394,10 +403,13 @@ void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* 
 
 void MKTouchHandler::OnTouchesEnded(const std::vector<Touch*>& _touches, Event* _event)
 {
+	CCLOG("On Touch Ended");
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
+		int id = (*i)->getID();
+		CCLOG(std::to_string(id).c_str());
 		RemoveHeldTouch(*i);
-		HandleTouchEnded(*i);		
+		HandleTouchEnded(*i);
 	}
 }
 

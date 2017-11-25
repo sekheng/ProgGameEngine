@@ -19,9 +19,23 @@ void _TYPE_::InitialiseInput() \
 #define MK_DEINITIALISEINPUT(_TYPE_) \
 void _TYPE_::DeinitialiseInput() \
 { \
-	MKInputManager::GetInstance()->RemoveEventListener(m_ButtonListener); \
-	MKInputManager::GetInstance()->RemoveEventListener(m_ClickListener); \
-	MKInputManager::GetInstance()->RemoveEventListener(m_AxisListener); \
+    if (m_ButtonListener != NULL) \
+    { \
+        MKInputManager::GetInstance()->RemoveEventListener(m_ButtonListener); \
+        m_ButtonListener = NULL; \
+    } \
+\
+    if (m_ClickListener != NULL) \
+    { \
+        MKInputManager::GetInstance()->RemoveEventListener(m_ClickListener); \
+        m_ClickListener = NULL; \
+    } \
+\
+    if (m_AxisListener != NULL) \
+    { \
+        MKInputManager::GetInstance()->RemoveEventListener(m_AxisListener); \
+        m_AxisListener = NULL; \
+	} \
 }
 
 NS_MK_END

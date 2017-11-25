@@ -58,9 +58,9 @@ public:
 	// The ButtonState is NOT the KeyCode.
 	enum ButtonState
 	{
-		PRESS,
-		HOLD,
-		RELEASE,
+		PRESS = 0,
+		HOLD = 1,
+		RELEASE = 2,
 	};
 	
 	const ButtonState m_ButtonState;

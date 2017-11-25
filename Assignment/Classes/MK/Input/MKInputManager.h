@@ -19,6 +19,8 @@
 #include "MKInputContext.h"
 #include "MKInputControllerIndex.h"
 
+#define MK_USE_DIRECTOR_DISPATCHER 0
+
 USING_NS_CC;
 using namespace std;
 
@@ -30,7 +32,10 @@ class MKInputManager : public MKSingletonTemplate<MKInputManager>
 
 private:
 	MKInputContext m_CurrentContext;
-	cocos2d::EventDispatcher m_EventDispatcher;
+#if MK_USE_DIRECTOR_DISPATCHER
+#else
+	cocos2d::EventDispatcher* m_EventDispatcher;
+#endif
 	std::queue<EventCustom*> m_InputEventQueue;
 	MKInputDefinition** m_InputDefinitions;
 
@@ -47,9 +52,12 @@ public:
 	void SetCurrentContext(MKInputContext _currentContext);
 	MKInputContext GetCurrentContext() const;
 
-	inline cocos2d::EventDispatcher* GetEventDispatcher() { return &m_EventDispatcher; }
-	inline const cocos2d::EventDispatcher* GetEventDispatcher() const { return &m_EventDispatcher; }
-	
+#if MK_USE_DIRECTOR_DISPATCHER
+#else
+	inline cocos2d::EventDispatcher* GetEventDispatcher() { return m_EventDispatcher; }
+	inline const cocos2d::EventDispatcher* GetEventDispatcher() const { return m_EventDispatcher; }
+#endif
+
 	inline void update(float _deltaTime) { Update(); }
 
 	// I didn't really test to see if changing the key bindings while keys are being held down etc. will cause any problems. Use with
@@ -83,14 +91,22 @@ public:
 #endif // MK_DEBUG
 		
 		EventListenerCustom* listener = EventListenerCustom::create(T::GetName(), _callback);
-		m_EventDispatcher.addEventListenerWithFixedPriority(listener, 1);
+#if MK_USE_DIRECTOR_DISPATCHER
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(listener, 1);
+#else
+        m_EventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+#endif
 
 		return listener;
 	}
 
 	void RemoveEventListener(EventListenerCustom* _eventListener)
 	{
-		m_EventDispatcher.removeEventListener(_eventListener);
+#if MK_USE_DIRECTOR_DISPATCHER
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_eventListener);
+#else
+        m_EventDispatcher->removeEventListener(_eventListener);
+#endif
 	}
 
 	// Static Functions

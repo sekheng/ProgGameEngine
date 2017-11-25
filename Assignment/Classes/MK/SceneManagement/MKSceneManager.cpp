@@ -26,14 +26,15 @@ void MKSceneManager::ReplaceScene(const std::string& _sceneName)
 {
 	MKScene* scene = CreateScene(_sceneName);
 	MK_ASSERTWITHMSG((scene != nullptr), "MKSceneManager::ReplaceScene - Scene not found!");
-	Director::getInstance()->replaceScene(TransitionFade::create(m_SceneTransitionDuration, scene));
+	//Director::getInstance()->replaceScene(TransitionFade::create(m_SceneTransitionDuration, scene));
+    Director::getInstance()->replaceScene(scene);
 }
 
 void MKSceneManager::PushScene(const std::string& _sceneName)
 {
 	MKScene* scene = CreateScene(_sceneName);
 	MK_ASSERTWITHMSG((scene != nullptr), "MKSceneManager::ReplaceScene - Scene not found!");
-	Director::getInstance()->pushScene(TransitionFade::create(m_SceneTransitionDuration, scene));
+	Director::getInstance()->pushScene(scene);
 }
 
 void MKSceneManager::PopScene()
