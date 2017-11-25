@@ -4,44 +4,51 @@
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
 
-bool GameScene::init()
+bool GameScene::initWithPhysics()
 {
-	if (!Super::init())
-	{
-		return false;
-	}
+    if (!Super::initWithPhysics())
+    {
+        return false;
+    }
 
-	InitialiseBackgrounds();
-	InitialiseGround();
+    // Let's do some physics.
+    this->getPhysicsWorld()->setGravity(Vec2(0, -200));
+    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-	scheduleUpdate();
-
+    InitialiseBackgrounds();
+    InitialiseGround();
     InitialiseInput();
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+    scheduleUpdate();
 
 	return true;
 }
 
 void GameScene::InitialiseGround()
 {
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_Ground = MKSprite::create("Environment/Ground.png", true);
-	m_Ground->setAnchorPoint(Vec2(0.0f, 0.0f));
-	m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
+    m_Ground = MKSprite::create("Environment/Ground.png", true);
+    m_Ground->setAnchorPoint(Vec2(0.0f, 0.0f));
+    m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-	float desiredHeight = visibleSize.height * 0.1f;
-	float groundHeight = m_Ground->getContentSize().height;
-	float desiredScale = desiredHeight / groundHeight;
-	m_Ground->setScale(desiredScale, desiredScale);
+    float desiredHeight = visibleSize.height * 0.1f;
+    float groundHeight = m_Ground->getContentSize().height;
+    float desiredScale = desiredHeight / groundHeight;
+    m_Ground->setScale(desiredScale, desiredScale);
 
-	float groundWidth = m_Ground->getContentSize().width;	
-	float numRepeat = visibleSize.width / (groundWidth * desiredScale);
-	m_Ground->SetRepeat(numRepeat, 1.0f);
+    float groundWidth = m_Ground->getContentSize().width;	
+    float numRepeat = visibleSize.width / (groundWidth * desiredScale);
+    m_Ground->SetRepeat(numRepeat, 1.0f);
 
-	this->addChild(m_Ground);
+    auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
+    physicsBody->setDynamic(false);
+
+    m_Ground->setPhysicsBody(physicsBody);
+
+    this->addChild(m_Ground);
 }
 
 void GameScene::InitialiseBackgrounds()
@@ -80,33 +87,10 @@ void GameScene::InitialiseBackgrounds()
 
 void GameScene::OnButton(EventCustom * _event)
 {
-    /*MKInputButton* input = (MKInputButton*)_event->getUserData();
-    switch (input->m_ButtonState)
-    {
-    case MKInputButton::ButtonState::HOLD:
-        CCLOG("GameScene Button Hold");
-        break;
-    case MKInputButton::ButtonState::RELEASE:
-        CCLOG("GameScene Button Release");
-        break;
-    case MKInputButton::ButtonState::PRESS:
-        CCLOG("GameScene Button Press");
-        break;
-    }*/
-
-    Deinitialise();
-    MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
 }
 
 void GameScene::OnClick(EventCustom * _event)
 {
-	MKInputClick* input = (MKInputClick*)_event->getUserData();
-
-	if (input->m_ButtonState == MKInputButton::RELEASE)
-	{
-		Deinitialise();
-		MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
-	}
 }
 
 void GameScene::OnAxis(EventCustom * _event)
@@ -129,10 +113,5 @@ void GameScene::Deinitialise()
 
 void GameScene::update(float _deltaTime)
 {
-	ScrollBackgrounds(_deltaTime);
-
-    //Deinitialise();
-    //QuitGame();
-    //Director::getInstance()->end();
-    //MKSceneManager::GetInstance()->ReplaceScene("CrashTestScene");
+    ScrollBackgrounds(_deltaTime);
 }
