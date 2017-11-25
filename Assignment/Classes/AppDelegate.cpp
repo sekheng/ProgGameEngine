@@ -100,13 +100,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
+	MKSceneManager::GetInstance()->AddScene<CrashTestScene>("CrashTestScene");
     MKSceneManager::GetInstance()->AddScene<GameScene>("GameScene");
     MKSceneManager::GetInstance()->ReplaceScene("GameScene");
-    //TODO: remove these lines
-    //MKSceneManager::GetInstance()->AddScene<HelloWorld>("HelloWorld");
-    //MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
 
-    return true;
+	return true;
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.

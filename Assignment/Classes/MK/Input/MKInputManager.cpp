@@ -45,7 +45,12 @@ MKInputManager::MKInputManager()
 	m_CurrentContext = MKInputContext::MK_CONTEXT_DEFAULT;
 
 	// Initialise Event Dispatcher.
-	m_EventDispatcher.setEnabled(true);
+#if MK_USE_DIRECTOR_DISPATCHER
+    // Do nothing.
+#else
+	m_EventDispatcher = new (std::nothrow) EventDispatcher();
+	m_EventDispatcher->setEnabled(true);
+#endif
 
 	// Input Definitions
 	m_InputDefinitions = new MKInputDefinition*[MKInputName::NUM_INPUTNAME];
@@ -73,7 +78,11 @@ MKInputManager::MKInputManager()
 MKInputManager::~MKInputManager()
 {
 	// Clean up Event Dispatcher.
-	m_EventDispatcher.removeAllEventListeners();
+#if MK_USE_DIRECTOR_DISPATCHER
+#else
+	m_EventDispatcher->removeAllEventListeners();
+	CC_SAFE_RELEASE(m_EventDispatcher);
+#endif
 
 	// Input Definitions
 	for (mkS32 i = 0; i < MKInputName::NUM_INPUTNAME; ++i)
@@ -83,6 +92,16 @@ MKInputManager::~MKInputManager()
 	delete[] m_InputDefinitions;
 
 	FlushBuffer();
+
+	Director::getInstance()->getScheduler()->unscheduleUpdate(this);
+
+#if MK_USE_KEYBOARD
+	MKKeyboardHandler::GetInstance()->Destroy();
+#endif // MK_USE_KEYBOARD
+
+#if MK_USE_TOUCH
+	MKTouchHandler::GetInstance()->Destroy();
+#endif // MK_USE_TOUCH
 }
 
 void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
@@ -92,7 +111,9 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 		return;
 	}
 
-	// Pre-Context Change
+    CCLOG("MKInputManager::SetCurrentContext - PreContextChange Start");
+
+    // Pre-Context Change
 #if MK_USE_KEYBOARD
 	MKKeyboardHandler::GetInstance()->PreContextChange({});
 #endif // MK_USE_KEYBOARD
@@ -101,10 +122,16 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 	MKTouchHandler::GetInstance()->PreContextChange({});
 #endif // MK_USE_TOUCH
 
-	SendAllInputEvents();
+    SendAllInputEvents();
 
+    CCLOG("MKInputManager::SetCurrentContext - PreContextChange End");
+
+    CCLOG("MKInputManager::SetCurrentContext - ContextChange Start");
 	// Context Change
 	m_CurrentContext = _currentContext;
+    CCLOG("MKInputManager::SetCurrentContext - ContextChange End");
+
+    CCLOG("MKInputManager::SetCurrentContext - PostContextChange Start");
 
 	// Post Context Change
 #if MK_USE_KEYBOARD
@@ -114,6 +141,10 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 #if MK_USE_TOUCH
 	MKTouchHandler::GetInstance()->PostContextChange({});
 #endif // MK_USE_TOUCH
+
+    SendAllInputEvents();
+
+    CCLOG("MKInputManager::SetCurrentContext - PostContextChange End");
 }
 
 MKInputContext MKInputManager::GetCurrentContext() const
@@ -123,23 +154,35 @@ MKInputContext MKInputManager::GetCurrentContext() const
 
 void MKInputManager::SendAllInputEvents()
 {
-	while (m_InputEventQueue.empty() == false)
-	{
-		m_EventDispatcher.dispatchEvent(m_InputEventQueue.front());
-		m_InputEventQueue.pop();
-	}
+    CCLOG("MKInputManager::SendAllInputEvents Start");
+
+    while (m_InputEventQueue.empty() == false)
+    {
+        EventCustom* inputEvent = m_InputEventQueue.front();
+        m_InputEventQueue.pop();
+
+#if MK_USE_DIRECTOR_DISPATCHER
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(m_InputEventQueue.front());
+#else
+        m_EventDispatcher->dispatchEvent(inputEvent);
+#endif // MK_USE_DIRECTOR_DISPATCHER
+    }
+
+    CCLOG("MKInputManager::SendAllInputEvents End");
 }
 
 void MKInputManager::FlushBuffer()
 {
-	while (m_InputEventQueue.empty() == false)
-	{
-		m_InputEventQueue.pop();
-	}
+    while (m_InputEventQueue.empty() == false)
+    {
+        m_InputEventQueue.pop();
+    }
 }
 
 void MKInputManager::Update()
 {
+    CCLOG("MKInputManager::Update Start");
+
 #if MK_USE_KEYBOARD
 	MKKeyboardHandler::GetInstance()->Update({});
 #endif // MK_USE_KEYBOARD
@@ -149,6 +192,8 @@ void MKInputManager::Update()
 #endif // MK_USE_TOUCH
 
 	SendAllInputEvents();
+
+    CCLOG("MKInputManager::Update End");
 }
 
 NS_MK_END

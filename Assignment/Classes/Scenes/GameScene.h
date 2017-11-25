@@ -27,6 +27,8 @@ private:
 	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
 
+	float m_Timer = 1.0f;
+
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 
