@@ -1,5 +1,6 @@
-#ifndef __MENU_SCENE_H__
-#define __MENU_SCENE_H__
+#pragma once
+#ifndef __SETTINGS_SCENE_H__
+#define __SETTINGS_SCENE_H__
 
 // Include Cocos
 #include "cocos2d.h"
@@ -13,7 +14,7 @@
 USING_NS_CC;
 USING_NS_MK
 
-class MenuScene : public MKScene
+class SettingsScene : public MKScene
 {
 private:
 	EventListenerCustom* m_ButtonListener = nullptr;
@@ -24,24 +25,24 @@ private:
 	float m_SceneChangeCounter = 3.0f;
 
 public:
-	MenuScene();
-	virtual ~MenuScene();
+	SettingsScene();
+	virtual ~SettingsScene();
 
-    virtual bool init();
-    virtual void update(float _deltaTime) override;
+	virtual bool init();
+	virtual void update(float _deltaTime) override;
 
-    // a selector callback	
-    void menuCloseCallback(cocos2d::Ref* pSender);
+	// a selector callback	
+	void menuCloseCallback(cocos2d::Ref* pSender);
 
 	void InitialiseInput();
-    void OnButton(EventCustom * _event);
+	void OnButton(EventCustom * _event);
 	void OnClick(EventCustom * _event);
 	void OnAxis(EventCustom * _event);
 
-    // Sek Heng here trying to do branching.
+	// Sek Heng here trying to do branching.
 
-    // implement the "static create()" method manually
-    CREATE_FUNC(MenuScene);
+	// implement the "static create()" method manually
+	CREATE_FUNC(SettingsScene);
 };
 
 #endif // __MENU_SCENE_H__

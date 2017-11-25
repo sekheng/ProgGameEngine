@@ -5,5 +5,7 @@
 #include "GameScene.h"
 #include "CrashTestScene.h"
 #include "StartScreenScene.h"
+#include "MainMenuScene.h"
+#include "SettingsScene.h"
 
 #endif
