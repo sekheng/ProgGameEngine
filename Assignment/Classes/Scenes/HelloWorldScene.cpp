@@ -24,6 +24,7 @@ using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace GinTama;
 
+
 HelloWorld::HelloWorld()
 {
 }
@@ -48,8 +49,6 @@ bool HelloWorld::init()
     {
         return false;
     }
-
-	// Trying to figure out the Lua stuff
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -106,25 +105,8 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
-    AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
 
-
-    //// add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("HelloWorld.png");
-    //auto sprite = Sprite::create("mainspritecharaidlespritesheet.png", Rect(64, 0, 64, 64));
-    //if (sprite == nullptr)
-    //{
-    //    problemLoading("'HelloWorld.png'");
-    //}
-    //else
-    //{
-    //    // position the sprite on the center of the screen
-    //    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    //    // add the sprite as a child to this layer
-    //    this->addChild(sprite, 0);
-    //}
 
     LuaEngine *luaEngine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(luaEngine);
@@ -160,7 +142,9 @@ bool HelloWorld::init()
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
 	this->addChild(testTransitionSpr);
-    zeTestAnimTrans->transitState("BeginJump");
+    //auto zePhyBody = PhysicsBody::createBox(Size(60.f, 60.f));
+    //zePhyBody->setDynamic(false);
+    //testTransitionSpr->setPhysicsBody(zePhyBody);
 
     // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
     //AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
@@ -208,6 +192,91 @@ bool HelloWorld::init()
 
     GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
+    return true;
+}
+
+bool HelloWorld::initWithPhysics()
+{
+    //////////////////////////////
+    // 1. super init first
+    if (!Scene::initWithPhysics())
+    {
+        return false;
+    }
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    // Input Testing
+    InitialiseInput();
+    scheduleUpdate();
+
+    FILE *fp = fopen("SpriteAnim/ObjPhysics.txt", "r");
+    // Looks like the 256 char array is meant to allocate memory
+    char zeBuffer[65536];
+    FileReadStream zeIS(fp, zeBuffer, sizeof(zeBuffer));
+    Document zeD;
+    zeD.ParseStream(zeIS);
+    fclose(fp);
+
+    float zePhySizeX = zeD.FindMember("MainCharaPhySizeX")->value.GetFloat();
+    float zePhySizeY = zeD.FindMember("MainCharaPhySizeY")->value.GetFloat();
+    float zePhyOffsetX = zeD.FindMember("MainCharaPhyOffsetX")->value.GetFloat();
+    float zePhyOffsetY = zeD.FindMember("MainCharaPhyOffsetY")->value.GetFloat();
+
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    getPhysicsWorld()->setGravity(Vec2(0, 0.001f));
+    getPhysicsWorld()->setAutoStep(true);
+    getPhysicsWorld()->setUpdateRate(2);
+    //getPhysicsWorld()->setSpeed(0.1f);
+    Sprite *testTransitionSpr = Sprite::create();
+    testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
+    AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+    zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
+    testTransitionSpr->addChild(zeTestAnimTrans);
+    zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
+    // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
+    this->addChild(testTransitionSpr);
+    auto zePhyBody = PhysicsBody::createBox(Size(zePhySizeX, zePhySizeY), PhysicsMaterial(0,1,0), Vec2(zePhyOffsetX, zePhyOffsetY));
+    zePhyBody->setMass(1.f);
+    zePhyBody->setDynamic(true);
+    zePhyBody->setGravityEnable(true);
+    zePhyBody->setVelocityLimit(0.001f);
+    //zePhyBody->setVelocity(Vec2(0, 1));
+    zePhyBody->setAngularVelocityLimit(0);
+    testTransitionSpr->setPhysicsBody(zePhyBody);
+
+    //Sprite *zeTestFloor = Sprite::create("Environment/Ground.png");
+    //zeTestFloor->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, 0));
+    //zeTestFloor->setScaleX(20.0f);
+    //PhysicsBody *zeTestPhy = PhysicsBody::createBox(Size(10000, 10));
+    //zeTestFloor->setPhysicsBody(zeTestPhy);
+    //zeTestPhy->setDynamic(false);
+    //zeTestPhy->setGravityEnable(false);
+    //this->addChild(zeTestFloor);
+
+    PhysicsBody *zeEdgePhy = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
+    auto zeEdgeNode = Node::create();
+    zeEdgeNode->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
+    zeEdgeNode->setPhysicsBody(zeEdgePhy);
+    this->addChild(zeEdgeNode);
+
+    auto cam = getDefaultCamera();
+    //cam->runAction(MoveTo::create(3.f, Vec3(cam->getPositionX(), cam->getPositionY(), cam->getPositionZ() + 300.f)));
+    cam->setPositionZ(cam->getPositionZ() + 300.0f);
+
+    auto contactListener = EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContact, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+    //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+    return true;
+}
+
+bool HelloWorld::onContact(PhysicsContact &_contact)
+{
+    printf("They are contacting with 1 another\n");
     return true;
 }
 

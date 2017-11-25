@@ -50,6 +50,7 @@ public:
     virtual bool initWithPhysics() override;
 	virtual void update(float _deltaTime) override;
 
+    Node *m_MainCharaNode;
 };
 
 #endif

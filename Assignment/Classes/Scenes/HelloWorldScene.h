@@ -23,11 +23,14 @@ private:
 
 	float m_SceneChangeCounter = 3.0f;
 
+    bool onContact(PhysicsContact &_contact);
+
 public:
 	HelloWorld();
 	virtual ~HelloWorld();
 
     virtual bool init();
+    virtual bool initWithPhysics();
     virtual void update(float _deltaTime) override;
 
     // a selector callback	
@@ -42,6 +45,7 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+    CREATEWITHPHYSICS_FUNC(HelloWorld);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
