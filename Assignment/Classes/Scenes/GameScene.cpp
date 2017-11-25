@@ -4,6 +4,13 @@
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
 
+// Include GT
+#include "GT/AnimationHandlerNode.h"
+#include "GT/AnimTransAct.h"
+#include "GT/SimperMusicSys.h"
+
+using namespace GinTama;
+
 bool GameScene::initWithPhysics()
 {
     if (!Super::initWithPhysics())
@@ -21,6 +28,18 @@ bool GameScene::initWithPhysics()
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
     scheduleUpdate();
+
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    Sprite *charaSpr = Sprite::create();
+    this->addChild(charaSpr);
+    m_MainCharaNode = charaSpr;
+    AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
+    charaSpr->addChild(charAnimHandler);
+    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    //TODO: Change this hardcoded position
+    charaSpr->setPosition(Vec2(150, 150));
+
+    GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
 	return true;
 }

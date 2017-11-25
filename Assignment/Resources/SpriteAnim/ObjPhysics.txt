@@ -1,0 +1,6 @@
+{
+	"MainCharaPhySizeX":200,
+	"MainCharaPhySizeY":320,
+	"MainCharaPhyOffsetX":150,
+	"MainCharaPhyOffsetY":180
+}
