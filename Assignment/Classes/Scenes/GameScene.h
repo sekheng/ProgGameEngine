@@ -27,8 +27,6 @@ private:
 	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
 
-	float m_Timer = 1.0f;
-
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 
@@ -47,9 +45,9 @@ public:
 	GameScene() {}
 	virtual ~GameScene() {}
 
-	CREATE_FUNC(GameScene);
+    CREATEWITHPHYSICS_FUNC(GameScene);
 
-	virtual bool init() override;
+    virtual bool initWithPhysics() override;
 	virtual void update(float _deltaTime) override;
 
 };
