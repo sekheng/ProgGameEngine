@@ -9,6 +9,7 @@
 #include "MK/Input/MKInputManager.h"
 #include "MK/Input/MKInput.h"
 #include "MK/SceneManagement/MKScene.h"
+#include "MK/Graphics/MKSprite.h"
 
 USING_NS_CC;
 USING_NS_MK
@@ -17,8 +18,18 @@ class MainMenuScene : public MKScene
 {
 private:
 	Label* m_InputLabel = nullptr;
+	MKSprite* m_SkyBackground = nullptr;
 
 	float m_SceneChangeCounter = 3.0f;
+
+	void InitialiseSkyBackground();
+
+	void OnButton(EventCustom * _event);
+	void OnClick(EventCustom * _event);
+	void OnAxis(EventCustom * _event);
+
+	MK_INITIALISEINPUT(MainMenuScene);
+	MK_DEINITIALISEINPUT(MainMenuScene);
 
 public:
 	MainMenuScene();
@@ -30,17 +41,8 @@ public:
     // a selector callback	
     void menuCloseCallback(cocos2d::Ref* pSender);
 
-	//void InitialiseInput();
-    void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
+	CREATE_FUNC(MainMenuScene);
 
-    // Sek Heng here trying to do branching.
-
-    // implement the "static create()" method manually
-    CREATE_FUNC(MainMenuScene);
-    MK_INITIALISEINPUT(MainMenuScene);
-    MK_DEINITIALISEINPUT(MainMenuScene);
 };
 
 #endif // __MENU_SCENE_H__

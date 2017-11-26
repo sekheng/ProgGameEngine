@@ -10,7 +10,7 @@ namespace GinTama
 		//TO BE CALLED IN GAMESCENE::INIT or WHEREVER IT IS BEING CREATED
 		static ObstacleNode* create(const std::string& _spriteFileName, const cocos2d::Vec2& _obsPos, const std::function<bool(cocos2d::PhysicsContact& _contact)>& _checkCollision, const float& _obsScale = 1);
 
-		bool onContactBegin(const cocos2d::PhysicsBody& _body1, const cocos2d::PhysicsBody& _body2);
+		bool onContactBegin(cocos2d::PhysicsContact& _contact);
 
 	protected:
 		ObstacleNode();
@@ -39,6 +39,8 @@ namespace GinTama
 			obsSprite->setScale(_obsScale);
 
 			setTag(2);
+
+			this->addChild(obsSprite);
 		}
 		virtual ~ObstacleNode();
 

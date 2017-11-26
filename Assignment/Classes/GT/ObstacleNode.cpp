@@ -25,12 +25,12 @@ ObstacleNode *ObstacleNode::create(
 
 //IDK IF THIS IS A GOOD WAY or CHECKING BY TAG IS A BETTER WAY...
 //THIS IS WHAT I UNDERSTOOD FROM THE DOCUMENTATION
-bool ObstacleNode::onContactBegin(const cocos2d::PhysicsBody& _body1, const cocos2d::PhysicsBody& _body2)
+bool ObstacleNode::onContactBegin(cocos2d::PhysicsContact& _contact)
 {
 	//I TRIED NOT TO USE getShapeA() / getShapeB cuz it made no sense to me... Sry
 	//SO INSTEAD, JUS GET NODE OF BODY DIRECTLY
-	auto nodeA = _body1.getNode();
-	auto nodeB = _body2.getNode();
+	auto nodeA = _contact.getShapeA()->getBody()->getNode();
+	auto nodeB = _contact.getShapeB()->getBody()->getNode();
 
 	//CHECK IF THIS NODE IS TAGGED PLAYER
 	if (nodeA->getTag() == 1)

@@ -58,6 +58,8 @@ bool MainMenuScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	InitialiseSkyBackground();
+
 	// Input Testing
 	//InitialiseInput();
 
@@ -133,21 +135,26 @@ bool MainMenuScene::init()
 	return true;
 }
 
-//void MainMenuScene::InitialiseInput()
-//{
-//	Size visibleSize = Director::getInstance()->getVisibleSize();
-//	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-//	//m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
-//	//// position the label on the center of the screen
-//	//m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-//	//	origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
-//	//this->addChild(m_InputLabel, 1);
-//
-//	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
-//	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(MainMenuScene::OnButton, this));
-//	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(MainMenuScene::OnClick, this));
-//	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(MainMenuScene::OnAxis, this));
-//}
+void MainMenuScene::InitialiseSkyBackground()
+{
+	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	m_SkyBackground = MKSprite::create("Environment/Backgrounds/Background_Sky.png", true);
+	m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
+	m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
+
+	float desiredHeight = visibleSize.height;
+	float backgroundHeight = m_SkyBackground->getContentSize().height;
+	float desiredScale = desiredHeight / backgroundHeight;
+	m_SkyBackground->setScale(desiredScale, desiredScale);
+
+	float backgroundWidth = m_SkyBackground->getContentSize().width;
+	float numRepeat = visibleSize.width / (backgroundWidth * desiredScale);
+	m_SkyBackground->SetRepeat(numRepeat, 1.0f);
+
+	addChild(m_SkyBackground);
+}
 
 void MainMenuScene::OnButton(EventCustom* _event)
 {

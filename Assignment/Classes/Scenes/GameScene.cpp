@@ -9,6 +9,7 @@
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
 #include "GT/CharacterStatNode.h"
+#include "GT/ObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x0001;
 using namespace GinTama;
@@ -27,6 +28,28 @@ bool GameScene::initWithPhysics()
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
+
+	auto sawObj = ObstacleNode::create(
+		"Tileset/saw.png",
+		 Vec2(500, 500),
+		[&](cocos2d::PhysicsContact &_contact) -> bool
+		{
+			auto nodeA = _contact.getShapeA()->getBody()->getNode();
+			auto nodeB = _contact.getShapeB()->getBody()->getNode();
+
+			//CHECK IF THIS NODE IS TAGGED PLAYER
+			if (nodeA->getTag() == 1)
+			{
+				cocos2d::log("nodeA is Player Physics Object");
+			}
+			else if (nodeB->getTag() == 1)
+			{
+				cocos2d::log("nodeB is Player Physics Object");
+			}
+			return true;
+		}
+	);
+	this->addChild(sawObj);
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
     scheduleUpdate();
