@@ -16,9 +16,6 @@ USING_NS_MK
 class MainMenuScene : public MKScene
 {
 private:
-	EventListenerCustom* m_ButtonListener = nullptr;
-	EventListenerCustom* m_ClickListener = nullptr;
-	EventListenerCustom* m_AxisListener = nullptr;
 	Label* m_InputLabel = nullptr;
 
 	float m_SceneChangeCounter = 3.0f;
@@ -33,7 +30,7 @@ public:
     // a selector callback	
     void menuCloseCallback(cocos2d::Ref* pSender);
 
-	void InitialiseInput();
+	//void InitialiseInput();
     void OnButton(EventCustom * _event);
 	void OnClick(EventCustom * _event);
 	void OnAxis(EventCustom * _event);
@@ -42,6 +39,7 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenuScene);
+    MK_INITIALISEINPUT(MainMenuScene);
     MK_DEINITIALISEINPUT(MainMenuScene);
 };
 
