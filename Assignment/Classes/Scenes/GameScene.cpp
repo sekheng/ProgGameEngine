@@ -31,6 +31,7 @@ bool GameScene::initWithPhysics()
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
     Sprite *charaSpr = Sprite::create();
+    charaSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
     this->addChild(charaSpr);
     m_MainCharaNode = charaSpr;
     AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
@@ -38,8 +39,11 @@ bool GameScene::initWithPhysics()
     charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
     //TODO: Change this hardcoded position
     charaSpr->setPosition(Vec2(150, 150));
+    Size charaSize = Size(charaSpr->getContentSize().width, charaSpr->getContentSize().height - 50.f);
+    PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize, PhysicsMaterial(0.1f, 1, 0));
+    charaSpr->setPhysicsBody(charaPhysics);
 
-    GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+    //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
 	return true;
 }

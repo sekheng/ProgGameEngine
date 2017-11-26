@@ -30,14 +30,10 @@ using namespace GinTama;
 
 MainMenuScene::MainMenuScene()
 {
-	int breakpoint = 0;
-	return;
 }
 
 MainMenuScene::~MainMenuScene()
 {
-	int breakpoint = 0;
-	return;
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -76,9 +72,10 @@ bool MainMenuScene::init()
 		"ButtonNormal.png", 
 		"ButtonSelected.png",
 		"Play Game",
-		[](Ref*, ui::Widget::TouchEventType) -> void
+		[&](Ref*, ui::Widget::TouchEventType) -> void
 		{
-			MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+        DeinitialiseInput();
+        MKSceneManager::GetInstance()->ReplaceScene("GameScene");
 		}
 	);
 	this->addChild(toGameButton);
@@ -88,9 +85,10 @@ bool MainMenuScene::init()
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Settings",
-		[](Ref*, ui::Widget::TouchEventType) -> void
+		[&](Ref*, ui::Widget::TouchEventType) -> void
 		{
-			MKSceneManager::GetInstance()->PushScene("SettingsScene");
+            DeinitialiseInput();
+            MKSceneManager::GetInstance()->PushScene("SettingsScene");
 		}
 	);
 	this->addChild(toSettingsButton);

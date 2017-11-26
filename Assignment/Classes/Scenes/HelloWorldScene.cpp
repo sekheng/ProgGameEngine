@@ -148,7 +148,6 @@ bool HelloWorld::init()
 
     // mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
     //AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 0.2f);
-    
 
     // Reading from file. It is a success!
     FILE *fp = fopen("PlaceHolder/TryJson.txt", "rb");
