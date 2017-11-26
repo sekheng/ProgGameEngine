@@ -38,6 +38,7 @@ SimperMusicSys::SimperMusicSys()
                     zeNewData->m_Loop = it->FindMember("loop")->value.GetBool();
                     zeNewData->m_SoundName = it->FindMember("NameID")->value.GetString();
 					m_NameSoundMap.insert(std::pair<std::string, SoundData*>(zeNewData->m_SoundName, zeNewData));
+                    AudioEngine::preload(zeNewData->m_fileLocation);
                 }
             }
         }
@@ -58,7 +59,7 @@ bool SimperMusicSys::playSound(const std::string &_songName)
         zeData->m_AudioID = AudioEngine::play2d(zeData->m_fileLocation, zeData->m_Loop, m_MasterVol * zeData->m_Volume);
         if (m_NamePlayingSound.count(_songName))
         {
-            m_NamePlayingSound[_songName].remove(zeData);
+            m_NamePlayingSound[_songName].push_back(zeData);
         }
         else
             m_NamePlayingSound.insert(std::pair<std::string, std::list<SoundData*> >(_songName, { zeData }));

@@ -164,6 +164,7 @@ void GameScene::OnButton(EventCustom * _event)
                 charaStat->setState(JUMPING);
                 m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
                 m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
+                SimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
                 break;
