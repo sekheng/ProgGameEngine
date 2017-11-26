@@ -84,23 +84,25 @@ bool SettingsScene::init()
 	);
 	this->addChild(toPrevSceneButton);
 
-	auto Slider = MKUICreator::GetInstance()->createSlider(
+	int masterVolume = GinTama::SimperMusicSys::GetInstance()->getMasterVol() * 100;
+
+	auto slider = MKUICreator::GetInstance()->createSlider(
 		Vec2(visibleSize.width / 2, visibleSize.height / 2),
 		"SliderBar.png",
 		"ProgressBar.png",
 		"SliderBall.png",
-		[](Ref* _sender, ui::Slider::EventType _type) -> void
+		[&](Ref* _sender, ui::Slider::EventType _type) -> void
 		{
+			ui::Slider* slider = dynamic_cast<ui::Slider*>(_sender);
 			if (_type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
 			{
-				ui::Slider *slider = dynamic_cast<ui::Slider*>(_sender);
 				int percent = slider->getPercent();
-				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent/100);
-				log("%f", GinTama::SimperMusicSys::GetInstance()->getMasterVol());
+				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent / 100);
 			}
 		}
 	);
-	this->addChild(Slider);
+	slider->setPercent(masterVolume);
+	this->addChild(slider);
 
 	/////////////////////////////
 	// 3. add your codes below...
