@@ -39,7 +39,7 @@
       },
       {  
          "StateName":"jump_end",
-         "FPS":0.08,
+         "FPS":0.06,
          "loop":1,
          "SpriteReference":[  
             "Jump (6).png",
