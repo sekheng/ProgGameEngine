@@ -35,6 +35,7 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
         {
             if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
             {
+                stopAllActions();
                 // just run the action lol
                 runAction((*AnimIt)->m_ActionPtr);
                 m_CurrentAnimTransit = (*AnimIt)->m_TransName;
