@@ -43,6 +43,7 @@ public:
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(SettingsScene);
+    MK_DEINITIALISEINPUT(SettingsScene);
 };
 
 #endif // __MENU_SCENE_H__

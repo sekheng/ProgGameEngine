@@ -76,8 +76,9 @@ bool SettingsScene::init()
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Back",
-		[](Ref*, ui::Widget::TouchEventType) -> void
+		[&](Ref*, ui::Widget::TouchEventType) -> void
 		{
+        DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		}
 	);

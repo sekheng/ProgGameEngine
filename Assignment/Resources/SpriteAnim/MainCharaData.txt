@@ -83,7 +83,7 @@
          ]
       },
       {  
-         "TransitName":"EndJump",
+         "TransitName":"Idle",
          "TransitCondition":"BeginJump",
          "ActionSequence":[  
             {  
