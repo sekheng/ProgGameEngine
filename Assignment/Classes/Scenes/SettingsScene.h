@@ -17,9 +17,6 @@ USING_NS_MK
 class SettingsScene : public MKScene
 {
 private:
-	EventListenerCustom* m_ButtonListener = nullptr;
-	EventListenerCustom* m_ClickListener = nullptr;
-	EventListenerCustom* m_AxisListener = nullptr;
 	Label* m_InputLabel = nullptr;
 
 	float m_SceneChangeCounter = 3.0f;
@@ -31,10 +28,6 @@ public:
 	virtual bool init();
 	virtual void update(float _deltaTime) override;
 
-	// a selector callback	
-	void menuCloseCallback(cocos2d::Ref* pSender);
-
-	void InitialiseInput();
 	void OnButton(EventCustom * _event);
 	void OnClick(EventCustom * _event);
 	void OnAxis(EventCustom * _event);
@@ -43,6 +36,7 @@ public:
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(SettingsScene);
+    MK_INITIALISEINPUT(SettingsScene);
     MK_DEINITIALISEINPUT(SettingsScene);
 };
 

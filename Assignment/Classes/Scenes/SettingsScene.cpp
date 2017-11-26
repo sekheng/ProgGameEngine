@@ -63,7 +63,7 @@ bool SettingsScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	// Input Testing
-	InitialiseInput();
+	//InitialiseInput();
 
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -76,9 +76,9 @@ bool SettingsScene::init()
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Back",
-		[&](Ref*, ui::Widget::TouchEventType) -> void
+		[&](Ref*) -> void
 		{
-        DeinitialiseInput();
+        //DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		}
 	);
@@ -139,21 +139,21 @@ bool SettingsScene::init()
 	return true;
 }
 
-void SettingsScene::InitialiseInput()
-{
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
-	// position the label on the center of the screen
-	m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
-	this->addChild(m_InputLabel, 1);
-
-	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
-	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(SettingsScene::OnButton, this));
-	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(SettingsScene::OnClick, this));
-	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(SettingsScene::OnAxis, this));
-}
+//void SettingsScene::InitialiseInput()
+//{
+//	Size visibleSize = Director::getInstance()->getVisibleSize();
+//	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+//	m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
+//	// position the label on the center of the screen
+//	m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
+//		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
+//	this->addChild(m_InputLabel, 1);
+//
+//	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+//	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(SettingsScene::OnButton, this));
+//	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(SettingsScene::OnClick, this));
+//	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(SettingsScene::OnAxis, this));
+//}
 
 void SettingsScene::OnButton(EventCustom* _event)
 {
@@ -279,21 +279,4 @@ void SettingsScene::update(float _deltaTime)
 		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
 		m_SceneChangeCounter = 3.0f;
 	}
-}
-
-void SettingsScene::menuCloseCallback(Ref* pSender)
-{
-	//Close the cocos2d-x game scene and quit the application
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-
-	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-	//EventCustom customEndEvent("game_scene_close_event");
-	//_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
