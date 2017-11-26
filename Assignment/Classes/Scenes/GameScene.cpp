@@ -41,6 +41,7 @@ bool GameScene::initWithPhysics()
     charaSpr->setPosition(Vec2(150, 150));
     Size charaSize = Size(charaSpr->getContentSize().width, charaSpr->getContentSize().height - 50.f);
     PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize, PhysicsMaterial(0.1f, 1, 0));
+    charaPhysics->setAngularVelocityLimit(0);
     charaSpr->setPhysicsBody(charaPhysics);
 
     //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
@@ -110,6 +111,22 @@ void GameScene::InitialiseBackgrounds()
 
 void GameScene::OnButton(EventCustom * _event)
 {
+    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
+    switch (buttonEvent->m_ButtonState)
+    {
+    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+        switch (buttonEvent->m_InputName)
+        {
+        case MinamiKotori::MKInputName::JUMP:
+
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void GameScene::OnClick(EventCustom * _event)
