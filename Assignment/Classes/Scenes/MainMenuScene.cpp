@@ -22,19 +22,19 @@
 
 //#include "ui/UIButton.h"
 #include "UIClass/UICreator.h"
-#include "MenuScene.h"
+#include "MainMenuScene.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace GinTama;
 
-MenuScene::MenuScene()
+MainMenuScene::MainMenuScene()
 {
 	int breakpoint = 0;
 	return;
 }
 
-MenuScene::~MenuScene()
+MainMenuScene::~MainMenuScene()
 {
 	int breakpoint = 0;
 	return;
@@ -44,11 +44,11 @@ MenuScene::~MenuScene()
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
-	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in MenuScene.cpp\n");
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in MainMenuScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
-bool MenuScene::init()
+bool MainMenuScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -72,7 +72,7 @@ bool MenuScene::init()
 	// add a "close" icon to exit the progress. it's an autorelease object
 
 	auto toGameButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, visibleSize.height / 4), 
+		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2),
 		"ButtonNormal.png", 
 		"ButtonSelected.png",
 		"Play Game",
@@ -83,46 +83,29 @@ bool MenuScene::init()
 	);
 	this->addChild(toGameButton);
 
-	auto Slider = MKUICreator::GetInstance()->createSlider(
-		Vec2(visibleSize.width / 2, visibleSize.height / 5),
-		"SliderBar.png",
-		"ProgressBar.png",
-		"SliderBall.png",
-		[](Ref* _sender, ui::Slider::EventType _type) -> void
+	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
+		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - toGameButton->getContentSize().height),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"Settings",
+		[](Ref*, ui::Widget::TouchEventType) -> void
 		{
-			if (_type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
-			{
-				ui::Slider *slider = dynamic_cast<ui::Slider*>(_sender);
-				int percent = slider->getPercent();
-				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent/100);
-				log("%f", GinTama::SimperMusicSys::GetInstance()->getMasterVol());
-			}
+			MKSceneManager::GetInstance()->PushScene("SettingsScene");
 		}
 	);
-	this->addChild(Slider);
+	this->addChild(toSettingsButton);
 
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(MenuScene::menuCloseCallback, this));
-	
-	if (closeItem == nullptr ||
-		closeItem->getContentSize().width <= 0 ||
-		closeItem->getContentSize().height <= 0)
-	{
-		problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-		float y = origin.y + closeItem->getContentSize().height / 2;
-		closeItem->setPosition(Vec2(x, y));
-	}
-	
-	// create menu, it's an autorelease object
-	auto menu = Menu::create(closeItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
+	auto exitButton = MKUICreator::GetInstance()->createButton(
+		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - (2 * toGameButton->getContentSize().height)),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"Exit",
+		[](Ref*, ui::Widget::TouchEventType) -> void
+		{
+			Director::getInstance()->end();
+		}
+	);
+	this->addChild(exitButton);
 
 	/////////////////////////////
 	// 3. add your codes below...
@@ -148,23 +131,6 @@ bool MenuScene::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
 
-
-	//// add "MenuScene" splash screen"
-	//auto sprite = Sprite::create("MenuScene.png");
-	//auto sprite = Sprite::create("mainspritecharaidlespritesheet.png", Rect(64, 0, 64, 64));
-	//if (sprite == nullptr)
-	//{
-	//    problemLoading("'MenuScene.png'");
-	//}
-	//else
-	//{
-	//    // position the sprite on the center of the screen
-	//    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-	//    // add the sprite as a child to this layer
-	//    this->addChild(sprite, 0);
-	//}
-
 	LuaEngine *luaEngine = LuaEngine::getInstance();
 	ScriptEngineManager::getInstance()->setScriptEngine(luaEngine);
 	lua_State* L = luaEngine->getLuaStack()->getLuaState();
@@ -175,105 +141,28 @@ bool MenuScene::init()
 	luaEngine->executeScriptFile("DataDriven.lua");
 	scheduleUpdate();
 
-	//Animation *zeHengAnim = Animation::create();
-	//zeHengAnim->addSpriteFrame(sprite->getSpriteFrame());
-	//zeHengAnim->addSpriteFrameWithFile("CloseNormal.png");
-	//zeHengAnim->addSpriteFrameWithFile("CloseSelected.png");
-	//zeHengAnim->init();
-	//zeHengAnim->setDelayPerUnit(1.f);
-	//zeHengAnim->setUnlimitedLoop(true);
-	//Sprite *zeHengSprite = Sprite::create();
-	//zeHengSprite->runAction(Animate::create(zeHengAnim));
-	//this->addChild(zeHengSprite);
-	//zeHengSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-	Sprite *testTransitionSpr = Sprite::create();
-	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
-	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
-	zeTestAnimTrans->setTag(69);
-	zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
-	testTransitionSpr->addChild(zeTestAnimTrans);
-	zeTestAnimTrans->insertAnimSheet("IdleUp", "mainspritecharaidlespritesheet.png", Rect(0, 0, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-	zeTestAnimTrans->insertAnimSheet("IdleDown", "mainspritecharaidlespritesheet.png", Rect(0, 64, 192, 64), Rect(0, 0, 64, 64), 0.3f, -1);
-	zeTestAnimTrans->insertAnimFromCache("walk_right");
-	zeTestAnimTrans->insertAnimFromSPlist("walk_up", 0.3f, -1, { "Blue_Front1.png", "Blue_Front2.png", "Blue_Front3.png" });
-	testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
-	DelayTime *zeDelay = DelayTime::create(1.5f);
-	AnimTransAct *zeDown = AnimTransAct::create("IdleDown");
-	AnimTransAct *zeUp = AnimTransAct::create("IdleUp");
-	AnimTransAct *zeOtherThing = AnimTransAct::create("walk_right");
-	Sequence  *zeSeq = Sequence::create(zeOtherThing, zeDelay, zeUp, zeDelay, AnimTransAct::create("walk_up"), nullptr);
-	zeTestAnimTrans->runAction(zeDown);
-	// AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
-	zeTestAnimTrans->runAction(zeSeq);
-	this->addChild(testTransitionSpr);
-
-	// mp3 files work even though the documentation said otherwise. May it only works on Lenovo Y50
-	//AudioEngine::play2d("Trouble-in-the-Kingdom_Looping.mp3", true, 2.0f);
-
-
-	// Reading from file. It is a success!
-	FILE *fp = fopen("PlaceHolder/TryJson.txt", "rb");
-	// Looks like the 256 char array is meant to allocate memory
-	char zeBuffer[256];
-	FileReadStream zeIS(fp, zeBuffer, sizeof(zeBuffer));
-	Document zeD;
-	zeD.ParseStream(zeIS);
-	fclose(fp);
-
-	int numArr[] = { 5,4,3,2,1 };
-	RAPIDJSON_NAMESPACE::Value zeValArr(kArrayType);
-	for (auto i : numArr)
-	{
-		zeValArr.PushBack(i, zeD.GetAllocator());
-	}
-	if (!zeD.HasMember("lol"))
-	{
-		zeD.AddMember(StringRef("lol"), "Lol", zeD.GetAllocator());
-	}
-	if (!zeD.HasMember("tryArr"))
-		zeD.AddMember("tryArr", zeValArr, zeD.GetAllocator());
-	if (!zeD.HasMember("testingObj"))
-	{
-		RAPIDJSON_NAMESPACE::Value zeValObj(kObjectType);
-		zeValObj.AddMember("LOL", "What", zeD.GetAllocator());
-		zeD.AddMember("testingObj", zeValObj, zeD.GetAllocator());
-	}
-
-	fp = fopen("PlaceHolder/TryJson.txt", "w");
-	// This does not work and i dont know why!
-	//char *zeNothing = "Nothing";
-	//size_t zeNothingBufferSZ = strlen(zeNothing);
-	// Only this work!!
-	char zeNothing[256];
-	size_t zeNothingBufferSZ = sizeof(zeNothing);
-	FileWriteStream zeFWS(fp, zeNothing, zeNothingBufferSZ);
-	Writer<FileWriteStream> writer(zeFWS);
-	zeD.Accept(writer);
-	fclose(fp);
-
 	GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
-    //GinTama::SimperMusicSys::GetInstance()->playSound("testEQ");
+
 	return true;
 }
 
-void MenuScene::InitialiseInput()
+void MainMenuScene::InitialiseInput()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
-	// position the label on the center of the screen
-	m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
-	this->addChild(m_InputLabel, 1);
+	//m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
+	//// position the label on the center of the screen
+	//m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//	origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
+	//this->addChild(m_InputLabel, 1);
 
 	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
-	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(MenuScene::OnButton, this));
-	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(MenuScene::OnClick, this));
-	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(MenuScene::OnAxis, this));
+	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(MainMenuScene::OnButton, this));
+	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(MainMenuScene::OnClick, this));
+	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(MainMenuScene::OnAxis, this));
 }
 
-void MenuScene::OnButton(EventCustom* _event)
+void MainMenuScene::OnButton(EventCustom* _event)
 {
 	MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
 
@@ -316,7 +205,7 @@ void MenuScene::OnButton(EventCustom* _event)
 	m_InputLabel->setString(logMessage);
 }
 
-void MenuScene::OnClick(EventCustom* _event)
+void MainMenuScene::OnClick(EventCustom* _event)
 {
 	MKInputClick* clickEvent = static_cast<MKInputClick*>(_event->getUserData());
 
@@ -359,7 +248,7 @@ void MenuScene::OnClick(EventCustom* _event)
 	m_InputLabel->setString(logMessage);
 }
 
-void MenuScene::OnAxis(EventCustom* _event)
+void MainMenuScene::OnAxis(EventCustom* _event)
 {
 	MKInputAxis* axisEvent = static_cast<MKInputAxis*>(_event->getUserData());
 
@@ -388,7 +277,7 @@ void MenuScene::OnAxis(EventCustom* _event)
 	m_InputLabel->setString(logMessage);
 }
 
-void MenuScene::update(float _deltaTime)
+void MainMenuScene::update(float _deltaTime)
 {
 	m_SceneChangeCounter -= _deltaTime;
 	if (m_SceneChangeCounter < 0.0f)
@@ -399,7 +288,7 @@ void MenuScene::update(float _deltaTime)
 	}
 }
 
-void MenuScene::menuCloseCallback(Ref* pSender)
+void MainMenuScene::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();

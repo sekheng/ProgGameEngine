@@ -102,6 +102,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     MKSceneManager::GetInstance()->AddScene<StartScreenScene>("StartScreenScene");
     MKSceneManager::GetInstance()->AddSceneWithPhysics<GameScene>("GameScene");
+	MKSceneManager::GetInstance()->AddScene<MainMenuScene>("MainMenuScene");
+	MKSceneManager::GetInstance()->AddScene<SettingsScene>("SettingsScene");
     MKSceneManager::GetInstance()->ReplaceScene("StartScreenScene");
 
 	return true;

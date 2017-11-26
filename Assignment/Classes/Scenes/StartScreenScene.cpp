@@ -83,7 +83,7 @@ void StartScreenScene::OnClick(EventCustom * _event)
     if (input->m_ButtonState == MKInputClick::ButtonState::RELEASE)
     {
         Deinitialise();
-        MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+        MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
     }
 }
 

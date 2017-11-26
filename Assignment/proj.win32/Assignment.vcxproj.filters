@@ -90,9 +90,6 @@
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\MenuScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GT\ObstacleNode.cpp">
       <Filter>GT\Game Logic</Filter>
     </ClCompile>
@@ -100,6 +97,13 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\StartScreenScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\SH_TestScene.cpp" />
+    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\SettingsScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -186,9 +190,6 @@
     <ClInclude Include="..\Classes\Scenes\GameScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\MenuScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -199,6 +200,13 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\StartScreenScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\SH_TestScene.h" />
+    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\SettingsScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
