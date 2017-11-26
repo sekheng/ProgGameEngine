@@ -12,6 +12,12 @@
 		 "NameID":"testEQ",
 		 "volume":1,
 		 "loop":false
+      },
+ 	  {  
+         "location":"Audio/Jump.mp3",
+		 "NameID":"Jump",
+		 "volume":0.2,
+		 "loop":false
       }
-   ]
+  ]
 }
