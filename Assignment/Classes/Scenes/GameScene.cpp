@@ -8,7 +8,9 @@
 #include "GT/AnimationHandlerNode.h"
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
+#include "GT/CharacterStatNode.h"
 
+const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x0001;
 using namespace GinTama;
 
 bool GameScene::initWithPhysics()
@@ -38,10 +40,23 @@ bool GameScene::initWithPhysics()
     charaSpr->addChild(charAnimHandler);
     charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
     //TODO: Change this hardcoded position
-    charaSpr->setPosition(Vec2(150, 150));
-    Size charaSize = Size(charaSpr->getContentSize().width, charaSpr->getContentSize().height - 50.f);
-    PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize, PhysicsMaterial(0.1f, 1, 0));
+    charaSpr->setPosition(Vec2(150, 250));
+    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height - 75.f);
+    PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize);
+    charaPhysics->setAngularVelocityLimit(0.f);
+    //charaPhysics->setAngularVelocityLimit(0);
     charaSpr->setPhysicsBody(charaPhysics);
+    charaPhysics->setDynamic(true);
+    charaPhysics->setGravityEnable(true);
+    charaPhysics->setMass(1.f);
+    CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
+    charaStat->scheduleUpdate();
+    charaSpr->addChild(charaStat);
+    charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
+
+    auto phyContactListener = EventListenerPhysicsContact::create();
+    phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
 
     //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
@@ -68,7 +83,7 @@ void GameScene::InitialiseGround()
 
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
-
+    physicsBody->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
     m_Ground->setPhysicsBody(physicsBody);
 
     this->addChild(m_Ground);
@@ -110,6 +125,35 @@ void GameScene::InitialiseBackgrounds()
 
 void GameScene::OnButton(EventCustom * _event)
 {
+    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
+    switch (buttonEvent->m_ButtonState)
+    {
+    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+        switch (buttonEvent->m_InputName)
+        {
+        case MinamiKotori::MKInputName::JUMP:
+        {
+            CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
+            switch (charaStat->getCurrentState())
+            {
+            case CHARACTER_STATE::RUNNING:
+                // then character jump!
+                charaStat->setState(JUMPING);
+                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
+                m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
+                break;
+            default:
+                break;
+            }
+        }
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void GameScene::OnClick(EventCustom * _event)
@@ -137,4 +181,14 @@ void GameScene::Deinitialise()
 void GameScene::update(float _deltaTime)
 {
     ScrollBackgrounds(_deltaTime);
+}
+
+bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
+{
+    auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
+    zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
+    // this means the character touched the ground!
+    m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+    m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+    return true;
 }

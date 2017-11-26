@@ -41,6 +41,8 @@ private:
 	virtual void OnClick(EventCustom * _event);
 	virtual void OnAxis(EventCustom * _event);
 
+    bool Chara_GroundContactBegin(PhysicsContact &_contact);
+
 public:
 	GameScene() {}
 	virtual ~GameScene() {}
