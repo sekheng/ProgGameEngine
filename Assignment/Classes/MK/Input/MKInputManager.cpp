@@ -162,7 +162,7 @@ void MKInputManager::SendAllInputEvents()
         m_InputEventQueue.pop();
 
 #if MK_USE_DIRECTOR_DISPATCHER
-        Director::getInstance()->getEventDispatcher()->dispatchEvent(m_InputEventQueue.front());
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(inputEvent);
 #else
         m_EventDispatcher->dispatchEvent(inputEvent);
 #endif // MK_USE_DIRECTOR_DISPATCHER
