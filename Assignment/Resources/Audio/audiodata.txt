@@ -10,7 +10,7 @@
 	  {  
          "location":"PlaceHolder/earthquake.mp3",
 		 "NameID":"testEQ",
-		 "volume":1,
+		 "volume":1.0,
 		 "loop":false
       },
  	  {  

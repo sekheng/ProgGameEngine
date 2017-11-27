@@ -48,13 +48,15 @@ public:
 
 		return slider;
 	}
+
+
 private:
 	MKUICreator() {}
 	~MKUICreator() {}
 
-
+	std::unordered_map<std::string, TTFConfig*> m_NameTTFMap;
 };
 
 NS_MK_END
 
-#endif#pragma once
+#endif
