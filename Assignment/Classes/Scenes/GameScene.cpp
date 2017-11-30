@@ -11,7 +11,7 @@
 #include "GT/CharacterStatNode.h"
 #include "GT/ObstacleNode.h"
 
-const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x0001;
+const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;
 
 bool GameScene::initWithPhysics()
@@ -215,4 +215,12 @@ bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
     m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
     m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
     return true;
+}
+
+bool CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
+{
+    mkU32 zeComparedMask = (_maskA | _maskB);
+    if (zeComparedMask == _maskA)
+        return true;
+    return false;
 }
