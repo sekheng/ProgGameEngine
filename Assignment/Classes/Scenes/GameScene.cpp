@@ -8,7 +8,7 @@
 #include "GT/AnimationHandlerNode.h"
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
-#include "GT/CharacterStatNode.h"
+#include "GT/Game Logic/CharacterStatNode.h"
 #include "GT/ObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
@@ -61,7 +61,7 @@ bool GameScene::initWithPhysics()
     m_MainCharaNode = charaSpr;
     AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
     charaSpr->addChild(charAnimHandler);
-    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     //TODO: Change this hardcoded position
     charaSpr->setPosition(Vec2(150, 250));
     Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height - 75.f);
@@ -219,8 +219,12 @@ bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
 
 bool CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
 {
+    mkU32 largerNum = _maskA;
+    if (largerNum < _maskB)
+        largerNum = _maskB;
     mkU32 zeComparedMask = (_maskA | _maskB);
-    if (zeComparedMask == _maskA)
+    // if the bits still remains the same after that, the values are the same
+    if (zeComparedMask == largerNum)
         return true;
     return false;
 }

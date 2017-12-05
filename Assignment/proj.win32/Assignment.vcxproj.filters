@@ -31,9 +31,6 @@
     <Filter Include="GT\Anim Related">
       <UniqueIdentifier>{2f5eae7b-3341-4a1c-bcd4-e962ce7ddb63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GT\Music">
-      <UniqueIdentifier>{1c66e851-bd6b-4b85-9360-af5da407cb5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GT\Game Logic">
       <UniqueIdentifier>{ac1f8e4c-0130-4561-be90-fca84b936798}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{3388f86c-15a1-48b6-9e78-d41066a8aa24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Game Logic\Music">
+      <UniqueIdentifier>{1c66e851-bd6b-4b85-9360-af5da407cb5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,10 +76,7 @@
       <Filter>GT\Anim Related</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
-      <Filter>GT\Music</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\CharacterStatNode.cpp">
-      <Filter>GT\Game Logic</Filter>
+      <Filter>GT\Game Logic\Music</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>Scene</Filter>
@@ -105,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\SettingsScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\Game Logic\CharacterStatNode.cpp">
+      <Filter>GT\Game Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,10 +173,7 @@
       <Filter>GT\Anim Related</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
-      <Filter>GT\Music</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\CharacterStatNode.h">
-      <Filter>GT\Game Logic</Filter>
+      <Filter>GT\Game Logic\Music</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameScene.h">
       <Filter>Scene</Filter>
@@ -208,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\SettingsScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Game Logic\CharacterStatNode.h">
+      <Filter>GT\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

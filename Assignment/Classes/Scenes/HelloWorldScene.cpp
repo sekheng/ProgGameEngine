@@ -4,6 +4,7 @@
 #include "GT/AnimationHandlerNode.h"
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
+#include "GT/Game Logic/CharacterStatNode.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -221,7 +222,7 @@ bool HelloWorld::initWithPhysics()
     AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
-    zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     this->addChild(testTransitionSpr);

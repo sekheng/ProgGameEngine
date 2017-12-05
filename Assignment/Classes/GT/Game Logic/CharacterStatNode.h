@@ -36,5 +36,6 @@ namespace GinTama
         cocos2d::PhysicsBody* m_physicsNode;
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
+        float m_SpeedX;
 	};
 };

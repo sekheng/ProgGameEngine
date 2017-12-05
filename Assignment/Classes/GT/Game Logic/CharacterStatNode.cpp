@@ -1,7 +1,7 @@
 #include "CharacterStatNode.h"
 #include "MK/Common/MKAssertions.h"
-#include "AnimationHandlerNode.h"
-#include "SimperMusicSys.h"
+#include "GT/AnimationHandlerNode.h"
+#include "GT/SimperMusicSys.h"
 
 using namespace GinTama;
 USING_NS_CC;
@@ -13,6 +13,7 @@ CharacterStatNode::CharacterStatNode()
     , m_CurrentState(RUNNING)
     , m_physicsNode(nullptr)
     , m_countingFloat(0)
+    , m_SpeedX(0)
 {
 	setTag(1);
 }
@@ -63,19 +64,6 @@ void CharacterStatNode::update(float delta)
     if (m_physicsNode)
     {
         Vec2 zeVel = m_physicsNode->getVelocity();
-        //if (zeVel.y < EPSILON && zeVel.y > -EPSILON)
-        //{
-        //    switch (m_CurrentState)
-        //    {
-        //    case GinTama::JUMPING:
-        //        // only when it was actually jumping then start landing
-        //        setState(RUNNING);
-        //        getParent()->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
-        //        break;
-        //    default:
-        //        break;
-        //    }
-        //}
         if (zeVel.y < -ACCEPTABLE_VELY)
         {
             m_countingFloat += delta;
@@ -95,6 +83,9 @@ void CharacterStatNode::update(float delta)
             }
         }
     }
+
+    // since the moving along of the x-axis is different from the physics system, we will be using m_SpeedX
+
 }
 
 void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
