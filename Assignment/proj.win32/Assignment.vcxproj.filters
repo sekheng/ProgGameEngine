@@ -40,7 +40,10 @@
     <Filter Include="UI">
       <UniqueIdentifier>{3388f86c-15a1-48b6-9e78-d41066a8aa24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GT\Game Logic\Music">
+    <Filter Include="GT\Common">
+      <UniqueIdentifier>{d38f819f-3657-4afe-ab07-75be4799bb5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Audio">
       <UniqueIdentifier>{1c66e851-bd6b-4b85-9360-af5da407cb5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -69,15 +72,6 @@
     <ClCompile Include="..\Classes\Scenes\HelloWorldScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\AnimationHandlerNode.cpp">
-      <Filter>GT\Anim Related</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\AnimTransAct.cpp">
-      <Filter>GT\Anim Related</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp">
-      <Filter>GT\Game Logic\Music</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -86,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameScene.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GT\ObstacleNode.cpp">
-      <Filter>GT\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\CrashTestScene.cpp">
       <Filter>Scene</Filter>
@@ -102,14 +93,26 @@
     <ClCompile Include="..\Classes\Scenes\SettingsScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\Game Logic\CharacterStatNode.cpp">
-      <Filter>GT\Game Logic</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp">
       <Filter>MK\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\CharacterStatNode.cpp">
+      <Filter>GT\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\ObstacleNode.cpp">
+      <Filter>GT\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\Animation\AnimationHandlerNode.cpp">
+      <Filter>GT\Anim Related</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\Animation\AnimTransAct.cpp">
+      <Filter>GT\Anim Related</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\Audio\SimperMusicSys.cpp">
+      <Filter>GT\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,15 +174,6 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\AnimationHandlerNode.h">
-      <Filter>GT\Anim Related</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\AnimTransAct.h">
-      <Filter>GT\Anim Related</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\SimperMusicSys.h">
-      <Filter>GT\Game Logic\Music</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -195,9 +189,6 @@
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\ObstacleNode.h">
-      <Filter>GT\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Scenes\CrashTestScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -210,11 +201,26 @@
     <ClInclude Include="..\Classes\Scenes\SettingsScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\Game Logic\CharacterStatNode.h">
-      <Filter>GT\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\SH_TestScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Common\GTMacros.h">
+      <Filter>GT\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\CharacterStatNode.h">
+      <Filter>GT\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\ObstacleNode.h">
+      <Filter>GT\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Animation\AnimationHandlerNode.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Animation\AnimTransAct.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Audio\SimperMusicSys.h">
+      <Filter>GT\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

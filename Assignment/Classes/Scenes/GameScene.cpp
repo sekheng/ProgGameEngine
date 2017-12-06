@@ -5,11 +5,11 @@
 #include "MK/SceneManagement/MKSceneManager.h"
 
 // Include GT
-#include "GT/AnimationHandlerNode.h"
-#include "GT/AnimTransAct.h"
-#include "GT/SimperMusicSys.h"
-#include "GT/Game Logic/CharacterStatNode.h"
-#include "GT/ObstacleNode.h"
+#include "GT/Animation/AnimationHandlerNode.h"
+#include "GT/Animation/AnimTransAct.h"
+#include "GT/Audio/SimperMusicSys.h"
+#include "GT/GameLogic/CharacterStatNode.h"
+#include "GT/GameLogic/ObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;
@@ -29,7 +29,7 @@ bool GameScene::initWithPhysics()
     InitialiseGround();
     InitialiseInput();
 
-	auto sawObj = ObstacleNode::create(
+	auto sawObj = GTObstacleNode::create(
 		"Tileset/saw.png",
 		 Vec2(500, 500),
 		[&](cocos2d::PhysicsContact &_contact) -> bool

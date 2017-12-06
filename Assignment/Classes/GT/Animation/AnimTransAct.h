@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "GT/AnimationHandlerNode.h"
+#include "AnimationHandlerNode.h"
 
 namespace GinTama
 {

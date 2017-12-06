@@ -1,9 +1,9 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/AnimationHandlerNode.h"
-#include "GT/AnimTransAct.h"
-#include "GT/SimperMusicSys.h"
+#include "GT/Animation/AnimationHandlerNode.h"
+#include "GT/Animation/AnimTransAct.h"
+#include "GT/Audio/SimperMusicSys.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"

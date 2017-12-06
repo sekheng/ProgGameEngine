@@ -1,7 +1,7 @@
 #include "CharacterStatNode.h"
 #include "MK/Common/MKAssertions.h"
-#include "GT/AnimationHandlerNode.h"
-#include "GT/SimperMusicSys.h"
+#include "GT/Animation/AnimationHandlerNode.h"
+#include "GT/Audio/SimperMusicSys.h"
 
 using namespace GinTama;
 USING_NS_CC;

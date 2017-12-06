@@ -1,31 +1,31 @@
 #include "ObstacleNode.h"
 
-using namespace GinTama;
+NS_GT_BEGIN
 
-ObstacleNode::ObstacleNode()
+GTObstacleNode::GTObstacleNode()
 {
 	//CAN BE ANYTH, JUST SET IT DIFFERENT FROM PLAYER
 	setTag(2);
 }
 
-ObstacleNode::~ObstacleNode()
+GTObstacleNode::~GTObstacleNode()
 {
 
 }
 
-ObstacleNode *ObstacleNode::create(
+GTObstacleNode *GTObstacleNode::create(
 	const std::string& _spriteFileName, 
 	const cocos2d::Vec2& _obsPos, 
 	const std::function<bool(cocos2d::PhysicsContact& _contact)>& _checkCollision,
 	const float& _obsScale)
 {
-	ObstacleNode *zeNode = new ObstacleNode(_spriteFileName, _obsPos, _checkCollision, _obsScale);
+	GTObstacleNode *zeNode = new GTObstacleNode(_spriteFileName, _obsPos, _checkCollision, _obsScale);
 	return zeNode;
 }
 
 //IDK IF THIS IS A GOOD WAY or CHECKING BY TAG IS A BETTER WAY...
 //THIS IS WHAT I UNDERSTOOD FROM THE DOCUMENTATION
-bool ObstacleNode::onContactBegin(cocos2d::PhysicsContact& _contact)
+bool GTObstacleNode::onContactBegin(cocos2d::PhysicsContact& _contact)
 {
 	//I TRIED NOT TO USE getShapeA() / getShapeB cuz it made no sense to me... Sry
 	//SO INSTEAD, JUS GET NODE OF BODY DIRECTLY
@@ -44,3 +44,5 @@ bool ObstacleNode::onContactBegin(cocos2d::PhysicsContact& _contact)
 
 	return true;
 }
+
+NS_GT_END
