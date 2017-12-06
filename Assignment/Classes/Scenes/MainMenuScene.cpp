@@ -135,6 +135,8 @@ bool MainMenuScene::init()
 	return true;
 }
 
+void MainMenuScene::InitialiseSkyBackground() {}
+/*
 void MainMenuScene::InitialiseSkyBackground()
 {
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
@@ -155,6 +157,7 @@ void MainMenuScene::InitialiseSkyBackground()
 
 	addChild(m_SkyBackground);
 }
+*/
 
 void MainMenuScene::OnButton(EventCustom* _event)
 {

@@ -9,6 +9,10 @@ NS_MK_BEGIN
 class MKMathsHelper
 {
 public:
+    static const float PI;
+    static const float Deg2Rad;
+    static const float Rad2Deg;
+
 	template<typename T>
 	static T Max(T _a, T _b)
 	{

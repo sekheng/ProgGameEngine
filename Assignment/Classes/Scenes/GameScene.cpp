@@ -96,14 +96,12 @@ void GameScene::InitialiseGround()
     m_Ground->setAnchorPoint(Vec2(0.0f, 0.0f));
     m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-    float desiredHeight = visibleSize.height * 0.1f;
+    // Scale the ground to be the correct size. We want the ground to be 0.1 of the screen height.
     float groundHeight = m_Ground->getContentSize().height;
+    float desiredHeight = visibleSize.height * 0.1f;
     float desiredScale = desiredHeight / groundHeight;
-    m_Ground->setScale(desiredScale, desiredScale);
-
-    float groundWidth = m_Ground->getContentSize().width;	
-    float numRepeat = visibleSize.width / (groundWidth * desiredScale);
-    m_Ground->SetRepeat(numRepeat, 1.0f);
+    m_Ground->setScale(desiredScale * 1000.0f, desiredScale);
+    m_Ground->SetTextureScale(1000.0f, 1.0f);
 
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
@@ -133,14 +131,16 @@ void GameScene::InitialiseBackgrounds()
 			m_Backgrounds[i]->setAnchorPoint(Vec2(0.0f, 0.0f));
 			m_Backgrounds[i]->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-			float desiredHeight = visibleSize.height;
-			float backgroundHeight = m_Backgrounds[i]->getContentSize().height;
-			float desiredScale = desiredHeight / backgroundHeight;
-			m_Backgrounds[i]->setScale(desiredScale, desiredScale);
-			
-			float backgroundWidth = m_Backgrounds[i]->getContentSize().width;
-			float numRepeat = visibleSize.width / (backgroundWidth * desiredScale);
-			m_Backgrounds[i]->SetRepeat(numRepeat, 1.0f);
+            // We want the background to fill up the whole screen.
+            float backgroundWidth = m_Backgrounds[i]->getContentSize().width;
+            float backgroundHeight = m_Backgrounds[i]->getContentSize().height;
+            float backgroundAspectRatio = backgroundWidth / backgroundHeight;
+
+            float desiredWidth = visibleSize.width;
+            float desiredHeight = visibleSize.height;
+
+			m_Backgrounds[i]->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+            m_Backgrounds[i]->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
 			addChild(m_Backgrounds[i]);
 		}
@@ -196,9 +196,7 @@ void GameScene::OnAxis(EventCustom * _event)
 
 void GameScene::ScrollBackgrounds(float _deltaTime)
 {
-	m_Ground->OffsetTexture(_deltaTime * 3.0f, 0.0f);
-	
-	m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
+    m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
 	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
 	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
 }
