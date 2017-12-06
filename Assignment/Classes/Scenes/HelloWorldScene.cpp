@@ -211,6 +211,7 @@ bool HelloWorld::initWithPhysics()
     scheduleUpdate();
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
     getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     getPhysicsWorld()->setGravity(Vec2(0, -98.f));
     getPhysicsWorld()->setAutoStep(true);
@@ -230,6 +231,7 @@ bool HelloWorld::initWithPhysics()
     zePhyBody->setMass(1.f);
     zePhyBody->setDynamic(true);
     zePhyBody->setGravityEnable(true);
+    zeTestAnimTrans->playAnim("dash");
     //zePhyBody->setVelocityLimit(0.001f);
     //zePhyBody->setVelocity(Vec2(0, 1));
     //zePhyBody->setAngularVelocityLimit(0);
@@ -253,7 +255,7 @@ bool HelloWorld::initWithPhysics()
     this->addChild(zeEdgeNode);
 
     CharacterStatNode *zeCharStat = CharacterStatNode::create(zeEdgePhy);
-    zeCharStat->setSpeedX(5);
+    //zeCharStat->setSpeedX(5);
     zeCharStat->scheduleUpdate();
     testTransitionSpr->addChild(zeCharStat);
     m_CharSpr = testTransitionSpr;
@@ -416,7 +418,7 @@ void HelloWorld::update(float _deltaTime)
 		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
 		m_SceneChangeCounter = 3.0f;
 	}
-    m_CharSpr->getChildByTag<CharacterStatNode*>(1)->adjustSpeedX(_deltaTime * 5.0f);
+    //m_CharSpr->getChildByTag<CharacterStatNode*>(1)->adjustSpeedX(_deltaTime * 5.0f);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

@@ -8,7 +8,9 @@ namespace GinTama
         RUNNING = 0x0001,
         JUMPING = 0x0002,
         DEAD = 0x0004,
-        TOTAL_STATE = RUNNING | JUMPING | DEAD,
+        SLIDE = 0x0008,
+        DASH = 0x0010,
+        TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH,
     };
 
 	class CharacterStatNode : public cocos2d::Node
@@ -35,8 +37,11 @@ namespace GinTama
         */
         void adjustSpeedX(const float &_value);
 
+        void setSlideDuration(const float &_duration);
+
         float getSpeedX();
         int getHealth();
+        float getSlideDuration();
         virtual void update(float delta);
 
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
@@ -50,9 +55,11 @@ namespace GinTama
 
 		int m_health;
         cocos2d::PhysicsBody* m_physicsNode;
+        cocos2d::PhysicsShape *m_SlidePhyShape, *m_OriginPhyShape;
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
         float m_SpeedX;
         float m_MovedDistance;
+        float m_DurationOfSlide, m_SlideCountDown;
 	};
-};
+}

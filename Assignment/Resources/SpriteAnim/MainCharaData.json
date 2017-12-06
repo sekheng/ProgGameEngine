@@ -65,6 +65,31 @@
             "Dead (9).png",
             "Dead (10).png"
          ]
+      },
+      {  
+         "StateName":"dash",
+         "FPS":0.06,
+         "loop":-1,
+         "SpriteReference":[  
+            "RunShoot (1).png",
+            "RunShoot (2).png",
+            "RunShoot (3).png",
+            "RunShoot (4).png",
+            "RunShoot (5).png",
+            "RunShoot (6).png",
+            "RunShoot (7).png",
+            "RunShoot (8).png",
+            "RunShoot (9).png",
+            "RunShoot (10).png"
+         ]
+      },
+      {  
+         "StateName":"slide",
+         "FPS":0.06,
+         "loop":1,
+         "SpriteReference":[  
+            "Slide (1).png"
+         ]
       }
    ],
    "AnimationTransition":[  
@@ -103,6 +128,26 @@
 			{
 				"ActionName":"AnimTrans",
 				"ActionValue":"died"
+			}
+		]
+	  },
+	  {
+		"TransitName":"Slide",
+		"TransitCondition":"",
+		"ActionSequence":[
+			{
+				"ActionName":"AnimTrans",
+				"ActionValue":"slide"
+			}
+		]
+	  },
+	  {
+		"TransitName":"Idle",
+		"TransitCondition":"",
+		"ActionSequence":[
+			{
+				"ActionName":"AnimTrans",
+				"ActionValue":"run"
 			}
 		]
 	  }

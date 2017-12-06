@@ -12,16 +12,25 @@ CharacterStatNode::CharacterStatNode()
 	: m_health(3)
     , m_CurrentState(RUNNING)
     , m_physicsNode(nullptr)
+    , m_SlidePhyShape(nullptr)
+    , m_OriginPhyShape(nullptr)
     , m_countingFloat(0)
     , m_SpeedX(0)
     , m_MovedDistance(0)
+    , m_DurationOfSlide(0)
+    , m_SlideCountDown(0)
 {
 	setTag(1);
 }
 
 CharacterStatNode::~CharacterStatNode()
 {
-
+    if (m_physicsNode)
+    {
+        m_physicsNode->release();
+        m_SlidePhyShape->release();
+        m_OriginPhyShape->release();
+    }
 }
 
 CharacterStatNode *CharacterStatNode::create()
@@ -64,24 +73,40 @@ void CharacterStatNode::update(float delta)
     // if there is the physics node
     if (m_physicsNode)
     {
-        Vec2 zeVel = m_physicsNode->getVelocity();
-        if (zeVel.y < -ACCEPTABLE_VELY)
+        // if this character is sliding, we add the countdown!
+        switch (m_CurrentState)
         {
-            m_countingFloat += delta;
-            if (m_countingFloat > 0.2f)
+        case SLIDE:
+            m_SlideCountDown += delta;
+            if (m_SlideCountDown > m_DurationOfSlide)
             {
-                switch (m_CurrentState)
-                {
-                case RUNNING:
-                    // this means that the character is falling!
-                    setState(JUMPING);
-                    _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
-                    break;
-                default:
-                    break;
-                }
-                m_countingFloat = 0;
+                // then we can slide back!
+                m_physicsNode->removeShape(m_SlidePhyShape);
+                m_physicsNode->addShape(m_OriginPhyShape);
+                setState(RUNNING);
+                _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
             }
+            break;
+        default:
+            Vec2 zeVel = m_physicsNode->getVelocity();
+            if (zeVel.y < -ACCEPTABLE_VELY)
+            {
+                m_countingFloat += delta;
+                if (m_countingFloat > 0.2f)
+                {
+                    switch (m_CurrentState)
+                    {
+                    case RUNNING:
+                        // this means that the character is falling!
+                        setState(JUMPING);
+                        break;
+                    default:
+                        break;
+                    }
+                    m_countingFloat = 0;
+                }
+            }
+            break;
         }
     }
 
@@ -100,6 +125,13 @@ void CharacterStatNode::update(float delta)
 void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
 {
     m_physicsNode = _physicsBody;
+    m_physicsNode->retain();
+    m_OriginPhyShape = _physicsBody->getShape(0);
+    m_OriginPhyShape->retain();
+    // then have another
+    Size zeSlideSize = Size(_physicsBody->getOwner()->getContentSize().width * 0.5f, _physicsBody->getOwner()->getContentSize().height * 0.3f);
+    m_SlidePhyShape = PhysicsShapeBox::create(zeSlideSize, _physicsBody->getFirstShape()->getMaterial(), _physicsBody->getFirstShape()->getOffset());
+    m_SlidePhyShape->retain();
 }
 
 bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
@@ -109,6 +141,7 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
     case GinTama::RUNNING:
         switch (m_CurrentState)
         {
+        case SLIDE:
         case JUMPING:
             m_CurrentState = _whatState;
             break;
@@ -122,9 +155,24 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
         case GinTama::RUNNING:
             // u can only change from running to jumping!
             m_CurrentState = _whatState;
+            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
             break;
         default:
             break;
+        }
+        break;
+    case GinTama::SLIDE:
+        switch (m_CurrentState)
+        {
+        case RUNNING:
+            // only slide when it is only running!
+            m_physicsNode->removeShape(m_OriginPhyShape);
+            m_physicsNode->addShape(m_SlidePhyShape);
+            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Slide");
+            m_SlideCountDown = 0;
+            m_CurrentState = _whatState;
+        default:
+                break;
         }
         break;
     case GinTama::DEAD:
@@ -158,4 +206,14 @@ void CharacterStatNode::setSpeedX(const float &_speed)
 void CharacterStatNode::adjustSpeedX(const float &_value)
 {
     m_SpeedX += _value;
+}
+
+void CharacterStatNode::setSlideDuration(const float &_duration)
+{
+    m_DurationOfSlide = _duration;
+}
+
+float CharacterStatNode::getSlideDuration()
+{
+    return m_DurationOfSlide;
 }

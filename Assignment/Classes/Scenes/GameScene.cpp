@@ -65,10 +65,9 @@ bool GameScene::initWithPhysics()
     charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     //TODO: Change this hardcoded position
     charaSpr->setPosition(Vec2(150, 250));
-    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height - 75.f);
+    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height * 0.8f);
     PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize);
     charaPhysics->setAngularVelocityLimit(0.f);
-    //charaPhysics->setAngularVelocityLimit(0);
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
@@ -76,6 +75,7 @@ bool GameScene::initWithPhysics()
     CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
+    charaStat->setSlideDuration(3.0f);
     charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
@@ -162,10 +162,10 @@ void GameScene::OnButton(EventCustom * _event)
             {
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
-                charaStat->setState(JUMPING);
-                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
-                m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
-                SimperMusicSys::GetInstance()->playSound("Jump");
+                charaStat->setState(CHARACTER_STATE::SLIDE);
+                //charaStat->setState(JUMPING);
+                //m_physicsNode->applyImpulse(Vec2(0, 200.f));
+                //SimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
                 break;
