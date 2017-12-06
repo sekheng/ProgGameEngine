@@ -18,6 +18,12 @@
 		 "NameID":"Jump",
 		 "volume":0.2,
 		 "loop":false
+      },
+ 	  {  
+         "location":"Audio/Dash.mp3",
+		 "NameID":"Dash",
+		 "volume":0.2,
+		 "loop":false
       }
   ]
 }

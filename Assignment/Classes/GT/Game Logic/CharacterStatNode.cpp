@@ -19,6 +19,8 @@ CharacterStatNode::CharacterStatNode()
     , m_MovedDistance(0)
     , m_DurationOfSlide(0)
     , m_SlideCountDown(0)
+    , m_DurationOfDash(0)
+    , m_DashCountDown(0)
 {
 	setTag(1);
 }
@@ -87,6 +89,15 @@ void CharacterStatNode::update(float delta)
                 _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
             }
             break;
+        case DASH:
+            m_DashCountDown += delta;
+            if (m_DashCountDown > m_DurationOfDash)
+            {
+                m_SpeedX *= 0.5f;
+                setState(RUNNING);
+                _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+            }
+            break;
         default:
             Vec2 zeVel = m_physicsNode->getVelocity();
             if (zeVel.y < -ACCEPTABLE_VELY)
@@ -138,9 +149,10 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
 {
     switch (_whatState)
     {
-    case GinTama::RUNNING:
+    case RUNNING:
         switch (m_CurrentState)
         {
+        case DASH:
         case SLIDE:
         case JUMPING:
             m_CurrentState = _whatState;
@@ -149,10 +161,10 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
             break;
         }
         break;
-    case GinTama::JUMPING:
+    case JUMPING:
         switch (m_CurrentState)
         {
-        case GinTama::RUNNING:
+        case RUNNING:
             // u can only change from running to jumping!
             m_CurrentState = _whatState;
             _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
@@ -161,7 +173,7 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
             break;
         }
         break;
-    case GinTama::SLIDE:
+    case SLIDE:
         switch (m_CurrentState)
         {
         case RUNNING:
@@ -173,11 +185,28 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
             _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;
+            SimperMusicSys::GetInstance()->playSound("Slide");
         default:
                 break;
         }
         break;
-    case GinTama::DEAD:
+    case DASH:
+        // then the speed of the character will be multiplied by 2!
+        switch (m_CurrentState)
+        {
+        case RUNNING:
+            m_DashCountDown = 0;
+            // we will need to ensure that the character is sliding then we multiply the speed by 2!
+            m_SpeedX *= 2.0f;
+            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Dash");
+            m_CurrentState = _whatState;
+            SimperMusicSys::GetInstance()->playSound("Dash");
+            break;
+        default:
+            break;
+        }
+        break;
+    case DEAD:
         m_CurrentState = _whatState;
         // if dead then stop the speed and change the transition
         m_SpeedX = 0;
@@ -212,10 +241,22 @@ void CharacterStatNode::adjustSpeedX(const float &_value)
 
 void CharacterStatNode::setSlideDuration(const float &_duration)
 {
-    m_DurationOfSlide = _duration;
+    if (_duration > 0)
+        m_DurationOfSlide = _duration;
 }
 
 float CharacterStatNode::getSlideDuration()
 {
     return m_DurationOfSlide;
+}
+
+void CharacterStatNode::setDashDuration(const float &_duration)
+{
+    if (_duration > 0)
+        m_DurationOfDash = _duration;
+}
+
+float CharacterStatNode::getDashDuration()
+{
+    return m_DurationOfDash;
 }

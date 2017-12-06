@@ -55,6 +55,7 @@ bool GameScene::initWithPhysics()
     scheduleUpdate();
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
     Sprite *charaSpr = Sprite::create();
     charaSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
     this->addChild(charaSpr);
@@ -76,6 +77,7 @@ bool GameScene::initWithPhysics()
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
     charaStat->setSlideDuration(1.0f);
+    charaStat->setDashDuration(1.0f);
     charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
@@ -174,7 +176,9 @@ void GameScene::OnButton(EventCustom * _event)
         break;
         case MKInputName::SLIDE:
             charaStat->setState(CHARACTER_STATE::SLIDE);
-            SimperMusicSys::GetInstance()->playSound("Slide");
+            break;
+        case MKInputName::SMASH:
+            charaStat->setState(CHARACTER_STATE::DASH);
             break;
         default:
             break;
