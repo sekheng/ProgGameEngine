@@ -38,10 +38,13 @@ namespace GinTama
         void adjustSpeedX(const float &_value);
 
         void setSlideDuration(const float &_duration);
+        void setDashDuration(const float &_duration);
 
         float getSpeedX();
         int getHealth();
         float getSlideDuration();
+        float getDashDuration();
+
         virtual void update(float delta);
 
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
@@ -61,5 +64,6 @@ namespace GinTama
         float m_SpeedX;
         float m_MovedDistance;
         float m_DurationOfSlide, m_SlideCountDown;
+        float m_DurationOfDash, m_DashCountDown;
 	};
 }

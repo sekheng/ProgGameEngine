@@ -150,6 +150,16 @@
 				"ActionValue":"run"
 			}
 		]
+	  },
+	  {
+		"TransitName":"Dash",
+		"TransitCondition":"",
+		"ActionSequence":[
+			{
+				"ActionName":"AnimTrans",
+				"ActionValue":"dash"
+			}
+		]
 	  }
    ]
 }
