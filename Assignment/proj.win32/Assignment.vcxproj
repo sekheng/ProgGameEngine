@@ -156,6 +156,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\ObstacleNode.cpp" />
     <ClCompile Include="..\Classes\GT\SH_TestScene.cpp" />
     <ClCompile Include="..\Classes\GT\SimperMusicSys.cpp" />
+    <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp" />
     <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />

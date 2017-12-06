@@ -6,9 +6,11 @@
 
 // Include STL
 #include <string>
+#include <cmath>
 
 // Include MK
 #include "../Common/MKMacros.h"
+#include "../Common/MKMathsHelper.h"
 
 USING_NS_CC;
 using namespace std;
@@ -18,12 +20,16 @@ NS_MK_BEGIN
 class MKSprite : public cocos2d::Sprite
 {
 private:
+    GLProgram* m_GLProgram = nullptr;
+    GLProgramState* m_GLProgramState = nullptr;
+
 	Vec2 m_TextureOffset;
-	Size m_TextureOriginalSize;
+    Vec2 m_TextureScale;
+    float m_TextureRotation;
 	const bool m_UseTextureRepeat;
 
-	static void SetTextureParameters(MKSprite* _sprite);
-	static void SetOriginalTextureSize(MKSprite* _sprite);
+    static void InitGLProgram(MKSprite* _sprite);
+	static void InitTextureParameters(MKSprite* _sprite);
 
 public:
 	MKSprite(bool _useTextureRepeat)
@@ -32,6 +38,11 @@ public:
 		// Default Texture Offset
 		m_TextureOffset.x = 0.0f;
 		m_TextureOffset.y = 0.0f;
+
+        m_TextureScale.x = 1.0f;
+        m_TextureScale.y = 1.0f;
+
+        m_TextureRotation = 0.0f;
 	}
 	virtual ~MKSprite() {}
 
@@ -52,15 +63,18 @@ public:
 		return m_TextureOffset;
 	}
 
-	void SetTextureOffset(mkF32 _x, mkF32 _y)
-	{
-		m_TextureOffset.x = _x;
-		m_TextureOffset.y = _y;
+    void SetTextureOffset(const cocos2d::Vec2& _textureOffset)
+    {
+        SetTextureOffset(_textureOffset.x, _textureOffset.y);
+    }
 
-		Rect textureRect = getTextureRect();
-		textureRect.origin.x = m_TextureOriginalSize.width * _x;
-		textureRect.origin.y = m_TextureOriginalSize.height * _y;
-		setTextureRect(textureRect);
+    void SetTextureOffset(mkF32 _x, mkF32 _y)
+    {
+        m_TextureOffset.x = _x;
+        m_TextureOffset.y = _y;
+
+        m_GLProgramState->setUniformVec2("u_textureOffset", m_TextureOffset);
+        m_GLProgram->updateUniforms();
 	}
 
 	void OffsetTexture(mkF32 _x, mkF32 _y)
@@ -68,28 +82,48 @@ public:
 		SetTextureOffset(m_TextureOffset.x + _x, m_TextureOffset.y + _y);
 	}
 
-	// This scales the sprite, causing the texture to be repeated.
-	Vec2 GetRepeat() const
-	{
-		Size currentSize = getTextureRect().size;
-		return Vec2(currentSize.width / m_TextureOriginalSize.width, currentSize.height / m_TextureOriginalSize.height);
-	}
+    Vec2 GetTextureScale() const
+    {
+        return m_TextureScale;
+    }
 
-	void SetRepeat(mkF32 _x, mkF32 _y)
-	{
-		Rect textureRect = getTextureRect();
-		textureRect.size.width = _x * m_TextureOriginalSize.width;
-		textureRect.size.height = _y * m_TextureOriginalSize.height;
-		setTextureRect(textureRect);
-	}
+    void SetTextureScale(const cocos2d::Vec2& _textureScale)
+    {
+        SetTextureScale(_textureScale.x, _textureScale.y);
+    }
 
-	void Repeat(mkF32 _x, mkF32 _y)
-	{
-		Rect textureRect = getTextureRect();
-		textureRect.size.width *= _x;
-		textureRect.size.height *= _y;
-		setTextureRect(textureRect);
-	}
+    void SetTextureScale(mkF32 _u, mkF32 _v)
+    {
+        m_TextureScale.x = _u;
+        m_TextureScale.y = _v;
+
+        m_GLProgramState->setUniformVec2("u_textureScale", m_TextureScale);
+        m_GLProgram->updateUniforms();
+    }
+
+    void ScaleTexture(mkF32 _u, mkF32 _v)
+    {
+        SetTextureScale(m_TextureScale.x + _u, m_TextureScale.y + _v);
+    }
+
+    float GetTextureRotation() const
+    {
+        return m_TextureRotation;
+    }
+
+    void SetTextureRotation(float _degrees)
+    {
+        m_TextureRotation = _degrees;
+
+        float rotationRadians = m_TextureRotation * MKMathsHelper::Deg2Rad;
+        m_GLProgramState->setUniformVec2("u_textureRotationCosSin", Vec2(cos(rotationRadians), sin(rotationRadians)));
+        m_GLProgram->updateUniforms();
+    }
+
+    void RotateTexture(float _degrees)
+    {
+        SetTextureRotation(m_TextureRotation + _degrees);
+    }
 
 };
 

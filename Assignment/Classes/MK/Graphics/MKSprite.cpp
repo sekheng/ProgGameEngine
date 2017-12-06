@@ -3,7 +3,36 @@
 
 NS_MK_BEGIN
 
-void MKSprite::SetTextureParameters(MKSprite* _sprite)
+void MKSprite::InitGLProgram(MKSprite* _sprite)
+{
+    // Create GLProgram
+    _sprite->m_GLProgram = new GLProgram();
+    _sprite->m_GLProgram->initWithFilenames("Shaders/MKShader_Default.vsh", "Shaders/MKShader_Default.fsh");
+    _sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+    _sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+    _sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORD);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD1, GLProgram::VERTEX_ATTRIB_TEX_COORD1);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD2, GLProgram::VERTEX_ATTRIB_TEX_COORD2);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD3, GLProgram::VERTEX_ATTRIB_TEX_COORD3);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_NORMAL, GLProgram::VERTEX_ATTRIB_NORMAL);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_BLEND_WEIGHT, GLProgram::VERTEX_ATTRIB_BLEND_WEIGHT);
+    //_sprite->m_GLProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_BLEND_INDEX, GLProgram::VERTEX_ATTRIB_BLEND_INDEX);
+    _sprite->m_GLProgram->link();
+    _sprite->m_GLProgram->updateUniforms();
+
+    // Create GLProgramState
+    _sprite->m_GLProgramState = GLProgramState::getOrCreateWithGLProgram(_sprite->m_GLProgram);
+    _sprite->setGLProgram(_sprite->m_GLProgram);
+    _sprite->setGLProgramState(_sprite->m_GLProgramState);
+
+    // Update Uniforms
+    _sprite->SetTextureOffset(_sprite->m_TextureOffset);
+    _sprite->SetTextureScale(_sprite->m_TextureScale);
+    _sprite->SetTextureRotation(_sprite->m_TextureRotation);
+    _sprite->m_GLProgram->updateUniforms();
+}
+
+void MKSprite::InitTextureParameters(MKSprite* _sprite)
 {
 	// Set the texture parameters to GL_REPEAT.
 	Texture2D::TexParams textureParameters;
@@ -24,25 +53,19 @@ void MKSprite::SetTextureParameters(MKSprite* _sprite)
 	_sprite->getTexture()->setTexParameters(textureParameters);
 }
 
-void MKSprite::SetOriginalTextureSize(MKSprite* _sprite)
-{
-	_sprite->m_TextureOriginalSize.width = _sprite->getContentSize().width;
-	_sprite->m_TextureOriginalSize.height = _sprite->getContentSize().height;
-}
-
 MKSprite* MKSprite::create(const std::string& _fileName, bool _useTextureRepeat)
 {
-	MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
-	if (sprite && sprite->initWithFile(_fileName))
-	{
-		sprite->autorelease();
-		SetTextureParameters(sprite);
-		SetOriginalTextureSize(sprite);
-		return sprite;
-	}
+    MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
+    if (sprite && sprite->initWithFile(_fileName))
+    {
+        sprite->autorelease();
+        InitGLProgram(sprite);
+        InitTextureParameters(sprite);
+        return sprite;
+    }
 
-	CC_SAFE_DELETE(sprite);
-	return nullptr;
+    CC_SAFE_DELETE(sprite);
+    return nullptr;
 }
 
 MKSprite* MKSprite::createWithTexture(Texture2D *texture, bool _useTextureRepeat)
@@ -51,8 +74,8 @@ MKSprite* MKSprite::createWithTexture(Texture2D *texture, bool _useTextureRepeat
 	if (sprite && sprite->initWithTexture(texture))
 	{
 		sprite->autorelease();
-		SetTextureParameters(sprite);
-		SetOriginalTextureSize(sprite);
+        InitGLProgram(sprite);
+		InitTextureParameters(sprite);
 		return sprite;
 	}
 	CC_SAFE_DELETE(sprite);
@@ -84,7 +107,6 @@ MKSprite* MKSprite::createWithSize(const std::string& _fileName, const Size& _de
 
 	// Create new Sprite which is the size that we want.
 	MKSprite* resultSprite = MKSprite::createWithTexture(renderTexture->getSprite()->getTexture(), _useTextureRepeat);
-	SetTextureParameters(resultSprite);
 
 	return resultSprite;
 }

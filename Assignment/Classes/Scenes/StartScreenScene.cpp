@@ -39,7 +39,6 @@ void StartScreenScene::InitialiseLogo()
 
     Size desiredSize(visibleSize.height, visibleSize.height * 0.5f);
     m_Logo = MKSprite::createWithSize("UI/Logo.png", desiredSize, false);
-    //m_Logo = MKSprite::create("UI/Logo.png");
     m_Logo->setAnchorPoint(Vec2(0.5f, 1.0f));
     m_Logo->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
         visibleOrigin.y + visibleSize.height * 0.9f));
@@ -56,14 +55,16 @@ void StartScreenScene::InitialiseSkyBackground()
     m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
     m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-    float desiredHeight = visibleSize.height;
-    float backgroundHeight = m_SkyBackground->getContentSize().height;
-    float desiredScale = desiredHeight / backgroundHeight;
-    m_SkyBackground->setScale(desiredScale, desiredScale);
-
+    // We want the background to fill up the whole screen.
     float backgroundWidth = m_SkyBackground->getContentSize().width;
-    float numRepeat = visibleSize.width / (backgroundWidth * desiredScale);
-    m_SkyBackground->SetRepeat(numRepeat, 1.0f);
+    float backgroundHeight = m_SkyBackground->getContentSize().height;
+    float backgroundAspectRatio = backgroundWidth / backgroundHeight;
+
+    float desiredWidth = visibleSize.width;
+    float desiredHeight = visibleSize.height;
+
+    m_SkyBackground->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+    m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
     addChild(m_SkyBackground);
 }
