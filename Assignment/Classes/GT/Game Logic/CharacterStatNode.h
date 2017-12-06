@@ -17,9 +17,25 @@ namespace GinTama
 		static CharacterStatNode* create();
         static CharacterStatNode* create(cocos2d::PhysicsBody *_physicsBody);
 
+        /** This will set the health to be the exact health!
+        *
+        * @param _health will be the exact value of the health
+        */
 		bool setHealth(const int &_health);
-		bool adjustHealth(const int &_value);
+		/** Adjust the value of the health
+        
+        */
+        bool adjustHealth(const int &_value);
+        /** Set the speed to the exact
+        *
+        */
+        void setSpeedX(const float &_speed);
+        /** Adjust the value of the speed
+        *
+        */
+        void adjustSpeedX(const float &_value);
 
+        float getSpeedX();
         int getHealth();
         virtual void update(float delta);
 

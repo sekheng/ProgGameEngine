@@ -252,6 +252,12 @@ bool HelloWorld::initWithPhysics()
     zeEdgeNode->setPhysicsBody(zeEdgePhy);
     this->addChild(zeEdgeNode);
 
+    CharacterStatNode *zeCharStat = CharacterStatNode::create(zeEdgePhy);
+    zeCharStat->setSpeedX(5);
+    zeCharStat->scheduleUpdate();
+    testTransitionSpr->addChild(zeCharStat);
+    m_CharSpr = testTransitionSpr;
+
     auto cam = getDefaultCamera();
     //cam->runAction(MoveTo::create(3.f, Vec3(cam->getPositionX(), cam->getPositionY(), cam->getPositionZ() + 300.f)));
     cam->setPositionZ(cam->getPositionZ() + 300.0f);
@@ -410,6 +416,7 @@ void HelloWorld::update(float _deltaTime)
 		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
 		m_SceneChangeCounter = 3.0f;
 	}
+    m_CharSpr->getChildByTag<CharacterStatNode*>(1)->adjustSpeedX(_deltaTime * 5.0f);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

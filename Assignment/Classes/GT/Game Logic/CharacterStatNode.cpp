@@ -74,7 +74,7 @@ void CharacterStatNode::update(float delta)
                 case RUNNING:
                     // this means that the character is falling!
                     setState(JUMPING);
-                    getParent()->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
+                    _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
                     break;
                 default:
                     break;
@@ -85,7 +85,8 @@ void CharacterStatNode::update(float delta)
     }
 
     // since the moving along of the x-axis is different from the physics system, we will be using m_SpeedX
-
+    // we will need to move the parent transform position
+    _parent->setPositionX(_parent->getPositionX() + (m_SpeedX * delta));
 }
 
 void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
@@ -120,6 +121,9 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
         break;
     case GinTama::DEAD:
         m_CurrentState = _whatState;
+        // if dead then stop the speed and change the transition
+        m_SpeedX = 0;
+        _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Died");
         break;
     default:
         MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
@@ -131,4 +135,19 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
 CHARACTER_STATE CharacterStatNode::getCurrentState()
 {
     return m_CurrentState;
+}
+
+float CharacterStatNode::getSpeedX()
+{
+    return m_SpeedX;
+}
+
+void CharacterStatNode::setSpeedX(const float &_speed)
+{
+    m_SpeedX = _speed;
+}
+
+void CharacterStatNode::adjustSpeedX(const float &_value)
+{
+    m_SpeedX += _value;
 }

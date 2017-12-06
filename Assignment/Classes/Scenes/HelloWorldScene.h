@@ -20,7 +20,7 @@ private:
 	EventListenerCustom* m_ClickListener = nullptr;
 	EventListenerCustom* m_AxisListener = nullptr;
 	Label* m_InputLabel = nullptr;
-
+    Node *m_CharSpr;
 	float m_SceneChangeCounter = 3.0f;
 
     bool onContact(PhysicsContact &_contact);
