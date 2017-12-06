@@ -111,7 +111,7 @@
     <ClCompile Include="..\Classes\GT\Audio\SimperMusicSys.cpp">
       <Filter>GT\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacleNode.cpp">
+    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacle_Missile.cpp">
       <Filter>GT\GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -220,6 +220,15 @@
       <Filter>GT\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleNode.h">
+      <Filter>GT\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacle_Missile.h">
+      <Filter>GT\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\GTCollisionCategory.h">
+      <Filter>GT\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleMacros.h">
       <Filter>GT\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>

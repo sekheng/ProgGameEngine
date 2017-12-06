@@ -24,7 +24,7 @@ void MKInputManager::InitializeDefinitions()
 
 	// Add Input Definitions here.
 	{
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
 		m_InputDefinitions[MKInputName::JUMP]->Register1(
 			CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
 			CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -32,7 +32,7 @@ void MKInputManager::InitializeDefinitions()
 	}
 
 	{
-		mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, 0);
+		mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, 0);
 		m_InputDefinitions[MKInputName::JUMP]->Register2(
 			CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
 			CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
@@ -40,7 +40,7 @@ void MKInputManager::InitializeDefinitions()
 	}
     // slide definition
     {
-        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_DOWN_ARROW);
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_DOWN_ARROW);
         m_InputDefinitions[MKInputName::SLIDE]->Register1(
             CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
             CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -48,7 +48,7 @@ void MKInputManager::InitializeDefinitions()
     }
 
     {
-        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, 0);
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, 0);
         m_InputDefinitions[MKInputName::SLIDE]->Register2(
             CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
             CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
@@ -56,7 +56,7 @@ void MKInputManager::InitializeDefinitions()
     }
     // Dash / Smash input definition
     {
-        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
         m_InputDefinitions[MKInputName::SMASH]->Register1(
             CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
             CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -64,7 +64,7 @@ void MKInputManager::InitializeDefinitions()
     }
 
     {
-        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, 0);
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, 0);
         m_InputDefinitions[MKInputName::SMASH]->Register2(
             CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
             CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
@@ -74,7 +74,7 @@ void MKInputManager::InitializeDefinitions()
 
 MKInputManager::MKInputManager()
 {
-	m_CurrentContext = MKInputContext::MK_CONTEXT_DEFAULT;
+	m_CurrentContext = MKInputContext::MK_INPUT_CONTEXT_DEFAULT;
 
 	// Initialise Event Dispatcher.
 #if MK_USE_DIRECTOR_DISPATCHER

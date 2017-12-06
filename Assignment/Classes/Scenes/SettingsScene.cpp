@@ -151,7 +151,7 @@ bool SettingsScene::init()
 //		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
 //	this->addChild(m_InputLabel, 1);
 //
-//	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+//	MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT1);
 //	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(SettingsScene::OnButton, this));
 //	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(SettingsScene::OnClick, this));
 //	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(SettingsScene::OnAxis, this));

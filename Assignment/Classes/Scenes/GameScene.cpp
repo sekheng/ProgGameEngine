@@ -29,6 +29,7 @@ bool GameScene::initWithPhysics()
     InitialiseGround();
     InitialiseInput();
 
+    /*
 	auto sawObj = GTObstacleNode::create(
 		"Tileset/saw.png",
 		 Vec2(500, 500),
@@ -50,8 +51,9 @@ bool GameScene::initWithPhysics()
 		}
 	);
 	this->addChild(sawObj);
+    */
 
-    MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
     scheduleUpdate();
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
