@@ -14,6 +14,7 @@ CharacterStatNode::CharacterStatNode()
     , m_physicsNode(nullptr)
     , m_countingFloat(0)
     , m_SpeedX(0)
+    , m_MovedDistance(0)
 {
 	setTag(1);
 }
@@ -85,8 +86,15 @@ void CharacterStatNode::update(float delta)
     }
 
     // since the moving along of the x-axis is different from the physics system, we will be using m_SpeedX
+    m_MovedDistance += m_SpeedX * delta;
     // we will need to move the parent transform position
-    _parent->setPositionX(_parent->getPositionX() + (m_SpeedX * delta));
+    _parent->setPositionX(_parent->getPositionX() + m_MovedDistance);
+    // then we will need to reset the position X after every 1000 distance
+    if (m_MovedDistance > 1000.0f)
+    {
+        m_MovedDistance -= 1000.0f;
+        _parent->setPositionX(_parent->getPositionX() + m_MovedDistance);
+    }
 }
 
 void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)

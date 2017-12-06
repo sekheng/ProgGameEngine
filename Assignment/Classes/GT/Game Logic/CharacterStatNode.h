@@ -5,10 +5,10 @@
 namespace GinTama
 {
     enum CHARACTER_STATE {
-        RUNNING,
-        JUMPING,
-        DEAD,
-        TOTAL_STATE,
+        RUNNING = 0x0001,
+        JUMPING = 0x0002,
+        DEAD = 0x0004,
+        TOTAL_STATE = RUNNING | JUMPING | DEAD,
     };
 
 	class CharacterStatNode : public cocos2d::Node
@@ -53,5 +53,6 @@ namespace GinTama
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
         float m_SpeedX;
+        float m_MovedDistance;
 	};
 };

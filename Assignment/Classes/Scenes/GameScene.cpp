@@ -58,6 +58,7 @@ bool GameScene::initWithPhysics()
     Sprite *charaSpr = Sprite::create();
     charaSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
     this->addChild(charaSpr);
+    charaSpr->setScale(0.5f);
     m_MainCharaNode = charaSpr;
     AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
     charaSpr->addChild(charAnimHandler);
@@ -209,15 +210,18 @@ void GameScene::update(float _deltaTime)
 
 bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
 {
-    auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
-    zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
-    // this means the character touched the ground!
-    m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
-    m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+    if (CompareBitmasks(_contact.getShapeA()->getContactTestBitmask(), _contact.getShapeB()->getContactTestBitmask()))
+    {
+        auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
+        zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
+        // this means the character touched the ground!
+        m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+        m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+    }
     return true;
 }
 
-bool CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
+bool GameScene::CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
 {
     mkU32 largerNum = _maskA;
     if (largerNum < _maskB)
