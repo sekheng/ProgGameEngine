@@ -154,7 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\Animation\AnimTransAct.cpp" />
     <ClCompile Include="..\Classes\GT\Audio\SimperMusicSys.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\CharacterStatNode.cpp" />
-    <ClCompile Include="..\Classes\GT\GameLogic\ObstacleNode.cpp" />
+    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacleNode.cpp" />
     <ClCompile Include="..\Classes\GT\SH_TestScene.cpp" />
     <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp" />
     <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
@@ -178,7 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\Audio\SimperMusicSys.h" />
     <ClInclude Include="..\Classes\GT\Common\GTMacros.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\CharacterStatNode.h" />
-    <ClInclude Include="..\Classes\GT\GameLogic\ObstacleNode.h" />
+    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleNode.h" />
     <ClInclude Include="..\Classes\GT\SH_TestScene.h" />
     <ClInclude Include="..\Classes\MK\Common\MKAssertions.h" />
     <ClInclude Include="..\Classes\MK\Common\MKMacros.h" />

@@ -9,7 +9,7 @@
 #include "GT/Animation/AnimTransAct.h"
 #include "GT/Audio/SimperMusicSys.h"
 #include "GT/GameLogic/CharacterStatNode.h"
-#include "GT/GameLogic/ObstacleNode.h"
+#include "GT/GameLogic/GTObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;

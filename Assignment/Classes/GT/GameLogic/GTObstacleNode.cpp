@@ -1,4 +1,4 @@
-#include "ObstacleNode.h"
+#include "GTObstacleNode.h"
 
 NS_GT_BEGIN
 
