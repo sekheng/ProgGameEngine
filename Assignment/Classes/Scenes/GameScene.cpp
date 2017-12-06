@@ -75,7 +75,7 @@ bool GameScene::initWithPhysics()
     CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
-    charaStat->setSlideDuration(3.0f);
+    charaStat->setSlideDuration(1.0f);
     charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
@@ -153,29 +153,34 @@ void GameScene::OnButton(EventCustom * _event)
     switch (buttonEvent->m_ButtonState)
     {
     case MinamiKotori::MKInputButton::ButtonState::PRESS:
+    {
+        CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
         {
-            CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
             switch (charaStat->getCurrentState())
             {
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
-                charaStat->setState(CHARACTER_STATE::SLIDE);
-                //charaStat->setState(JUMPING);
-                //m_physicsNode->applyImpulse(Vec2(0, 200.f));
-                //SimperMusicSys::GetInstance()->playSound("Jump");
+                charaStat->setState(JUMPING);
+                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
+                SimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
                 break;
             }
         }
+        break;
+        case MKInputName::SLIDE:
+            charaStat->setState(CHARACTER_STATE::SLIDE);
+            SimperMusicSys::GetInstance()->playSound("Slide");
             break;
         default:
             break;
         }
         break;
+    }
     default:
         break;
     }

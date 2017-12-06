@@ -231,7 +231,6 @@ bool HelloWorld::initWithPhysics()
     zePhyBody->setMass(1.f);
     zePhyBody->setDynamic(true);
     zePhyBody->setGravityEnable(true);
-    zeTestAnimTrans->playAnim("dash");
     //zePhyBody->setVelocityLimit(0.001f);
     //zePhyBody->setVelocity(Vec2(0, 1));
     //zePhyBody->setAngularVelocityLimit(0);

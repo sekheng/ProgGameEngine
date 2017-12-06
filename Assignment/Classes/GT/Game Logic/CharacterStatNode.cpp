@@ -81,8 +81,8 @@ void CharacterStatNode::update(float delta)
             if (m_SlideCountDown > m_DurationOfSlide)
             {
                 // then we can slide back!
-                m_physicsNode->removeShape(m_SlidePhyShape);
-                m_physicsNode->addShape(m_OriginPhyShape);
+                m_physicsNode->removeShape(m_SlidePhyShape, false);
+                m_physicsNode->addShape(m_OriginPhyShape, false);
                 setState(RUNNING);
                 _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
             }
@@ -166,8 +166,10 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
         {
         case RUNNING:
             // only slide when it is only running!
-            m_physicsNode->removeShape(m_OriginPhyShape);
-            m_physicsNode->addShape(m_SlidePhyShape);
+            m_physicsNode->removeShape(m_OriginPhyShape, false);
+            m_physicsNode->addShape(m_SlidePhyShape, false);
+            // need to immediately apply that impulse
+            m_physicsNode->applyImpulse(Vec2(0, -100.f));
             _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;

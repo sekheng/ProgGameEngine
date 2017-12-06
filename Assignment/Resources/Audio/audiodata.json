@@ -8,8 +8,8 @@
 		 "loop":true
       },
 	  {  
-         "location":"PlaceHolder/earthquake.mp3",
-		 "NameID":"testEQ",
+         "location":"Audio/Slide.mp3",
+		 "NameID":"Slide",
 		 "volume":1.0,
 		 "loop":false
       },

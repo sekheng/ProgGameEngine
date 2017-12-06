@@ -38,6 +38,22 @@ void MKInputManager::InitializeDefinitions()
 			CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
 			jumpMask);
 	}
+    // slide definition
+    {
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, (mkU32)EventKeyboard::KeyCode::KEY_DOWN_ARROW);
+        m_InputDefinitions[MKInputName::SLIDE]->Register1(
+            CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
+            CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
+            jumpMask);
+    }
+
+    {
+        mkU64 jumpMask = MKInputManager::GenerateMask(MK_CONTEXT_ALL, MK_CONTROLLER1, 0);
+        m_InputDefinitions[MKInputName::SLIDE]->Register2(
+            CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
+            CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
+            jumpMask);
+    }
 }
 
 MKInputManager::MKInputManager()
