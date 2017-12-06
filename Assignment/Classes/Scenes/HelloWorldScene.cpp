@@ -4,6 +4,7 @@
 #include "GT/AnimationHandlerNode.h"
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
+#include "GT/Game Logic/CharacterStatNode.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -210,6 +211,7 @@ bool HelloWorld::initWithPhysics()
     scheduleUpdate();
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
     getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     getPhysicsWorld()->setGravity(Vec2(0, -98.f));
     getPhysicsWorld()->setAutoStep(true);
@@ -221,7 +223,7 @@ bool HelloWorld::initWithPhysics()
     AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
-    zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     testTransitionSpr->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     // AnimTransAct can be run on AnimationHandlerNode but Sequence will fail regardless what. the forum says that the sequence can only run in Sprite node!
     this->addChild(testTransitionSpr);
@@ -250,6 +252,12 @@ bool HelloWorld::initWithPhysics()
     zeEdgeNode->setPosition(Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y));
     zeEdgeNode->setPhysicsBody(zeEdgePhy);
     this->addChild(zeEdgeNode);
+
+    CharacterStatNode *zeCharStat = CharacterStatNode::create(zeEdgePhy);
+    //zeCharStat->setSpeedX(5);
+    zeCharStat->scheduleUpdate();
+    testTransitionSpr->addChild(zeCharStat);
+    m_CharSpr = testTransitionSpr;
 
     auto cam = getDefaultCamera();
     //cam->runAction(MoveTo::create(3.f, Vec3(cam->getPositionX(), cam->getPositionY(), cam->getPositionZ() + 300.f)));
@@ -409,6 +417,7 @@ void HelloWorld::update(float _deltaTime)
 		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
 		m_SceneChangeCounter = 3.0f;
 	}
+    //m_CharSpr->getChildByTag<CharacterStatNode*>(1)->adjustSpeedX(_deltaTime * 5.0f);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

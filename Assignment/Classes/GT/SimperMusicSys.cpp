@@ -12,7 +12,7 @@ using namespace experimental;
 SimperMusicSys::SimperMusicSys()
 {
     // Open the text file from the text file
-    FILE *zefp = fopen("Audio/audiodata.txt", "r");
+    FILE *zefp = fopen("Audio/audiodata.json", "r");
     // this means there can only be an array of 65536 characters!
     char zeBuffer[65536];
     FileReadStream zeIS(zefp, zeBuffer, sizeof(zeBuffer));

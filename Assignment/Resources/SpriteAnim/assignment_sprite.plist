@@ -454,6 +454,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>Slide (1).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{295,337}</string>
+                <key>spriteSourceSize</key>
+                <string>{295,337}</string>
+                <key>textureRect</key>
+                <string>{{1475,1679},{295,337}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -468,7 +483,7 @@
             <key>size</key>
             <string>{1770,2016}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:52e020ae477e74d636d2ca405b147bb1:6bfcb1861593c2fe721971e4c2565793:9a42cf57787dfd4f8b31698a8bbba3cd$</string>
+            <string>$TexturePacker:SmartUpdate:9a158247c43d86df57add927b9bd83a2:9277377426ef29be3ccdb3ecbec7656f:9a42cf57787dfd4f8b31698a8bbba3cd$</string>
             <key>textureFileName</key>
             <string>assignment_sprite.png</string>
         </dict>

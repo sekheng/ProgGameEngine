@@ -8,10 +8,10 @@
 #include "GT/AnimationHandlerNode.h"
 #include "GT/AnimTransAct.h"
 #include "GT/SimperMusicSys.h"
-#include "GT/CharacterStatNode.h"
+#include "GT/Game Logic/CharacterStatNode.h"
 #include "GT/ObstacleNode.h"
 
-const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x0001;
+const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;
 
 bool GameScene::initWithPhysics()
@@ -58,16 +58,16 @@ bool GameScene::initWithPhysics()
     Sprite *charaSpr = Sprite::create();
     charaSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
     this->addChild(charaSpr);
+    charaSpr->setScale(0.5f);
     m_MainCharaNode = charaSpr;
     AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
     charaSpr->addChild(charAnimHandler);
-    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
+    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     //TODO: Change this hardcoded position
     charaSpr->setPosition(Vec2(150, 250));
-    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height - 75.f);
+    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height * 0.8f);
     PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize);
     charaPhysics->setAngularVelocityLimit(0.f);
-    //charaPhysics->setAngularVelocityLimit(0);
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
@@ -75,6 +75,7 @@ bool GameScene::initWithPhysics()
     CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
+    charaStat->setSlideDuration(1.0f);
     charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
@@ -152,29 +153,34 @@ void GameScene::OnButton(EventCustom * _event)
     switch (buttonEvent->m_ButtonState)
     {
     case MinamiKotori::MKInputButton::ButtonState::PRESS:
+    {
+        CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
         {
-            CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
             switch (charaStat->getCurrentState())
             {
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
                 charaStat->setState(JUMPING);
                 m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
-                m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
                 SimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
                 break;
             }
         }
+        break;
+        case MKInputName::SLIDE:
+            charaStat->setState(CHARACTER_STATE::SLIDE);
+            SimperMusicSys::GetInstance()->playSound("Slide");
             break;
         default:
             break;
         }
         break;
+    }
     default:
         break;
     }
@@ -209,10 +215,25 @@ void GameScene::update(float _deltaTime)
 
 bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
 {
-    auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
-    zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
-    // this means the character touched the ground!
-    m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
-    m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+    if (CompareBitmasks(_contact.getShapeA()->getContactTestBitmask(), _contact.getShapeB()->getContactTestBitmask()))
+    {
+        auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
+        zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
+        // this means the character touched the ground!
+        m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+        m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+    }
     return true;
+}
+
+bool GameScene::CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
+{
+    mkU32 largerNum = _maskA;
+    if (largerNum < _maskB)
+        largerNum = _maskB;
+    mkU32 zeComparedMask = (_maskA | _maskB);
+    // if the bits still remains the same after that, the values are the same
+    if (zeComparedMask == largerNum)
+        return true;
+    return false;
 }
