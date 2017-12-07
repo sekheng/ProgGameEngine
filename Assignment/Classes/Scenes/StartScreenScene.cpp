@@ -22,7 +22,7 @@ void StartScreenScene::InitialiseStartLabel()
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
     float fontSize = visibleSize.height * 0.05f;
-    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "fonts/Marker Felt.ttf", fontSize);
+    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "Fonts/Marker_Felt.ttf", fontSize);
     m_StartLabel->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
         visibleOrigin.y + visibleSize.height * 0.25f));
 
@@ -38,7 +38,7 @@ void StartScreenScene::InitialiseLogo()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     Size desiredSize(visibleSize.height, visibleSize.height * 0.5f);
-    m_Logo = MKSprite::createWithSize("UI/Logo.png", desiredSize, false);
+    m_Logo = MKSprite::CreateWithSize("Textures/UI/Logo.png", desiredSize, false);
     m_Logo->setAnchorPoint(Vec2(0.5f, 1.0f));
     m_Logo->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
         visibleOrigin.y + visibleSize.height * 0.9f));
@@ -51,7 +51,7 @@ void StartScreenScene::InitialiseSkyBackground()
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    m_SkyBackground = MKSprite::create("Environment/Backgrounds/Background_Sky.png", true);
+    m_SkyBackground = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
     m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
     m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
 

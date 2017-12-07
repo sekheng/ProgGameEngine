@@ -111,10 +111,10 @@ bool MainMenuScene::init()
 	// add a label shows "Hello World"
 	// create and initialize a label
 
-	auto label = Label::createWithTTF("Main Menu Scene", "fonts/Marker Felt.ttf", 24);
+	auto label = Label::createWithTTF("Main Menu Scene", "Fonts/Marker_Felt.ttf", 24);
 	if (label == nullptr)
 	{
-		problemLoading("'fonts/Marker Felt.ttf'");
+		problemLoading("'Fonts/Marker_Felt.ttf'");
 	}
 	else
 	{
@@ -133,29 +133,28 @@ bool MainMenuScene::init()
 	return true;
 }
 
-void MainMenuScene::InitialiseSkyBackground() {}
-/*
 void MainMenuScene::InitialiseSkyBackground()
 {
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_SkyBackground = MKSprite::create("Environment/Backgrounds/Background_Sky.png", true);
-	m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
-	m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
+    m_SkyBackground = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
+    m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
+    m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-	float desiredHeight = visibleSize.height;
-	float backgroundHeight = m_SkyBackground->getContentSize().height;
-	float desiredScale = desiredHeight / backgroundHeight;
-	m_SkyBackground->setScale(desiredScale, desiredScale);
+    // We want the background to fill up the whole screen.
+    float backgroundWidth = m_SkyBackground->getContentSize().width;
+    float backgroundHeight = m_SkyBackground->getContentSize().height;
+    float backgroundAspectRatio = backgroundWidth / backgroundHeight;
 
-	float backgroundWidth = m_SkyBackground->getContentSize().width;
-	float numRepeat = visibleSize.width / (backgroundWidth * desiredScale);
-	m_SkyBackground->SetRepeat(numRepeat, 1.0f);
+    float desiredWidth = visibleSize.width;
+    float desiredHeight = visibleSize.height;
 
-	addChild(m_SkyBackground);
+    m_SkyBackground->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+    m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
+
+    addChild(m_SkyBackground);
 }
-*/
 
 void MainMenuScene::OnButton(EventCustom* _event)
 {

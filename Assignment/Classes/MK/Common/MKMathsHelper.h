@@ -25,6 +25,20 @@ public:
 		return (_a < _b) ? _a : _b;
 	}
 
+    template<typename T>
+    static T Clamp(T _value, T _min, T _max)
+    {
+        if (_value < _min) { return _min; }
+        if (_value > _max) { return _max; }
+        return value;
+    }
+
+    template<typename T>
+    static T Abs(T _a)
+    {
+        return (_a > static_cast<T>(0)) ? _a : -_a;
+    }
+
 };
 
 NS_MK_END

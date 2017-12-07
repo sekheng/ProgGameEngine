@@ -312,10 +312,11 @@ void MKTouchHandler::HandleTouchMoved(cocos2d::Touch* _touch)
 	Vec2 touchDelta = _touch->getDelta();
 	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	mkU16 controllerMaskIndexMask = 0x0001 << _touch->getID();
+    mkF32 screenHeight = Director::getInstance()->getVisibleSize().height;
 
 	// Horizontal
 	{
-		float horizontalValue = touchDelta.x;
+		float horizontalValue = touchDelta.x / screenHeight;
 		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::HORIZONTAL);
 		std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
 
@@ -329,7 +330,7 @@ void MKTouchHandler::HandleTouchMoved(cocos2d::Touch* _touch)
 
 	// Vertical
 	{
-		float verticalValue = touchDelta.y;
+		float verticalValue = touchDelta.y / screenHeight;
 		mkU64 mask = MKInputManager::GenerateMask((mkU16)currentContext, controllerMaskIndexMask, MKInputAxis::KeyCode::VERTICAL);
 		std::unordered_set<MK_INPUTNAME> inputNames = GetValidAxis(mask);
 

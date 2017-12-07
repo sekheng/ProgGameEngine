@@ -546,7 +546,7 @@ std::string MyXMLVisitor::getFace() const
         if (i->face.size() != 0)
             return i->face;
     }
-    return "fonts/Marker Felt.ttf";
+    return "Fonts/Marker_Felt.ttf";
 }
 
 std::string MyXMLVisitor::getURL() const

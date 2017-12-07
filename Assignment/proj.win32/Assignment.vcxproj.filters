@@ -28,9 +28,6 @@
     <Filter Include="GT">
       <UniqueIdentifier>{49aae912-44d8-4b2a-8a1d-f753a656128c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GT\Anim Related">
-      <UniqueIdentifier>{2f5eae7b-3341-4a1c-bcd4-e962ce7ddb63}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MK\Graphics">
       <UniqueIdentifier>{6da56af1-2c92-4fb5-b832-0d6520c08149}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,12 @@
     </Filter>
     <Filter Include="GT\GameLogic">
       <UniqueIdentifier>{ac1f8e4c-0130-4561-be90-fca84b936798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\GameLogic\Obstacle">
+      <UniqueIdentifier>{89697332-a5c5-4cc2-abfc-5ac8374c3647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GT\Animation">
+      <UniqueIdentifier>{2f5eae7b-3341-4a1c-bcd4-e962ce7ddb63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,20 +102,23 @@
     <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacle_Missile.cpp">
-      <Filter>GT\GameLogic</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GT\Animation\GTAnimationHandlerNode.cpp">
-      <Filter>GT\Anim Related</Filter>
+      <Filter>GT\Animation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GT\Animation\GTAnimTransAct.cpp">
-      <Filter>GT\Anim Related</Filter>
+      <Filter>GT\Animation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GT\Audio\GTSimperMusicSys.cpp">
       <Filter>GT\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GT\GameLogic\GTCharacterStatNode.cpp">
       <Filter>GT\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.cpp">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.cpp">
+      <Filter>GT\GameLogic\Obstacle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,29 +213,32 @@
     <ClInclude Include="..\Classes\GT\Common\GTMacros.h">
       <Filter>GT\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleNode.h">
-      <Filter>GT\GameLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacle_Missile.h">
-      <Filter>GT\GameLogic</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\GTCollisionCategory.h">
       <Filter>GT\GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleMacros.h">
-      <Filter>GT\GameLogic</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\Animation\GTAnimationHandlerNode.h">
-      <Filter>GT\Anim Related</Filter>
+      <Filter>GT\Animation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\Animation\GTAnimTransAct.h">
-      <Filter>GT\Anim Related</Filter>
+      <Filter>GT\Animation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\Audio\GTSimperMusicSys.h">
       <Filter>GT\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\GTCharacterStatNode.h">
       <Filter>GT\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleMacros.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

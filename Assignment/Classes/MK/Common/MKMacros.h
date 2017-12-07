@@ -1,6 +1,8 @@
 #ifndef MK_MACROS_H
 #define MK_MACROS_H
 
+#include <string>
+
 #define NS_MK_BEGIN namespace MinamiKotori {
 #define NS_MK_END }
 #define USING_NS_MK using namespace MinamiKotori;
@@ -24,6 +26,9 @@ typedef unsigned long long int mkU64;
 
 typedef float mkF32;
 typedef double mkF64;
+
+typedef bool mkBool;
+typedef std::string mkString;
 
 // This is for when compiling for android.
 // std::hash does not work on Enums.

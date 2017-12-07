@@ -48,9 +48,9 @@ public:
 
 	// If _textureRepeat is true, the size MUST be a power of 2. I don't set the rules, it's OpenGL and Cocos' dumb systems.
 	// Cocos stupidly making the texture size the object size is the most infuriating thing.
-	static MKSprite* create(const std::string& _fileName, bool _useTextureRepeat = false);
-	static MKSprite* MKSprite::createWithTexture(Texture2D *texture, bool _useTextureRepeat = false);
-	static MKSprite* MKSprite::createWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat = false);
+	static MKSprite* Create(const std::string& _fileName, bool _useTextureRepeat = false);
+	static MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, bool _useTextureRepeat = false);
+	static MKSprite* MKSprite::CreateWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat = false);
 
 	bool GetUseTextureRepeat() const
 	{

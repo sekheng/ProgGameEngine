@@ -9,9 +9,8 @@
 #include "GT/Animation/GTAnimTransAct.h"
 #include "GT/Audio/GTSimperMusicSys.h"
 #include "GT/GameLogic/GTCharacterStatNode.h"
-#include "GT/GameLogic/GTObstacleNode.h"
+#include "GT/GameLogic/Obstacle/GTObstacleNode.h"
 
-const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;
 
 bool GameScene::initWithPhysics()
@@ -28,30 +27,6 @@ bool GameScene::initWithPhysics()
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
-
-    /*
-	auto sawObj = GTObstacleNode::create(
-		"Tileset/saw.png",
-		 Vec2(500, 500),
-		[&](cocos2d::PhysicsContact &_contact) -> bool
-		{
-			auto nodeA = _contact.getShapeA()->getBody()->getNode();
-			auto nodeB = _contact.getShapeB()->getBody()->getNode();
-
-			//CHECK IF THIS NODE IS TAGGED PLAYER
-			if (nodeA->getTag() == 1)
-			{
-				cocos2d::log("nodeA is Player Physics Object");
-			}
-			else if (nodeB->getTag() == 1)
-			{
-				cocos2d::log("nodeB is Player Physics Object");
-			}
-			return true;
-		}
-	);
-	this->addChild(sawObj);
-    */
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
     scheduleUpdate();
@@ -80,13 +55,18 @@ bool GameScene::initWithPhysics()
     charaStat->setSlideDuration(1.0f);
     charaStat->setDashDuration(1.0f);
     charaStat->setSpeedX(0.1f);
-    charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
+    charaPhysics->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    charaPhysics->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+    charaPhysics->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
     phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
 
     //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+
+    // Create Obstacle Spawner
+    InitialiseObstacles();
 
 	return true;
 }
@@ -96,7 +76,7 @@ void GameScene::InitialiseGround()
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    m_Ground = MKSprite::create("Environment/Ground.png", true);
+    m_Ground = MKSprite::Create("Textures/Environment/Ground.png", true);
     m_Ground->setAnchorPoint(Vec2(0.0f, 0.0f));
     m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
@@ -109,7 +89,9 @@ void GameScene::InitialiseGround()
 
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
-    physicsBody->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
+    physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_GROUND);
+    physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_NONE);
     m_Ground->setPhysicsBody(physicsBody);
 
     this->addChild(m_Ground);
@@ -123,10 +105,10 @@ void GameScene::InitialiseBackgrounds()
 	m_Backgrounds = new MKSprite*[NUM_BACKGROUNDLAYERS];
 	for (unsigned int i = 0; i < NUM_BACKGROUNDLAYERS; ++i) { m_Backgrounds[i] = nullptr; }
 
-	m_Backgrounds[SKY] = MKSprite::create("Environment/Backgrounds/Background_Sky.png", true);
-	m_Backgrounds[REAR] = MKSprite::create("Environment/Backgrounds/Background_Rear.png", true);
-	m_Backgrounds[MIDDLE] = MKSprite::create("Environment/Backgrounds/Background_Middle.png", true);
-	m_Backgrounds[FRONT] = MKSprite::create("Environment/Backgrounds/Background_Front.png", true);
+	m_Backgrounds[SKY] = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
+	m_Backgrounds[REAR] = MKSprite::Create("Textures/Backgrounds/Background_Rear.png", true);
+	m_Backgrounds[MIDDLE] = MKSprite::Create("Textures/Backgrounds/Background_Middle.png", true);
+	m_Backgrounds[FRONT] = MKSprite::Create("Textures/Backgrounds/Background_Front.png", true);
 
 	for (unsigned int i = 0; i < NUM_BACKGROUNDLAYERS; ++i)
 	{
@@ -210,11 +192,14 @@ void GameScene::ScrollBackgrounds(float _deltaTime)
 void GameScene::Deinitialise()
 {
 	DeinitialiseInput();
+    DeinitialiseObstacles();
 }
 
 void GameScene::update(float _deltaTime)
 {
     ScrollBackgrounds(_deltaTime);
+
+    m_ObstacleSpawner->Update(_deltaTime);
 }
 
 bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
@@ -240,4 +225,19 @@ bool GameScene::CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
     if (zeComparedMask == largerNum)
         return true;
     return false;
+}
+
+void GameScene::InitialiseObstacles()
+{
+    DeinitialiseObstacles();
+
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_MainCharaNode);
+}
+
+void GameScene::DeinitialiseObstacles()
+{
+    if (m_ObstacleSpawner != nullptr)
+    {
+        delete m_ObstacleSpawner;
+    }
 }

@@ -26,7 +26,7 @@ public:
 	ui::Button* createButton(const Vec2& _position, const std::string& _normalSprite, const std::string& _pressedSprite, const std::string& _labelName, const std::function<void(Ref*)>& _funcPtr)
 	{
 		//GoSceneButton::GoSceneButton("GameScene");
-		auto label = Label::createWithTTF(_labelName, "fonts/Marker Felt.ttf", 24);
+		auto label = Label::createWithTTF(_labelName, "Fonts/Marker_Felt.ttf", 24);
 		label->setPosition(_position);
 		auto button = ui::Button::create(_normalSprite, _pressedSprite);
 		button->setPosition(_position);

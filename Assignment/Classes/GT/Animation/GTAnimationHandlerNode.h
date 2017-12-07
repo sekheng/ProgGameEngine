@@ -30,6 +30,10 @@ namespace GinTama
     public:
         static GTAnimationHandlerNode *create();
 
+        void setAutoDestroyOnCompletion(bool _autoDestroy) {}
+
+        bool getAutoDestroyOnCompletion() const { return false; }
+
         /** To check the current animation state name
         *
         * @return The current animation name

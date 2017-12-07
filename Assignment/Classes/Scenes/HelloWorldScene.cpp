@@ -91,10 +91,10 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Hello World", "Fonts/Marker_Felt.ttf", 24);
     if (label == nullptr)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        problemLoading("'Fonts/Marker_Felt.ttf'");
     }
     else
     {
@@ -281,7 +281,7 @@ void HelloWorld::InitialiseInput()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	m_InputLabel = Label::createWithTTF("Input Debug Label", "fonts/Marker Felt.ttf", 24);
+	m_InputLabel = Label::createWithTTF("Input Debug Label", "Fonts/Marker_Felt.ttf", 24);
 	// position the label on the center of the screen
 	m_InputLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));

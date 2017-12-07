@@ -53,7 +53,7 @@ void MKSprite::InitTextureParameters(MKSprite* _sprite)
 	_sprite->getTexture()->setTexParameters(textureParameters);
 }
 
-MKSprite* MKSprite::create(const std::string& _fileName, bool _useTextureRepeat)
+MKSprite* MKSprite::Create(const std::string& _fileName, bool _useTextureRepeat)
 {
     MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
     if (sprite && sprite->initWithFile(_fileName))
@@ -68,7 +68,7 @@ MKSprite* MKSprite::create(const std::string& _fileName, bool _useTextureRepeat)
     return nullptr;
 }
 
-MKSprite* MKSprite::createWithTexture(Texture2D *texture, bool _useTextureRepeat)
+MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, bool _useTextureRepeat)
 {
 	MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
 	if (sprite && sprite->initWithTexture(texture))
@@ -82,7 +82,7 @@ MKSprite* MKSprite::createWithTexture(Texture2D *texture, bool _useTextureRepeat
 	return nullptr;
 }
 
-MKSprite* MKSprite::createWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat)
+MKSprite* MKSprite::CreateWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat)
 {
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -106,7 +106,7 @@ MKSprite* MKSprite::createWithSize(const std::string& _fileName, const Size& _de
 	renderTexture->end();
 
 	// Create new Sprite which is the size that we want.
-	MKSprite* resultSprite = MKSprite::createWithTexture(renderTexture->getSprite()->getTexture(), _useTextureRepeat);
+	MKSprite* resultSprite = MKSprite::CreateWithTexture(renderTexture->getSprite()->getTexture(), _useTextureRepeat);
 
 	return resultSprite;
 }

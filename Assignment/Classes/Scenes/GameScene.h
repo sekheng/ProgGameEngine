@@ -3,11 +3,15 @@
 
 // Include MK
 #include "MK/SceneManagement/MKScene.h"
-//#include "MK/Gameplay/MKScrollableSprite.h"
 #include "MK/Graphics/MKSprite.h"
+
+// Include GT
+#include "GT/Common/GTMacros.h"
+#include "GT/GameLogic/Obstacle/GTObstacleSpawner.h"
 
 USING_NS_CC;
 USING_NS_MK
+USING_NS_GT
 
 class GameScene : public MKScene
 {
@@ -29,8 +33,13 @@ private:
 
 	void InitialiseGround();
 	void InitialiseBackgrounds();
-
 	void ScrollBackgrounds(float _deltaTime);
+
+    // Obstacles
+    GTObstacleSpawner* m_ObstacleSpawner = nullptr;
+
+    void InitialiseObstacles();
+    void DeinitialiseObstacles();
 
 	void Deinitialise();
 
