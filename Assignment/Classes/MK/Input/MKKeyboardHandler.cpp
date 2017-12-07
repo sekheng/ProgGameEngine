@@ -71,7 +71,7 @@ void MKKeyboardHandler::HandleOnKeyPressed(cocos2d::EventKeyboard::KeyCode _keyC
 {
 	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
-	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER1, (mkU64)_keyCode);
+	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER_1, (mkU64)_keyCode);
 
 	std::unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
 	for (std::unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)
@@ -87,7 +87,7 @@ void MKKeyboardHandler::HandleOnKeyReleased(cocos2d::EventKeyboard::KeyCode _key
 {
 	MKInputContext currentContext = MKInputManager::GetInstance()->GetCurrentContext();
 	// We do not support multiple keyboards. All keyboards are keyboard 0.
-	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER1, (mkU64)_keyCode);
+	mkU64 mask = MKInputManager::GenerateMask(currentContext, MKControllerIndex::MK_CONTROLLER_1, (mkU64)_keyCode);
 
 	unordered_set<MK_INPUTNAME> inputNames = GetValidButtons(mask);
 	for (unordered_set<MK_INPUTNAME>::iterator i = inputNames.begin(); i != inputNames.end(); ++i)

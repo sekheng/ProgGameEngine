@@ -4,7 +4,7 @@
 #define NS_MK_BEGIN namespace MinamiKotori {
 #define NS_MK_END }
 #define USING_NS_MK using namespace MinamiKotori;
-#define NS_MK ::MinamiKotori
+#define NS_MK MinamiKotori
 
 #define MK_USE_KEYBOARD true
 #define MK_USE_TOUCH true

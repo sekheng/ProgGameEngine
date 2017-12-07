@@ -14,7 +14,7 @@ bool CrashTestScene::init()
 
     InitialiseInput();
 
-    MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT2);
+    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_2);
 
 	return true;
 }

@@ -5,11 +5,11 @@
 #include "MK/SceneManagement/MKSceneManager.h"
 
 // Include GT
-#include "GT/AnimationHandlerNode.h"
-#include "GT/AnimTransAct.h"
-#include "GT/SimperMusicSys.h"
-#include "GT/Game Logic/CharacterStatNode.h"
-#include "GT/ObstacleNode.h"
+#include "GT/Animation/AnimationHandlerNode.h"
+#include "GT/Animation/AnimTransAct.h"
+#include "GT/Audio/SimperMusicSys.h"
+#include "GT/GameLogic/CharacterStatNode.h"
+#include "GT/GameLogic/GTObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
 using namespace GinTama;
@@ -29,29 +29,31 @@ bool GameScene::initWithPhysics()
     InitialiseGround();
     InitialiseInput();
 
-	//auto sawObj = ObstacleNode::create(
-	//	"Tileset/saw.png",
-	//	 Vec2(500, 500),
-	//	[&](cocos2d::PhysicsContact &_contact) -> bool
-	//	{
-	//		auto nodeA = _contact.getShapeA()->getBody()->getNode();
-	//		auto nodeB = _contact.getShapeB()->getBody()->getNode();
+    /*
+	auto sawObj = GTObstacleNode::create(
+		"Tileset/saw.png",
+		 Vec2(500, 500),
+		[&](cocos2d::PhysicsContact &_contact) -> bool
+		{
+			auto nodeA = _contact.getShapeA()->getBody()->getNode();
+			auto nodeB = _contact.getShapeB()->getBody()->getNode();
 
-	//		//CHECK IF THIS NODE IS TAGGED PLAYER
-	//		if (nodeA->getTag() == 1)
-	//		{
-	//			cocos2d::log("nodeA is Player Physics Object");
-	//		}
-	//		else if (nodeB->getTag() == 1)
-	//		{
-	//			cocos2d::log("nodeB is Player Physics Object");
-	//		}
-	//		return true;
-	//	}
-	//);
-	//this->addChild(sawObj);
+			//CHECK IF THIS NODE IS TAGGED PLAYER
+			if (nodeA->getTag() == 1)
+			{
+				cocos2d::log("nodeA is Player Physics Object");
+			}
+			else if (nodeB->getTag() == 1)
+			{
+				cocos2d::log("nodeB is Player Physics Object");
+			}
+			return true;
+		}
+	);
+	this->addChild(sawObj);
+    */
 
-    MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
     scheduleUpdate();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");

@@ -1,10 +1,10 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/AnimationHandlerNode.h"
-#include "GT/AnimTransAct.h"
-#include "GT/SimperMusicSys.h"
-#include "GT/Game Logic/CharacterStatNode.h"
+#include "GT/Animation/AnimationHandlerNode.h"
+#include "GT/Animation/AnimTransAct.h"
+#include "GT/Audio/SimperMusicSys.h"
+#include "GT/GameLogic/CharacterStatNode.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -287,7 +287,7 @@ void HelloWorld::InitialiseInput()
 		origin.y + visibleSize.height - m_InputLabel->getContentSize().height - (visibleSize.height / 4)));
 	this->addChild(m_InputLabel, 1);
 
-	MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
+	MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
 	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(HelloWorld::OnButton, this));
 	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(HelloWorld::OnClick, this));
 	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(HelloWorld::OnAxis, this));
