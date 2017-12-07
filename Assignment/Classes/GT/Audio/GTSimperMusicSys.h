@@ -23,7 +23,7 @@ namespace GinTama {
 
         bool stopSound(const std::string &_songName);
         bool pauseSound(const std::string &_songName);
-        bool resumeSound(const std::string &_songeName);
+        bool resumeSound(const std::string &_songName);
 
         bool setSoundVol(const std::string &_songName, const float &_vol);
         bool setSoundVol(GTSoundData* _song, const float &_vol);

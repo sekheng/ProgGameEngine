@@ -167,7 +167,7 @@ bool GTSimperMusicSys::pauseSound(const std::string &_songName)
     return false;
 }
 
-bool GTSimperMusicSys::resumeSound(const std::string &_songeName)
+bool GTSimperMusicSys::resumeSound(const std::string &_songName)
 {
     std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
     if (it != m_NamePlayingSound.end())
