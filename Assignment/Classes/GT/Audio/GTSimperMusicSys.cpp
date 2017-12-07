@@ -138,3 +138,45 @@ float GTSimperMusicSys::getMasterVol()
 {
     return m_MasterVol;
 }
+
+bool GTSimperMusicSys::stopSound(const std::string &_songName)
+{
+    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
+    if (it != m_NamePlayingSound.end())
+    {
+        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        {
+            AudioEngine::stop((*listIt)->m_AudioID);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::pauseSound(const std::string &_songName)
+{
+    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
+    if (it != m_NamePlayingSound.end())
+    {
+        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        {
+            AudioEngine::pause((*listIt)->m_AudioID);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::resumeSound(const std::string &_songeName)
+{
+    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
+    if (it != m_NamePlayingSound.end())
+    {
+        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        {
+            AudioEngine::resume((*listIt)->m_AudioID);
+        }
+        return true;
+    }
+    return false;
+}
