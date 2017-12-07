@@ -22,38 +22,37 @@ bool GameScene::initWithPhysics()
     }
 
     // Let's do some physics.
-    this->getPhysicsWorld()->setGravity(Vec2(0, -200));
+    this->getPhysicsWorld()->setGravity(Vec2(0, -2000));
     this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
 
-	auto sawObj = ObstacleNode::create(
-		"Tileset/saw.png",
-		 Vec2(500, 500),
-		[&](cocos2d::PhysicsContact &_contact) -> bool
-		{
-			auto nodeA = _contact.getShapeA()->getBody()->getNode();
-			auto nodeB = _contact.getShapeB()->getBody()->getNode();
+	//auto sawObj = ObstacleNode::create(
+	//	"Tileset/saw.png",
+	//	 Vec2(500, 500),
+	//	[&](cocos2d::PhysicsContact &_contact) -> bool
+	//	{
+	//		auto nodeA = _contact.getShapeA()->getBody()->getNode();
+	//		auto nodeB = _contact.getShapeB()->getBody()->getNode();
 
-			//CHECK IF THIS NODE IS TAGGED PLAYER
-			if (nodeA->getTag() == 1)
-			{
-				cocos2d::log("nodeA is Player Physics Object");
-			}
-			else if (nodeB->getTag() == 1)
-			{
-				cocos2d::log("nodeB is Player Physics Object");
-			}
-			return true;
-		}
-	);
-	this->addChild(sawObj);
+	//		//CHECK IF THIS NODE IS TAGGED PLAYER
+	//		if (nodeA->getTag() == 1)
+	//		{
+	//			cocos2d::log("nodeA is Player Physics Object");
+	//		}
+	//		else if (nodeB->getTag() == 1)
+	//		{
+	//			cocos2d::log("nodeB is Player Physics Object");
+	//		}
+	//		return true;
+	//	}
+	//);
+	//this->addChild(sawObj);
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_CONTEXT1);
     scheduleUpdate();
-
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
     Sprite *charaSpr = Sprite::create();
@@ -69,15 +68,16 @@ bool GameScene::initWithPhysics()
     Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height * 0.8f);
     PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize);
     charaPhysics->setAngularVelocityLimit(0.f);
+    charaPhysics->setMass(10.0f);
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
-    charaPhysics->setMass(1.f);
     CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
     charaStat->setSlideDuration(1.0f);
     charaStat->setDashDuration(1.0f);
+    charaStat->setSpeedX(0.1f);
     charaPhysics->setContactTestBitmask(CHARACTER_GROUND_CONTACT_BITMASK);
 
     auto phyContactListener = EventListenerPhysicsContact::create();
@@ -166,7 +166,7 @@ void GameScene::OnButton(EventCustom * _event)
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
                 charaStat->setState(JUMPING);
-                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 200.f));
+                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 7500.f));
                 SimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
