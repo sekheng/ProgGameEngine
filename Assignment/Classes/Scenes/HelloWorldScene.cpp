@@ -267,7 +267,7 @@ bool HelloWorld::initWithPhysics()
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContact, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-    //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+    GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
     return true;
 }
 
@@ -319,7 +319,25 @@ void HelloWorld::OnButton(EventCustom* _event)
 	{
 	case MinamiKotori::MKInputButton::ButtonState::PRESS:
 		buttonState = "Pressed";
-		break;
+        switch (buttonEvent->m_InputName)
+        {
+        case MinamiKotori::MKInputName::JUMP:
+            GinTama::GTSimperMusicSys::GetInstance()->pauseSound("testbgm");
+            inputName = "Jump";
+            break;
+        case MinamiKotori::MKInputName::SLIDE:
+            GinTama::GTSimperMusicSys::GetInstance()->resumeSound("testbgm");
+            inputName = "Slide";
+            break;
+        case MinamiKotori::MKInputName::SMASH:
+            GinTama::GTSimperMusicSys::GetInstance()->stopSound("testbgm");
+            inputName = "Smash";
+            break;
+        default:
+            inputName = "Unknown InputName";
+            break;
+        }
+        break;
 	case MinamiKotori::MKInputButton::ButtonState::HOLD:
 		buttonState = "Held";
 		break;
