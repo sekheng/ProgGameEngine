@@ -1,14 +1,14 @@
-#include "CharacterStatNode.h"
+#include "GTCharacterStatNode.h"
 #include "MK/Common/MKAssertions.h"
-#include "GT/Animation/AnimationHandlerNode.h"
-#include "GT/Audio/SimperMusicSys.h"
+#include "GT/Animation/GTAnimationHandlerNode.h"
+#include "GT/Audio/GTSimperMusicSys.h"
 
 using namespace GinTama;
 USING_NS_CC;
 
 const static float ACCEPTABLE_VELY = 0.9f;
 
-CharacterStatNode::CharacterStatNode()
+GTCharacterStatNode::GTCharacterStatNode()
 	: m_health(3)
     , m_CurrentState(RUNNING)
     , m_physicsNode(nullptr)
@@ -25,7 +25,7 @@ CharacterStatNode::CharacterStatNode()
 	setTag(1);
 }
 
-CharacterStatNode::~CharacterStatNode()
+GTCharacterStatNode::~GTCharacterStatNode()
 {
     if (m_physicsNode)
     {
@@ -35,21 +35,21 @@ CharacterStatNode::~CharacterStatNode()
     }
 }
 
-CharacterStatNode *CharacterStatNode::create()
+GTCharacterStatNode *GTCharacterStatNode::create()
 {
-	CharacterStatNode *zeNode = new CharacterStatNode();
+	GTCharacterStatNode *zeNode = new GTCharacterStatNode();
     zeNode->autorelease();
 	return zeNode;
 }
 
-CharacterStatNode *CharacterStatNode::create(PhysicsBody *_physicsBody)
+GTCharacterStatNode *GTCharacterStatNode::create(PhysicsBody *_physicsBody)
 {
-    CharacterStatNode *zeNode = create();
+    GTCharacterStatNode *zeNode = create();
     zeNode->setPhysicsNode(_physicsBody);
     return zeNode;
 }
 
-bool CharacterStatNode::setHealth(const int &_health)
+bool GTCharacterStatNode::setHealth(const int &_health)
 {
 	m_health = _health;
 	if (m_health < 0)
@@ -57,7 +57,7 @@ bool CharacterStatNode::setHealth(const int &_health)
 	return true;
 }
 
-bool CharacterStatNode::adjustHealth(const int &_value)
+bool GTCharacterStatNode::adjustHealth(const int &_value)
 {
 	m_health += _value;
 	if (m_health < 0)
@@ -65,12 +65,12 @@ bool CharacterStatNode::adjustHealth(const int &_value)
 	return true;
 }
 
-int CharacterStatNode::getHealth()
+int GTCharacterStatNode::getHealth()
 {
     return m_health;
 }
 
-void CharacterStatNode::update(float delta)
+void GTCharacterStatNode::update(float delta)
 {
     // if there is the physics node
     if (m_physicsNode)
@@ -86,7 +86,7 @@ void CharacterStatNode::update(float delta)
                 m_physicsNode->removeShape(m_SlidePhyShape, false);
                 m_physicsNode->addShape(m_OriginPhyShape, false);
                 setState(RUNNING);
-                _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+                _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
             }
             break;
         case DASH:
@@ -95,7 +95,7 @@ void CharacterStatNode::update(float delta)
             {
                 m_SpeedX *= 0.5f;
                 setState(RUNNING);
-                _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
+                _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
             }
             break;
         default:
@@ -133,7 +133,7 @@ void CharacterStatNode::update(float delta)
     }
 }
 
-void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
+void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
 {
     m_physicsNode = _physicsBody;
     m_physicsNode->retain();
@@ -145,7 +145,7 @@ void CharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->retain();
 }
 
-bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
+bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
 {
     switch (_whatState)
     {
@@ -167,7 +167,7 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
         case RUNNING:
             // u can only change from running to jumping!
             m_CurrentState = _whatState;
-            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("BeginJump");
+            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("BeginJump");
             break;
         default:
             break;
@@ -182,10 +182,10 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_physicsNode->addShape(m_SlidePhyShape, false);
             // need to immediately apply that impulse
             m_physicsNode->applyImpulse(Vec2(0, -100.f));
-            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Slide");
+            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;
-            SimperMusicSys::GetInstance()->playSound("Slide");
+            GTSimperMusicSys::GetInstance()->playSound("Slide");
         default:
                 break;
         }
@@ -198,9 +198,9 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_DashCountDown = 0;
             // we will need to ensure that the character is sliding then we multiply the speed by 2!
             m_SpeedX *= 2.0f;
-            _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Dash");
+            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Dash");
             m_CurrentState = _whatState;
-            SimperMusicSys::GetInstance()->playSound("Dash");
+            GTSimperMusicSys::GetInstance()->playSound("Dash");
             break;
         default:
             break;
@@ -210,7 +210,7 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
         m_CurrentState = _whatState;
         // if dead then stop the speed and change the transition
         m_SpeedX = 0;
-        _parent->getChildByTag<AnimationHandlerNode*>(69)->transitState("Died");
+        _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Died");
         break;
     default:
         MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
@@ -219,44 +219,44 @@ bool CharacterStatNode::setState(CHARACTER_STATE _whatState)
     return false;
 }
 
-CHARACTER_STATE CharacterStatNode::getCurrentState()
+CHARACTER_STATE GTCharacterStatNode::getCurrentState()
 {
     return m_CurrentState;
 }
 
-float CharacterStatNode::getSpeedX()
+float GTCharacterStatNode::getSpeedX()
 {
     return m_SpeedX;
 }
 
-void CharacterStatNode::setSpeedX(const float &_speed)
+void GTCharacterStatNode::setSpeedX(const float &_speed)
 {
     m_SpeedX = _speed;
 }
 
-void CharacterStatNode::adjustSpeedX(const float &_value)
+void GTCharacterStatNode::adjustSpeedX(const float &_value)
 {
     m_SpeedX += _value;
 }
 
-void CharacterStatNode::setSlideDuration(const float &_duration)
+void GTCharacterStatNode::setSlideDuration(const float &_duration)
 {
     if (_duration > 0)
         m_DurationOfSlide = _duration;
 }
 
-float CharacterStatNode::getSlideDuration()
+float GTCharacterStatNode::getSlideDuration()
 {
     return m_DurationOfSlide;
 }
 
-void CharacterStatNode::setDashDuration(const float &_duration)
+void GTCharacterStatNode::setDashDuration(const float &_duration)
 {
     if (_duration > 0)
         m_DurationOfDash = _duration;
 }
 
-float CharacterStatNode::getDashDuration()
+float GTCharacterStatNode::getDashDuration()
 {
     return m_DurationOfDash;
 }

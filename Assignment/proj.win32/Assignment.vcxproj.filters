@@ -99,19 +99,19 @@
     <ClCompile Include="..\Classes\GT\SH_TestScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\CharacterStatNode.cpp">
+    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacle_Missile.cpp">
       <Filter>GT\GameLogic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\Animation\AnimationHandlerNode.cpp">
+    <ClCompile Include="..\Classes\GT\Animation\GTAnimationHandlerNode.cpp">
       <Filter>GT\Anim Related</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\Animation\AnimTransAct.cpp">
+    <ClCompile Include="..\Classes\GT\Animation\GTAnimTransAct.cpp">
       <Filter>GT\Anim Related</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\Audio\SimperMusicSys.cpp">
+    <ClCompile Include="..\Classes\GT\Audio\GTSimperMusicSys.cpp">
       <Filter>GT\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\GTObstacle_Missile.cpp">
+    <ClCompile Include="..\Classes\GT\GameLogic\GTCharacterStatNode.cpp">
       <Filter>GT\GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -207,18 +207,6 @@
     <ClInclude Include="..\Classes\GT\Common\GTMacros.h">
       <Filter>GT\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\CharacterStatNode.h">
-      <Filter>GT\GameLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\Animation\AnimationHandlerNode.h">
-      <Filter>GT\Anim Related</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\Animation\AnimTransAct.h">
-      <Filter>GT\Anim Related</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\Audio\SimperMusicSys.h">
-      <Filter>GT\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleNode.h">
       <Filter>GT\GameLogic</Filter>
     </ClInclude>
@@ -229,6 +217,18 @@
       <Filter>GT\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\GTObstacleMacros.h">
+      <Filter>GT\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Animation\GTAnimationHandlerNode.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Animation\GTAnimTransAct.h">
+      <Filter>GT\Anim Related</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Audio\GTSimperMusicSys.h">
+      <Filter>GT\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\GTCharacterStatNode.h">
       <Filter>GT\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,10 +1,10 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/Animation/AnimationHandlerNode.h"
-#include "GT/Animation/AnimTransAct.h"
-#include "GT/Audio/SimperMusicSys.h"
-#include "GT/GameLogic/CharacterStatNode.h"
+#include "GT/Animation/GTAnimationHandlerNode.h"
+#include "GT/Animation/GTAnimTransAct.h"
+#include "GT/Audio/GTSimperMusicSys.h"
+#include "GT/GameLogic/GTCharacterStatNode.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -133,7 +133,7 @@ bool HelloWorld::init()
 
     Sprite *testTransitionSpr = Sprite::create();
 	testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
-	AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+	GTAnimationHandlerNode *zeTestAnimTrans = GTAnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
 	zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.txt");
@@ -190,7 +190,7 @@ bool HelloWorld::init()
     zeD.Accept(writer);
     fclose(fp);
 
-    GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+    GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
 
     return true;
 }
@@ -220,7 +220,7 @@ bool HelloWorld::initWithPhysics()
     Sprite *testTransitionSpr = Sprite::create();
     testTransitionSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
     testTransitionSpr->setAnchorPoint(Vec2(0.5f, 0.5f));
-    AnimationHandlerNode *zeTestAnimTrans = AnimationHandlerNode::create();
+    GTAnimationHandlerNode *zeTestAnimTrans = GTAnimationHandlerNode::create();
     zeTestAnimTrans->m_SpriteNode = testTransitionSpr;
     testTransitionSpr->addChild(zeTestAnimTrans);
     zeTestAnimTrans->initWithJSON_tag("SpriteAnim/MainCharaData.json");
@@ -253,7 +253,7 @@ bool HelloWorld::initWithPhysics()
     zeEdgeNode->setPhysicsBody(zeEdgePhy);
     this->addChild(zeEdgeNode);
 
-    CharacterStatNode *zeCharStat = CharacterStatNode::create(zeEdgePhy);
+    GTCharacterStatNode *zeCharStat = GTCharacterStatNode::create(zeEdgePhy);
     //zeCharStat->setSpeedX(5);
     zeCharStat->scheduleUpdate();
     testTransitionSpr->addChild(zeCharStat);

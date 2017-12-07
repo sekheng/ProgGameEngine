@@ -1,4 +1,4 @@
-#include "SimperMusicSys.h"
+#include "GTSimperMusicSys.h"
 #include "external/json/filewritestream.h"
 #include "external/json/filereadstream.h"
 #include "external/json/writer.h"
@@ -9,7 +9,7 @@ using namespace RAPIDJSON_NAMESPACE;
 using namespace cocos2d;
 using namespace experimental;
 
-SimperMusicSys::SimperMusicSys()
+GTSimperMusicSys::GTSimperMusicSys()
 {
     // Open the text file from the text file
     FILE *zefp = fopen("Audio/audiodata.json", "r");
@@ -32,12 +32,12 @@ SimperMusicSys::SimperMusicSys()
                 if (it->IsObject())
                 {
                     // This will have to look hardcoded unfortunately
-                    SoundData *zeNewData = new SoundData();
+                    GTSoundData *zeNewData = new GTSoundData();
                     zeNewData->m_fileLocation = it->FindMember("location")->value.GetString();
                     zeNewData->m_Volume = it->FindMember("volume")->value.GetFloat();
                     zeNewData->m_Loop = it->FindMember("loop")->value.GetBool();
                     zeNewData->m_SoundName = it->FindMember("NameID")->value.GetString();
-					m_NameSoundMap.insert(std::pair<std::string, SoundData*>(zeNewData->m_SoundName, zeNewData));
+					m_NameSoundMap.insert(std::pair<std::string, GTSoundData*>(zeNewData->m_SoundName, zeNewData));
                     AudioEngine::preload(zeNewData->m_fileLocation);
                 }
             }
@@ -46,14 +46,14 @@ SimperMusicSys::SimperMusicSys()
 }
 
 
-SimperMusicSys::~SimperMusicSys()
+GTSimperMusicSys::~GTSimperMusicSys()
 {
     // Then lets save it!
 }
 
-bool SimperMusicSys::playSound(const std::string &_songName)
+bool GTSimperMusicSys::playSound(const std::string &_songName)
 {
-    SoundData *zeData = accessSound(_songName);
+    GTSoundData *zeData = accessSound(_songName);
     if (zeData)
     {
         zeData->m_AudioID = AudioEngine::play2d(zeData->m_fileLocation, zeData->m_Loop, m_MasterVol * zeData->m_Volume);
@@ -62,7 +62,7 @@ bool SimperMusicSys::playSound(const std::string &_songName)
             m_NamePlayingSound[_songName].push_back(zeData);
         }
         else
-            m_NamePlayingSound.insert(std::pair<std::string, std::list<SoundData*> >(_songName, { zeData }));
+            m_NamePlayingSound.insert(std::pair<std::string, std::list<GTSoundData*> >(_songName, { zeData }));
         // unfortunately need the lambda function here then it can work!
         AudioEngine::setFinishCallback(zeData->m_AudioID, 
             [&, zeData, _songName](int _id, const std::string &_log) {
@@ -75,9 +75,9 @@ bool SimperMusicSys::playSound(const std::string &_songName)
     return false;
 }
 
-SoundData *SimperMusicSys::accessSound(const std::string &_songName)
+GTSoundData *GTSimperMusicSys::accessSound(const std::string &_songName)
 {
-    std::unordered_map<std::string, SoundData*>::iterator it = m_NameSoundMap.find(_songName);
+    std::unordered_map<std::string, GTSoundData*>::iterator it = m_NameSoundMap.find(_songName);
     if (it != m_NameSoundMap.end())
     {
         return it->second;
@@ -85,9 +85,9 @@ SoundData *SimperMusicSys::accessSound(const std::string &_songName)
     return nullptr;
 }
 
-bool SimperMusicSys::setSoundVol(const std::string &_songName, const float &_vol)
+bool GTSimperMusicSys::setSoundVol(const std::string &_songName, const float &_vol)
 {
-    SoundData *zeSoundData = accessSound(_songName);
+    GTSoundData *zeSoundData = accessSound(_songName);
     if (zeSoundData)
     {
         zeSoundData->m_Volume = _vol;
@@ -100,7 +100,7 @@ bool SimperMusicSys::setSoundVol(const std::string &_songName, const float &_vol
     return false;
 }
 
-bool SimperMusicSys::setSoundVol(SoundData* _song, const float &_vol)
+bool GTSimperMusicSys::setSoundVol(GTSoundData* _song, const float &_vol)
 {
     _song->m_Volume = _vol;
     if (m_NameSoundMap.count(_song->m_SoundName))
@@ -110,9 +110,9 @@ bool SimperMusicSys::setSoundVol(SoundData* _song, const float &_vol)
     return true;
 }
 
-bool SimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_loop)
+bool GTSimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_loop)
 {
-    SoundData *zeSoundData = accessSound(_songName);
+    GTSoundData *zeSoundData = accessSound(_songName);
     if (zeSoundData && zeSoundData->m_Loop != _loop)
     {
         zeSoundData->m_Loop = _loop;
@@ -121,20 +121,20 @@ bool SimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_loo
     return false;
 }
 
-void SimperMusicSys::setMasterVol(const float &_vol)
+void GTSimperMusicSys::setMasterVol(const float &_vol)
 {
     m_MasterVol = _vol;
     // then we will have to iterate through the map and list then set the volume of each effect
-    for (std::map<std::string, std::list<SoundData*>>::iterator it = m_NamePlayingSound.begin(), end = m_NamePlayingSound.end(); it != end; ++it)
+    for (std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.begin(), end = m_NamePlayingSound.end(); it != end; ++it)
     {
-        for (std::list<SoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
         {
             setSoundVol(*listIt, _vol);
         }
     }
 }
 
-float SimperMusicSys::getMasterVol()
+float GTSimperMusicSys::getMasterVol()
 {
     return m_MasterVol;
 }

@@ -1,9 +1,7 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/Animation/AnimationHandlerNode.h"
-#include "GT/Animation/AnimTransAct.h"
-#include "GT/Audio/SimperMusicSys.h"
+#include "GT/Audio/GTSimperMusicSys.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -130,7 +128,7 @@ bool MainMenuScene::init()
 
 	scheduleUpdate();
 
-	GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
+	GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
 
 	return true;
 }

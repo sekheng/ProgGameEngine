@@ -7,12 +7,12 @@
 
 namespace GinTama
 {
-    struct AnimTransCondition
+    struct GTAnimTransCondition
     {
         std::string m_TransName;
         std::string m_TransCondition;
         cocos2d::Action* m_ActionPtr;
-        AnimTransCondition(const std::string &_name, const std::string &_condStr, cocos2d::Action *_action)
+        GTAnimTransCondition(const std::string &_name, const std::string &_condStr, cocos2d::Action *_action)
         {
             m_TransName = _name;
             m_TransCondition = _condStr;
@@ -25,10 +25,10 @@ namespace GinTama
     * otherwise make sure it has reference to the Sprite class.
     * You must also have knowledge regarding how Cocos2dx Animation class works
     */
-    class AnimationHandlerNode : public cocos2d::Node
+    class GTAnimationHandlerNode : public cocos2d::Node
     {
     public:
-        static AnimationHandlerNode *create();
+        static GTAnimationHandlerNode *create();
 
         /** To check the current animation state name
         *
@@ -112,14 +112,14 @@ namespace GinTama
     protected:
         std::unordered_map<std::string, cocos2d::Animation*> m_NameAnimMap;
         // Since thr can be multiple Animation Transition that relies on it
-        std::unordered_map<std::string, std::vector<AnimTransCondition*>> m_NameActTransMap;
+        std::unordered_map<std::string, std::vector<GTAnimTransCondition*>> m_NameActTransMap;
         std::string m_CurrentAnimName;
         std::string m_CurrentAnimTransit;
         std::vector<std::string> m_HistoryOfStates;
         cocos2d::Action *m_CurrentAnimate;
 
     CC_CONSTRUCTOR_ACCESS:
-        AnimationHandlerNode();
-        virtual ~AnimationHandlerNode();
+        GTAnimationHandlerNode();
+        virtual ~GTAnimationHandlerNode();
     };
 }

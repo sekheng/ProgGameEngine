@@ -1,21 +1,21 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "AnimationHandlerNode.h"
+#include "GTAnimationHandlerNode.h"
 
 namespace GinTama
 {
     /** To provide a simper transitioning between the actions so that it will be able to make use of other ActionInterval such as DelayTime
     * Should only be used by AnimationHandlerNode! so it will only play the animation
     */
-    class AnimTransAct : public cocos2d::ActionInterval
+    class GTAnimTransAct : public cocos2d::ActionInterval
     {
     public:
-        static AnimTransAct* create();
-        static AnimTransAct* create(const std::string &_AnimStateName);
-        static AnimTransAct* create(const std::string &_AnimStateName, const bool &_WaitForComplete, AnimationHandlerNode *_parentNode);
+        static GTAnimTransAct* create();
+        static GTAnimTransAct* create(const std::string &_AnimStateName);
+        static GTAnimTransAct* create(const std::string &_AnimStateName, const bool &_WaitForComplete, GTAnimationHandlerNode *_parentNode);
 
-        AnimTransAct* setAnimStateName(const std::string &_AnimStateName);
+        GTAnimTransAct* setAnimStateName(const std::string &_AnimStateName);
 
         virtual void startWithTarget(cocos2d::Node *target);
         /** Wait till i find a purpose with this
@@ -24,11 +24,11 @@ namespace GinTama
         virtual void stop();
 
     CC_CONSTRUCTOR_ACCESS:
-        virtual ~AnimTransAct();
+        virtual ~GTAnimTransAct();
     protected:
-        AnimTransAct();
+        GTAnimTransAct();
 
-        AnimationHandlerNode *m_targetNode;
+        GTAnimationHandlerNode *m_targetNode;
         std::string m_AnimName;
     };
 }

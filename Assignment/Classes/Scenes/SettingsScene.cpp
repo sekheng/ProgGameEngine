@@ -1,9 +1,7 @@
 // Include Cocos
 #include "scripting/lua-bindings/manual/CCLuaEngine.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/Animation/AnimationHandlerNode.h"
-#include "GT/Animation/AnimTransAct.h"
-#include "GT/Audio/SimperMusicSys.h"
+#include "GT/Audio/GTSimperMusicSys.h"
 
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
@@ -84,7 +82,7 @@ bool SettingsScene::init()
 	);
 	this->addChild(toPrevSceneButton);
 
-	int masterVolume = GinTama::SimperMusicSys::GetInstance()->getMasterVol() * 100;
+	int masterVolume = GinTama::GTSimperMusicSys::GetInstance()->getMasterVol() * 100;
 
 	auto slider = MKUICreator::GetInstance()->createSlider(
 		Vec2(visibleSize.width / 2, visibleSize.height / 2),
@@ -97,7 +95,7 @@ bool SettingsScene::init()
 			if (_type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
 			{
 				int percent = slider->getPercent();
-				GinTama::SimperMusicSys::GetInstance()->setMasterVol((float)percent / 100);
+				GinTama::GTSimperMusicSys::GetInstance()->setMasterVol((float)percent / 100);
 			}
 		}
 	);
