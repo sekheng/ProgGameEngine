@@ -1,20 +1,20 @@
-#include "AnimationHandlerNode.h"
+#include "GTAnimationHandlerNode.h"
 #include "external/json/filewritestream.h"
 #include "external/json/filereadstream.h"
 #include "external/json/writer.h"
 #include "external/json/document.h"
-#include "AnimTransAct.h"
+#include "GTAnimTransAct.h"
 
 USING_NS_CC;
 using namespace GinTama;
 using namespace RAPIDJSON_NAMESPACE;
 
-std::string AnimationHandlerNode::getCurrAnimName()
+std::string GTAnimationHandlerNode::getCurrAnimName()
 {
     return m_CurrentAnimName;
 }
 
-Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
+Animation *GTAnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
 {
     std::unordered_map<std::string, Animation*>::iterator it = m_NameAnimMap.find(_AnimStateName);
     // If the unordered map can't find anything, it will be the end of m_NameAnimMap
@@ -25,13 +25,13 @@ Animation *AnimationHandlerNode::getAnimation(const std::string &_AnimStateName)
     return nullptr;
 }
 
-bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
+bool GTAnimationHandlerNode::transitState(const std::string &_AnimStateName)
 {
-    std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.find(_AnimStateName);
+    std::unordered_map<std::string, std::vector<GTAnimTransCondition*>>::iterator it = m_NameActTransMap.find(_AnimStateName);
     if (it != m_NameActTransMap.end())
     {
         // then we will need to iterate through the vector!
-        for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
+        for (std::vector<GTAnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
         {
             if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
             {
@@ -46,7 +46,7 @@ bool AnimationHandlerNode::transitState(const std::string &_AnimStateName)
     return false;
 }
 
-bool AnimationHandlerNode::playAnim(const std::string &_AnimName)
+bool GTAnimationHandlerNode::playAnim(const std::string &_AnimName)
 {
     std::unordered_map<std::string, Animation*>::iterator it = m_NameAnimMap.find(_AnimName);
     if (it != m_NameAnimMap.end())
@@ -76,7 +76,7 @@ bool AnimationHandlerNode::playAnim(const std::string &_AnimName)
     return false;
 }
 
-bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, cocos2d::Animation *_AnimState)
+bool GTAnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, cocos2d::Animation *_AnimState)
 {
     switch (m_NameAnimMap.count(_AnimStateName))
     {
@@ -101,7 +101,7 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
     return false;
 }
 
-bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, const std::string &_fileName, const cocos2d::Rect &_totalPixelSize, const cocos2d::Rect &_SpriteInterval, const float &_framePerSec, const int &_loopTimes)
+bool GTAnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, const std::string &_fileName, const cocos2d::Rect &_totalPixelSize, const cocos2d::Rect &_SpriteInterval, const float &_framePerSec, const int &_loopTimes)
 {
     // we will make use of this and start create the Animation class then pass it to the other overloaded function
     Animation *zeNewAnim = Animation::create();
@@ -136,7 +136,7 @@ bool AnimationHandlerNode::insertAnimSheet(const std::string &_AnimStateName, co
     return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
-bool AnimationHandlerNode::insertAnimFromCache(const std::string &_AnimStateName)
+bool GTAnimationHandlerNode::insertAnimFromCache(const std::string &_AnimStateName)
 {
     auto zeAnim = AnimationCache::getInstance()->getAnimation(_AnimStateName);
     if (zeAnim)
@@ -147,7 +147,7 @@ bool AnimationHandlerNode::insertAnimFromCache(const std::string &_AnimStateName
     return false;
 }
 
-bool AnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef)
+bool GTAnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateName, const float &_framePerSec, const int &_loopTimes, const std::vector<std::string> &_AnimSprRef)
 {
     Animation *zeNewAnim = Animation::create();
     auto zeSprCache = SpriteFrameCache::getInstance();
@@ -175,7 +175,7 @@ bool AnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateNam
     return insertAnimSheet(_AnimStateName, zeNewAnim);
 }
 
-bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
+bool GTAnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 {
 	// Will be initialized with the PList filetype
 	FILE *zefp = fopen(_JsonTag.c_str(), "r");
@@ -234,7 +234,7 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
                         // Then check what is the action name then extract the variable!
                         if (zeActName == "AnimTrans")
                         {
-                            zeActionVector.pushBack(AnimTransAct::create(ActionTransIt->value.GetString(), true, this));
+                            zeActionVector.pushBack(GTAnimTransAct::create(ActionTransIt->value.GetString(), true, this));
                         }
                         else if (zeActName == "Delay")
                         {
@@ -249,19 +249,19 @@ bool AnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
     return true;
 }
 
-bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction *> &_sequenceOfAct, const std::string &_conditionStr)
+bool GTAnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction *> &_sequenceOfAct, const std::string &_conditionStr)
 {
     Sequence *zeSeqAct = Sequence::create(_sequenceOfAct);
     return insertAnimTransSeq(_AnimTransName, zeSeqAct, _conditionStr);
 }
 
-bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, cocos2d::Sequence* _sequenceAct, const std::string &_conditionStr)
+bool GTAnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, cocos2d::Sequence* _sequenceAct, const std::string &_conditionStr)
 {
     _sequenceAct->retain();
-    AnimTransCondition *zeTransCondition = new AnimTransCondition(_AnimTransName, _conditionStr, _sequenceAct);
+    GTAnimTransCondition *zeTransCondition = new GTAnimTransCondition(_AnimTransName, _conditionStr, _sequenceAct);
     if (!m_NameActTransMap.count(_AnimTransName))
     {
-        m_NameActTransMap.insert(std::pair<std::string, std::vector<AnimTransCondition*>>(_AnimTransName, { zeTransCondition }));
+        m_NameActTransMap.insert(std::pair<std::string, std::vector<GTAnimTransCondition*>>(_AnimTransName, { zeTransCondition }));
     }
     else
     {
@@ -270,7 +270,7 @@ bool AnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName,
     return true;
 }
 
-AnimationHandlerNode::AnimationHandlerNode() :
+GTAnimationHandlerNode::GTAnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
     , m_CurrentAnimate(nullptr)
@@ -279,7 +279,7 @@ AnimationHandlerNode::AnimationHandlerNode() :
 }
 
 
-AnimationHandlerNode::~AnimationHandlerNode()
+GTAnimationHandlerNode::~GTAnimationHandlerNode()
 {
     for (std::unordered_map<std::string, cocos2d::Animation*>::iterator it = m_NameAnimMap.begin(), end = m_NameAnimMap.end(); it != end; ++it)
     {
@@ -291,9 +291,9 @@ AnimationHandlerNode::~AnimationHandlerNode()
     }
     m_NameAnimMap.clear();
     m_CurrentAnim = nullptr;
-    for (std::unordered_map<std::string, std::vector<AnimTransCondition*>>::iterator it = m_NameActTransMap.begin(), end = m_NameActTransMap.end(); it != end; ++it)
+    for (std::unordered_map<std::string, std::vector<GTAnimTransCondition*>>::iterator it = m_NameActTransMap.begin(), end = m_NameActTransMap.end(); it != end; ++it)
     {
-        for (std::vector<AnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
+        for (std::vector<GTAnimTransCondition*>::iterator AnimIt = it->second.begin(), AnimEnd = it->second.end(); AnimIt != AnimEnd; ++AnimIt)
         {
             (*AnimIt)->m_ActionPtr->release();
             //(*AnimIt)->m_ActionPtr->release();
@@ -302,9 +302,9 @@ AnimationHandlerNode::~AnimationHandlerNode()
     m_NameActTransMap.clear();
 }
 
-AnimationHandlerNode *AnimationHandlerNode::create()
+GTAnimationHandlerNode *GTAnimationHandlerNode::create()
 {
-    AnimationHandlerNode *zeNewNode = new AnimationHandlerNode();
+    GTAnimationHandlerNode *zeNewNode = new GTAnimationHandlerNode();
     zeNewNode->init();
     zeNewNode->autorelease();
     return zeNewNode;

@@ -5,7 +5,7 @@
 #include "external/json/document.h"
 
 namespace GinTama {
-    struct SoundData
+    struct GTSoundData
     {
         float m_Volume;
         int m_AudioID = -1;
@@ -14,27 +14,27 @@ namespace GinTama {
         bool m_Loop;
     };
 
-    class SimperMusicSys : public MinamiKotori::MKSingletonTemplate<SimperMusicSys>
+    class GTSimperMusicSys : public MinamiKotori::MKSingletonTemplate<GTSimperMusicSys>
     {
     public:
         bool playSound(const std::string &_songName);
 
-        SoundData* accessSound(const std::string &_songName);
+        GTSoundData* accessSound(const std::string &_songName);
 
         bool setSoundVol(const std::string &_songName, const float &_vol);
-        bool setSoundVol(SoundData* _song, const float &_vol);
+        bool setSoundVol(GTSoundData* _song, const float &_vol);
         bool setSoundLoop(const std::string &_songName, const bool &_loop);
 
         void setMasterVol(const float &_vol);
         float getMasterVol();
 
-        SimperMusicSys();
+        GTSimperMusicSys();
     protected:
-        virtual ~SimperMusicSys();
+        virtual ~GTSimperMusicSys();
 
         float m_MasterVol;
         RAPIDJSON_NAMESPACE::Document m_MusicDocs;
-        std::unordered_map<std::string, SoundData*> m_NameSoundMap;
-        std::map<std::string, std::list<SoundData*> > m_NamePlayingSound;
+        std::unordered_map<std::string, GTSoundData*> m_NameSoundMap;
+        std::map<std::string, std::list<GTSoundData*> > m_NamePlayingSound;
     };
 };

@@ -5,10 +5,10 @@
 #include "MK/SceneManagement/MKSceneManager.h"
 
 // Include GT
-#include "GT/Animation/AnimationHandlerNode.h"
-#include "GT/Animation/AnimTransAct.h"
-#include "GT/Audio/SimperMusicSys.h"
-#include "GT/GameLogic/CharacterStatNode.h"
+#include "GT/Animation/GTAnimationHandlerNode.h"
+#include "GT/Animation/GTAnimTransAct.h"
+#include "GT/Audio/GTSimperMusicSys.h"
+#include "GT/GameLogic/GTCharacterStatNode.h"
 #include "GT/GameLogic/GTObstacleNode.h"
 
 const static int CHARACTER_GROUND_CONTACT_BITMASK = 0x00000001;
@@ -62,7 +62,7 @@ bool GameScene::initWithPhysics()
     this->addChild(charaSpr);
     charaSpr->setScale(0.5f);
     m_MainCharaNode = charaSpr;
-    AnimationHandlerNode *charAnimHandler = AnimationHandlerNode::create();
+    GTAnimationHandlerNode *charAnimHandler = GTAnimationHandlerNode::create();
     charaSpr->addChild(charAnimHandler);
     charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     //TODO: Change this hardcoded position
@@ -74,7 +74,7 @@ bool GameScene::initWithPhysics()
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
-    CharacterStatNode *charaStat = CharacterStatNode::create(charaPhysics);
+    GTCharacterStatNode *charaStat = GTCharacterStatNode::create(charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
     charaStat->setSlideDuration(1.0f);
@@ -158,7 +158,7 @@ void GameScene::OnButton(EventCustom * _event)
     {
     case MinamiKotori::MKInputButton::ButtonState::PRESS:
     {
-        CharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<CharacterStatNode*>(1);
+        GTCharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<GTCharacterStatNode*>(1);
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
@@ -169,7 +169,7 @@ void GameScene::OnButton(EventCustom * _event)
                 // then character jump!
                 charaStat->setState(JUMPING);
                 m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 7500.f));
-                SimperMusicSys::GetInstance()->playSound("Jump");
+                GTSimperMusicSys::GetInstance()->playSound("Jump");
                 break;
             default:
                 break;
@@ -224,8 +224,8 @@ bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
         auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
         zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
         // this means the character touched the ground!
-        m_MainCharaNode->getChildByTag<AnimationHandlerNode*>(69)->transitState("Idle");
-        m_MainCharaNode->getChildByTag<CharacterStatNode*>(1)->setState(RUNNING);
+        m_MainCharaNode->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
+        m_MainCharaNode->getChildByTag<GTCharacterStatNode*>(1)->setState(RUNNING);
     }
     return true;
 }

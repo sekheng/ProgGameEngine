@@ -13,11 +13,11 @@ namespace GinTama
         TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH,
     };
 
-	class CharacterStatNode : public cocos2d::Node
+	class GTCharacterStatNode : public cocos2d::Node
 	{
 	public:
-		static CharacterStatNode* create();
-        static CharacterStatNode* create(cocos2d::PhysicsBody *_physicsBody);
+		static GTCharacterStatNode* create();
+        static GTCharacterStatNode* create(cocos2d::PhysicsBody *_physicsBody);
 
         /** This will set the health to be the exact health!
         *
@@ -53,8 +53,8 @@ namespace GinTama
         CHARACTER_STATE getCurrentState();
 
 	protected:
-		CharacterStatNode();
-		virtual ~CharacterStatNode();
+		GTCharacterStatNode();
+		virtual ~GTCharacterStatNode();
 
 		int m_health;
         cocos2d::PhysicsBody* m_physicsNode;
