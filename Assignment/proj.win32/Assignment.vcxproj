@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GT\Animation\GTAnimationHandlerNode.cpp" />
     <ClCompile Include="..\Classes\GT\Animation\GTAnimTransAct.cpp" />
+    <ClCompile Include="..\Classes\GT\Animation\GTDestroySelfAct.cpp" />
     <ClCompile Include="..\Classes\GT\Audio\GTSimperMusicSys.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\GTCharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.cpp" />
@@ -176,6 +177,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\GT\Animation\GTAnimationHandlerNode.h" />
     <ClInclude Include="..\Classes\GT\Animation\GTAnimTransAct.h" />
+    <ClInclude Include="..\Classes\GT\Animation\GTDestroySelfAct.h" />
     <ClInclude Include="..\Classes\GT\Audio\GTSimperMusicSys.h" />
     <ClInclude Include="..\Classes\GT\Common\GTMacros.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\GTCharacterStatNode.h" />

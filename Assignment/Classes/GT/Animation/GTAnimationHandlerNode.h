@@ -29,10 +29,9 @@ namespace GinTama
     {
     public:
         static GTAnimationHandlerNode *create();
+        static GTAnimationHandlerNode *create(const bool &_autoDestroy);
 
-        void setAutoDestroyOnCompletion(bool _autoDestroy) {}
-
-        bool getAutoDestroyOnCompletion() const { return false; }
+        bool getAutoDestroyOnCompletion() const { return m_AutoDestroyed; }
 
         /** To check the current animation state name
         *
@@ -121,9 +120,13 @@ namespace GinTama
         std::string m_CurrentAnimTransit;
         std::vector<std::string> m_HistoryOfStates;
         cocos2d::Action *m_CurrentAnimate;
+        bool m_AutoDestroyed;
 
-    CC_CONSTRUCTOR_ACCESS:
+        void setAutoDestroyOnCompletion(bool _autoDestroy);
+        void destroyItself();
+
         GTAnimationHandlerNode();
+    CC_CONSTRUCTOR_ACCESS:
         virtual ~GTAnimationHandlerNode();
     };
 }
