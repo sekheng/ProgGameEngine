@@ -19,7 +19,7 @@ void _TYPE_::InitialiseContactListener() \
 }
 
 #define GT_DEINITIALISECONTACTLISTENER(_TYPE_) \
-void _TYPE_::UninitialiseContactListener() \
+void _TYPE_::DeinitialiseContactListener() \
 { \
     if (m_ContactListener != NULL) \
     { \

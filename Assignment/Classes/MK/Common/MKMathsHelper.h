@@ -39,6 +39,19 @@ public:
         return (_a > static_cast<T>(0)) ? _a : -_a;
     }
 
+    template<typename T>
+    static T CompareBitmasks(T _a, T _b)
+    {
+        return 0 != (_a & _b);
+    }
+
+    // Checks if _b contains _a.
+    template<typename T>
+    static T ContainsBitmask(T _a, T _b)
+    {
+        return _a == (_a & _b);
+    }
+
 };
 
 NS_MK_END

@@ -22,10 +22,7 @@ GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
 
 gtBool GTObstacle_Missile::init()
 {
-    if (Super::init() == false)
-    {
-        return false;
-    }
+    if (!Super::init()) { return false; }
 
     InitialiseContactListener();
 
@@ -68,16 +65,27 @@ gtBool GTObstacle_Missile::init()
     return true;
 }
 
-void GTObstacle_Missile::update(gtF32 _deltaTime)
-{
-    Super::update(_deltaTime);
-}
-
 gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
 {
+    PhysicsShape* physicsShapeA = _contact.getShapeA();
+    PhysicsShape* physicsShapeB = _contact.getShapeB();
+    // Ignore this collision if we're not involved.
+    if (physicsShapeA->getBody() != _physicsBody &&
+        physicsShapeB->getBody() != _physicsBody)
+    {
+        return false;
+    }
+
+    PhysicsBody* otherPhysicsBody = (physicsShapeA->getBody() != getPhysicsBody()) ? physicsShapeA->getBody() : physicsShapeB->getBody();
+    // Dafuq? How can we collide with ourselves?
+    if (otherPhysicsBody == getPhysicsBody())
+    {
+        return false;
+    }
+
     // Stop everything. The only reason we are not deleting instantly is so that
     // the smoke can finish their animation.
-    UninitialiseContactListener(); // Stop listening or else this still gets called somehow.
+    DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
     m_ParticleSmoke->pauseEmissions();
     this->removeComponent(getPhysicsBody());
     this->removeChild(m_Rocket, false);
@@ -85,13 +93,12 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
 
     // Explode
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.plist");
-
-    cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
-    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Explosion_0.png"));
-
-    GTAnimationHandlerNode* m_ExplosionAnimation = GTAnimationHandlerNode::create(true);
+    GTAnimationHandlerNode* m_ExplosionAnimation = GTAnimationHandlerNode::create();
     m_ExplosionAnimation->initWithJSON_tag("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.json");
     m_ExplosionAnimation->transitState("None");
+    m_ExplosionAnimation->setAutoDestroyOnCompletion(true);
+
+    cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
     explosionSprite->addChild(m_ExplosionAnimation);
     GetScene()->addChild(explosionSprite);
     explosionSprite->setPosition(this->getPosition());

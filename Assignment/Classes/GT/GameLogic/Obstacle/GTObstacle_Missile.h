@@ -28,10 +28,9 @@ public:
 CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
     GTObstacle_Missile(MKScene* _scene) : GTObstacleNode(_scene) {}
-    virtual ~GTObstacle_Missile() { UninitialiseContactListener(); }
+    virtual ~GTObstacle_Missile() { DeinitialiseContactListener(); }
 
     virtual bool init() override;
-    virtual void update(gtF32 _deltaTime) override;
 
 };
 
