@@ -335,10 +335,11 @@ GTAnimationHandlerNode *GTAnimationHandlerNode::create()
     return zeNewNode;
 }
 
-GTAnimationHandlerNode *GTAnimationHandlerNode::create(const bool &_autoDestroy)
+GTAnimationHandlerNode *GTAnimationHandlerNode::createWithAutoDestroy(cocos2d::Node* _parent)
 {
     GTAnimationHandlerNode *zeNewNode = create();
     zeNewNode->setAutoDestroyOnCompletion(true);
+    _parent->addChild(zeNewNode);
     return zeNewNode;
 }
 

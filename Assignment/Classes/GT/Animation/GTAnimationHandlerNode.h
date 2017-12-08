@@ -29,7 +29,7 @@ namespace GinTama
     {
     public:
         static GTAnimationHandlerNode *create();
-        static GTAnimationHandlerNode *create(const bool &_autoDestroy);
+        static GTAnimationHandlerNode *createWithAutoDestroy(cocos2d::Node* _parent);
 
         bool getAutoDestroyOnCompletion() const { return m_AutoDestroyed; }
 

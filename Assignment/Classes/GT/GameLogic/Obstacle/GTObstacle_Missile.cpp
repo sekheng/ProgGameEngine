@@ -93,15 +93,16 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
 
     // Explode
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.plist");
-    GTAnimationHandlerNode* m_ExplosionAnimation = GTAnimationHandlerNode::create();
-    m_ExplosionAnimation->initWithJSON_tag("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.json");
-    m_ExplosionAnimation->transitState("None");
-    m_ExplosionAnimation->setAutoDestroyOnCompletion(true);
 
     cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
-    explosionSprite->addChild(m_ExplosionAnimation);
-    GetScene()->addChild(explosionSprite);
+    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName("Explosion_0.png"));
+
+    GTAnimationHandlerNode* _explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+    _explosionAnimation->initWithJSON_tag("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.json");
+    _explosionAnimation->transitState("None");
+
     explosionSprite->setPosition(this->getPosition());
+    GetScene()->addChild(explosionSprite);
 
     return false;
 }

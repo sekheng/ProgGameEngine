@@ -25,7 +25,7 @@ private:
     gtF32 m_TimePassed = 0.0f;
 
     // Temporary Experimentation Values
-    gtF32 m_TimeToSpawnMissile = 0.1f;
+    gtF32 m_TimeToSpawnMissile = 3.0f;
     gtF32 m_TimeToSpawnMissileTimer = 0.0f;
 
     void SpawnMissileUpdate(gtF32 _deltaTime);
