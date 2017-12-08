@@ -63,7 +63,6 @@ bool GameScene::initWithPhysics()
     phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
 
-    //GinTama::SimperMusicSys::GetInstance()->playSound("testbgm");
 
     // Create Obstacle Spawner
     InitialiseObstacles();
