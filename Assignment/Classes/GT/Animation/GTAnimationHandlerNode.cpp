@@ -4,6 +4,7 @@
 #include "external/json/writer.h"
 #include "external/json/document.h"
 #include "GTAnimTransAct.h"
+#include "GTDestroySelfAct.h"
 
 USING_NS_CC;
 using namespace GinTama;
@@ -36,8 +37,19 @@ bool GTAnimationHandlerNode::transitState(const std::string &_AnimStateName)
             if ((*AnimIt)->m_TransCondition == "" || (*AnimIt)->m_TransCondition == m_CurrentAnimTransit)
             {
                 stopAllActions();
-                // just run the action lol
-                runAction((*AnimIt)->m_ActionPtr);
+                switch (m_AutoDestroyed)
+                {
+                case true:
+                {
+                    Sequence *zeNewSeq = Sequence::create(static_cast<FiniteTimeAction*>((*AnimIt)->m_ActionPtr), GTDestroySelfAct::create(_parent), nullptr);
+                    runAction(zeNewSeq);
+                }
+                break;
+                default:
+                    // just run the action lol
+                    runAction((*AnimIt)->m_ActionPtr);
+                    break;
+                }
                 m_CurrentAnimTransit = (*AnimIt)->m_TransName;
                 return true;
             }
@@ -251,6 +263,18 @@ bool GTAnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 
 bool GTAnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction *> &_sequenceOfAct, const std::string &_conditionStr)
 {
+    //switch (m_AutoDestroyed)
+    //{
+    //case true:
+    //{
+    //    GTDestroySelfAct *zeDestroyAct = GTDestroySelfAct::create(_parent);
+    //    // unfortunately this will be the cheapest hack
+    //    const_cast<cocos2d::Vector<cocos2d::FiniteTimeAction *>&>(_sequenceOfAct).pushBack(zeDestroyAct);
+    //}
+    //break;
+    //default:
+    //    break;
+    //}
     Sequence *zeSeqAct = Sequence::create(_sequenceOfAct);
     return insertAnimTransSeq(_AnimTransName, zeSeqAct, _conditionStr);
 }
@@ -274,6 +298,7 @@ GTAnimationHandlerNode::GTAnimationHandlerNode() :
     m_CurrentAnim(nullptr)
     , m_SpriteNode(nullptr)
     , m_CurrentAnimate(nullptr)
+    , m_AutoDestroyed(false)
 {
 	setTag(69);
 }
@@ -304,9 +329,29 @@ GTAnimationHandlerNode::~GTAnimationHandlerNode()
 
 GTAnimationHandlerNode *GTAnimationHandlerNode::create()
 {
-    GTAnimationHandlerNode *zeNewNode = new GTAnimationHandlerNode();
+    GTAnimationHandlerNode *zeNewNode = new (std::nothrow) GTAnimationHandlerNode();
     zeNewNode->init();
     zeNewNode->autorelease();
     return zeNewNode;
 }
 
+GTAnimationHandlerNode *GTAnimationHandlerNode::create(const bool &_autoDestroy)
+{
+    GTAnimationHandlerNode *zeNewNode = create();
+    zeNewNode->setAutoDestroyOnCompletion(true);
+    return zeNewNode;
+}
+
+void GTAnimationHandlerNode::setAutoDestroyOnCompletion(bool _autoDestroy)
+{
+    m_AutoDestroyed = _autoDestroy;
+}
+
+void GTAnimationHandlerNode::destroyItself()
+{
+    // it will tell the parent of the parent to remove it's parent and it will release itself
+    _parent->getParent()->removeChild(_parent, true);
+    _parent->release();
+    // make sure it will be garbage collected
+    release();
+}

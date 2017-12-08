@@ -3,14 +3,14 @@ using namespace GinTama;
 
 GTAnimTransAct* GTAnimTransAct::create()
 {
-    GTAnimTransAct *zeNewAct = new GTAnimTransAct();
+    GTAnimTransAct *zeNewAct = new (std::nothrow) GTAnimTransAct();
     zeNewAct->autorelease();
     return zeNewAct;
 }
 
 GTAnimTransAct *GTAnimTransAct::create(const std::string &_AnimStateName)
 {
-    GTAnimTransAct *zeNewAct = new GTAnimTransAct();
+    GTAnimTransAct *zeNewAct = new (std::nothrow) GTAnimTransAct();
     zeNewAct->m_AnimName = _AnimStateName;
     zeNewAct->autorelease();
     return zeNewAct;
