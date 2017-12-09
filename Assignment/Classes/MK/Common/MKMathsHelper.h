@@ -9,7 +9,9 @@ NS_MK_BEGIN
 class MKMathsHelper
 {
 public:
+    static const float HALF_PI;
     static const float PI;
+    static const float TWO_PI;
     static const float Deg2Rad;
     static const float Rad2Deg;
 

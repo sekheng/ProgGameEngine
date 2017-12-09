@@ -21,6 +21,9 @@ class MKScene : public cocos2d::Scene
 	typedef cocos2d::Scene Super;
 
 protected:
+    // UI Node
+    cocos2d::Node* m_UINode = nullptr;
+
 	// Input Event Listeners
 	EventListenerCustom* m_ButtonListener = nullptr;
 	EventListenerCustom* m_ClickListener = nullptr;
@@ -38,11 +41,33 @@ protected:
     }
 
 public:
+    static const mkS32 UIZOrder = 3000;
+
 	MKScene() {}
 	virtual ~MKScene() {}
 
-	virtual bool init() { return Super::init(); }
-    virtual bool initWithPhysics() { return Super::initWithPhysics(); }
+	virtual bool init()
+    {
+        if (!Super::init()) { return false; }
+        m_UINode = cocos2d::Node::create();
+        m_UINode->setAnchorPoint(Vec2::ZERO);
+        m_UINode->setPosition(Vec2::ZERO);
+        addChild(m_UINode, MKScene::UIZOrder);
+        return true;
+    }
+    
+    virtual bool initWithPhysics()
+    {
+        if (!Super::initWithPhysics()) { return false; }
+        m_UINode = cocos2d::Node::create();
+        m_UINode->setAnchorPoint(Vec2::ZERO);
+        m_UINode->setPosition(Vec2::ZERO);
+        addChild(m_UINode, MKScene::UIZOrder);
+        return true;
+    }
+
+    cocos2d::Node* GetUINode() { return m_UINode; }
+    const cocos2d::Node* GetUINode() const { return m_UINode; }
 
 	float GetAspectRatio() const
 	{

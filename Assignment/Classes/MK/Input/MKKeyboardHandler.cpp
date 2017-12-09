@@ -148,7 +148,7 @@ void MKKeyboardHandler::RegisterButton(MKPasskey<MKInputDefinition> _key, mkU64 
 	else
 	{
 #if MK_DEBUG
-		std::string assertMessage = "MKKeyboardHandler::RegisterButton - A InputName was registered twice with the same mask!";
+		mkString assertMessage = "MKKeyboardHandler::RegisterButton - A InputName was registered twice with the same mask!";
 		MK_ASSERTWITHMSG((mapIter->second.find(_inputName) == mapIter->second.end()), assertMessage);
 #endif // MK_DEBUG
 
@@ -166,7 +166,7 @@ void MKKeyboardHandler::UnregisterButton(MKPasskey<MKInputDefinition> _key, mkU6
 
 #if MK_DEBUG
 	{
-		std::string assertMessage = "MKKeyboardHandler::UnregisterButton - There are no the specified mask is not registered!";
+		mkString assertMessage = "MKKeyboardHandler::UnregisterButton - There are no the specified mask is not registered!";
 		MK_ASSERTWITHMSG((mapIter != m_RegisteredButtons.end()), assertMessage);
 	}
 #endif // MK_DEBUG
@@ -175,7 +175,7 @@ void MKKeyboardHandler::UnregisterButton(MKPasskey<MKInputDefinition> _key, mkU6
 
 #if MK_DEBUG
 	{
-		std::string assertMessage = "MKKeyboardHandler::UnregisterButton - There are no InputNames registered using the specified mask!";
+		mkString assertMessage = "MKKeyboardHandler::UnregisterButton - There are no InputNames registered using the specified mask!";
 		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
 	}
 #endif // MK_DEBUG

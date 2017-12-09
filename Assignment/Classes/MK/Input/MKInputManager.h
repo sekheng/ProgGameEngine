@@ -58,7 +58,7 @@ public:
 	inline const cocos2d::EventDispatcher* GetEventDispatcher() const { return m_EventDispatcher; }
 #endif
 
-	inline void update(float _deltaTime) { Update(); }
+	inline void update(mkF32 _deltaTime) { Update(); }
 
 	// I didn't really test to see if changing the key bindings while keys are being held down etc. will cause any problems. Use with
 	// caution. Tell me if anything bad happens. Theorectically it SHOULD (not definitely, just should) work.
@@ -69,9 +69,9 @@ public:
 	void AddInput(T* _input)
 	{
 #if MK_DEBUG
-		std::string baseName = typeid(MKInputBase).name();
-		std::string typeName = typeid(T).name();
-		std::string assertMessage = "MKInputManager::AddInput - " + typeName + " is not a base class of " + baseName + "!";
+		mkString baseName = typeid(MKInputBase).name();
+		mkString typeName = typeid(T).name();
+		mkString assertMessage = "MKInputManager::AddInput - " + typeName + " is not a base class of " + baseName + "!";
 		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage);
 #endif // MK_DEBUG
 
@@ -84,9 +84,9 @@ public:
 	EventListenerCustom* CreateEventListener(const std::function<void(EventCustom*)>& _callback)
 	{
 #if MK_DEBUG
-		std::string baseName = typeid(MKInputBase).name();
-		std::string typeName = typeid(T).name();
-		std::string assertMessage = "MKInputManager::CreateEventListener - " + typeName + " is not a base class of " + baseName + "!";
+		mkString baseName = typeid(MKInputBase).name();
+		mkString typeName = typeid(T).name();
+		mkString assertMessage = "MKInputManager::CreateEventListener - " + typeName + " is not a base class of " + baseName + "!";
 		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage);
 #endif // MK_DEBUG
 		
@@ -160,22 +160,22 @@ public:
 		return keyCodeMask;
 	}
 
-	static bool CompareContext(mkU16 _contextA, mkU16 _contextB)
+	static mkBool CompareContext(mkU16 _contextA, mkU16 _contextB)
 	{
 		return (_contextA & _contextB) != 0;
 	}
 
-	static bool CompareControllerIndex(mkU16 _controllerIndexA, mkU16 _controllerIndexB)
+	static mkBool CompareControllerIndex(mkU16 _controllerIndexA, mkU16 _controllerIndexB)
 	{
 		return (_controllerIndexA & _controllerIndexB) != 0;
 	}
 
-	static bool CompareKeyCode(mkU32 _keyCodeA, mkU32 _keyCodeB)
+	static mkBool CompareKeyCode(mkU32 _keyCodeA, mkU32 _keyCodeB)
 	{
 		return (_keyCodeA == _keyCodeB);
 	}
 
-	static bool CompareMask(mkU64 _maskA, mkU64 _maskB)
+	static mkBool CompareMask(mkU64 _maskA, mkU64 _maskB)
 	{
 		mkU16 contextA = GetContext(_maskA);
 		mkU16 contextB = GetContext(_maskB);

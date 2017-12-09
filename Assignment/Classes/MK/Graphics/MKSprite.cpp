@@ -53,7 +53,7 @@ void MKSprite::InitTextureParameters(MKSprite* _sprite)
 	_sprite->getTexture()->setTexParameters(textureParameters);
 }
 
-MKSprite* MKSprite::Create(const std::string& _fileName, bool _useTextureRepeat)
+MKSprite* MKSprite::Create(const mkString& _fileName, mkBool _useTextureRepeat)
 {
     MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
     if (sprite && sprite->initWithFile(_fileName))
@@ -68,7 +68,7 @@ MKSprite* MKSprite::Create(const std::string& _fileName, bool _useTextureRepeat)
     return nullptr;
 }
 
-MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, bool _useTextureRepeat)
+MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, mkBool _useTextureRepeat)
 {
 	MKSprite *sprite = new (std::nothrow) MKSprite(_useTextureRepeat);
 	if (sprite && sprite->initWithTexture(texture))
@@ -82,7 +82,7 @@ MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, bool _useTextureRepeat
 	return nullptr;
 }
 
-MKSprite* MKSprite::CreateWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat)
+MKSprite* MKSprite::CreateWithSize(const mkString& _fileName, const Size& _desiredSize, mkBool _useTextureRepeat)
 {
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
