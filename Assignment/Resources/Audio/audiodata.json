@@ -24,6 +24,12 @@
 		 "NameID":"Dash",
 		 "volume":0.2,
 		 "loop":false
-      }
+      },
+	  {
+		"location":"Audio/Obstacle/Missile/Warning.mp3",
+		 "NameID":"MissileWarning",
+		 "volume":1.0,
+		 "loop":true
+	  }
   ]
 }
