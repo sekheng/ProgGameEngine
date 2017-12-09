@@ -13,7 +13,12 @@ class GTObstacle_Missile : public GTObstacleNode
     typedef GTObstacleNode Super;
 
 private:
-    MKSprite* m_Rocket = NULL;
+    static const mkString m_MissileSpriteFile;
+    static const mkString m_ExplosionPListFile;
+    static const mkString m_ExplosionJSONFile;
+    static const mkString m_ExplosionSpriteFrameName;
+
+    MKSprite* m_Missile = NULL;
     CCParticleSmoke* m_ParticleSmoke = NULL;
 
 protected:

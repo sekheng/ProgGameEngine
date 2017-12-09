@@ -49,6 +49,9 @@
     <Filter Include="GT\Animation">
       <UniqueIdentifier>{2f5eae7b-3341-4a1c-bcd4-e962ce7ddb63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GT\Actions">
+      <UniqueIdentifier>{d9056fe4-c474-4049-b637-b1e1312dbcac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -245,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\Animation\GTDestroySelfAct.h">
       <Filter>GT\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTScaleUpAndDownAction.h">
+      <Filter>GT\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParent.h">
+      <Filter>GT\Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

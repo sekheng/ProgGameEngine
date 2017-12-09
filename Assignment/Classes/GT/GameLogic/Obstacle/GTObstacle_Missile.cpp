@@ -7,6 +7,11 @@
 
 NS_GT_BEGIN
 
+const mkString GTObstacle_Missile::m_MissileSpriteFile = "Textures/Gameplay/Obstacles/Missile/Missile.png";
+const mkString GTObstacle_Missile::m_ExplosionPListFile = "Textures/Gameplay/Obstacles/Missile/Explosion/Explosion.plist";
+const mkString GTObstacle_Missile::m_ExplosionJSONFile = "Textures/Gameplay/Obstacles/Missile/Explosion/Explosion.json";
+const mkString GTObstacle_Missile::m_ExplosionSpriteFrameName = "Explosion_0.png";
+
 GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
 {
     GTObstacle_Missile* obstacle = new (std::nothrow) GTObstacle_Missile(_scene);
@@ -27,14 +32,14 @@ gtBool GTObstacle_Missile::init()
     InitialiseContactListener();
 
     // Create the MKSprite.
-    m_Rocket = MKSprite::Create("Textures/Gameplay/Obstacles/Rocket/Rocket.png", false);
-    m_Rocket->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->addChild(m_Rocket);
+    m_Missile = MKSprite::Create(m_MissileSpriteFile, false);
+    m_Missile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    this->addChild(m_Missile);
     // Set the sprite to be in the middle of this node.
-    m_Rocket->setPosition(this->getContentSize() * 0.5f);
+    m_Missile->setPosition(this->getContentSize() * 0.5f);
 
     // Create the PhysicsBody.
-    cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(m_Rocket->getContentSize() * 0.8f);
+    cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(m_Missile->getContentSize() * 0.8f);
     physicsBody->setDynamic(true);
     physicsBody->setGravityEnable(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
@@ -44,7 +49,7 @@ gtBool GTObstacle_Missile::init()
 
     // Set our size.
     this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->setContentSize(m_Rocket->getContentSize());
+    this->setContentSize(m_Missile->getContentSize());
 
     // Create our particles
     m_ParticleSmoke = CCParticleSmoke::createWithTotalParticles(400);
@@ -53,10 +58,10 @@ gtBool GTObstacle_Missile::init()
     m_ParticleSmoke->setDuration(cocos2d::ParticleSystem::DURATION_INFINITY);
     m_ParticleSmoke->setLife(0.8f);
     m_ParticleSmoke->setLifeVar(0.2f);
-    m_ParticleSmoke->setStartSize(m_Rocket->getContentSize().height);
-    m_ParticleSmoke->setStartSizeVar(m_Rocket->getContentSize().height * 0.1f);
-    m_ParticleSmoke->setEndSize(m_Rocket->getContentSize().height * 0.1f);
-    m_ParticleSmoke->setEndSizeVar(m_Rocket->getContentSize().height * 0.1f);
+    m_ParticleSmoke->setStartSize(m_Missile->getContentSize().height);
+    m_ParticleSmoke->setStartSizeVar(m_Missile->getContentSize().height * 0.1f);
+    m_ParticleSmoke->setEndSize(m_Missile->getContentSize().height * 0.1f);
+    m_ParticleSmoke->setEndSizeVar(m_Missile->getContentSize().height * 0.1f);
     m_ParticleSmoke->setAutoRemoveOnFinish(false);
     m_ParticleSmoke->setScale(this->getScale());
     m_ParticleSmoke->setPosition(Vec2(this->getContentSize().width, 0.0f));
@@ -88,17 +93,17 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
     m_ParticleSmoke->pauseEmissions();
     this->removeComponent(getPhysicsBody());
-    this->removeChild(m_Rocket, false);
-    m_Rocket = NULL;
+    this->removeChild(m_Missile, false);
+    m_Missile = NULL;
 
     // Explode
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
 
     cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
-    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName("Explosion_0.png"));
+    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
 
     GTAnimationHandlerNode* _explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
-    _explosionAnimation->initWithJSON_tag("Textures/Gameplay/Obstacles/Rocket/Explosion/Explosion.json");
+    _explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
     _explosionAnimation->transitState("None");
 
     explosionSprite->setPosition(this->getPosition());

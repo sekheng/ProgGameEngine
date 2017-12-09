@@ -25,34 +25,21 @@ private:
 
 	Vec2 m_TextureOffset;
     Vec2 m_TextureScale;
-    float m_TextureRotation;
-	const bool m_UseTextureRepeat;
+    mkF32 m_TextureRotation;
+	const mkBool m_UseTextureRepeat;
 
+protected:
     static void InitGLProgram(MKSprite* _sprite);
 	static void InitTextureParameters(MKSprite* _sprite);
 
 public:
-	MKSprite(bool _useTextureRepeat)
-		: m_UseTextureRepeat(_useTextureRepeat)
-	{
-		// Default Texture Offset
-		m_TextureOffset.x = 0.0f;
-		m_TextureOffset.y = 0.0f;
-
-        m_TextureScale.x = 1.0f;
-        m_TextureScale.y = 1.0f;
-
-        m_TextureRotation = 0.0f;
-	}
-	virtual ~MKSprite() {}
-
 	// If _textureRepeat is true, the size MUST be a power of 2. I don't set the rules, it's OpenGL and Cocos' dumb systems.
 	// Cocos stupidly making the texture size the object size is the most infuriating thing.
-	static MKSprite* Create(const std::string& _fileName, bool _useTextureRepeat = false);
-	static MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, bool _useTextureRepeat = false);
-	static MKSprite* MKSprite::CreateWithSize(const std::string& _fileName, const Size& _desiredSize, bool _useTextureRepeat = false);
+	static MKSprite* Create(const mkString& _fileName, mkBool _useTextureRepeat = false);
+	static MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, mkBool _useTextureRepeat = false);
+	static MKSprite* MKSprite::CreateWithSize(const mkString& _fileName, const Size& _desiredSize, mkBool _useTextureRepeat = false);
 
-	bool GetUseTextureRepeat() const
+    mkBool GetUseTextureRepeat() const
 	{
 		return m_UseTextureRepeat;
 	}
@@ -106,24 +93,39 @@ public:
         SetTextureScale(m_TextureScale.x + _u, m_TextureScale.y + _v);
     }
 
-    float GetTextureRotation() const
+    mkF32 GetTextureRotation() const
     {
         return m_TextureRotation;
     }
 
-    void SetTextureRotation(float _degrees)
+    void SetTextureRotation(mkF32 _degrees)
     {
         m_TextureRotation = _degrees;
 
-        float rotationRadians = m_TextureRotation * MKMathsHelper::Deg2Rad;
+        mkF32 rotationRadians = m_TextureRotation * MKMathsHelper::Deg2Rad;
         m_GLProgramState->setUniformVec2("u_textureRotationCosSin", Vec2(cos(rotationRadians), sin(rotationRadians)));
         m_GLProgram->updateUniforms();
     }
 
-    void RotateTexture(float _degrees)
+    void RotateTexture(mkF32 _degrees)
     {
         SetTextureRotation(m_TextureRotation + _degrees);
     }
+
+CC_CONSTRUCTOR_ACCESS:
+    MKSprite(mkBool _useTextureRepeat)
+        : m_UseTextureRepeat(_useTextureRepeat)
+    {
+        // Default Texture Offset
+        m_TextureOffset.x = 0.0f;
+        m_TextureOffset.y = 0.0f;
+
+        m_TextureScale.x = 1.0f;
+        m_TextureScale.y = 1.0f;
+
+        m_TextureRotation = 0.0f;
+    }
+    virtual ~MKSprite() {}
 
 };
 
