@@ -7,9 +7,9 @@
 
 NS_GT_BEGIN
 
-const mkString GTObstacle_Missile::m_MissileSpriteFile = "Textures/Gameplay/Obstacles/Missile/Missile.png";
-const mkString GTObstacle_Missile::m_ExplosionPListFile = "Textures/Gameplay/Obstacles/Missile/Explosion/Explosion.plist";
-const mkString GTObstacle_Missile::m_ExplosionJSONFile = "Textures/Gameplay/Obstacles/Missile/Explosion/Explosion.json";
+const mkString GTObstacle_Missile::m_MissileSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile.png";
+const mkString GTObstacle_Missile::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.plist";
+const mkString GTObstacle_Missile::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.json";
 const mkString GTObstacle_Missile::m_ExplosionSpriteFrameName = "Explosion_0.png";
 
 GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)

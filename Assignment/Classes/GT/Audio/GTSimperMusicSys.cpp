@@ -4,9 +4,9 @@
 #include "external/json/writer.h"
 #include "AudioEngine.h"
 
-using namespace GinTama;
+USING_NS_GT
+USING_NS_CC;
 using namespace RAPIDJSON_NAMESPACE;
-using namespace cocos2d;
 using namespace experimental;
 
 GTSimperMusicSys::GTSimperMusicSys()

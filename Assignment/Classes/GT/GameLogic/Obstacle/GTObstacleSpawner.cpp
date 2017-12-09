@@ -11,7 +11,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTObstacleSpawner::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacles/Missile/Missile_Warning.png";
+const mkString GTObstacleSpawner::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
 
 GTObstacleSpawner::GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _player)
     : m_Scene(_scene), m_Player(_player)
