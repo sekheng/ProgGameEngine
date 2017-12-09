@@ -266,8 +266,8 @@ bool HelloWorld::initWithPhysics()
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContact, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-
-    GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
+    for (int num = 0; num < 5; ++num)
+        GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
     return true;
 }
 
@@ -331,6 +331,7 @@ void HelloWorld::OnButton(EventCustom* _event)
             break;
         case MinamiKotori::MKInputName::SMASH:
             GinTama::GTSimperMusicSys::GetInstance()->stopSound("testbgm");
+            //GinTama::GTSimperMusicSys::GetInstance()->stopSound(m_SoungIDCounter++);
             inputName = "Smash";
             break;
         default:

@@ -22,6 +22,7 @@ private:
 	Label* m_InputLabel = nullptr;
     Node *m_CharSpr;
 	float m_SceneChangeCounter = 3.0f;
+    int m_SoungIDCounter = 0;
 
     bool onContact(PhysicsContact &_contact);
 
