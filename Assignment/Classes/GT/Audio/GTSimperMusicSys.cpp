@@ -51,28 +51,24 @@ GTSimperMusicSys::~GTSimperMusicSys()
     // Then lets save it!
 }
 
-bool GTSimperMusicSys::playSound(const std::string &_songName)
+int GTSimperMusicSys::playSound(const std::string &_songName)
 {
     GTSoundData *zeData = accessSound(_songName);
     if (zeData)
     {
-        zeData->m_AudioID = AudioEngine::play2d(zeData->m_fileLocation, zeData->m_Loop, m_MasterVol * zeData->m_Volume);
-        if (m_NamePlayingSound.count(_songName))
-        {
-            m_NamePlayingSound[_songName].push_back(zeData);
-        }
-        else
-            m_NamePlayingSound.insert(std::pair<std::string, std::list<GTSoundData*> >(_songName, { zeData }));
+        int zeID = AudioEngine::play2d(zeData->m_fileLocation, zeData->m_Loop, m_MasterVol * zeData->m_Volume);
+        zeData->m_AllID.insert(zeID);
+        m_AudioIDPlaying.insert(zeID);
         // unfortunately need the lambda function here then it can work!
-        AudioEngine::setFinishCallback(zeData->m_AudioID, 
-            [&, zeData, _songName](int _id, const std::string &_log) {
-            zeData->m_AudioID = -1;
-            m_NamePlayingSound[_songName].pop_front();
+        AudioEngine::setFinishCallback(zeID,
+            [&, zeData, _songName, zeID](int _id, const std::string &_log) {
+            m_AudioIDPlaying.erase(zeID);
+            zeData->m_AllID.erase(zeID);
             cocos2d::log("Audio finish playing {0}", _log);
         });
-        return true;
+        return zeID;
     }
-    return false;
+    return SOUND_EFFECT_NOT_FOUND;
 }
 
 GTSoundData *GTSimperMusicSys::accessSound(const std::string &_songName)
@@ -91,11 +87,20 @@ bool GTSimperMusicSys::setSoundVol(const std::string &_songName, const float &_v
     if (zeSoundData)
     {
         zeSoundData->m_Volume = _vol;
-        if (m_NameSoundMap.count(_songName))
+        for (std::unordered_set<int>::iterator it = zeSoundData->m_AllID.begin(), end = zeSoundData->m_AllID.end(); it != end; ++it)
         {
-            AudioEngine::setVolume(zeSoundData->m_AudioID, _vol);
+            AudioEngine::setVolume(*it, _vol);
         }
         return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::setSoundVol(const int &_songID, const float &_vol)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        AudioEngine::setVolume(_songID, _vol);
     }
     return false;
 }
@@ -105,7 +110,10 @@ bool GTSimperMusicSys::setSoundVol(GTSoundData* _song, const float &_vol)
     _song->m_Volume = _vol;
     if (m_NameSoundMap.count(_song->m_SoundName))
     {
-        AudioEngine::setVolume(_song->m_AudioID, _vol);
+        for (std::unordered_set<int>::iterator it = _song->m_AllID.begin(), end = _song->m_AllID.end(); it != end; ++it)
+        {
+            AudioEngine::setVolume(*it, _vol);
+        }
     }
     return true;
 }
@@ -116,6 +124,20 @@ bool GTSimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_l
     if (zeSoundData && zeSoundData->m_Loop != _loop)
     {
         zeSoundData->m_Loop = _loop;
+        for (std::unordered_set<int>::iterator it = zeSoundData->m_AllID.begin(), end = zeSoundData->m_AllID.end(); it != end; ++it)
+        {
+            AudioEngine::setLoop(*it, _loop);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::setSoundLoop(const int &_songID, const bool &_loop)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        AudioEngine::setLoop(_songID, _loop);
         return true;
     }
     return false;
@@ -124,13 +146,9 @@ bool GTSimperMusicSys::setSoundLoop(const std::string &_songName, const bool &_l
 void GTSimperMusicSys::setMasterVol(const float &_vol)
 {
     m_MasterVol = _vol;
-    // then we will have to iterate through the map and list then set the volume of each effect
-    for (std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.begin(), end = m_NamePlayingSound.end(); it != end; ++it)
+    for (std::unordered_set<int>::iterator it = m_AudioIDPlaying.begin(), end = m_AudioIDPlaying.end(); it != end; ++it)
     {
-        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
-        {
-            setSoundVol(*listIt, _vol);
-        }
+        setSoundVol(*it, _vol);
     }
 }
 
@@ -141,42 +159,69 @@ float GTSimperMusicSys::getMasterVol()
 
 bool GTSimperMusicSys::stopSound(const std::string &_songName)
 {
-    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
-    if (it != m_NamePlayingSound.end())
+    GTSoundData *zeSound = accessSound(_songName);
+    if (zeSound)
     {
-        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        for (std::unordered_set<int>::iterator listIt = zeSound->m_AllID.begin(), listEnd = zeSound->m_AllID.end(); listIt != listEnd; ++listIt)
         {
-            AudioEngine::stop((*listIt)->m_AudioID);
+            AudioEngine::stop(*listIt);
         }
         return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::stopSound(const int &_songID)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        AudioEngine::stop(_songID);
     }
     return false;
 }
 
 bool GTSimperMusicSys::pauseSound(const std::string &_songName)
 {
-    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
-    if (it != m_NamePlayingSound.end())
+    GTSoundData *zeSound = accessSound(_songName);
+    if (zeSound)
     {
-        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        for (std::unordered_set<int>::iterator listIt = zeSound->m_AllID.begin(), listEnd = zeSound->m_AllID.end(); listIt != listEnd; ++listIt)
         {
-            AudioEngine::pause((*listIt)->m_AudioID);
+            AudioEngine::pause(*listIt);
         }
         return true;
     }
     return false;
 }
 
+bool GTSimperMusicSys::pauseSound(const int &_songID)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        AudioEngine::pause(_songID);
+    }
+    return false;
+}
+
 bool GTSimperMusicSys::resumeSound(const std::string &_songName)
 {
-    std::map<std::string, std::list<GTSoundData*>>::iterator it = m_NamePlayingSound.find(_songName);
-    if (it != m_NamePlayingSound.end())
+    GTSoundData *zeSound = accessSound(_songName);
+    if (zeSound)
     {
-        for (std::list<GTSoundData*>::iterator listIt = it->second.begin(), listEnd = it->second.end(); listIt != listEnd; ++listIt)
+        for (std::unordered_set<int>::iterator listIt = zeSound->m_AllID.begin(), listEnd = zeSound->m_AllID.end(); listIt != listEnd; ++listIt)
         {
-            AudioEngine::resume((*listIt)->m_AudioID);
+            AudioEngine::resume(*listIt);
         }
         return true;
+    }
+    return false;
+}
+
+bool GTSimperMusicSys::resumeSound(const int &_songID)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        AudioEngine::resume(_songID);
     }
     return false;
 }
