@@ -2,6 +2,7 @@
 #include "GTObstacleSpawner.h"
 #include "GT/Actions/GTRemoveFromParent.h"
 #include "GT/Actions/GTScaleUpAndDownAction.h"
+#include "GT/Actions/GTPlaySoundAction.h"
 
 // Include Obstacles
 #include "GTObstacle_Missile.h"
@@ -12,6 +13,7 @@
 NS_GT_BEGIN
 
 const mkString GTObstacleSpawner::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
+const mkString GTObstacleSpawner::m_MissileWarningSoundName = "Missile_Warning";
 
 GTObstacleSpawner::GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _player)
     : m_Scene(_scene), m_Player(_player)
@@ -71,7 +73,8 @@ void GTObstacleSpawner::SpawnMissileWarning(const GTMissileSpawnData& _spawnData
 
     GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(_spawnData.m_TimeToSpawn, 0.8f, 1.2f, 0.0f, 10.0f);
     GTRemoveFromParentAction* removeFromParentAction = GTRemoveFromParentAction::Create();
-    warning->runAction(Sequence::create(scaleUpAndDownAction, removeFromParentAction, NULL));
+    GTPlaySoundAction* playSoundAction = GTPlaySoundAction::Create(m_MissileWarningSoundName);
+    warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, removeFromParentAction, NULL));
     warning->setPosition(visibleOrigin.x + visibleSize.width * 0.95f, _spawnData.m_SpawnHeight);
     m_Scene->GetUINode()->addChild(warning);
 }

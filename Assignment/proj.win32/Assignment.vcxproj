@@ -175,6 +175,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParent.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTScaleUpAndDownAction.h" />
     <ClInclude Include="..\Classes\GT\Animation\GTAnimationHandlerNode.h" />

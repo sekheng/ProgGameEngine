@@ -11,7 +11,6 @@
 #include <unordered_set>
 
 NS_GT_BEGIN
-const static int SOUND_EFFECT_NOT_FOUND = -1;
 
 struct GTSoundData
 {
@@ -25,6 +24,8 @@ struct GTSoundData
 class GTSimperMusicSys : public MinamiKotori::MKSingletonTemplate<GTSimperMusicSys>
 {
 public:
+    const static int SOUND_EFFECT_NOT_FOUND = -1;
+
     int playSound(const std::string &_songName);
 
     GTSoundData* accessSound(const std::string &_songName);

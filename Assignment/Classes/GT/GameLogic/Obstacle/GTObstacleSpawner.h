@@ -26,6 +26,7 @@ class GTObstacleSpawner
 private:
     // Resource Files
     static const mkString m_MissileWarningSpriteFile;
+    static const mkString m_MissileWarningSoundName;
 
     struct GTMissileSpawnData
     {

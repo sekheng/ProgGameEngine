@@ -7,10 +7,15 @@
 
 NS_GT_BEGIN
 
+// Sprite
 const mkString GTObstacle_Missile::m_MissileSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile.png";
 const mkString GTObstacle_Missile::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.plist";
 const mkString GTObstacle_Missile::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.json";
 const mkString GTObstacle_Missile::m_ExplosionSpriteFrameName = "Explosion_0.png";
+
+// Audio
+const mkString GTObstacle_Missile::m_MissileFlightSoundName = "Missile_Flight";
+const mkString GTObstacle_Missile::m_MissileExplosionSoundName = "Missile_Explosion";
 
 GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
 {
@@ -67,6 +72,9 @@ gtBool GTObstacle_Missile::init()
     m_ParticleSmoke->setPosition(Vec2(this->getContentSize().width, 0.0f));
     this->addChild(m_ParticleSmoke);
 
+    // Play the rocket audio.
+    m_MissileFlightSoundID = GTSimperMusicSys::GetInstance()->playSound(m_MissileFlightSoundName);
+
     return true;
 }
 
@@ -91,6 +99,11 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     // Stop everything. The only reason we are not deleting instantly is so that
     // the smoke can finish their animation.
     DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
+    if (m_MissileFlightSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+    {
+        GTSimperMusicSys::GetInstance()->stopSound(m_MissileFlightSoundID);
+    }
+    GTSimperMusicSys::GetInstance()->playSound(m_MissileExplosionSoundName);
     m_ParticleSmoke->pauseEmissions();
     this->removeComponent(getPhysicsBody());
     this->removeChild(m_Missile, false);

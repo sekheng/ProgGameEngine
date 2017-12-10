@@ -26,10 +26,22 @@
 		 "loop":false
       },
 	  {
-		"location":"Audio/Obstacle/Missile/Warning.mp3",
-		 "NameID":"MissileWarning",
+		"location":"Audio/Obstacle/Missile/Missile_Warning.mp3",
+		 "NameID":"Missile_Warning",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
+		"location":"Audio/Obstacle/Missile/Missile_Flight.mp3",
+		 "NameID":"Missile_Flight",
 		 "volume":1.0,
 		 "loop":true
+	  },
+	  {
+		"location":"Audio/Obstacle/Missile/Missile_Explosion.mp3",
+		 "NameID":"Missile_Explosion",
+		 "volume":1.0,
+		 "loop":false
 	  }
   ]
 }

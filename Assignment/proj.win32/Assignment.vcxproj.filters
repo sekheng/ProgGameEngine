@@ -255,6 +255,9 @@
     <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParent.h">
       <Filter>GT\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h">
+      <Filter>GT\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
