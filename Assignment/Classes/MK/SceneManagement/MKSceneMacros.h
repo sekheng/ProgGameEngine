@@ -9,7 +9,7 @@ USING_NS_MK
 NS_MK_BEGIN
 
 #define MK_INITIALISEINPUT(_TYPE_) \
-void _TYPE_::InitialiseInput() \
+void InitialiseInput() \
 { \
 	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(_TYPE_::OnButton, this)); \
 	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(_TYPE_::OnClick, this)); \
@@ -17,7 +17,7 @@ void _TYPE_::InitialiseInput() \
 }
 
 #define MK_DEINITIALISEINPUT(_TYPE_) \
-void _TYPE_::DeinitialiseInput() \
+void DeinitialiseInput() \
 { \
     if (m_ButtonListener != NULL) \
     { \

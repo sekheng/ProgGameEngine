@@ -10,7 +10,7 @@
 NS_GT_BEGIN
 
 #define GT_INITIALISECONTACTLISTENER(_TYPE_) \
-void _TYPE_::InitialiseContactListener() \
+void InitialiseContactListener() \
 { \
     m_ContactListener = EventListenerPhysicsContact::create(); \
     m_ContactListener->onContactBegin = CC_CALLBACK_1(_TYPE_::OnContactBegin, this); \
@@ -19,7 +19,7 @@ void _TYPE_::InitialiseContactListener() \
 }
 
 #define GT_DEINITIALISECONTACTLISTENER(_TYPE_) \
-void _TYPE_::DeinitialiseContactListener() \
+void DeinitialiseContactListener() \
 { \
     if (m_ContactListener != NULL) \
     { \
