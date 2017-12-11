@@ -31,9 +31,6 @@
     <Filter Include="GT\GameLogic\Obstacle">
       <UniqueIdentifier>{1baf8081-b836-4292-ad23-333c43f9b829}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GT\GameLogic\Obstacle\ObstacleUI">
-      <UniqueIdentifier>{e89aba69-8f52-47ce-8858-055ffaabdbd5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MK">
       <UniqueIdentifier>{84f5be12-9d1d-4d97-b63a-872fef63c583}</UniqueIdentifier>
     </Filter>
@@ -253,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UIClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTMissileSpawnData.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTSpikeSpawnData.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
