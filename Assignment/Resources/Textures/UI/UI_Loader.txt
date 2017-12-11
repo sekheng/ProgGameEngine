@@ -1,8 +1,0 @@
-{
-	"FontTypes":[
-		{
-			"Name":"Default",
-			"FilePath":""
-		}
-	]
-}
