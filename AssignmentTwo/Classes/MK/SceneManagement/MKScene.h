@@ -50,9 +50,9 @@ public:
     {
         if (!Super::init()) { return false; }
         m_UINode = cocos2d::Node::create();
-        m_UINode->setAnchorPoint(Vec2::ZERO);
+        m_UINode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         m_UINode->setPosition(Vec2::ZERO);
-        addChild(m_UINode, MKScene::UIZOrder);
+        addChild(m_UINode);
         return true;
     }
     
@@ -60,9 +60,9 @@ public:
     {
         if (!Super::initWithPhysics()) { return false; }
         m_UINode = cocos2d::Node::create();
-        m_UINode->setAnchorPoint(Vec2::ZERO);
+        m_UINode->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         m_UINode->setPosition(Vec2::ZERO);
-        addChild(m_UINode, MKScene::UIZOrder);
+        addChild(m_UINode);
         return true;
     }
 

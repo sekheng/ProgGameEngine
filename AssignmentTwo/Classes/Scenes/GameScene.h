@@ -46,12 +46,17 @@ private:
 	// Input Callbacks
 	MK_INITIALISEINPUT(GameScene);
 	MK_DEINITIALISEINPUT(GameScene);
-	virtual void OnButton(EventCustom * _event);
-	virtual void OnClick(EventCustom * _event);
-	virtual void OnAxis(EventCustom * _event);
+	virtual void OnButton(EventCustom * _event) override;
+	virtual void OnClick(EventCustom * _event) override;
+	virtual void OnAxis(EventCustom * _event) override;
 
     bool Chara_GroundContactBegin(PhysicsContact &_contact);
     bool CompareBitmasks(mkU32 _maskA, mkU32 _maskB);
+
+    // Camera
+    void UpdateCamera();
+    // UI
+    void UpdateUINode();
 
 public:
 	GameScene() {}

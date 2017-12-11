@@ -114,7 +114,7 @@ void GTObstacleSpawner::SpawnMissile(const GTMissileSpawnData& _spawnData)
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
     GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene);
-    obstacle->setPosition(visibleOrigin.x + visibleSize.width, _spawnData.m_SpawnHeight);
+    obstacle->setPosition(m_Scene->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f, _spawnData.m_SpawnHeight);
 
     gtF32 obstacleSpeed = -visibleSize.height * 2.0f;
     auto obstacleAction = MoveBy::create(1.0f, Vec2(obstacleSpeed, 0.0f));
@@ -133,7 +133,7 @@ void GTObstacleSpawner::SpawnSpike(const GTSpikeSpawnData& _spawnData)
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
 	GTObstacle_Spike* obstacle = GTObstacle_Spike::Create(m_Scene);
-	obstacle->setPosition(visibleOrigin.x + visibleSize.width, _spawnData.m_SpawnHeight);
+	obstacle->setPosition(m_Scene->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f, _spawnData.m_SpawnHeight);
 
 	gtF32 obstacleSpeed = -visibleSize.height * 2.0f;
 	auto obstacleAction = MoveBy::create(2.0f, Vec2(obstacleSpeed, 0.0f));
