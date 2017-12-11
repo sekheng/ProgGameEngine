@@ -126,6 +126,9 @@
     <ClCompile Include="..\Classes\GT\Animation\GTDestroySelfAct.cpp">
       <Filter>GT\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.cpp">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -257,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h">
       <Filter>GT\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

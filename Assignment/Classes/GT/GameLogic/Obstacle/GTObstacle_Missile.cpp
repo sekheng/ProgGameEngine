@@ -36,12 +36,18 @@ gtBool GTObstacle_Missile::init()
 
     InitialiseContactListener();
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+
     // Create the MKSprite.
     m_Missile = MKSprite::Create(m_MissileSpriteFile, false);
     m_Missile->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->addChild(m_Missile);
-    // Set the sprite to be in the middle of this node.
-    m_Missile->setPosition(this->getContentSize() * 0.5f);
+	this->addChild(m_Missile);
+	// Set our size.
+	this->setContentSize(m_Missile->getContentSize());
+	// Set the sprite to be in the middle of this node.
+	m_Missile->setPosition(this->getContentSize() * 0.5f);
+	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
     // Create the PhysicsBody.
     cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(m_Missile->getContentSize() * 0.8f);
@@ -52,11 +58,7 @@ gtBool GTObstacle_Missile::init()
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
 
-    // Set our size.
-    this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->setContentSize(m_Missile->getContentSize());
-
-    // Create our particles
+    // Create our particles.
     m_ParticleSmoke = CCParticleSmoke::createWithTotalParticles(400);
     m_ParticleSmoke->setEmissionRate(200.f);
     m_ParticleSmoke->setPositionType(cocos2d::ParticleSystem::PositionType::FREE);
@@ -69,8 +71,12 @@ gtBool GTObstacle_Missile::init()
     m_ParticleSmoke->setEndSizeVar(m_Missile->getContentSize().height * 0.1f);
     m_ParticleSmoke->setAutoRemoveOnFinish(false);
     m_ParticleSmoke->setScale(this->getScale());
-    m_ParticleSmoke->setPosition(Vec2(this->getContentSize().width, 0.0f));
+    m_ParticleSmoke->setPosition(Vec2(this->getContentSize().width, this->getContentSize().height * 0.5f));
     this->addChild(m_ParticleSmoke);
+
+	// Set the missile scale.
+	gtF32 desiredObstacleScale = (visibleSize.height * 0.03f) / this->getContentSize().height;
+	this->setScale(desiredObstacleScale, desiredObstacleScale);
 
     // Play the rocket audio.
     m_MissileFlightSoundID = GTSimperMusicSys::GetInstance()->playSound(m_MissileFlightSoundName);

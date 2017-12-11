@@ -49,6 +49,27 @@ private:
         }
     };
 
+	struct GTSpikeSpawnData
+	{
+	public:
+		gtF32 m_TimeToSpawn;
+		gtF32 m_SpawnHeight;
+
+		GTSpikeSpawnData(const GTSpikeSpawnData& _other)
+			: m_TimeToSpawn(_other.m_TimeToSpawn), m_SpawnHeight(_other.m_SpawnHeight)
+		{}
+		GTSpikeSpawnData(gtF32 _timeToSpawn, gtF32 _spawnHeight)
+			: m_TimeToSpawn(_timeToSpawn), m_SpawnHeight(_spawnHeight)
+		{}
+		~GTSpikeSpawnData() {}
+
+		GTSpikeSpawnData& operator=(const GTSpikeSpawnData& _other)
+		{
+			m_TimeToSpawn = _other.m_TimeToSpawn;
+			m_SpawnHeight = _other.m_SpawnHeight;
+		}
+	};
+
     MKScene* m_Scene = nullptr;
     cocos2d::Node* m_Player = nullptr;
     gtF32 m_TimePassed = 0.0f;
@@ -56,15 +77,23 @@ private:
     // Temporary Experimentation Values Start
     gtF32 m_TimeToSpawnMissile = 3.0f;
     gtF32 m_TimeToSpawnMissileTimer = 0.0f;
+
+	gtF32 m_TimeToSpawnSpike = 5.0f;
+	gtF32 m_TimeToSpawnSpikeTimer = 0.0f;
     // Temporary Experimentation Values End
 
     // Missiles
     std::queue<GTMissileSpawnData> m_MissileSpawnQueue;
+	std::queue<GTSpikeSpawnData> m_SpikeSpawnQueue;
 
     void AddMissileToSpawnQueue();
     void UpdateMissiles(gtF32 _deltaTime);
     void SpawnMissileWarning(const GTMissileSpawnData& _spawnData);
     void SpawnMissile(const GTMissileSpawnData& _spawnData);
+
+	void AddSpikeToSpawnQueue();
+	void UpdateSpikes(gtF32 _deltaTime);
+	void SpawnSpike(const GTSpikeSpawnData& _spawnData);
 
 public:
     // Constructor(s) & Destructor
