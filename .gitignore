@@ -1,0 +1,10 @@
+Release.win32/
+Debug.win32/
+*.db
+*.ipch
+*.opendb
+*.suo
+*.db-shm
+*.db-wal
+*.pdb
+.vs/
