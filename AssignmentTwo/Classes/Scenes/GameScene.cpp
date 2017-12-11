@@ -49,19 +49,19 @@ bool GameScene::initWithPhysics()
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
-    GTCharacterStatNode *charaStat = GTCharacterStatNode::create(charaPhysics);
+    GTCharacterStatNode *charaStat = GTCharacterStatNode::create(this, charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
     charaStat->setSlideDuration(1.0f);
     charaStat->setDashDuration(1.0f);
     charaStat->setSpeedX(0.1f);
-    charaPhysics->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    charaPhysics->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    charaPhysics->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    //charaPhysics->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    //charaPhysics->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+    //charaPhysics->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
 
-    auto phyContactListener = EventListenerPhysicsContact::create();
-    phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
+    //auto phyContactListener = EventListenerPhysicsContact::create();
+    //phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
+    //_eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
 
 
     // Create Obstacle Spawner
@@ -90,7 +90,7 @@ void GameScene::InitialiseGround()
     physicsBody->setDynamic(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_GROUND);
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_NONE);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
     m_Ground->setPhysicsBody(physicsBody);
 
     this->addChild(m_Ground);

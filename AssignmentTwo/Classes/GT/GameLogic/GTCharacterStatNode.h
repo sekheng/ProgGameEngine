@@ -1,6 +1,11 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "..\GameLogic\Obstacle\GTObstacleMacros.h"
+#include "..\..\MK\SceneManagement\MKScene.h"
+#include "..\Animation\GTAnimationHandlerNode.h"
+
+USING_NS_MK
 
 namespace GinTama
 {
@@ -16,8 +21,11 @@ namespace GinTama
 	class GTCharacterStatNode : public cocos2d::Node
 	{
 	public:
-		static GTCharacterStatNode* create();
-        static GTCharacterStatNode* create(cocos2d::PhysicsBody *_physicsBody);
+        GT_INITIALISECONTACTLISTENER(GTCharacterStatNode);
+        GT_DEINITIALISECONTACTLISTENER(GTCharacterStatNode);
+
+		static GTCharacterStatNode* create(MKScene *_scene);
+        static GTCharacterStatNode* create(MKScene *_scene, cocos2d::PhysicsBody *_physicsBody);
 
         /** This will set the health to be the exact health!
         *
@@ -51,10 +59,19 @@ namespace GinTama
 
         bool setState(CHARACTER_STATE _whatState);
         CHARACTER_STATE getCurrentState();
+        MKScene* GetScene() { return m_Scene; }
+        const MKScene* GetScene() const { return m_Scene; }
 
 	protected:
 		GTCharacterStatNode();
 		virtual ~GTCharacterStatNode();
+        /** For contact with the ground
+        *
+        * @param _contact will be pass by the physics
+        * @return true
+        */
+        gtBool OnContactBegin(cocos2d::PhysicsContact &_contact);
+        gtBool CompareBitMask(gtU32 _lhs, gtU32 _rhs);
 
 		int m_health;
         cocos2d::PhysicsBody* m_physicsNode;
@@ -65,5 +82,9 @@ namespace GinTama
         float m_MovedDistance;
         float m_DurationOfSlide, m_SlideCountDown;
         float m_DurationOfDash, m_DashCountDown;
-	};
+        MKScene* m_Scene = nullptr;
+        GTAnimationHandlerNode *m_AnimHandler;
+
+        cocos2d::EventListenerPhysicsContact* m_ContactListener = NULL;
+    };
 }
