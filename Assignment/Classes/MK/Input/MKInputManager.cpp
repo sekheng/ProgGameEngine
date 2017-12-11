@@ -1,7 +1,7 @@
 // Include Cocos
-#include "base/ccMacros.h"
-#include "base/CCScheduler.h"
-#include "base/CCDirector.h"
+#include "base\ccMacros.h"
+#include "base\CCScheduler.h"
+#include "base\CCDirector.h"
 
 // Include MK
 #include "MKInputManager.h"

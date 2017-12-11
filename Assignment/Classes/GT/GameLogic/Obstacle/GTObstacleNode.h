@@ -5,14 +5,14 @@
 #include "cocos2d.h"
 
 // Include GT
-#include "GT/Common/GTMacros.h"
+#include "..\..\..\GT\Common\GTMacros.h"
 #include "GTObstacleMacros.h"
-#include "GT/GameLogic/GTCollisionCategory.h"
+#include "..\..\..\GT\GameLogic\GTCollisionCategory.h"
 
 // Include MK
-#include "MK/Common/MKMathsHelper.h"
-#include "MK/Graphics/MKSprite.h"
-#include "MK/SceneManagement/MKScene.h"
+#include "..\..\..\MK\Common\MKMathsHelper.h"
+#include "..\..\..\MK\Graphics\MKSprite.h"
+#include "..\..\..\MK\SceneManagement\MKScene.h"
 
 USING_NS_MK
 

@@ -5,11 +5,11 @@
 #include "cocos2d.h"
 
 // Include MK
-#include "MK/Common/MKMacros.h"
-#include "MK/Input/MKInputManager.h"
-#include "MK/Input/MKInput.h"
-#include "MK/SceneManagement/MKScene.h"
-#include "MK/Graphics/MKSprite.h"
+#include "..\MK\Common\MKMacros.h"
+#include "..\MK\Input\MKInputManager.h"
+#include "..\MK\Input\MKInput.h"
+#include "..\MK\SceneManagement\MKScene.h"
+#include "..\MK\Graphics\MKSprite.h"
 
 USING_NS_CC;
 USING_NS_MK

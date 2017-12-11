@@ -1,8 +1,8 @@
 #include "GTAnimationHandlerNode.h"
-#include "external/json/filewritestream.h"
-#include "external/json/filereadstream.h"
-#include "external/json/writer.h"
-#include "external/json/document.h"
+#include "external\json\filewritestream.h"
+#include "external\json\filereadstream.h"
+#include "external\json\writer.h"
+#include "external\json\document.h"
 #include "GTAnimTransAct.h"
 #include "GTDestroySelfAct.h"
 

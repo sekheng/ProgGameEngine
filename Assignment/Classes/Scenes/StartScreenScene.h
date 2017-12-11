@@ -2,8 +2,8 @@
 #define START_SCREEN_SCENE_H
 
 // Include MK
-#include "MK/SceneManagement/MKScene.h"
-#include "MK/Graphics/MKSprite.h"
+#include "..\MK\SceneManagement\MKScene.h"
+#include "..\MK\Graphics\MKSprite.h"
 
 // Include STL
 #include <cmath>

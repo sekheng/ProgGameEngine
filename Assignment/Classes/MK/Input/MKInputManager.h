@@ -3,8 +3,8 @@
 
 // Include Cocos
 #include "cocos2d.h"
-#include "base/CCEventCustom.h"
-#include "base/CCEventDispatcher.h"
+#include "base\CCEventCustom.h"
+#include "base\CCEventDispatcher.h"
 
 // Include STL
 #include <queue>
@@ -12,9 +12,9 @@
 #include <type_traits>
 
 // Include MK
-#include "../Common/MKMacros.h"
-#include "../Common/MKSingletonTemplate.h"
-#include "../Common/MKAssertions.h"
+#include "..\Common\MKMacros.h"
+#include "..\Common\MKSingletonTemplate.h"
+#include "..\Common\MKAssertions.h"
 #include "MKInputDefinition.h"
 #include "MKInputContext.h"
 #include "MKInputControllerIndex.h"

@@ -1,25 +1,19 @@
 // Include Cocos
-#include "scripting/lua-bindings/manual/CCLuaEngine.h"
-#include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/Audio/GTSimperMusicSys.h"
+#include "..\GT\Audio\GTSimperMusicSys.h"
 
 // Include MK
-#include "MK/SceneManagement/MKSceneManager.h"
-#include "MK/Common/MKMacros.h"
+#include "..\MK\SceneManagement\MKSceneManager.h"
+#include "..\MK\Common\MKMacros.h"
 
 // Include Input Device Handlers
-#include "MK/Input/MKKeyboardHandler.h"
+#include "..\MK\Input\MKKeyboardHandler.h"
 
 // Include Assignment
 #include "AvailableScenes.h"
 #include "AudioEngine.h"
-#include "external/json/document.h"
-#include "external/json/filewritestream.h"
-#include "external/json/filereadstream.h"
-#include "external/json/writer.h"
 
 //#include "ui/UIButton.h"
-#include "UIClass/UICreator.h"
+#include "..\UIClass\UICreator.h"
 #include "SettingsScene.h"
 
 using namespace experimental;
@@ -126,14 +120,6 @@ bool SettingsScene::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
 
-	LuaEngine *luaEngine = LuaEngine::getInstance();
-	ScriptEngineManager::getInstance()->setScriptEngine(luaEngine);
-	lua_State* L = luaEngine->getLuaStack()->getLuaState();
-	lua_module_register(L);
-
-	FileUtils::getInstance()->addSearchPath("Resources");
-	FileUtils::getInstance()->addSearchPath("PlaceHolder");
-	luaEngine->executeScriptFile("DataDriven.lua");
 	scheduleUpdate();
 
 	return true;

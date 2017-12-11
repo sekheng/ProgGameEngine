@@ -5,13 +5,13 @@
 #include "cocos2d.h"
 
 //Include UI classes
-#include "ui/UIButton.h"
-#include "ui/UISlider.h"
+#include "ui\UIButton.h"
+#include "ui\UISlider.h"
 
 //Include MKMacros
-#include "MK/Common/MKAssertions.h"
-#include "MK/Common/MKMacros.h"
-#include "MK/Common/MKSingletonTemplate.h"
+#include "..\MK\Common\MKAssertions.h"
+#include "..\MK\Common\MKMacros.h"
+#include "..\MK\Common\MKSingletonTemplate.h"
 
 #include <string>
 

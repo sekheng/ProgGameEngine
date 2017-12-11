@@ -1,15 +1,15 @@
 // Include GT
 #include "GTObstacleSpawner.h"
-#include "GT/Actions/GTRemoveFromParent.h"
-#include "GT/Actions/GTScaleUpAndDownAction.h"
-#include "GT/Actions/GTPlaySoundAction.h"
+#include "..\..\..\GT\Actions\GTRemoveFromParent.h"
+#include "..\..\..\GT\Actions\GTScaleUpAndDownAction.h"
+#include "..\..\..\GT\Actions\GTPlaySoundAction.h"
 
 // Include Obstacles
 #include "GTObstacle_Missile.h"
 #include "GTObstacle_Spike.h"
 
 // Include MK
-#include "MK/Common/MKMathsHelper.h"
+#include "..\..\..\MK\Common\MKMathsHelper.h"
 
 NS_GT_BEGIN
 
