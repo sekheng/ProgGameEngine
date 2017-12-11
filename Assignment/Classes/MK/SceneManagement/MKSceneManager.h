@@ -5,10 +5,10 @@
 #include "cocos2d.h"
 
 //Include MKMacros
-#include "MK/Common/MKAssertions.h"
-#include "MK/Common/MKMacros.h"
-#include "MK/Common/MKSingletonTemplate.h"
-#include "MK/Common/MKPasskey.h"
+#include "..\..\MK\Common\MKAssertions.h"
+#include "..\..\MK\Common\MKMacros.h"
+#include "..\..\MK\Common\MKSingletonTemplate.h"
+#include "..\..\MK\Common\MKPasskey.h"
 
 //Include STL
 #include <unordered_set>

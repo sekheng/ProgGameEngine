@@ -1,25 +1,23 @@
 // Include Cocos
-#include "scripting/lua-bindings/manual/CCLuaEngine.h"
-#include "scripting/lua-bindings/manual/lua_module_register.h"
-#include "GT/Animation/GTAnimationHandlerNode.h"
-#include "GT/Animation/GTAnimTransAct.h"
-#include "GT/Audio/GTSimperMusicSys.h"
-#include "GT/GameLogic/GTCharacterStatNode.h"
+#include "..\GT\Animation\GTAnimationHandlerNode.h"
+#include "..\GT\Animation\GTAnimTransAct.h"
+#include "..\GT\Audio\GTSimperMusicSys.h"
+#include "..\GT\GameLogic\GTCharacterStatNode.h"
 
 // Include MK
-#include "MK/SceneManagement/MKSceneManager.h"
-#include "MK/Common/MKMacros.h"
+#include "..\MK\SceneManagement\MKSceneManager.h"
+#include "..\MK\Common\MKMacros.h"
 
 // Include Input Device Handlers
-#include "MK/Input/MKKeyboardHandler.h"
+#include "..\MK\Input\MKKeyboardHandler.h"
 
 // Include Assignment
 #include "HelloWorldScene.h"
 #include "AudioEngine.h"
-#include "external/json/document.h"
-#include "external/json/filewritestream.h"
-#include "external/json/filereadstream.h"
-#include "external/json/writer.h"
+#include "external\json\document.h"
+#include "external\json\filewritestream.h"
+#include "external\json\filereadstream.h"
+#include "external\json\writer.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
@@ -108,15 +106,6 @@ bool HelloWorld::init()
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
 
-
-    LuaEngine *luaEngine = LuaEngine::getInstance();
-    ScriptEngineManager::getInstance()->setScriptEngine(luaEngine);
-    lua_State* L = luaEngine->getLuaStack()->getLuaState();
-    lua_module_register(L);
-
-    FileUtils::getInstance()->addSearchPath("Resources");
-    FileUtils::getInstance()->addSearchPath("PlaceHolder");
-	luaEngine->executeScriptFile("DataDriven.lua");
 	scheduleUpdate();
 
     //Animation *zeHengAnim = Animation::create();
@@ -266,8 +255,8 @@ bool HelloWorld::initWithPhysics()
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContact, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-    for (int num = 0; num < 5; ++num)
-        GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
+    //for (int num = 0; num < 5; ++num)
+    //    GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
     return true;
 }
 
@@ -322,7 +311,8 @@ void HelloWorld::OnButton(EventCustom* _event)
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
-            GinTama::GTSimperMusicSys::GetInstance()->pauseSound("testbgm");
+            //GinTama::GTSimperMusicSys::GetInstance()->pauseSound("testbgm");
+            GTSimperMusicSys::GetInstance()->playSound("Jump");
             inputName = "Jump";
             break;
         case MinamiKotori::MKInputName::SLIDE:

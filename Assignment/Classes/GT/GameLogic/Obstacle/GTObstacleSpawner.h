@@ -5,12 +5,12 @@
 #include "cocos2d.h"
 
 // Include GT
-#include "GT/Common/GTMacros.h"
+#include "..\..\..\GT\Common\GTMacros.h"
 
 // Include MK
-#include "MK/SceneManagement/MKScene.h"
-#include "MK/Graphics/MKSprite.h"
-#include "MK/Common/MKMathsHelper.h"
+#include "..\..\..\MK\SceneManagement\MKScene.h"
+#include "..\..\..\MK\Graphics\MKSprite.h"
+#include "..\..\..\MK\Common\MKMathsHelper.h"
 
 // Include STL
 #include <queue>

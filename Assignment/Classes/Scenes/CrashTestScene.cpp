@@ -1,7 +1,7 @@
 #include "CrashTestScene.h"
 
 // Include MK
-#include "MK/SceneManagement/MKSceneManager.h"
+#include "..\MK\SceneManagement\MKSceneManager.h"
 
 bool CrashTestScene::init()
 {

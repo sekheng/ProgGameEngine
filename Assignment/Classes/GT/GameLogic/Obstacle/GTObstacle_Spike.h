@@ -3,7 +3,6 @@
 
 // Include GT
 #include "GTObstacleNode.h"
-//#include "GT/Audio/GTSimperMusicSys.h"
 
 USING_NS_MK
 
