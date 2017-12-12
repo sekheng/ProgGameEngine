@@ -6,6 +6,8 @@
 
 // Include GT
 #include "..\..\..\GT\Common\GTMacros.h"
+#include "GTMissileSpawnData.h"
+#include "GTSpikeSpawnData.h"
 
 // Include MK
 #include "..\..\..\MK\SceneManagement\MKScene.h"
@@ -27,48 +29,6 @@ private:
     // Resource Files
     static const mkString m_MissileWarningSpriteFile;
     static const mkString m_MissileWarningSoundName;
-
-    struct GTMissileSpawnData
-    {
-    public:
-        gtF32 m_TimeToSpawn;
-        gtF32 m_SpawnHeight;
-
-        GTMissileSpawnData(const GTMissileSpawnData& _other)
-            : m_TimeToSpawn(_other.m_TimeToSpawn), m_SpawnHeight(_other.m_SpawnHeight)
-        {}
-        GTMissileSpawnData(gtF32 _timeToSpawn, gtF32 _spawnHeight)
-            : m_TimeToSpawn(_timeToSpawn), m_SpawnHeight(_spawnHeight)
-        {}
-        ~GTMissileSpawnData() {}
-
-        GTMissileSpawnData& operator=(const GTMissileSpawnData& _other)
-        {
-            m_TimeToSpawn = _other.m_TimeToSpawn;
-            m_SpawnHeight = _other.m_SpawnHeight;
-        }
-    };
-
-	struct GTSpikeSpawnData
-	{
-	public:
-		gtF32 m_TimeToSpawn;
-		gtF32 m_SpawnHeight;
-
-		GTSpikeSpawnData(const GTSpikeSpawnData& _other)
-			: m_TimeToSpawn(_other.m_TimeToSpawn), m_SpawnHeight(_other.m_SpawnHeight)
-		{}
-		GTSpikeSpawnData(gtF32 _timeToSpawn, gtF32 _spawnHeight)
-			: m_TimeToSpawn(_timeToSpawn), m_SpawnHeight(_spawnHeight)
-		{}
-		~GTSpikeSpawnData() {}
-
-		GTSpikeSpawnData& operator=(const GTSpikeSpawnData& _other)
-		{
-			m_TimeToSpawn = _other.m_TimeToSpawn;
-			m_SpawnHeight = _other.m_SpawnHeight;
-		}
-	};
 
     MKScene* m_Scene = nullptr;
     cocos2d::Node* m_Player = nullptr;

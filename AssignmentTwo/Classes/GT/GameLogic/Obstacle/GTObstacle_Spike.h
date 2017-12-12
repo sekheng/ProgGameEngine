@@ -25,6 +25,7 @@ private:
 
 	MKSprite* m_Spike = NULL;
 	gtU32 m_NumberOfSpikes = 3;
+    gtBool m_UpsideDown = false;
 	//gtS32 m_MissileFlightSoundID = GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND;
 
 protected:
@@ -34,11 +35,15 @@ public:
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Spike);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Spike);
 
-	static GTObstacle_Spike* Create(MKScene* _scene, gtU32 _numberOfSpikes = 3);
+	static GTObstacle_Spike* Create(MKScene* _scene, gtBool _upsideDown, gtU32 _numberOfSpikes = 3);
 
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
-	GTObstacle_Spike(MKScene* _scene, gtU32 _numberOfSpikes) : GTObstacleNode(_scene), m_NumberOfSpikes(_numberOfSpikes) {}
+	GTObstacle_Spike(MKScene* _scene, gtBool _upsideDown, gtU32 _numberOfSpikes) :
+        GTObstacleNode(_scene),
+        m_UpsideDown(_upsideDown),
+        m_NumberOfSpikes(_numberOfSpikes)
+    {}
 	virtual ~GTObstacle_Spike()
 	{
 		DeinitialiseContactListener();

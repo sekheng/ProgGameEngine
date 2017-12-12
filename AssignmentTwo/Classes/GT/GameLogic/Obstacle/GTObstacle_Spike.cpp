@@ -14,9 +14,9 @@ const mkString GTObstacle_Spike::m_SpikeSpriteFile = "Textures/Gameplay/Obstacle
 //const mkString GTObstacle_Spike::m_SpikeFlightSoundName = "Missile_Flight";
 //const mkString GTObstacle_Spike::m_SpikeExplosionSoundName = "Missile_Explosion";
 
-GTObstacle_Spike* GTObstacle_Spike::Create(MKScene* _scene, gtU32 _numberOfSpikes)
+GTObstacle_Spike* GTObstacle_Spike::Create(MKScene* _scene, gtBool _upsideDown, gtU32 _numberOfSpikes)
 {
-	GTObstacle_Spike* obstacle = new (std::nothrow) GTObstacle_Spike(_scene, _numberOfSpikes);
+	GTObstacle_Spike* obstacle = new (std::nothrow) GTObstacle_Spike(_scene, _upsideDown, _numberOfSpikes);
 	if (obstacle && obstacle->init())
 	{
 		obstacle->autorelease();
@@ -39,7 +39,7 @@ gtBool GTObstacle_Spike::init()
 	// Create the MKSprite.
 	m_Spike = MKSprite::Create(m_SpikeSpriteFile, true);
 	m_Spike->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	m_Spike->SetTextureScale((gtF32)m_NumberOfSpikes, 1.0f);
+	m_Spike->SetTextureScale((gtF32)m_NumberOfSpikes, m_UpsideDown ? -1.0f : 1.0f);
 	this->addChild(m_Spike);
 	this->setContentSize(m_Spike->getContentSize());
 	// Set the sprite to be in the middle of this node.

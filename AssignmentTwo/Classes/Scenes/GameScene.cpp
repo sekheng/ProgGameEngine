@@ -76,15 +76,15 @@ void GameScene::InitialiseGround()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     m_Ground = MKSprite::Create("Textures/Environment/Ground.png", true);
-    m_Ground->setAnchorPoint(Vec2(0.0f, 0.0f));
+    m_Ground->setAnchorPoint(Vec2(0.5f, 0.0f));
     m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
 
     // Scale the ground to be the correct size. We want the ground to be 0.1 of the screen height.
     float groundHeight = m_Ground->getContentSize().height;
     float desiredHeight = visibleSize.height * 0.1f;
     float desiredScale = desiredHeight / groundHeight;
-    m_Ground->setScale(desiredScale * 1000.0f, desiredScale);
-    m_Ground->SetTextureScale(1000.0f, 1.0f);
+    m_Ground->setScale(desiredScale * 2000.0f, desiredScale);
+    m_Ground->SetTextureScale(m_Ground->getScaleX() / m_Ground->getScaleY(), 1.0f);
 
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
@@ -113,8 +113,9 @@ void GameScene::InitialiseBackgrounds()
 	{
 		if (m_Backgrounds[i] != nullptr)
 		{
-			m_Backgrounds[i]->setAnchorPoint(Vec2(0.0f, 0.0f));
-			m_Backgrounds[i]->setPosition(visibleOrigin.x, visibleOrigin.y);
+			m_Backgrounds[i]->setAnchorPoint(Vec2::ZERO);
+			//m_Backgrounds[i]->setPosition(visibleOrigin.x, visibleOrigin.y);
+            m_Backgrounds[i]->setPosition(Vec2::ZERO);
 
             // We want the background to fill up the whole screen.
             float backgroundWidth = m_Backgrounds[i]->getContentSize().width;
@@ -127,7 +128,7 @@ void GameScene::InitialiseBackgrounds()
 			m_Backgrounds[i]->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
             m_Backgrounds[i]->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
-			addChild(m_Backgrounds[i]);
+			GetUINode()->addChild(m_Backgrounds[i]);
 		}
 	}
 }
@@ -197,8 +198,9 @@ void GameScene::Deinitialise()
 void GameScene::update(float _deltaTime)
 {
     ScrollBackgrounds(_deltaTime);
-
     m_ObstacleSpawner->Update(_deltaTime);
+    UpdateCamera();
+    UpdateUINode();
 }
 
 bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
@@ -229,7 +231,6 @@ bool GameScene::CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
 void GameScene::InitialiseObstacles()
 {
     DeinitialiseObstacles();
-
     m_ObstacleSpawner = new GTObstacleSpawner(this, m_MainCharaNode);
 }
 
@@ -239,4 +240,20 @@ void GameScene::DeinitialiseObstacles()
     {
         delete m_ObstacleSpawner;
     }
+}
+
+void GameScene::UpdateCamera()
+{
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    getDefaultCamera()->setPosition(Vec2(m_MainCharaNode->getPositionX() + visibleSize.width * 0.4f, visibleSize.height * 0.5f));
+}
+
+void GameScene::UpdateUINode()
+{
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);
 }
