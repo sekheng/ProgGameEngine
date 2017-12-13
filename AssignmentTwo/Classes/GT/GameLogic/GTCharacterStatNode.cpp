@@ -153,8 +153,12 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->retain();
     // Then set the contact listener when it happens
     m_physicsNode->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    m_physicsNode->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+    m_physicsNode->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
     m_physicsNode->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+
+    m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
+    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
     InitialiseContactListener();
 }
 
@@ -276,9 +280,10 @@ float GTCharacterStatNode::getDashDuration()
 
 gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
 {
-    if ((_contact.getShapeA()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND || _contact.getShapeB()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND))
+    if (_contact.getShapeA()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND || _contact.getShapeB()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND)
     {
         m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
+        m_physicsNode->resetForces();
         // this means the character touched the ground!
         m_AnimHandler->transitState("Idle");
         setState(RUNNING);

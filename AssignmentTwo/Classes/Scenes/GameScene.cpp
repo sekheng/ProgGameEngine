@@ -52,17 +52,9 @@ bool GameScene::initWithPhysics()
     GTCharacterStatNode *charaStat = GTCharacterStatNode::create(this, charaPhysics);
     charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
-    charaStat->setSlideDuration(1.0f);
+    charaStat->setSlideDuration(0.5f);
     charaStat->setDashDuration(1.0f);
     charaStat->setSpeedX(0.1f);
-    //charaPhysics->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    //charaPhysics->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    //charaPhysics->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
-
-    //auto phyContactListener = EventListenerPhysicsContact::create();
-    //phyContactListener->onContactBegin = CC_CALLBACK_1(GameScene::Chara_GroundContactBegin, this);
-    //_eventDispatcher->addEventListenerWithSceneGraphPriority(phyContactListener, this);
-
 
     // Create Obstacle Spawner
     InitialiseObstacles();
@@ -89,7 +81,7 @@ void GameScene::InitialiseGround()
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_GROUND);
-    physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_GROUND);
     physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
     m_Ground->setPhysicsBody(physicsBody);
 
@@ -159,7 +151,7 @@ void GameScene::OnButton(EventCustom * _event)
         }
         break;
         case MKInputName::SLIDE:
-            charaStat->setState(CHARACTER_STATE::SLIDE);
+            //charaStat->setState(CHARACTER_STATE::SLIDE);
             break;
         case MKInputName::SMASH:
             charaStat->setState(CHARACTER_STATE::DASH);
@@ -201,31 +193,6 @@ void GameScene::update(float _deltaTime)
     m_ObstacleSpawner->Update(_deltaTime);
     UpdateCamera();
     UpdateUINode();
-}
-
-bool GameScene::Chara_GroundContactBegin(PhysicsContact &_contact)
-{
-    if (CompareBitmasks(_contact.getShapeA()->getContactTestBitmask(), _contact.getShapeB()->getContactTestBitmask()))
-    {
-        auto zeCharaBodyPhy = m_MainCharaNode->getPhysicsBody();
-        zeCharaBodyPhy->setVelocity(Vec2(zeCharaBodyPhy->getVelocity().x, 0.f));
-        // this means the character touched the ground!
-        m_MainCharaNode->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
-        m_MainCharaNode->getChildByTag<GTCharacterStatNode*>(1)->setState(RUNNING);
-    }
-    return true;
-}
-
-bool GameScene::CompareBitmasks(mkU32 _maskA, mkU32 _maskB)
-{
-    mkU32 largerNum = _maskA;
-    if (largerNum < _maskB)
-        largerNum = _maskB;
-    mkU32 zeComparedMask = (_maskA | _maskB);
-    // if the bits still remains the same after that, the values are the same
-    if (zeComparedMask == largerNum)
-        return true;
-    return false;
 }
 
 void GameScene::InitialiseObstacles()
