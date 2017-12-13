@@ -40,7 +40,7 @@ PhysicsContact::PhysicsContact()
 , _shapeB(nullptr)
 , _eventCode(EventCode::NONE)
 , _notificationEnable(true)
-, _result(true)
+, _result(false)
 , _data(nullptr)
 , _contactInfo(nullptr)
 , _contactData(nullptr)
@@ -214,7 +214,7 @@ void EventListenerPhysicsContact::onEvent(EventCustom* event)
                 ret = onContactBegin(*contact);
             }
             
-            contact->setResult(ret);
+            contact->setResult(ret | contact->getResult());
             break;
         }
         case PhysicsContact::EventCode::PRESOLVE:
@@ -230,7 +230,7 @@ void EventListenerPhysicsContact::onEvent(EventCustom* event)
                 ret = onContactPreSolve(*contact, solve);
             }
             
-            contact->setResult(ret);
+            contact->setResult(ret | contact->getResult());
             break;
         }
         case PhysicsContact::EventCode::POSTSOLVE:

@@ -117,7 +117,8 @@ private:
     PhysicsWorld* getWorld() const { return _world; }
     void setWorld(PhysicsWorld* world) { _world = world; }
     void setResult(bool result) { _result = result; }
-    bool resetResult() { bool ret = _result; _result = true; return ret; }
+    bool getResult() const { return _result; }
+    bool resetResult() { bool ret = _result; _result = false; return ret; }
     
     void generateContactData();
 

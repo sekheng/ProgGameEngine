@@ -204,7 +204,7 @@ void GameScene::update(float _deltaTime)
 {
     ScrollBackgrounds(_deltaTime);
     UpdateCamera();
-    //m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
     UpdateUINode();
     UpdateText();
 }
@@ -214,7 +214,7 @@ void GameScene::InitialiseObstacles()
     DeinitialiseObstacles();
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 3.0f);
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 2.0f);
 }
 
 void GameScene::DeinitialiseObstacles()
@@ -228,7 +228,6 @@ void GameScene::DeinitialiseObstacles()
 void GameScene::UpdateCamera()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-
     getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
 }
 
@@ -242,18 +241,19 @@ void GameScene::UpdateUINode()
 void GameScene::InitialiseText()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
+
     gtF32 desiredObstacleScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
     m_HighScoreTxt = Label::createWithTTF("HighScore", "Fonts/Marker_Felt.ttf", desiredObstacleScale);
     m_HighScoreTxt->setTextColor(Color4B::BLACK);
-    m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    m_HighScoreTxt->setPosition(getDefaultCamera()->getPositionX() - (visibleSize.width * 0.4f), getDefaultCamera()->getPositionY() + visibleSize.height - m_HighScoreTxt->getContentSize().height);
-    this->addChild(m_HighScoreTxt);
+    m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
+    GetUINode()->addChild(m_HighScoreTxt);
 }
 
 void GameScene::UpdateText()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    m_HighScoreTxt->setPosition(getDefaultCamera()->getPositionX() - (visibleSize.width * 0.4f), getDefaultCamera()->getPositionY() + (visibleSize.height *0.5f) - m_HighScoreTxt->getContentSize().height);
-    std::string zeStr = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+    //std::string zeStr = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+    std::string zeStr = "HighScore: " + std::to_string(getDefaultCamera()->getPositionX());
     m_HighScoreTxt->setString(zeStr);
 }

@@ -74,6 +74,9 @@ void GTCharacterStatNode::update(float delta)
                 // then we can slide back!
                 m_physicsNode->removeShape(m_SlidePhyShape, false);
                 m_physicsNode->addShape(m_OriginPhyShape, false);
+
+                SetPhysicsBitmasks(m_physicsNode);
+
                 setState(RUNNING);
                 m_AnimHandler->transitState("Idle");
             }
@@ -113,6 +116,16 @@ void GTCharacterStatNode::update(float delta)
     }
 }
 
+void GTCharacterStatNode::SetPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)
+{
+    if (_physicsBody)
+    {
+        _physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+        _physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+        _physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    }
+}
+
 void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
 {
     m_physicsNode = _physicsBody;
@@ -123,14 +136,9 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     Size zeSlideSize = Size(_physicsBody->getOwner()->getContentSize().width * 0.5f, _physicsBody->getOwner()->getContentSize().height * 0.3f);
     m_SlidePhyShape = PhysicsShapeBox::create(zeSlideSize, _physicsBody->getFirstShape()->getMaterial(), _physicsBody->getFirstShape()->getOffset());
     m_SlidePhyShape->retain();
-    // Then set the contact listener when it happens
-    m_physicsNode->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    m_physicsNode->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
-    m_physicsNode->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
 
-    m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
-    m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
-    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
+    // Then set the contact listener when it happens
+    SetPhysicsBitmasks(m_physicsNode);
     InitialiseContactListener();
 }
 
@@ -169,8 +177,11 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             // only slide when it is only running!
             m_physicsNode->removeShape(m_OriginPhyShape, false);
             m_physicsNode->addShape(m_SlidePhyShape, false);
+            
+            SetPhysicsBitmasks(m_physicsNode);
+
             // need to immediately apply that impulse
-            m_physicsNode->applyImpulse(Vec2(0, -100.f));
+            //m_physicsNode->applyImpulse(Vec2(0, -100.f));
             m_AnimHandler->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;
@@ -252,8 +263,23 @@ float GTCharacterStatNode::getDashDuration()
 
 gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
 {
-    if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, _contact.getShapeA()->getCategoryBitmask()) ||
-        NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, _contact.getShapeB()->getCategoryBitmask()))
+    PhysicsShape* physicsShapeA = _contact.getShapeA();
+    PhysicsShape* physicsShapeB = _contact.getShapeB();
+    // Ignore this collision if we're not involved.
+    if (physicsShapeA->getBody() != m_physicsNode &&
+        physicsShapeB->getBody() != m_physicsNode)
+    {
+        return false;
+    }
+
+    PhysicsBody* otherPhysicsBody = (physicsShapeA->getBody() != m_physicsNode) ? physicsShapeA->getBody() : physicsShapeB->getBody();
+    // Dafuq? How can we collide with ourselves?
+    if (otherPhysicsBody == m_physicsNode)
+    {
+        return false;
+    }
+
+    if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, otherPhysicsBody->getCategoryBitmask()))
     {
         switch (m_CurrentState)
         {

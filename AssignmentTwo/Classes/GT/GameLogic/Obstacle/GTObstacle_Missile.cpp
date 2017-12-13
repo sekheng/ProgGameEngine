@@ -107,6 +107,12 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
         return false;
     }
 
+    // Only check collision with the player.
+    if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+    {
+        return false;
+    }
+
     // Stop everything. The only reason we are not deleting instantly is so that
     // the smoke can finish their animation.
     DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
@@ -145,10 +151,11 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    gtF32 desiredWarningSize = (visibleSize.height * 0.05f);
-    MKSprite* warning = MKSprite::CreateWithSize(m_MissileWarningSpriteFile, Size(desiredWarningSize, desiredWarningSize), false);
+    MKSprite* warning = MKSprite::Create(m_MissileWarningSpriteFile, false);
+    gtF32 desiredScale = (visibleSize.height * 0.05f) / warning->getContentSize().height;
+    warning->setScale(desiredScale);
 
-    GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(m_WarningDuration, 0.8f, 1.2f, 0.0f, 10.0f);
+    GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(m_WarningDuration, 0.8f * desiredScale, 1.2f * desiredScale, 0.0f, 10.0f);
     GTRemoveFromParentAction* removeFromParentAction = GTRemoveFromParentAction::Create();
     GTPlaySoundAction* playSoundAction = GTPlaySoundAction::Create(m_MissileWarningSoundName);
     warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, removeFromParentAction, NULL));

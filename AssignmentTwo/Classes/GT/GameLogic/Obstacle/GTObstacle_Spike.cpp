@@ -74,11 +74,17 @@ gtBool GTObstacle_Spike::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
+    // Only check collision with the player.
+    if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+    {
+        return false;
+    }
+
 	// Stop everything. The only reason we are not deleting instantly is so that
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 
-	return false;
+	return true;
 }
 
 NS_GT_END

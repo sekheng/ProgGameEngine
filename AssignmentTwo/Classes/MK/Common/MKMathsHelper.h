@@ -65,7 +65,7 @@ public:
     static mkS32 RandomInt(mkS32 _min/*Inclusive*/, mkS32 _max /*Exclusive*/)
     {
         if (_max <= _min) { return _min; }
-        return (RandomInt() % _max) + _min;
+        return (RandomInt() % (_max - _min)) + _min;
     }
 
 };

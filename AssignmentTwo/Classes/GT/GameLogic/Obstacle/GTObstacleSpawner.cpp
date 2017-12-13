@@ -122,7 +122,8 @@ void GTObstacleSpawner::SpawnObstacleBatch()
             SpawnMissile();
             break;
         case GinTama::GTObstacleSpawner::SPIKE:
-            SpawnSpike();
+            //SpawnSpike();
+            SpawnMissile();
             break;
         default:
             CC_ASSERT(false);
@@ -160,7 +161,12 @@ void GTObstacleSpawner::SpawnMissile()
     // We need the missile to reach m_SpawnPositionX the same time as the player.
     gtF32 missileVelocityX = GTObstacle_Missile::GetHorizontalVelocity();
     gtF32 missileSpawnPositionX = MKMathsHelper::Abs<gtF32>(secondsToSpawnPosition * missileVelocityX) + m_SpawnPositionX;
-    gtF32 missileSpawnPositionY = MKMathsHelper::RandomInt((mkS32)(visibleSize.height * 0.2f), (mkS32)(visibleSize.height * 0.8f));
+    gtF32 missileSpawnPositionY = (gtF32)MKMathsHelper::RandomInt((gtS32)(visibleSize.height * 0.2f), (gtS32)(visibleSize.height * 0.8f));
+
+    if (missileSpawnPositionY > visibleSize.height * 0.8f)
+    {
+        int test = 0;
+    }
 
     GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene);
     obstacle->setPosition(missileSpawnPositionX, missileSpawnPositionY);

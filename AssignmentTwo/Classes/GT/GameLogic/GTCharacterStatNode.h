@@ -51,6 +51,7 @@ namespace GinTama
 
         virtual void update(float delta);
 
+        void SetPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody);
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
 
         /** Makes the character do the jumping if possible
