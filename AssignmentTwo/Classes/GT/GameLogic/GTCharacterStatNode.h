@@ -27,15 +27,6 @@ namespace GinTama
 		static GTCharacterStatNode* create(MKScene *_scene);
         static GTCharacterStatNode* create(MKScene *_scene, cocos2d::PhysicsBody *_physicsBody);
 
-        /** This will set the health to be the exact health!
-        *
-        * @param _health will be the exact value of the health
-        */
-		bool setHealth(const int &_health);
-		/** Adjust the value of the health
-        
-        */
-        bool adjustHealth(const int &_value);
         /** Set the speed to the exact
         *
         */
@@ -49,7 +40,6 @@ namespace GinTama
         void setDashDuration(const float &_duration);
 
         float getSpeedX();
-        int getHealth();
         float getSlideDuration();
         float getDashDuration();
         float getTotalDistanceWalk() const { return m_TotalDist; }
@@ -61,6 +51,7 @@ namespace GinTama
 
         virtual void update(float delta);
 
+        void SetPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody);
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
 
         /** Makes the character do the jumping if possible
@@ -85,7 +76,6 @@ namespace GinTama
         gtBool OnContactBegin(cocos2d::PhysicsContact &_contact);
         gtBool CompareBitMask(gtU32 _lhs, gtU32 _rhs);
 
-		int m_health;
         cocos2d::PhysicsBody* m_physicsNode;
         cocos2d::PhysicsShape *m_SlidePhyShape, *m_OriginPhyShape;
         CHARACTER_STATE m_CurrentState;

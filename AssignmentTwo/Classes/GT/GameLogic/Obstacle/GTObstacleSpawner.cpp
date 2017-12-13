@@ -1,8 +1,5 @@
 // Include GT
 #include "GTObstacleSpawner.h"
-#include "..\..\..\GT\Actions\GTRemoveFromParent.h"
-#include "..\..\..\GT\Actions\GTScaleUpAndDownAction.h"
-#include "..\..\..\GT\Actions\GTPlaySoundAction.h"
 
 // Include Obstacles
 #include "GTObstacle_Missile.h"
@@ -13,137 +10,169 @@
 
 NS_GT_BEGIN
 
-const mkString GTObstacleSpawner::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
-const mkString GTObstacleSpawner::m_MissileWarningSoundName = "Missile_Warning";
-
-GTObstacleSpawner::GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _player)
-    : m_Scene(_scene), m_Player(_player)
+GTObstacleSpawner::GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _playerNode, gtF32 _playerVelocityX, gtF32 _initialObstacleSpawnPositionX) :
+    m_Scene(_scene),
+    m_PlayerNode(_playerNode),
+    m_PlayerVelocityX(_playerVelocityX),
+    m_InitialSpawnPositionX(_initialObstacleSpawnPositionX),
+    m_SpawnPositionX(_initialObstacleSpawnPositionX)
 {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    m_MinObstacleInterval = visibleSize.height * 0.5f;
+    m_MaxObstacleInterval = visibleSize.height * 1.5f;
 }
 
 GTObstacleSpawner::~GTObstacleSpawner()
 {
+    DespawnAllObstacles();
+}
+
+void GTObstacleSpawner::Reset()
+{
+    DespawnAllObstacles();
+    m_SpawnPositionX = m_InitialSpawnPositionX;
+}
+
+gtF32 GTObstacleSpawner::CalculateObstacleInterval() const
+{
+    return Director::getInstance()->getVisibleSize().height * 0.5f;
+
+    gtF32 denominatorSquareRoot = m_DifficultyMultiplier * (gtF32)m_ObstaclesSpawned;
+    gtF32 result = 1.0f / (denominatorSquareRoot * denominatorSquareRoot) * m_MaxObstacleInterval;
+    return MKMathsHelper::Clamp<gtF32>(result, m_MinObstacleCount, m_MaxObstacleInterval);
+}
+
+gtF32 GTObstacleSpawner::CalculateScreenRight() const
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    return m_Scene->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+}
+
+gtF32 GTObstacleSpawner::CalculateScreenLeft() const
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    return m_Scene->getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f;
 }
 
 void GTObstacleSpawner::Update(gtF32 _deltaTime)
 {
-    // Update TimePassed
-    SetTimePassed(m_TimePassed + _deltaTime);
-
-    // Temporary Test Spawning Code Start
-    if ((m_TimeToSpawnMissileTimer -= _deltaTime) < 0.0f)
+    // Spawn Obstacles
+    if (m_ObstacleList.size() < m_MinObstacleCount)
     {
-        m_TimeToSpawnMissileTimer = m_TimeToSpawnMissile;
-        AddMissileToSpawnQueue();
+        SpawnObstacleBatch();
+    }
+    DespawnOutOfScreenObstacles();
+}
+
+void GTObstacleSpawner::DespawnAllObstacles()
+{
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)
+    {
+        GTObstacleNode* obstacleNode = *i;
+        obstacleNode->removeFromParent();
     }
 
-	if ((m_TimeToSpawnMissileTimer -= _deltaTime) < 0.0f)
-	{
-		m_TimeToSpawnSpikeTimer = m_TimeToSpawnSpike;
-		AddSpikeToSpawnQueue();
-	}
-    // Temporary Test Spawning Code End
-
-    // Update Missiles
-    UpdateMissiles(_deltaTime);
-	UpdateSpikes(_deltaTime);
+    m_ObstacleList.clear();
 }
 
-void GTObstacleSpawner::AddMissileToSpawnQueue()
+// Despawn Obstacles when they are out of the screen.
+void GTObstacleSpawner::DespawnOutOfScreenObstacles()
 {
-    GTMissileSpawnData spawnData(1.5f, m_Player->getPositionY());
-    SpawnMissileWarning(spawnData);
-    m_MissileSpawnQueue.push(spawnData);
-}
-
-void GTObstacleSpawner::AddSpikeToSpawnQueue()
-{
-	GTSpikeSpawnData spawnData(2.0f, Director::getInstance()->getVisibleSize().height * 0.1f, false);
-	m_SpikeSpawnQueue.push(spawnData);
-}
-
-void GTObstacleSpawner::UpdateMissiles(gtF32 _deltaTime)
-{
-    if (m_MissileSpawnQueue.empty())
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); )
     {
-        return;
-    }
-
-    GTMissileSpawnData* spawnData = &m_MissileSpawnQueue.front();
-    if ((spawnData->m_TimeToSpawn -= _deltaTime) < 0.0f)
-    {
-        SpawnMissile(*spawnData);
-        m_MissileSpawnQueue.pop();
+        GTObstacleNode* obstacleNode = *i;
+        gtF32 screenLeft = CalculateScreenLeft();
+        if (obstacleNode->getPositionX() + (obstacleNode->getContentSize().width * obstacleNode->getScaleX()) < screenLeft)
+        {
+            obstacleNode->removeFromParent();
+            i = m_ObstacleList.erase(i);
+        }
+        else
+        {
+            ++i;
+        }
     }
 }
 
-void GTObstacleSpawner::UpdateSpikes(gtF32 _deltaTime)
+void GTObstacleSpawner::MoveAllObstacles(gtF32 _distance)
 {
-	if (m_SpikeSpawnQueue.empty())
-	{
-		return;
-	}
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)
+    {
+        GTObstacleNode* obstacleNode = *i;
+        obstacleNode->setPosition(obstacleNode->getPosition() - Vec2(_distance, 0.0f));
+    }
 
-	GTSpikeSpawnData* spawnData = &m_SpikeSpawnQueue.front();
-	if ((spawnData->m_TimeToSpawn -= _deltaTime) < 0.0f)
-	{
-		SpawnSpike(*spawnData);
-		m_SpikeSpawnQueue.pop();
-	}
+    m_SpawnPositionX -= _distance;
 }
 
-void GTObstacleSpawner::SpawnMissileWarning(const GTMissileSpawnData& _spawnData)
+void GTObstacleSpawner::SpawnObstacleBatch()
+{
+    gtF32 playerPositionX = m_PlayerNode->getPositionX();
+    CC_ASSERT(m_PlayerNode->getPositionX() <= m_SpawnPositionX);
+
+    for (gtU32 i = 0; i < m_BatchSize; ++i)
+    {
+        gtF32 obstacleInterval = CalculateObstacleInterval();
+
+        ObstacleType obstacleType = (ObstacleType)MKMathsHelper::RandomInt(0, (mkS32)NUM_OBSTACLETYPE);
+        switch (obstacleType)
+        {
+        case GinTama::GTObstacleSpawner::MISSILE:
+            SpawnMissile();
+            break;
+        case GinTama::GTObstacleSpawner::SPIKE:
+            //SpawnSpike();
+            SpawnMissile();
+            break;
+        default:
+            CC_ASSERT(false);
+            break;
+        }
+
+        ++m_ObstaclesSpawned;
+        m_SpawnPositionX += obstacleInterval;
+    }
+}
+
+void GTObstacleSpawner::SpawnSpike()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
-    gtF32 desiredWarningSize = (visibleSize.height * 0.05f);
-    MKSprite* warning = MKSprite::CreateWithSize(m_MissileWarningSpriteFile, Size(desiredWarningSize, desiredWarningSize), false);
-
-    GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(_spawnData.m_TimeToSpawn, 0.8f, 1.2f, 0.0f, 10.0f);
-    GTRemoveFromParentAction* removeFromParentAction = GTRemoveFromParentAction::Create();
-    GTPlaySoundAction* playSoundAction = GTPlaySoundAction::Create(m_MissileWarningSoundName);
-    warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, removeFromParentAction, NULL));
-    warning->setPosition(visibleOrigin.x + visibleSize.width * 0.95f, _spawnData.m_SpawnHeight);
-    m_Scene->GetUINode()->addChild(warning);
-}
-
-void GTObstacleSpawner::SpawnMissile(const GTMissileSpawnData& _spawnData)
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
-
-    GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene);
-    obstacle->setPosition(m_Scene->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f, _spawnData.m_SpawnHeight);
-
-    gtF32 obstacleSpeed = -visibleSize.height * 2.0f;
-    auto obstacleAction = MoveBy::create(1.0f, Vec2(obstacleSpeed, 0.0f));
-    obstacle->runAction(RepeatForever::create(obstacleAction));
-
-    // Give the obstacle enough lifetime to travel through the screen twice.
-    gtF32 obstacleLifeTime = NS_MK::MKMathsHelper::Abs<gtF32>(visibleSize.width / obstacleSpeed) * 2.0f;
-    obstacle->SetLifetime(obstacleLifeTime);
+    GTObstacle_Spike* obstacle = GTObstacle_Spike::Create(m_Scene);
+    obstacle->setPosition(m_SpawnPositionX, visibleSize.height * 0.1f);
 
     m_Scene->addChild(obstacle);
+    m_ObstacleList.push_back(obstacle);
 }
 
-void GTObstacleSpawner::SpawnSpike(const GTSpikeSpawnData& _spawnData)
+void GTObstacleSpawner::SpawnMissile()
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	GTObstacle_Spike* obstacle = GTObstacle_Spike::Create(m_Scene, _spawnData.m_UpsideDown);
-	obstacle->setPosition(m_Scene->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f, _spawnData.m_SpawnHeight);
+    gtF32 playerPositionX = m_PlayerNode->getPositionX();
 
-	gtF32 obstacleSpeed = -visibleSize.height * 2.0f;
-	auto obstacleAction = MoveBy::create(2.0f, Vec2(obstacleSpeed, 0.0f));
-	obstacle->runAction(RepeatForever::create(obstacleAction));
+    // Even though we call it m_SpawnPositionX, it only applies to static obstacles.
+    // For moving obstacles such as missiles, we need to spawn it further away,
+    // such that when the player reaches the spawn position, so will the missile.
+    gtF32 playerToSpawnPositionDistance = m_SpawnPositionX - playerPositionX;
+    gtF32 secondsToSpawnPosition = playerToSpawnPositionDistance / m_PlayerVelocityX;
 
-	// Give the obstacle enough lifetime to travel through the screen twice.
-	gtF32 obstacleLifeTime = NS_MK::MKMathsHelper::Abs<gtF32>(visibleSize.width / obstacleSpeed) * 2.0f;
-	obstacle->SetLifetime(obstacleLifeTime);
+    // We need the missile to reach m_SpawnPositionX the same time as the player.
+    gtF32 missileVelocityX = GTObstacle_Missile::GetHorizontalVelocity();
+    gtF32 missileSpawnPositionX = MKMathsHelper::Abs<gtF32>(secondsToSpawnPosition * missileVelocityX) + m_SpawnPositionX;
+    gtF32 missileSpawnPositionY = (gtF32)MKMathsHelper::RandomInt((gtS32)(visibleSize.height * 0.2f), (gtS32)(visibleSize.height * 0.8f));
 
-	m_Scene->addChild(obstacle);
+    if (missileSpawnPositionY > visibleSize.height * 0.8f)
+    {
+        int test = 0;
+    }
+
+    GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene);
+    obstacle->setPosition(missileSpawnPositionX, missileSpawnPositionY);
+
+    m_Scene->addChild(obstacle);
+    m_ObstacleList.push_back(obstacle);
 }
 
 NS_GT_END

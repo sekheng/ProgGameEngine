@@ -34,6 +34,7 @@ private:
     Label* m_HighScoreTxt = nullptr;
     GTCharacterStatNode *m_CharaStatNode = nullptr;
 
+    void InitialisePlayer();
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 	void ScrollBackgrounds(float _deltaTime);
@@ -70,7 +71,7 @@ public:
     virtual bool initWithPhysics() override;
 	virtual void update(float _deltaTime) override;
 
-    Node *m_MainCharaNode;
+    Node* m_PlayerNode;
 };
 
 #endif

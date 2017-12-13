@@ -94,8 +94,7 @@ MKSprite* MKSprite::CreateWithSize(const mkString& _fileName, const Size& _desir
 	originalSprite->setScale(
 		_desiredSize.width / originalSprite->getContentSize().width,
 		_desiredSize.height / originalSprite->getContentSize().height);
-	//originalSprite->setPosition(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.5f);
-	originalSprite->setAnchorPoint(Vec2(0.0f, 0.0f));
+	originalSprite->setAnchorPoint(Vec2::ZERO);
 	originalSprite->setPosition(visibleOrigin.x, visibleOrigin.y);
 
 	// Render the sprite onto a texture.

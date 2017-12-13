@@ -251,12 +251,6 @@
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UIClass</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTMissileSpawnData.h">
-      <Filter>GT\GameLogic\Obstacle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTSpikeSpawnData.h">
-      <Filter>GT\GameLogic\Obstacle</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
