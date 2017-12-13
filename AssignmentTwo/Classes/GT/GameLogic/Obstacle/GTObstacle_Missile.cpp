@@ -16,6 +16,11 @@ const mkString GTObstacle_Missile::m_ExplosionSpriteFrameName = "Explosion_0.png
 // Audio
 const mkString GTObstacle_Missile::m_MissileFlightSoundName = "Missile_Flight";
 const mkString GTObstacle_Missile::m_MissileExplosionSoundName = "Missile_Explosion";
+const mkString GTObstacle_Missile::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
+const mkString GTObstacle_Missile::m_MissileWarningSoundName = "Missile_Warning";
+
+// Others
+const gtF32 GTObstacle_Missile::m_WarningDuration = 2.0f;
 
 GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
 {
@@ -35,7 +40,6 @@ gtBool GTObstacle_Missile::init()
     if (!Super::init()) { return false; }
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
     // Create the MKSprite.
     m_Missile = MKSprite::Create(m_MissileSpriteFile, false);
@@ -77,8 +81,10 @@ gtBool GTObstacle_Missile::init()
 	gtF32 desiredObstacleScale = (visibleSize.height * 0.03f) / this->getContentSize().height;
 	this->setScale(desiredObstacleScale, desiredObstacleScale);
 
-    // Play the rocket audio.
-    m_MissileFlightSoundID = GTSimperMusicSys::GetInstance()->playSound(m_MissileFlightSoundName);
+    // Run actions
+    gtF32 horizontalVelocity = GetHorizontalVelocity();
+    auto moveAction = MoveBy::create(1.0f, Vec2(horizontalVelocity, 0.0f));
+    this->runAction(RepeatForever::create(moveAction));
 
     return true;
 }
@@ -91,14 +97,14 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     if (physicsShapeA->getBody() != _physicsBody &&
         physicsShapeB->getBody() != _physicsBody)
     {
-        return true;
+        return false;
     }
 
     PhysicsBody* otherPhysicsBody = (physicsShapeA->getBody() != getPhysicsBody()) ? physicsShapeA->getBody() : physicsShapeB->getBody();
     // Dafuq? How can we collide with ourselves?
     if (otherPhysicsBody == getPhysicsBody())
     {
-        return true;
+        return false;
     }
 
     // Stop everything. The only reason we are not deleting instantly is so that
@@ -128,6 +134,56 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     GetScene()->addChild(explosionSprite);
 
     return true;
+}
+
+gtF32 GTObstacle_Missile::GetHorizontalVelocity()
+{
+    return -Director::getInstance()->getVisibleSize().height * 2.0f;
+}
+
+MKSprite* GTObstacle_Missile::CreateMissileWarning()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    gtF32 desiredWarningSize = (visibleSize.height * 0.05f);
+    MKSprite* warning = MKSprite::CreateWithSize(m_MissileWarningSpriteFile, Size(desiredWarningSize, desiredWarningSize), false);
+
+    GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(m_WarningDuration, 0.8f, 1.2f, 0.0f, 10.0f);
+    GTRemoveFromParentAction* removeFromParentAction = GTRemoveFromParentAction::Create();
+    GTPlaySoundAction* playSoundAction = GTPlaySoundAction::Create(m_MissileWarningSoundName);
+    warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, removeFromParentAction, NULL));
+
+    return warning;
+}
+
+void GTObstacle_Missile::update(mkF32 _deltaTime)
+{
+    // Play the rocket audio when on screen
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    //gtF32 screenLeft = GetScene()->getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f;
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    if (m_MissileFlightSoundID == GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+    {
+        if (obstacleLeft < screenRight)
+        {
+            m_MissileFlightSoundID = GTSimperMusicSys::GetInstance()->playSound(m_MissileFlightSoundName);
+        }
+    }
+
+    if (m_SpawnedWarning == false)
+    {
+        gtF32 distanceToOnScreen = obstacleLeft - screenRight;
+        gtF32 timeToOnScreen = MKMathsHelper::Abs<gtF32>(distanceToOnScreen / GetHorizontalVelocity());
+        if (timeToOnScreen < m_WarningDuration)
+        {
+            MKSprite* warning = CreateMissileWarning();
+            warning->setPosition(Vec2(visibleSize.width * 0.95f, this->getPositionY()));
+            GetScene()->GetUINode()->addChild(warning);
+            m_SpawnedWarning = true;
+        }
+    }
 }
 
 NS_GT_END

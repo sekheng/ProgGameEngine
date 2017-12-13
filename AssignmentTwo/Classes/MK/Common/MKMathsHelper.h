@@ -4,6 +4,9 @@
 // Include MK
 #include "MKMacros.h"
 
+// Include STL
+#include <cmath>
+
 NS_MK_BEGIN
 
 class MKMathsHelper
@@ -32,7 +35,7 @@ public:
     {
         if (_value < _min) { return _min; }
         if (_value > _max) { return _max; }
-        return value;
+        return _value;
     }
 
     template<typename T>
@@ -52,6 +55,17 @@ public:
     static T ContainsBitmask(T _a, T _b)
     {
         return _a == (_a & _b);
+    }
+
+    static mkS32 RandomInt()
+    {
+        return std::rand();
+    }
+
+    static mkS32 RandomInt(mkS32 _min/*Inclusive*/, mkS32 _max /*Exclusive*/)
+    {
+        if (_max <= _min) { return _min; }
+        return (RandomInt() % _max) + _min;
     }
 
 };

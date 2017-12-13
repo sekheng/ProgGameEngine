@@ -31,31 +31,8 @@ bool GameScene::initWithPhysics()
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
     scheduleUpdate();
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
-    Sprite *charaSpr = Sprite::create();
-    charaSpr->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
-    this->addChild(charaSpr);
-    charaSpr->setScale(0.5f);
-    m_MainCharaNode = charaSpr;
-    GTAnimationHandlerNode *charAnimHandler = GTAnimationHandlerNode::create();
-    charaSpr->addChild(charAnimHandler);
-    charAnimHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
-    //TODO: Change this hardcoded position
-    charaSpr->setPosition(Vec2(150, 250));
-    Size charaSize = Size(charaSpr->getContentSize().width * 0.8f, charaSpr->getContentSize().height * 0.8f);
-    PhysicsBody *charaPhysics = PhysicsBody::createBox(charaSize);
-    charaPhysics->setAngularVelocityLimit(0.f);
-    charaPhysics->setMass(10.0f);
-    charaSpr->setPhysicsBody(charaPhysics);
-    charaPhysics->setDynamic(true);
-    charaPhysics->setGravityEnable(true);
-    m_CharaStatNode = GTCharacterStatNode::create(this, charaPhysics);
-    charaSpr->addChild(m_CharaStatNode);
-    m_CharaStatNode->scheduleUpdate();
-    m_CharaStatNode->setSlideDuration(0.5f);
-    m_CharaStatNode->setDashDuration(1.0f);
-    m_CharaStatNode->setSpeedX(0.1f);
+
+    InitialisePlayer();
 
     // Create Obstacle Spawner
     InitialiseObstacles();
@@ -63,14 +40,54 @@ bool GameScene::initWithPhysics()
 	return true;
 }
 
+void GameScene::InitialisePlayer()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite.plist");
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SpriteAnim/assignment_sprite2.plist");
+
+    // Create the player sprite.
+    Sprite *playerSprite = Sprite::create();
+    playerSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
+    playerSprite->setScale(0.5f);
+    addChild(playerSprite);
+
+    // Create player animation.
+    GTAnimationHandlerNode* playerAnimationHandler = GTAnimationHandlerNode::create();
+    playerAnimationHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
+    playerSprite->addChild(playerAnimationHandler);
+
+    // Create player physics.
+    PhysicsBody* playerPhysicsBody = PhysicsBody::createBox(playerSprite->getContentSize() * 0.8f);
+    playerPhysicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    playerPhysicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+    playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    playerPhysicsBody->setAngularVelocityLimit(0.0f);
+    playerPhysicsBody->setMass(10.0f);
+    playerPhysicsBody->setDynamic(true);
+    playerPhysicsBody->setGravityEnable(true);
+    playerSprite->setPhysicsBody(playerPhysicsBody);
+
+    // Create player stats.
+    m_CharaStatNode = GTCharacterStatNode::create(this, playerPhysicsBody);
+    m_CharaStatNode->scheduleUpdate();
+    m_CharaStatNode->setSlideDuration(0.5f);
+    m_CharaStatNode->setDashDuration(1.0f);
+    m_CharaStatNode->setSpeedX(visibleSize.height * 0.5f);
+    playerSprite->addChild(m_CharaStatNode);
+
+    playerSprite->setPosition(Vec2(0.0f, visibleSize.height * 0.1f + playerSprite->getContentSize().height * 0.5f));
+    m_PlayerNode = playerSprite;
+}
+
 void GameScene::InitialiseGround()
 {
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     m_Ground = MKSprite::Create("Textures/Environment/Ground.png", true);
     m_Ground->setAnchorPoint(Vec2(0.5f, 0.0f));
-    m_Ground->setPosition(visibleOrigin.x, visibleOrigin.y);
+    m_Ground->setPosition(Vec2::ZERO);
 
     // Scale the ground to be the correct size. We want the ground to be 0.1 of the screen height.
     float groundHeight = m_Ground->getContentSize().height;
@@ -82,8 +99,8 @@ void GameScene::InitialiseGround()
     auto physicsBody = PhysicsBody::createBox(Size(m_Ground->getContentSize().width, m_Ground->getContentSize().height));
     physicsBody->setDynamic(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_GROUND);
-    physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_GROUND);
-    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_NONE);
     m_Ground->setPhysicsBody(physicsBody);
 
     this->addChild(m_Ground);
@@ -91,7 +108,6 @@ void GameScene::InitialiseGround()
 
 void GameScene::InitialiseBackgrounds()
 {
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	m_Backgrounds = new MKSprite*[NUM_BACKGROUNDLAYERS];
@@ -107,7 +123,6 @@ void GameScene::InitialiseBackgrounds()
 		if (m_Backgrounds[i] != nullptr)
 		{
 			m_Backgrounds[i]->setAnchorPoint(Vec2::ZERO);
-			//m_Backgrounds[i]->setPosition(visibleOrigin.x, visibleOrigin.y);
             m_Backgrounds[i]->setPosition(Vec2::ZERO);
 
             // We want the background to fill up the whole screen.
@@ -188,8 +203,8 @@ void GameScene::Deinitialise()
 void GameScene::update(float _deltaTime)
 {
     ScrollBackgrounds(_deltaTime);
-    m_ObstacleSpawner->Update(_deltaTime);
     UpdateCamera();
+    //m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
     UpdateUINode();
     UpdateText();
 }
@@ -197,7 +212,9 @@ void GameScene::update(float _deltaTime)
 void GameScene::InitialiseObstacles()
 {
     DeinitialiseObstacles();
-    m_ObstacleSpawner = new GTObstacleSpawner(this, m_MainCharaNode);
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 3.0f);
 }
 
 void GameScene::DeinitialiseObstacles()
@@ -210,15 +227,13 @@ void GameScene::DeinitialiseObstacles()
 
 void GameScene::UpdateCamera()
 {
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    getDefaultCamera()->setPosition(Vec2(m_MainCharaNode->getPositionX() + visibleSize.width * 0.4f, visibleSize.height * 0.5f));
+    getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
 }
 
 void GameScene::UpdateUINode()
 {
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);

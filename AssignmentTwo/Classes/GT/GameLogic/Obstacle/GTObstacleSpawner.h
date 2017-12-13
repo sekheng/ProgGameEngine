@@ -6,8 +6,7 @@
 
 // Include GT
 #include "..\..\..\GT\Common\GTMacros.h"
-#include "GTMissileSpawnData.h"
-#include "GTSpikeSpawnData.h"
+#include "GTObstacleNode.h"
 
 // Include MK
 #include "..\..\..\MK\SceneManagement\MKScene.h"
@@ -15,7 +14,8 @@
 #include "..\..\..\MK\Common\MKMathsHelper.h"
 
 // Include STL
-#include <queue>
+#include <list>
+#include <functional>
 
 USING_NS_CC;
 USING_NS_MK
@@ -25,45 +25,58 @@ NS_GT_BEGIN
 
 class GTObstacleSpawner
 {
+public:
+    enum ObstacleType
+    {
+        SPIKE = 0,
+        MISSILE,
+
+        NUM_OBSTACLETYPE,
+    };
+
 private:
-    // Resource Files
-    static const mkString m_MissileWarningSpriteFile;
-    static const mkString m_MissileWarningSoundName;
+    MKScene* m_Scene;
+    cocos2d::Node* m_PlayerNode;
+    gtF32 m_PlayerVelocityX;
 
-    MKScene* m_Scene = nullptr;
-    cocos2d::Node* m_Player = nullptr;
-    gtF32 m_TimePassed = 0.0f;
+    // This is the interval between each obstacle reaching the player.
+    gtF32 CalculateObstacleInterval() const;
+    gtF32 CalculateScreenRight() const;
+    gtF32 CalculateScreenLeft() const;
 
-    // Temporary Experimentation Values Start
-    gtF32 m_TimeToSpawnMissile = 3.0f;
-    gtF32 m_TimeToSpawnMissileTimer = 0.0f;
+    // Spawning
+    std::list<GTObstacleNode*> m_ObstacleList;
+    gtU32 m_MinObstacleCount = 16;
+    gtU32 m_BatchSize = 8;
+    gtU32 m_ObstaclesSpawned = 0;
+    gtF32 m_SpawnPositionX;
+    gtF32 m_InitialSpawnPositionX;
 
-	gtF32 m_TimeToSpawnSpike = 5.0f;
-	gtF32 m_TimeToSpawnSpikeTimer = 0.0f;
-    // Temporary Experimentation Values End
+    // Difficulty
+    gtF32 m_MinObstacleInterval;
+    gtF32 m_MaxObstacleInterval;
+    gtF32 m_DifficultyMultiplier = 0.1f;
 
-    // Missiles
-    std::queue<GTMissileSpawnData> m_MissileSpawnQueue;
-	std::queue<GTSpikeSpawnData> m_SpikeSpawnQueue;
+    void SpawnObstacleBatch();
 
-    void AddMissileToSpawnQueue();
-    void UpdateMissiles(gtF32 _deltaTime);
-    void SpawnMissileWarning(const GTMissileSpawnData& _spawnData);
-    void SpawnMissile(const GTMissileSpawnData& _spawnData);
+    void DespawnAllObstacles();
+    void DespawnOutOfScreenObstacles();
 
-	void AddSpikeToSpawnQueue();
-	void UpdateSpikes(gtF32 _deltaTime);
-	void SpawnSpike(const GTSpikeSpawnData& _spawnData);
+    // Spike
+    void SpawnSpike();
+
+    // Missile
+    void SpawnMissile();
 
 public:
     // Constructor(s) & Destructor
-    GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _player);
+    GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _playerNode, gtF32 _playerVelocityX, gtF32 _initialObstacleSpawnPositionX);
     virtual ~GTObstacleSpawner();
 
     virtual void Update(gtF32 _deltaTime);
 
-    void SetTimePassed(gtF32 _timePassed) { m_TimePassed = MKMathsHelper::Max<gtF32>(_timePassed, 0.0f); }
-    gtF32 GetTimePassed() const { return m_TimePassed; }
+    void MoveAllObstacles(gtF32 _distance);
+    void Reset();
 
 };
 
