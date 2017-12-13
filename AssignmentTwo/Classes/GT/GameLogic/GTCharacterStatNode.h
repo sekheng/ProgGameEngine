@@ -52,6 +52,12 @@ namespace GinTama
         int getHealth();
         float getSlideDuration();
         float getDashDuration();
+        float getTotalDistanceWalk() const { return m_TotalDist; }
+        /** Converts m_totalDist which is pixel initially
+        *
+        * @return converted distance
+        */
+        gtU32 getConvertedDistWalk();
 
         virtual void update(float delta);
 
@@ -62,8 +68,6 @@ namespace GinTama
         * @return true if it is able to jump
         */
         bool CharJump();
-
-
 
         bool setState(CHARACTER_STATE _whatState);
         CHARACTER_STATE getCurrentState();
@@ -87,7 +91,7 @@ namespace GinTama
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
         float m_SpeedX;
-        float m_MovedDistance;
+        float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
         float m_DurationOfDash, m_DashCountDown;
         MKScene* m_Scene = nullptr;

@@ -27,6 +27,7 @@ bool GameScene::initWithPhysics()
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
+    InitialiseText();
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
     scheduleUpdate();
@@ -49,12 +50,12 @@ bool GameScene::initWithPhysics()
     charaSpr->setPhysicsBody(charaPhysics);
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
-    GTCharacterStatNode *charaStat = GTCharacterStatNode::create(this, charaPhysics);
-    charaSpr->addChild(charaStat);
-    charaStat->scheduleUpdate();
-    charaStat->setSlideDuration(0.5f);
-    charaStat->setDashDuration(1.0f);
-    charaStat->setSpeedX(0.1f);
+    m_CharaStatNode = GTCharacterStatNode::create(this, charaPhysics);
+    charaSpr->addChild(m_CharaStatNode);
+    m_CharaStatNode->scheduleUpdate();
+    m_CharaStatNode->setSlideDuration(0.5f);
+    m_CharaStatNode->setDashDuration(1.0f);
+    m_CharaStatNode->setSpeedX(0.1f);
 
     // Create Obstacle Spawner
     InitialiseObstacles();
@@ -132,16 +133,15 @@ void GameScene::OnButton(EventCustom * _event)
     {
     case MinamiKotori::MKInputButton::ButtonState::PRESS:
     {
-        GTCharacterStatNode *charaStat = m_MainCharaNode->getChildByTag<GTCharacterStatNode*>(1);
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
         {
-            switch (charaStat->getCurrentState())
+            switch (m_CharaStatNode->getCurrentState())
             {
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
-                charaStat->CharJump();
+                m_CharaStatNode->CharJump();
                 break;
             default:
                 break;
@@ -149,7 +149,7 @@ void GameScene::OnButton(EventCustom * _event)
         }
         break;
         case MKInputName::SLIDE:
-            charaStat->setState(CHARACTER_STATE::SLIDE);
+            m_CharaStatNode->setState(CHARACTER_STATE::SLIDE);
             break;
         case MKInputName::SMASH:
             //charaStat->setState(CHARACTER_STATE::DASH);
@@ -191,6 +191,7 @@ void GameScene::update(float _deltaTime)
     m_ObstacleSpawner->Update(_deltaTime);
     UpdateCamera();
     UpdateUINode();
+    UpdateText();
 }
 
 void GameScene::InitialiseObstacles()
@@ -221,4 +222,23 @@ void GameScene::UpdateUINode()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);
+}
+
+void GameScene::InitialiseText()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    gtF32 desiredObstacleScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
+    m_HighScoreTxt = Label::createWithTTF("HighScore", "Fonts/Marker_Felt.ttf", desiredObstacleScale);
+    m_HighScoreTxt->setTextColor(Color4B::BLACK);
+    m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    m_HighScoreTxt->setPosition(getDefaultCamera()->getPositionX() - (visibleSize.width * 0.4f), getDefaultCamera()->getPositionY() + visibleSize.height - m_HighScoreTxt->getContentSize().height);
+    this->addChild(m_HighScoreTxt);
+}
+
+void GameScene::UpdateText()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    m_HighScoreTxt->setPosition(getDefaultCamera()->getPositionX() - (visibleSize.width * 0.4f), getDefaultCamera()->getPositionY() + (visibleSize.height *0.5f) - m_HighScoreTxt->getContentSize().height);
+    std::string zeStr = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+    m_HighScoreTxt->setString(zeStr);
 }

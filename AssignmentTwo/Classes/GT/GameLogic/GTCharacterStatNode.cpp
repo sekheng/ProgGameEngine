@@ -23,6 +23,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_DurationOfDash(0)
     , m_DashCountDown(0)
     , m_AnimHandler(nullptr)
+    , m_TotalDist(0)
 {
 	setTag(1);
 }
@@ -130,7 +131,9 @@ void GTCharacterStatNode::update(float delta)
     }
 
     // since the moving along of the x-axis is different from the physics system, we will be using m_SpeedX
-    m_MovedDistance += m_SpeedX * delta;
+    float zeDistMoved = m_SpeedX * delta;
+    m_MovedDistance += zeDistMoved;
+    m_TotalDist += zeDistMoved;
     // we will need to move the parent transform position
     _parent->setPositionX(_parent->getPositionX() + m_MovedDistance);
     // then we will need to reset the position X after every 1000 distance
@@ -324,4 +327,10 @@ bool GTCharacterStatNode::CharJump()
         break;
     }
     return false;
+}
+
+gtU32 GTCharacterStatNode::getConvertedDistWalk()
+{
+    // dont know what to convert this to for now
+    return m_TotalDist * 100.f;
 }

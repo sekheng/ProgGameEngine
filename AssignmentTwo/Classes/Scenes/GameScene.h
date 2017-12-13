@@ -8,6 +8,7 @@
 // Include GT
 #include "..\GT\Common\GTMacros.h"
 #include "..\GT\GameLogic\Obstacle\GTObstacleSpawner.h"
+#include "..\GT\GameLogic\GTCharacterStatNode.h"
 
 USING_NS_CC;
 USING_NS_MK
@@ -30,10 +31,13 @@ private:
 
 	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
+    Label* m_HighScoreTxt = nullptr;
+    GTCharacterStatNode *m_CharaStatNode = nullptr;
 
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 	void ScrollBackgrounds(float _deltaTime);
+    void InitialiseText();
 
     // Obstacles
     GTObstacleSpawner* m_ObstacleSpawner = nullptr;
@@ -54,6 +58,8 @@ private:
     void UpdateCamera();
     // UI
     void UpdateUINode();
+    // Text
+    void UpdateText();
 
 public:
 	GameScene() {}
