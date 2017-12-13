@@ -283,14 +283,14 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
     {
         switch (m_CurrentState)
         {
-        case RUNNING:
-            break;
-        default:
+        case JUMPING:
             m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
             m_physicsNode->resetForces();
             // this means the character touched the ground!
             m_AnimHandler->transitState("Idle");
             setState(RUNNING);
+            break;
+        default:
             break;
         }
 
@@ -318,7 +318,7 @@ bool GTCharacterStatNode::CharJump()
     {
     case GinTama::RUNNING:
         setState(JUMPING);
-        m_physicsNode->applyImpulse(Vec2(0, 7500.f));
+        m_physicsNode->applyImpulse(Vec2(0, 12000.f));
         GTSimperMusicSys::GetInstance()->playSound("Jump");
         return true;
         break;
