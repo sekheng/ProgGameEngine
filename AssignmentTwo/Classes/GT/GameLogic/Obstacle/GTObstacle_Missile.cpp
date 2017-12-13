@@ -34,8 +34,6 @@ gtBool GTObstacle_Missile::init()
 {
     if (!Super::init()) { return false; }
 
-    InitialiseContactListener();
-
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
@@ -57,6 +55,7 @@ gtBool GTObstacle_Missile::init()
     physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
+    InitialiseContactListener();
 
     // Create our particles.
     m_ParticleSmoke = CCParticleSmoke::createWithTotalParticles(400);
@@ -92,14 +91,14 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     if (physicsShapeA->getBody() != _physicsBody &&
         physicsShapeB->getBody() != _physicsBody)
     {
-        return false;
+        return true;
     }
 
     PhysicsBody* otherPhysicsBody = (physicsShapeA->getBody() != getPhysicsBody()) ? physicsShapeA->getBody() : physicsShapeB->getBody();
     // Dafuq? How can we collide with ourselves?
     if (otherPhysicsBody == getPhysicsBody())
     {
-        return false;
+        return true;
     }
 
     // Stop everything. The only reason we are not deleting instantly is so that
@@ -128,7 +127,7 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     explosionSprite->setPosition(this->getPosition());
     GetScene()->addChild(explosionSprite);
 
-    return false;
+    return true;
 }
 
 NS_GT_END

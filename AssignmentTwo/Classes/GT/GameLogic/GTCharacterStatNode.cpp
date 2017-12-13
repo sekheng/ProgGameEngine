@@ -2,6 +2,7 @@
 #include "..\..\MK\Common\MKAssertions.h"
 #include "..\..\GT\Animation\GTAnimationHandlerNode.h"
 #include "..\..\GT\Audio\GTSimperMusicSys.h"
+#include "..\GameLogic\GTCollisionCategory.h"
 
 using namespace GinTama;
 USING_NS_CC;
@@ -9,7 +10,7 @@ USING_NS_CC;
 const static float ACCEPTABLE_VELY = 0.9f;
 
 GTCharacterStatNode::GTCharacterStatNode()
-	: m_health(3)
+    : m_health(3)
     , m_CurrentState(RUNNING)
     , m_physicsNode(nullptr)
     , m_SlidePhyShape(nullptr)
@@ -21,6 +22,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_SlideCountDown(0)
     , m_DurationOfDash(0)
     , m_DashCountDown(0)
+    , m_AnimHandler(nullptr)
 {
 	setTag(1);
 }
@@ -32,19 +34,21 @@ GTCharacterStatNode::~GTCharacterStatNode()
         m_physicsNode->release();
         m_SlidePhyShape->release();
         m_OriginPhyShape->release();
+        DeinitialiseContactListener();
     }
 }
 
-GTCharacterStatNode *GTCharacterStatNode::create()
+GTCharacterStatNode *GTCharacterStatNode::create(MKScene *_scene)
 {
 	GTCharacterStatNode *zeNode = new GTCharacterStatNode();
     zeNode->autorelease();
+    zeNode->m_Scene = _scene;
 	return zeNode;
 }
 
-GTCharacterStatNode *GTCharacterStatNode::create(PhysicsBody *_physicsBody)
+GTCharacterStatNode *GTCharacterStatNode::create(MKScene *_scene, PhysicsBody *_physicsBody)
 {
-    GTCharacterStatNode *zeNode = create();
+    GTCharacterStatNode *zeNode = create(_scene);
     zeNode->setPhysicsNode(_physicsBody);
     return zeNode;
 }
@@ -72,6 +76,10 @@ int GTCharacterStatNode::getHealth()
 
 void GTCharacterStatNode::update(float delta)
 {
+    if (!m_AnimHandler)
+    {
+        m_AnimHandler = _parent->getChildByTag<GTAnimationHandlerNode*>(69);
+    }
     // if there is the physics node
     if (m_physicsNode)
     {
@@ -86,7 +94,7 @@ void GTCharacterStatNode::update(float delta)
                 m_physicsNode->removeShape(m_SlidePhyShape, false);
                 m_physicsNode->addShape(m_OriginPhyShape, false);
                 setState(RUNNING);
-                _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
+                m_AnimHandler->transitState("Idle");
             }
             break;
         case DASH:
@@ -95,7 +103,7 @@ void GTCharacterStatNode::update(float delta)
             {
                 m_SpeedX *= 0.5f;
                 setState(RUNNING);
-                _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Idle");
+                m_AnimHandler->transitState("Idle");
             }
             break;
         default:
@@ -143,6 +151,15 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     Size zeSlideSize = Size(_physicsBody->getOwner()->getContentSize().width * 0.5f, _physicsBody->getOwner()->getContentSize().height * 0.3f);
     m_SlidePhyShape = PhysicsShapeBox::create(zeSlideSize, _physicsBody->getFirstShape()->getMaterial(), _physicsBody->getFirstShape()->getOffset());
     m_SlidePhyShape->retain();
+    // Then set the contact listener when it happens
+    m_physicsNode->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    m_physicsNode->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
+    m_physicsNode->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+
+    m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_PLAYER);
+    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
+    InitialiseContactListener();
 }
 
 bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
@@ -167,7 +184,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         case RUNNING:
             // u can only change from running to jumping!
             m_CurrentState = _whatState;
-            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("BeginJump");
+            m_AnimHandler->transitState("BeginJump");
             break;
         default:
             break;
@@ -182,7 +199,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_physicsNode->addShape(m_SlidePhyShape, false);
             // need to immediately apply that impulse
             m_physicsNode->applyImpulse(Vec2(0, -100.f));
-            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Slide");
+            m_AnimHandler->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;
             GTSimperMusicSys::GetInstance()->playSound("Slide");
@@ -198,7 +215,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_DashCountDown = 0;
             // we will need to ensure that the character is sliding then we multiply the speed by 2!
             m_SpeedX *= 2.0f;
-            _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Dash");
+            m_AnimHandler->transitState("Dash");
             m_CurrentState = _whatState;
             GTSimperMusicSys::GetInstance()->playSound("Dash");
             break;
@@ -210,7 +227,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         m_CurrentState = _whatState;
         // if dead then stop the speed and change the transition
         m_SpeedX = 0;
-        _parent->getChildByTag<GTAnimationHandlerNode*>(69)->transitState("Died");
+        m_AnimHandler->transitState("Died");
         break;
     default:
         MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
@@ -259,4 +276,29 @@ void GTCharacterStatNode::setDashDuration(const float &_duration)
 float GTCharacterStatNode::getDashDuration()
 {
     return m_DurationOfDash;
+}
+
+gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
+{
+    if (_contact.getShapeA()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND || _contact.getShapeB()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND)
+    {
+        m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
+        m_physicsNode->resetForces();
+        // this means the character touched the ground!
+        m_AnimHandler->transitState("Idle");
+        setState(RUNNING);
+    }
+    return true;
+}
+
+gtBool GTCharacterStatNode::CompareBitMask(gtU32 _lhs, gtU32 _rhs)
+{
+    gtU32 largerNum = _lhs;
+    if (largerNum < _rhs)
+        largerNum = _rhs;
+    gtU32 zeComparedMask = (_lhs | _rhs);
+    // if the bits still remains the same after that, the values are the same
+    if (zeComparedMask == largerNum)
+        return true;
+    return false;
 }

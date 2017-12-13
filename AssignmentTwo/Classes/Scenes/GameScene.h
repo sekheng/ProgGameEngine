@@ -50,9 +50,6 @@ private:
 	virtual void OnClick(EventCustom * _event) override;
 	virtual void OnAxis(EventCustom * _event) override;
 
-    bool Chara_GroundContactBegin(PhysicsContact &_contact);
-    bool CompareBitmasks(mkU32 _maskA, mkU32 _maskB);
-
     // Camera
     void UpdateCamera();
     // UI

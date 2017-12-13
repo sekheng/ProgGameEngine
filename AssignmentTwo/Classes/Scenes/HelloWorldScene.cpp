@@ -242,7 +242,7 @@ bool HelloWorld::initWithPhysics()
     zeEdgeNode->setPhysicsBody(zeEdgePhy);
     this->addChild(zeEdgeNode);
 
-    GTCharacterStatNode *zeCharStat = GTCharacterStatNode::create(zeEdgePhy);
+    GTCharacterStatNode *zeCharStat = GTCharacterStatNode::create(this, zeEdgePhy);
     //zeCharStat->setSpeedX(5);
     zeCharStat->scheduleUpdate();
     testTransitionSpr->addChild(zeCharStat);
