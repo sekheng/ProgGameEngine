@@ -50,8 +50,8 @@ bool GameScene::initWithPhysics()
     charaPhysics->setDynamic(true);
     charaPhysics->setGravityEnable(true);
     GTCharacterStatNode *charaStat = GTCharacterStatNode::create(this, charaPhysics);
-    charaStat->scheduleUpdate();
     charaSpr->addChild(charaStat);
+    charaStat->scheduleUpdate();
     charaStat->setSlideDuration(0.5f);
     charaStat->setDashDuration(1.0f);
     charaStat->setSpeedX(0.1f);
@@ -141,9 +141,7 @@ void GameScene::OnButton(EventCustom * _event)
             {
             case CHARACTER_STATE::RUNNING:
                 // then character jump!
-                charaStat->setState(JUMPING);
-                m_MainCharaNode->getPhysicsBody()->applyImpulse(Vec2(0, 7500.f));
-                GTSimperMusicSys::GetInstance()->playSound("Jump");
+                charaStat->CharJump();
                 break;
             default:
                 break;
@@ -151,10 +149,10 @@ void GameScene::OnButton(EventCustom * _event)
         }
         break;
         case MKInputName::SLIDE:
-            //charaStat->setState(CHARACTER_STATE::SLIDE);
+            charaStat->setState(CHARACTER_STATE::SLIDE);
             break;
         case MKInputName::SMASH:
-            charaStat->setState(CHARACTER_STATE::DASH);
+            //charaStat->setState(CHARACTER_STATE::DASH);
             break;
         default:
             break;

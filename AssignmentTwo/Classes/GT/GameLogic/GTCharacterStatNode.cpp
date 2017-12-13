@@ -282,11 +282,18 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
 {
     if (_contact.getShapeA()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND || _contact.getShapeB()->getCategoryBitmask() == GT_COLLISION_CATEGORY_GROUND)
     {
-        m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
-        m_physicsNode->resetForces();
-        // this means the character touched the ground!
-        m_AnimHandler->transitState("Idle");
-        setState(RUNNING);
+        switch (m_CurrentState)
+        {
+        case RUNNING:
+            break;
+        default:
+            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
+            m_physicsNode->resetForces();
+            // this means the character touched the ground!
+            m_AnimHandler->transitState("Idle");
+            setState(RUNNING);
+            break;
+        }
     }
     return true;
 }
@@ -300,5 +307,21 @@ gtBool GTCharacterStatNode::CompareBitMask(gtU32 _lhs, gtU32 _rhs)
     // if the bits still remains the same after that, the values are the same
     if (zeComparedMask == largerNum)
         return true;
+    return false;
+}
+
+bool GTCharacterStatNode::CharJump()
+{
+    switch (m_CurrentState)
+    {
+    case GinTama::RUNNING:
+        setState(JUMPING);
+        m_physicsNode->applyImpulse(Vec2(0, 7500.f));
+        GTSimperMusicSys::GetInstance()->playSound("Jump");
+        return true;
+        break;
+    default:
+        break;
+    }
     return false;
 }

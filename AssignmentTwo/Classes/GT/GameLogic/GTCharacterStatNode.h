@@ -57,6 +57,14 @@ namespace GinTama
 
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
 
+        /** Makes the character do the jumping if possible
+        *
+        * @return true if it is able to jump
+        */
+        bool CharJump();
+
+
+
         bool setState(CHARACTER_STATE _whatState);
         CHARACTER_STATE getCurrentState();
         MKScene* GetScene() { return m_Scene; }
