@@ -136,6 +136,9 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     Size zeSlideSize = Size(_physicsBody->getOwner()->getContentSize().width * 0.5f, _physicsBody->getOwner()->getContentSize().height * 0.3f);
     m_SlidePhyShape = PhysicsShapeBox::create(zeSlideSize, _physicsBody->getFirstShape()->getMaterial(), _physicsBody->getFirstShape()->getOffset());
     m_SlidePhyShape->retain();
+    m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
+    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
 
     // Then set the contact listener when it happens
     SetPhysicsBitmasks(m_physicsNode);
@@ -152,6 +155,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         case DASH:
         case SLIDE:
         case JUMPING:
+        case SLIDE_JUMP:
             m_CurrentState = _whatState;
             break;
         default:
@@ -177,15 +181,19 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             // only slide when it is only running!
             m_physicsNode->removeShape(m_OriginPhyShape, false);
             m_physicsNode->addShape(m_SlidePhyShape, false);
-            
-            SetPhysicsBitmasks(m_physicsNode);
-
+            m_physicsNode->resetForces();
             // need to immediately apply that impulse
-            //m_physicsNode->applyImpulse(Vec2(0, -100.f));
             m_AnimHandler->transitState("Slide");
             m_SlideCountDown = 0;
             m_CurrentState = _whatState;
             GTSimperMusicSys::GetInstance()->playSound("Slide");
+            break;
+        case JUMPING:
+            // If character is attempting to slide while jump, it will attempt to do an impulse to straight away go down
+            m_physicsNode->applyImpulse(Vec2(0, -10000.f));
+            m_CurrentState = SLIDE_JUMP; 
+            GTSimperMusicSys::GetInstance()->playSound("Slide");
+            break;
         default:
                 break;
         }
@@ -284,6 +292,7 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
         switch (m_CurrentState)
         {
         case JUMPING:
+        case SLIDE_JUMP:
             m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
             m_physicsNode->resetForces();
             // this means the character touched the ground!
