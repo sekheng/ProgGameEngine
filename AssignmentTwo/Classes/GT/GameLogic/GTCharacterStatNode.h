@@ -15,7 +15,8 @@ namespace GinTama
         DEAD = 0x0004,
         SLIDE = 0x0008,
         DASH = 0x0010,
-        TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH,
+        SLIDE_JUMP = 0x0020,
+        TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH | SLIDE_JUMP,
     };
 
 	class GTCharacterStatNode : public cocos2d::Node
