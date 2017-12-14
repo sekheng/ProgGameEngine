@@ -38,11 +38,9 @@ namespace GinTama
         void adjustSpeedX(const float &_value);
 
         void setSlideDuration(const float &_duration);
-        void setDashDuration(const float &_duration);
 
         float getSpeedX();
         float getSlideDuration();
-        float getDashDuration();
         float getTotalDistanceWalk() const { return m_TotalDist; }
         /** Converts m_totalDist which is pixel initially
         *
@@ -84,7 +82,6 @@ namespace GinTama
         float m_SpeedX;
         float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
-        float m_DurationOfDash, m_DashCountDown;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
 

@@ -20,8 +20,6 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_MovedDistance(0)
     , m_DurationOfSlide(0)
     , m_SlideCountDown(0)
-    , m_DurationOfDash(0)
-    , m_DashCountDown(0)
     , m_AnimHandler(nullptr)
     , m_TotalDist(0)
 {
@@ -77,15 +75,6 @@ void GTCharacterStatNode::update(float delta)
 
                 SetPhysicsBitmasks(m_physicsNode);
 
-                setState(RUNNING);
-                m_AnimHandler->transitState("Idle");
-            }
-            break;
-        case DASH:
-            m_DashCountDown += delta;
-            if (m_DashCountDown > m_DurationOfDash)
-            {
-                m_SpeedX *= 0.5f;
                 setState(RUNNING);
                 m_AnimHandler->transitState("Idle");
             }
@@ -190,28 +179,13 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             break;
         case JUMPING:
             // If character is attempting to slide while jump, it will attempt to do an impulse to straight away go down
+            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
             m_physicsNode->applyImpulse(Vec2(0, -10000.f));
             m_CurrentState = SLIDE_JUMP; 
             GTSimperMusicSys::GetInstance()->playSound("Slide");
             break;
         default:
                 break;
-        }
-        break;
-    case DASH:
-        // then the speed of the character will be multiplied by 2!
-        switch (m_CurrentState)
-        {
-        case RUNNING:
-            m_DashCountDown = 0;
-            // we will need to ensure that the character is sliding then we multiply the speed by 2!
-            m_SpeedX *= 2.0f;
-            m_AnimHandler->transitState("Dash");
-            m_CurrentState = _whatState;
-            GTSimperMusicSys::GetInstance()->playSound("Dash");
-            break;
-        default:
-            break;
         }
         break;
     case DEAD:
@@ -256,17 +230,6 @@ void GTCharacterStatNode::setSlideDuration(const float &_duration)
 float GTCharacterStatNode::getSlideDuration()
 {
     return m_DurationOfSlide;
-}
-
-void GTCharacterStatNode::setDashDuration(const float &_duration)
-{
-    if (_duration > 0)
-        m_DurationOfDash = _duration;
-}
-
-float GTCharacterStatNode::getDashDuration()
-{
-    return m_DurationOfDash;
 }
 
 gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
@@ -330,6 +293,11 @@ bool GTCharacterStatNode::CharJump()
         m_physicsNode->applyImpulse(Vec2(0, 12000.f));
         GTSimperMusicSys::GetInstance()->playSound("Jump");
         return true;
+        break;
+    case SLIDE:
+        // if character is attempting to jump when it is still sliding, it means the character is trying to stand up!
+        // we can just cheat here and put the countdown pass the duration
+        m_SlideCountDown = m_DurationOfSlide + 1.f;
         break;
     default:
         break;

@@ -73,7 +73,6 @@ void GameScene::InitialisePlayer()
     m_CharaStatNode = GTCharacterStatNode::create(this, playerPhysicsBody);
     m_CharaStatNode->scheduleUpdate();
     m_CharaStatNode->setSlideDuration(0.5f);
-    m_CharaStatNode->setDashDuration(1.0f);
     m_CharaStatNode->setSpeedX(visibleSize.height * 0.5f);
     playerSprite->addChild(m_CharaStatNode);
 
@@ -152,15 +151,7 @@ void GameScene::OnButton(EventCustom * _event)
         {
         case MinamiKotori::MKInputName::JUMP:
         {
-            switch (m_CharaStatNode->getCurrentState())
-            {
-            case CHARACTER_STATE::RUNNING:
-                // then character jump!
-                m_CharaStatNode->CharJump();
-                break;
-            default:
-                break;
-            }
+            m_CharaStatNode->CharJump();
         }
         break;
         case MKInputName::SLIDE:
