@@ -3,7 +3,7 @@
 #ifndef GT_MACROS_H
 #define GT_MACROS_H
 
-#include "..\..\MK\Common\MKMacros.h"
+#include "../../MK/Common/MKMacros.h"
 
 #define NS_GT_BEGIN namespace GinTama {
 #define NS_GT_END }

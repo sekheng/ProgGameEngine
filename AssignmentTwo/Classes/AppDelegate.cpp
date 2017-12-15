@@ -4,8 +4,8 @@
 #include "MK/SceneManagement/MKSceneManager.h"
 
 // Include Scenes
-#include "Scenes\AvailableScenes.h"
-#include "Scenes\HelloWorldScene.h"
+#include "Scenes/AvailableScenes.h"
+#include "Scenes/HelloWorldScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -108,7 +108,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     MKSceneManager::GetInstance()->ReplaceScene("GameScene");
     //MKSceneManager::GetInstance()->AddSceneWithPhysics<HelloWorld>("HelloWorld");
     //MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
-
+#ifdef NDEBUG
+    Director::getInstance()->setDisplayStats(false);
+#endif
 	return true;
 }
 

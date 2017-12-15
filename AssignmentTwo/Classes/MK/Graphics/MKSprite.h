@@ -9,8 +9,8 @@
 #include <cmath>
 
 // Include MK
-#include "..\Common\MKMacros.h"
-#include "..\Common\MKMathsHelper.h"
+#include "../Common/MKMacros.h"
+#include "../Common/MKMathsHelper.h"
 
 USING_NS_CC;
 using namespace std;

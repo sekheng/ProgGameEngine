@@ -1,6 +1,6 @@
 #pragma once
 
-#include "2d\CCNode.h"
+#include "2d/CCNode.h"
 #include <unordered_map>
 #include <string>
 #include "cocos2d.h"

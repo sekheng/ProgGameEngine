@@ -2,13 +2,13 @@
 #define GAME_SCENE_H
 
 // Include MK
-#include "..\MK\SceneManagement\MKScene.h"
-#include "..\MK\Graphics\MKSprite.h"
+#include "../MK/SceneManagement/MKScene.h"
+#include "../MK/Graphics/MKSprite.h"
 
 // Include GT
-#include "..\GT\Common\GTMacros.h"
-#include "..\GT\GameLogic\Obstacle\GTObstacleSpawner.h"
-#include "..\GT\GameLogic\GTCharacterStatNode.h"
+#include "../GT/Common/GTMacros.h"
+#include "../GT/GameLogic/Obstacle/GTObstacleSpawner.h"
+#include "../GT/GameLogic/GTCharacterStatNode.h"
 
 USING_NS_CC;
 USING_NS_MK

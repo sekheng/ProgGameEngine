@@ -3,10 +3,10 @@
 
 // Include GT
 #include "GTObstacleNode.h"
-#include "..\..\..\GT\Audio\GTSimperMusicSys.h"
-#include "..\..\..\GT\Actions\GTRemoveFromParent.h"
-#include "..\..\..\GT\Actions\GTScaleUpAndDownAction.h"
-#include "..\..\..\GT\Actions\GTPlaySoundAction.h"
+#include "../../../GT/Audio/GTSimperMusicSys.h"
+#include "../../../GT/Actions/GTRemoveFromParent.h"
+#include "../../../GT/Actions/GTScaleUpAndDownAction.h"
+#include "../../../GT/Actions/GTPlaySoundAction.h"
 
 USING_NS_MK
 

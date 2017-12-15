@@ -3,7 +3,7 @@
 
 // Include Cocos
 #include "cocos2d.h"
-#include "base\CCEventListenerTouch.h"
+#include "base/CCEventListenerTouch.h"
 
 // Include STL
 #include <unordered_map>
@@ -12,9 +12,9 @@
 #include <string>
 
 // Include MK
-#include "..\Common\MKMacros.h"
-#include "..\Common\MKSingletonTemplate.h"
-#include "..\Common\MKPasskey.h"
+#include "../Common/MKMacros.h"
+#include "../Common/MKSingletonTemplate.h"
+#include "../Common/MKPasskey.h"
 #include "MKInputName.h"
 #include "MKInput.h"
 

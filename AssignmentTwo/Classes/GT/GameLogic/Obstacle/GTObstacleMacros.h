@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 
 // Include GT
-#include "..\..\..\GT\Common\GTMacros.h"
+#include "../../../GT/Common/GTMacros.h"
 
 NS_GT_BEGIN
 
