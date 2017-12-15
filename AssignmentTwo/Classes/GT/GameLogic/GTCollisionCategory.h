@@ -1,7 +1,7 @@
 #ifndef GT_COLLISIONBITMASKS_H
 #define GT_COLLISIONBITMASKS_H
 
-#include "..\..\GT\Common\GTMacros.h"
+#include "../../GT/Common/GTMacros.h"
 
 NS_GT_BEGIN
 

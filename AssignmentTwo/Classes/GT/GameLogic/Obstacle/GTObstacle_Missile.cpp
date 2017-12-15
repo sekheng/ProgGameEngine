@@ -1,6 +1,6 @@
 // Include GT
 #include "GTObstacle_Missile.h"
-#include "..\..\..\GT\Animation\GTAnimationHandlerNode.h"
+#include "../../Animation/GTAnimationHandlerNode.h"
 
 // Include STL
 #include <string>

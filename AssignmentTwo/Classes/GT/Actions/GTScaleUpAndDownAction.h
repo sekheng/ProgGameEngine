@@ -5,10 +5,10 @@
 #include "cocos2d.h"
 
 // Include GT
-#include "..\..\GT\Common\GTMacros.h"
+#include "../../GT/Common/GTMacros.h"
 
 // Include MK
-#include "..\..\MK\Common\MKMathsHelper.h"
+#include "../../MK/Common/MKMathsHelper.h"
 
 // Include STL
 #include <cmath>

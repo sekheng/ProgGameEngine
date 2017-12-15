@@ -1,9 +1,9 @@
 #include "GTCharacterStatNode.h"
-#include "..\..\MK\Common\MKAssertions.h"
-#include "..\..\MK\Common\MKMathsHelper.h"
-#include "..\..\GT\Animation\GTAnimationHandlerNode.h"
-#include "..\..\GT\Audio\GTSimperMusicSys.h"
-#include "..\GameLogic\GTCollisionCategory.h"
+#include "../../MK/Common/MKAssertions.h"
+#include "../../MK/Common/MKMathsHelper.h"
+#include "../../GT/Animation/GTAnimationHandlerNode.h"
+#include "../../GT/Audio/GTSimperMusicSys.h"
+#include "../GameLogic/GTCollisionCategory.h"
 
 using namespace GinTama;
 USING_NS_CC;

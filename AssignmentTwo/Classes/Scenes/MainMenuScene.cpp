@@ -1,18 +1,18 @@
 // Include Cocos
-#include "..\GT\Audio\GTSimperMusicSys.h"
+#include "../GT/Audio/GTSimperMusicSys.h"
 
 // Include MK
-#include "..\MK\SceneManagement\MKSceneManager.h"
-#include "..\MK\Common\MKMacros.h"
+#include "../MK/SceneManagement/MKSceneManager.h"
+#include "../MK/Common/MKMacros.h"
 
 // Include Input Device Handlers
-#include "..\MK\Input\MKKeyboardHandler.h"
+#include "../MK/Input/MKKeyboardHandler.h"
 
 // Include Assignment
 #include "AvailableScenes.h"
 #include "AudioEngine.h"
 
-#include "..\UIClass\UICreator.h"
+#include "../UIClass/UICreator.h"
 #include "MainMenuScene.h"
 
 using namespace experimental;

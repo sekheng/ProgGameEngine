@@ -2,8 +2,8 @@
 #define CRASHTEST_SCENE_H
 
 // Include MK
-#include "..\MK\SceneManagement\MKScene.h"
-#include "..\MK\Graphics\MKSprite.h"
+#include "../MK/SceneManagement/MKScene.h"
+#include "../MK/Graphics/MKSprite.h"
 
 USING_NS_CC;
 USING_NS_MK

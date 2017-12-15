@@ -6,7 +6,7 @@
 #include "GTObstacle_Spike.h"
 
 // Include MK
-#include "..\..\..\MK\Common\MKMathsHelper.h"
+#include "../../../MK/Common/MKMathsHelper.h"
 
 NS_GT_BEGIN
 

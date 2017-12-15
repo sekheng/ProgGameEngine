@@ -2,14 +2,14 @@
 #include "GameScene.h"
 
 // Include MK
-#include "..\MK\SceneManagement\MKSceneManager.h"
+#include "../MK/SceneManagement/MKSceneManager.h"
 
 // Include GT
-#include "..\GT\Animation\GTAnimationHandlerNode.h"
-#include "..\GT\Animation\GTAnimTransAct.h"
-#include "..\GT\Audio\GTSimperMusicSys.h"
-#include "..\GT\GameLogic\GTCharacterStatNode.h"
-#include "..\GT\GameLogic\Obstacle\GTObstacleNode.h"
+#include "../GT/Animation/GTAnimationHandlerNode.h"
+#include "../GT/Animation/GTAnimTransAct.h"
+#include "../GT/Audio/GTSimperMusicSys.h"
+#include "../GT/GameLogic/GTCharacterStatNode.h"
+#include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
 
 using namespace GinTama;
 

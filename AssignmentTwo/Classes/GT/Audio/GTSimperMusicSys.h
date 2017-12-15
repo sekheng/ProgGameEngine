@@ -3,11 +3,11 @@
 // Include Cocos
 #include "cocos2d.h"
 // Include GT
-#include "..\..\GT\Common\GTMacros.h"
-#include "..\..\MK\Common\MKSingletonTemplate.h"
+#include "../../GT/Common/GTMacros.h"
+#include "../../MK/Common/MKSingletonTemplate.h"
 
 // Include Others
-#include "external\json\document.h"
+#include "external/json/document.h"
 #include <unordered_set>
 
 NS_GT_BEGIN

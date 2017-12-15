@@ -1,7 +1,7 @@
 #include "GTSimperMusicSys.h"
-#include "external\json\filewritestream.h"
-#include "external\json\filereadstream.h"
-#include "external\json\writer.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
 #include "AudioEngine.h"
 
 USING_NS_GT

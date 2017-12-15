@@ -1,23 +1,23 @@
 // Include Cocos
-#include "..\GT\Animation\GTAnimationHandlerNode.h"
-#include "..\GT\Animation\GTAnimTransAct.h"
-#include "..\GT\Audio\GTSimperMusicSys.h"
-#include "..\GT\GameLogic\GTCharacterStatNode.h"
+#include "../GT/Animation/GTAnimationHandlerNode.h"
+#include "../GT/Animation/GTAnimTransAct.h"
+#include "../GT/Audio/GTSimperMusicSys.h"
+#include "../GT/GameLogic/GTCharacterStatNode.h"
 
 // Include MK
-#include "..\MK\SceneManagement\MKSceneManager.h"
-#include "..\MK\Common\MKMacros.h"
+#include "../MK/SceneManagement/MKSceneManager.h"
+#include "../MK/Common/MKMacros.h"
 
 // Include Input Device Handlers
-#include "..\MK\Input\MKKeyboardHandler.h"
+#include "../MK/Input/MKKeyboardHandler.h"
 
 // Include Assignment
 #include "HelloWorldScene.h"
 #include "AudioEngine.h"
-#include "external\json\document.h"
-#include "external\json\filewritestream.h"
-#include "external\json\filereadstream.h"
-#include "external\json\writer.h"
+#include "external/json/document.h"
+#include "external/json/filewritestream.h"
+#include "external/json/filereadstream.h"
+#include "external/json/writer.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
@@ -35,8 +35,8 @@ HelloWorld::~HelloWorld()
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+    printf("Error while loading: %s/n", filename);
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp/n");
 }
 
 // on "init" you need to initialize your instance
@@ -262,7 +262,7 @@ bool HelloWorld::initWithPhysics()
 
 bool HelloWorld::onContact(PhysicsContact &_contact)
 {
-    CCLOG("They are contacting with 1 another\n");
+    CCLOG("They are contacting with 1 another/n");
     return true;
 }
 

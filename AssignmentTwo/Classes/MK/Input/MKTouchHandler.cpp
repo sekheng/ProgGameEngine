@@ -1,7 +1,7 @@
 // Include Cocos
-#include "base\ccMacros.h"
-#include "base\CCDirector.h"
-#include "base\CCEventDispatcher.h"
+#include "base/ccMacros.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
 
 // Include STL
 #include <typeinfo>
@@ -9,8 +9,8 @@
 // Include MK
 #include "MKTouchHandler.h"
 #include "MKInputManager.h"
-#include "..\Common\MKAssertions.h"
-#include "..\Common\MKMathsHelper.h"
+#include "../Common/MKAssertions.h"
+#include "../Common/MKMathsHelper.h"
 
 #if MK_USE_TOUCH
 

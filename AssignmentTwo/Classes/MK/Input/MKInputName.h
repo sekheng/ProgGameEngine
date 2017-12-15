@@ -1,7 +1,7 @@
 #ifndef MK_INPUTNAME_H
 #define MK_INPUTNAME_H
 
-#include "..\Common\MKMacros.h"
+#include "../Common/MKMacros.h"
 
 NS_MK_BEGIN
 

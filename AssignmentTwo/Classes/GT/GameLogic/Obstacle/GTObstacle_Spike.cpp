@@ -1,6 +1,6 @@
 // Include GT
 #include "GTObstacle_Spike.h"
-#include "..\..\..\GT\Animation\GTAnimationHandlerNode.h"
+#include "../../../GT/Animation/GTAnimationHandlerNode.h"
 
 // Include STL
 #include <string>

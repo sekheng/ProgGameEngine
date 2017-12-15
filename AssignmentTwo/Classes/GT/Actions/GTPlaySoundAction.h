@@ -5,8 +5,8 @@
 #include "cocos2d.h"
 
 // Include GT
-#include "..\..\GT\Common\GTMacros.h"
-#include "..\..\GT\Audio\GTSimperMusicSys.h"
+#include "../../GT/Common/GTMacros.h"
+#include "../../GT/Audio/GTSimperMusicSys.h"
 
 USING_NS_CC;
 
