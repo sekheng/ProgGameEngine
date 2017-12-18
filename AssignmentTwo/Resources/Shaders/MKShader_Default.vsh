@@ -22,14 +22,14 @@ void main()
 	v_texCoord.y *= u_textureScale.y;
 	
 	// Rotate
-	v_texCoord -= vec2(0.5f, 0.5f);
+	v_texCoord -= vec2(0.5, 0.5);
 	
 	vec4 rotationMatrix = vec4(u_textureRotationCosSin.x, u_textureRotationCosSin.y, -u_textureRotationCosSin.y, u_textureRotationCosSin.x);
 	vec2 rotationTexCoord = v_texCoord;
 	v_texCoord.x = rotationMatrix.x * rotationTexCoord.x + rotationMatrix.z * rotationTexCoord.y;
 	v_texCoord.y = rotationMatrix.y * rotationTexCoord.x + rotationMatrix.w * rotationTexCoord.y;
 	
-	v_texCoord += vec2(0.5f, 0.5f);
+	v_texCoord += vec2(0.5, 0.5);
 	
 	// Translate
 	v_texCoord.x += u_textureOffset.x;

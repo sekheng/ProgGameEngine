@@ -236,7 +236,7 @@ void GameScene::InitialiseText()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     gtF32 desiredObstacleScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
-    m_HighScoreTxt = Label::createWithTTF("HighScore", "Fonts/Marker_Felt.ttf", desiredObstacleScale);
+    m_HighScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
     m_HighScoreTxt->setTextColor(Color4B::BLACK);
     m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
