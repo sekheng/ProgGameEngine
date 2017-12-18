@@ -310,9 +310,6 @@ GTAnimationHandlerNode::~GTAnimationHandlerNode()
     {
         // just in case the animation is not released
         it->second->release();
-        it->second->release();
-        it->second->release();
-        it->second->release();
     }
     m_NameAnimMap.clear();
     m_CurrentAnim = nullptr;

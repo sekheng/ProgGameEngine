@@ -18,16 +18,15 @@ GTDestroySelfAct *GTDestroySelfAct::create(cocos2d::Node* _target)
 
 void GTDestroySelfAct::startWithTarget(cocos2d::Node *target)
 {
-    if (m_intentedRemoveNode)
+    if (!m_intentedRemoveNode)
+        m_intentedRemoveNode = target;
+    if (m_intentedRemoveNode->getReferenceCount() > 0)
     {
         m_intentedRemoveNode->getParent()->removeChild(m_intentedRemoveNode);
-        m_intentedRemoveNode->release();
+        // TODO: for some reasons, this will cause a crash on IOS. Will need further investigation with this!
+        //m_intentedRemoveNode->release();
     }
-    else
-    {
-        target->getParent()->removeChild(target, true);
-        target->release();
-    }
+    
 }
 
 void GTDestroySelfAct::update(float time)
