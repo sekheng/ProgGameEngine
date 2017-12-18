@@ -11,8 +11,10 @@ using namespace experimental;
 
 GTSimperMusicSys::GTSimperMusicSys()
 {
+    FileUtils *zeFileUtil = FileUtils::getInstance();
+    zeFileUtil->addSearchPath("Audio");
     // Open the text file from the text file
-    FILE *zefp = fopen("Audio/audiodata.json", "r");
+    FILE *zefp = fopen(zeFileUtil->fullPathForFilename("Audio/audiodata.json").c_str(), "r");
     // this means there can only be an array of 65536 characters!
     char zeBuffer[65536];
     FileReadStream zeIS(zefp, zeBuffer, sizeof(zeBuffer));
@@ -64,7 +66,7 @@ int GTSimperMusicSys::playSound(const std::string &_songName)
             [&, zeData, _songName, zeID](int _id, const std::string &_log) {
             m_AudioIDPlaying.erase(zeID);
             zeData->m_AllID.erase(zeID);
-            cocos2d::log("Audio finish playing {0}", _log);
+            //cocos2d::log("Audio finish playing {0}", _log);
         });
         return zeID;
     }
