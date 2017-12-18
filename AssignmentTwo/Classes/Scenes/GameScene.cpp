@@ -57,7 +57,7 @@ void GameScene::InitialisePlayer()
     GTAnimationHandlerNode* playerAnimationHandler = GTAnimationHandlerNode::create();
     //playerAnimationHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     FileUtils::getInstance()->addSearchPath("SpriteAnim");
-    playerAnimationHandler->initWithJSON_tag(FileUtils::getInstance()->fullPathForFilename("SpriteAnim/MainCharaData.json"));
+    playerAnimationHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     playerSprite->addChild(playerAnimationHandler);
 
     // Create player physics.
