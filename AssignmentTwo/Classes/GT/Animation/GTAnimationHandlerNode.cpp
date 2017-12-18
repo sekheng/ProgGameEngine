@@ -190,7 +190,7 @@ bool GTAnimationHandlerNode::insertAnimFromSPlist(const std::string &_AnimStateN
 bool GTAnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 {
 	// Will be initialized with the PList filetype
-	FILE *zefp = fopen(_JsonTag.c_str(), "r");
+	FILE *zefp = fopen(FileUtils::getInstance()->fullPathForFilename(_JsonTag).c_str(), "r");
 	// this means there can only be an array of 65536 characters!
 	char zeBuffer[65536];
 	FileReadStream zeIS(zefp, zeBuffer, sizeof(zeBuffer));
