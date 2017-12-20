@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\Scenes\StartScreenScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.cpp">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\UIClass\UICreator.h">
       <Filter>UIClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.h">
+      <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 // Include Obstacles
 #include "GTObstacle_Missile.h"
 #include "GTObstacle_Spike.h"
+#include "GTObstacle_Saw.h"
 
 // Include MK
 #include "../../../MK/Common/MKMathsHelper.h"
@@ -125,6 +126,9 @@ void GTObstacleSpawner::SpawnObstacleBatch()
             //SpawnSpike();
             SpawnMissile();
             break;
+		case GinTama::GTObstacleSpawner::SAW:
+			SpawnSaw();
+			break;
         default:
             CC_ASSERT(false);
             break;
@@ -174,5 +178,35 @@ void GTObstacleSpawner::SpawnMissile()
     m_Scene->addChild(obstacle);
     m_ObstacleList.push_back(obstacle);
 }
+
+void GTObstacleSpawner::SpawnSaw()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	gtF32 playerPositionX = m_PlayerNode->getPositionX();
+
+	// Even though we call it m_SpawnPositionX, it only applies to static obstacles.
+	// For moving obstacles such as missiles, we need to spawn it further away,
+	// such that when the player reaches the spawn position, so will the missile.
+	gtF32 playerToSpawnPositionDistance = m_SpawnPositionX - playerPositionX;
+	gtF32 secondsToSpawnPosition = playerToSpawnPositionDistance / m_PlayerVelocityX;
+
+	// We need the missile to reach m_SpawnPositionX the same time as the player.
+	gtF32 sawVelocityX = GTObstacle_Saw::GetHorizontalVelocity();
+	gtF32 sawSpawnPositionX = MKMathsHelper::Abs<gtF32>(secondsToSpawnPosition * sawVelocityX) + m_SpawnPositionX;
+	gtF32 sawSpawnPositionY = visibleSize.height * 0.5f;
+
+	if (sawSpawnPositionY > visibleSize.height * 0.8f)
+	{
+		int test = 0;
+	}
+
+	GTObstacle_Saw* obstacle = GTObstacle_Saw::Create(m_Scene);
+	obstacle->setPosition(sawSpawnPositionX, sawSpawnPositionY);
+
+	m_Scene->addChild(obstacle);
+	m_ObstacleList.push_back(obstacle);
+}
+
 
 NS_GT_END

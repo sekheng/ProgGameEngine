@@ -30,6 +30,7 @@ public:
     {
         SPIKE = 0,
         MISSILE,
+		SAW,
 
         NUM_OBSTACLETYPE,
     };
@@ -67,6 +68,9 @@ private:
 
     // Missile
     void SpawnMissile();
+
+	//Saw
+	void SpawnSaw();
 
 public:
     // Constructor(s) & Destructor
