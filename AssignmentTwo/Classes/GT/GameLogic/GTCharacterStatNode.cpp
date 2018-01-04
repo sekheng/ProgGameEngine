@@ -180,7 +180,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         case JUMPING:
             // If character is attempting to slide while jump, it will attempt to do an impulse to straight away go down
             m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
-            m_physicsNode->applyImpulse(Vec2(0, -10000.f));
+            m_physicsNode->applyImpulse(Vec2(0, -20000.f));
             m_CurrentState = SLIDE_JUMP; 
             GTSimperMusicSys::GetInstance()->playSound("Slide");
             break;
@@ -290,7 +290,7 @@ bool GTCharacterStatNode::CharJump()
     {
     case GinTama::RUNNING:
         setState(JUMPING);
-        m_physicsNode->applyImpulse(Vec2(0, 12000.f));
+        m_physicsNode->applyImpulse(Vec2(0, 30000.f));
         GTSimperMusicSys::GetInstance()->playSound("Jump");
         return true;
         break;
