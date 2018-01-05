@@ -7,6 +7,7 @@
 
 using namespace GinTama;
 USING_NS_CC;
+USING_NS_MK
 
 const static float ACCEPTABLE_VELY = 0.9f;
 
@@ -100,7 +101,19 @@ void GTCharacterStatNode::update(float delta)
             }
             break;
         }
+        switch (m_CurrentState)
+        {
+        case DEAD:
+            // just use the shortcut that Vec2 has provided
 
+            if (m_physicsNode->getVelocity() != Vec2::ANCHOR_BOTTOM_LEFT)
+            {
+                _parent->setPositionX(m_DeadPositionX);
+            }
+            break;
+        default:
+            break;
+        }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
     }
 }
@@ -189,10 +202,19 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         }
         break;
     case DEAD:
-        m_CurrentState = _whatState;
-        // if dead then stop the speed and change the transition
-        m_SpeedX = 0;
-        m_AnimHandler->transitState("Died");
+        switch (m_CurrentState)
+        {
+        case DEAD:
+            // ensure that the current state is that the player is not dead otherwise it does nothing
+            break;
+        default:
+            m_CurrentState = _whatState;
+            // if dead then stop the speed and change the transition
+            m_SpeedX = 0;
+            m_DeadPositionX = _parent->getPositionX();
+            m_AnimHandler->transitState("Died");
+            break;
+        }
         break;
     default:
         MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
@@ -250,10 +272,14 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
         return false;
     }
 
-    if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, otherPhysicsBody->getCategoryBitmask()))
+    if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, otherPhysicsBody->getCategoryBitmask()))
     {
         switch (m_CurrentState)
         {
+        case DEAD:
+            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
+            m_physicsNode->resetForces();
+            break;
         case JUMPING:
         case SLIDE_JUMP:
             m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
@@ -265,24 +291,17 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
         default:
             break;
         }
-
+        return true;
+    }
+    else if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
+    {
+        setState(DEAD);
         return true;
     }
 
     return false;
 }
 
-gtBool GTCharacterStatNode::CompareBitMask(gtU32 _lhs, gtU32 _rhs)
-{
-    gtU32 largerNum = _lhs;
-    if (largerNum < _rhs)
-        largerNum = _rhs;
-    gtU32 zeComparedMask = (_lhs | _rhs);
-    // if the bits still remains the same after that, the values are the same
-    if (zeComparedMask == largerNum)
-        return true;
-    return false;
-}
 
 bool GTCharacterStatNode::CharJump()
 {

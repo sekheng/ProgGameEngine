@@ -73,7 +73,6 @@ namespace GinTama
         * @return true
         */
         gtBool OnContactBegin(cocos2d::PhysicsContact &_contact);
-        gtBool CompareBitMask(gtU32 _lhs, gtU32 _rhs);
 
         cocos2d::PhysicsBody* m_physicsNode;
         cocos2d::PhysicsShape *m_SlidePhyShape, *m_OriginPhyShape;
@@ -82,6 +81,7 @@ namespace GinTama
         float m_SpeedX;
         float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
+        float m_DeadPositionX;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
 
