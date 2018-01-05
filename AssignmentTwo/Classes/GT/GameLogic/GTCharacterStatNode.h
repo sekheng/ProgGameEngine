@@ -16,7 +16,8 @@ namespace GinTama
         SLIDE = 0x0008,
         DASH = 0x0010,
         SLIDE_JUMP = 0x0020,
-        TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH | SLIDE_JUMP,
+        REVIVE = 0x0080,
+        TOTAL_STATE = RUNNING | JUMPING | DEAD | SLIDE | DASH | SLIDE_JUMP | REVIVE,
     };
 
 	class GTCharacterStatNode : public cocos2d::Node
@@ -50,8 +51,11 @@ namespace GinTama
 
         virtual void update(float delta);
 
-        void SetPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody);
+        void setPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody);
         void setPhysicsNode(cocos2d::PhysicsBody *_physicsBody);
+
+        void setReviveCounter(const int &_reviveTimes);
+        int getReviveCounter();
 
         /** Makes the character do the jumping if possible
         *
@@ -78,10 +82,11 @@ namespace GinTama
         cocos2d::PhysicsShape *m_SlidePhyShape, *m_OriginPhyShape;
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
-        float m_SpeedX;
+        float m_SpeedX, m_OriginalSpeedX;
         float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
         float m_DeadPositionX;
+        int m_ReviveCounter;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
 

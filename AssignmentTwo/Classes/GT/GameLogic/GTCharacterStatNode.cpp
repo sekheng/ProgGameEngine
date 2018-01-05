@@ -5,7 +5,7 @@
 #include "../../GT/Audio/GTSimperMusicSys.h"
 #include "../GameLogic/GTCollisionCategory.h"
 
-using namespace GinTama;
+USING_NS_GT
 USING_NS_CC;
 USING_NS_MK
 
@@ -23,6 +23,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_SlideCountDown(0)
     , m_AnimHandler(nullptr)
     , m_TotalDist(0)
+    , m_ReviveCounter(1)
 {
 	setTag(1);
 }
@@ -73,8 +74,7 @@ void GTCharacterStatNode::update(float delta)
                 // then we can slide back!
                 m_physicsNode->removeShape(m_SlidePhyShape, false);
                 m_physicsNode->addShape(m_OriginPhyShape, false);
-
-                SetPhysicsBitmasks(m_physicsNode);
+                setPhysicsBitmasks(m_physicsNode);
 
                 setState(RUNNING);
                 m_AnimHandler->transitState("Idle");
@@ -105,11 +105,16 @@ void GTCharacterStatNode::update(float delta)
         {
         case DEAD:
             // just use the shortcut that Vec2 has provided
-
             if (m_physicsNode->getVelocity() != Vec2::ANCHOR_BOTTOM_LEFT)
             {
                 _parent->setPositionX(m_DeadPositionX);
             }
+            //REVIVECOUNTER += delta;
+            //if (REVIVECOUNTER > 2)
+            //{
+            //    setState(REVIVE);
+            //    REVIVECOUNTER = 0;
+            //}
             break;
         default:
             break;
@@ -118,7 +123,7 @@ void GTCharacterStatNode::update(float delta)
     }
 }
 
-void GTCharacterStatNode::SetPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)
+void GTCharacterStatNode::setPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)
 {
     if (_physicsBody)
     {
@@ -143,7 +148,7 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
 
     // Then set the contact listener when it happens
-    SetPhysicsBitmasks(m_physicsNode);
+    setPhysicsBitmasks(m_physicsNode);
     InitialiseContactListener();
 }
 
@@ -216,6 +221,17 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             break;
         }
         break;
+    case REVIVE:
+        MK_ASSERTWITHMSG(m_CurrentState == DEAD, "Player shouldn't be revived when it is still not dead!");
+        if (m_ReviveCounter > 0)
+        {
+            --m_ReviveCounter;
+            m_SpeedX = m_OriginalSpeedX;
+            m_CurrentState = RUNNING;
+            // then set the animation to normal
+            m_AnimHandler->transitState("Idle");
+        }
+        break;
     default:
         MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
         break;
@@ -236,6 +252,7 @@ float GTCharacterStatNode::getSpeedX()
 void GTCharacterStatNode::setSpeedX(const float &_speed)
 {
     m_SpeedX = _speed;
+    m_OriginalSpeedX = _speed;
 }
 
 void GTCharacterStatNode::adjustSpeedX(const float &_value)
@@ -328,4 +345,15 @@ gtU32 GTCharacterStatNode::getConvertedDistWalk()
 {
     // dont know what to convert this to for now
     return m_TotalDist * 100.f;
+}
+
+void GTCharacterStatNode::setReviveCounter(const int &_reviveTimes)
+{
+    MK_ASSERTWITHMSG(_reviveTimes < 0, "Revive times cannot be less than 0!");
+    m_ReviveCounter = _reviveTimes;
+}
+
+int GTCharacterStatNode::getReviveCounter()
+{
+    return m_ReviveCounter;
 }
