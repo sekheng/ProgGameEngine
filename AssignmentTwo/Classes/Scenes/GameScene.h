@@ -38,7 +38,9 @@ private:
 	void InitialiseGround();
 	void InitialiseBackgrounds();
 	void ScrollBackgrounds(float _deltaTime);
+	void InitialiseUI();
     void InitialiseText();
+
 
     // Obstacles
     GTObstacleSpawner* m_ObstacleSpawner = nullptr;

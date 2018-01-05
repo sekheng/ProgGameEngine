@@ -7,5 +7,7 @@
 #include "StartScreenScene.h"
 #include "MainMenuScene.h"
 #include "SettingsScene.h"
+#include "PauseScene.h"
+#include "GameOverScene.h"
 
 #endif
