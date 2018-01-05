@@ -14,9 +14,7 @@ class GTObstacle_Saw : public GTObstacleNode
 
 private:
 	MKSprite* m_Saw = NULL;
-	gtU32 numberOfTicks = 0;
-	gtF32 sinAngle = 0;
-	gtF32 sawSpawnPositionY;
+    gtF32 m_RotationSpeed = 720.0f;
 
 protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
@@ -25,12 +23,7 @@ public:
 	// Sprite
 	static const mkString m_SawSpriteFile;
 
-	// Others
-	static const gtF32 m_WarningDuration;
-
 	static GTObstacle_Saw* Create(MKScene* _scene);
-	static gtF32 GetHorizontalVelocity();
-	static MKSprite* CreateSawWarning();
 
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Saw);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Saw);
@@ -43,9 +36,7 @@ CC_CONSTRUCTOR_ACCESS:
 		DeinitialiseContactListener();
 	}
 
-	virtual bool init() override;
-	virtual void update(mkF32 _deltaTime) override;
-
+	virtual gtBool init() override;
 };
 
 NS_GT_END

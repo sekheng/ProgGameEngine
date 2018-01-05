@@ -137,9 +137,6 @@
     <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h">
       <Filter>GT\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParent.h">
-      <Filter>GT\Actions</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\Actions\GTScaleUpAndDownAction.h">
       <Filter>GT\Actions</Filter>
     </ClInclude>
@@ -256,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.h">
       <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTMoveBySinAction.h">
+      <Filter>GT\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParentAction.h">
+      <Filter>GT\Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

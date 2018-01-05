@@ -1,6 +1,7 @@
 // Include GT
 #include "GTObstacle_Saw.h"
 #include "../../../GT/Animation/GTAnimationHandlerNode.h"
+#include "../../Actions/GTMoveBySinAction.h"
 
 // Include STL
 #include <string>
@@ -42,7 +43,7 @@ gtBool GTObstacle_Saw::init()
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	// Create the PhysicsBody.
-	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(Size(m_Saw->getContentSize().width, m_Saw->getContentSize().height));
+	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(m_Saw->getContentSize().height * 0.5f);
 	physicsBody->setDynamic(true);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
@@ -51,17 +52,13 @@ gtBool GTObstacle_Saw::init()
 	this->setPhysicsBody(physicsBody);
 	InitialiseContactListener();
 
-	gtF32 desiredObstacleScale = (visibleSize.height * 0.15f) / this->getContentSize().height;
+	gtF32 desiredObstacleScale = (visibleSize.height * 0.2f) / this->getContentSize().height;
 	this->setScale(desiredObstacleScale, desiredObstacleScale);
 
-	// Run actions
-	gtF32 horizontalVelocity = GetHorizontalVelocity();
-	auto moveBy = MoveBy::create(1.0f, Vec2(horizontalVelocity, sin(sinAngle)));
-	//auto moveBy = MoveTo::create(1.0f, Vec2(0.0f, 0.0f));
-	//auto sineMovement = EaseSineInOut::create(moveBy);
-	this->runAction(RepeatForever::create(moveBy));
-
-	sawSpawnPositionY = visibleSize.height * 0.5f;
+    // Run actions
+    auto moveAction = GTMoveBySinAction::Create(8.0f, 0.0f, visibleSize.height * 0.5f);
+    auto rotateAction = RotateBy::create(moveAction->getDuration(), m_RotationSpeed * moveAction->getDuration());
+    this->runAction(RepeatForever::create(Spawn::createWithTwoActions(moveAction, rotateAction)));
 
 	return true;
 }
@@ -90,25 +87,10 @@ gtBool GTObstacle_Saw::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
-	// Stop everything. The only reason we are not deleting instantly is so that
-	// the smoke can finish their animation.
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
-	this->removeChild(m_Saw, false);
-	m_Saw = NULL;
 
 	return true;
-}
-
-gtF32 GTObstacle_Saw::GetHorizontalVelocity()
-{
-	return -Director::getInstance()->getVisibleSize().height * 0.5f;
-}
-
-void GTObstacle_Saw::update(mkF32 _deltaTime)
-{
-	sinAngle += _deltaTime * MKMathsHelper::TWO_PI * 0.5f;
-	this->setPositionY(sawSpawnPositionY + (150.0 * sin(3.0 * sinAngle)));
 }
 
 NS_GT_END

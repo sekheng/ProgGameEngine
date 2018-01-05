@@ -37,7 +37,7 @@ void GTObstacleSpawner::Reset()
 
 gtF32 GTObstacleSpawner::CalculateObstacleInterval() const
 {
-    return Director::getInstance()->getVisibleSize().height * 0.5f;
+    return Director::getInstance()->getVisibleSize().height;
 
     gtF32 denominatorSquareRoot = m_DifficultyMultiplier * (gtF32)m_ObstaclesSpawned;
     gtF32 result = 1.0f / (denominatorSquareRoot * denominatorSquareRoot) * m_MaxObstacleInterval;
@@ -120,11 +120,12 @@ void GTObstacleSpawner::SpawnObstacleBatch()
         switch (obstacleType)
         {
         case GinTama::GTObstacleSpawner::MISSILE:
-            SpawnMissile();
+            SpawnSaw();
+            //SpawnMissile();
             break;
         case GinTama::GTObstacleSpawner::SPIKE:
+            SpawnSaw();
             //SpawnSpike();
-            SpawnMissile();
             break;
 		case GinTama::GTObstacleSpawner::SAW:
 			SpawnSaw();
@@ -181,32 +182,13 @@ void GTObstacleSpawner::SpawnMissile()
 
 void GTObstacleSpawner::SpawnSaw()
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	gtF32 playerPositionX = m_PlayerNode->getPositionX();
+    GTObstacle_Saw* obstacle = GTObstacle_Saw::Create(m_Scene);
+    obstacle->setPosition(m_SpawnPositionX, visibleSize.height * 0.5f);
 
-	// Even though we call it m_SpawnPositionX, it only applies to static obstacles.
-	// For moving obstacles such as missiles, we need to spawn it further away,
-	// such that when the player reaches the spawn position, so will the missile.
-	gtF32 playerToSpawnPositionDistance = m_SpawnPositionX - playerPositionX;
-	gtF32 secondsToSpawnPosition = playerToSpawnPositionDistance / m_PlayerVelocityX;
-
-	// We need the missile to reach m_SpawnPositionX the same time as the player.
-	gtF32 sawVelocityX = GTObstacle_Saw::GetHorizontalVelocity();
-	gtF32 sawSpawnPositionX = MKMathsHelper::Abs<gtF32>(secondsToSpawnPosition * sawVelocityX) + m_SpawnPositionX;
-	gtF32 sawSpawnPositionY = visibleSize.height * 0.5f;
-
-	if (sawSpawnPositionY > visibleSize.height * 0.8f)
-	{
-		int test = 0;
-	}
-
-	GTObstacle_Saw* obstacle = GTObstacle_Saw::Create(m_Scene);
-	obstacle->setPosition(sawSpawnPositionX, sawSpawnPositionY);
-
-	m_Scene->addChild(obstacle);
-	m_ObstacleList.push_back(obstacle);
+    m_Scene->addChild(obstacle);
+    m_ObstacleList.push_back(obstacle);
 }
-
 
 NS_GT_END

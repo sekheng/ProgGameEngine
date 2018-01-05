@@ -81,7 +81,6 @@ CC_CONSTRUCTOR_ACCESS:
 
         return true;
     }
-
 };
 
 NS_GT_END

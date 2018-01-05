@@ -4,7 +4,7 @@
 // Include GT
 #include "GTObstacleNode.h"
 #include "../../../GT/Audio/GTSimperMusicSys.h"
-#include "../../../GT/Actions/GTRemoveFromParent.h"
+#include "../../../GT/Actions/GTRemoveFromParentAction.h"
 #include "../../../GT/Actions/GTScaleUpAndDownAction.h"
 #include "../../../GT/Actions/GTPlaySoundAction.h"
 
@@ -61,7 +61,7 @@ CC_CONSTRUCTOR_ACCESS:
         }
     }
 
-    virtual bool init() override;
+    virtual gtBool init() override;
     virtual void update(mkF32 _deltaTime) override;
 
 };
