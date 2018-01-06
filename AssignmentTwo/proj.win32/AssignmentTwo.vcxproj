@@ -156,6 +156,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\Audio\GTSimperMusicSys.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\GTCharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.cpp" />
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Laser.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.cpp" />
@@ -179,6 +180,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\GT\Actions\GTFollowNodeAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTMoveBySinAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParentAction.h" />
@@ -193,6 +195,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleMacros.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.h" />
+    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Laser.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.h" />

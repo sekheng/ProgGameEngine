@@ -31,6 +31,7 @@ public:
         SPIKE = 0,
         MISSILE,
 		SAW,
+        LASER,
 
         NUM_OBSTACLETYPE,
     };
@@ -62,15 +63,12 @@ private:
 
     void DespawnAllObstacles();
     void DespawnOutOfScreenObstacles();
-
-    // Spike
+    
+    // Obstacle Spawning
     void SpawnSpike();
-
-    // Missile
     void SpawnMissile();
-
-	//Saw
 	void SpawnSaw();
+    void SpawnLaser();
 
 public:
     // Constructor(s) & Destructor

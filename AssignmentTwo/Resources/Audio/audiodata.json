@@ -28,7 +28,7 @@
 	  {
 		"location":"Audio/Obstacle/Missile/Missile_Warning.mp3",
 		 "NameID":"Missile_Warning",
-		 "volume":1.0,
+		 "volume":0.5,
 		 "loop":false
 	  },
 	  {
@@ -42,6 +42,37 @@
 		 "NameID":"Missile_Explosion",
 		 "volume":1.0,
 		 "loop":false
+	  },
+	  {
+		"location":"Audio/Obstacle/Laser/Laser_Charging.mp3",
+		 "NameID":"Laser_Charging",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
+		"location":"Audio/Obstacle/Laser/Laser_Shooting.mp3",
+		 "NameID":"Laser_Shooting",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
+		"location":"Audio/Obstacle/Saw/Saw_Spinning.mp3",
+		 "NameID":"Saw_Spinning",
+		 "volume":1.0,
+		 "loop":true
+	  },
+	  {
+		"location":"Audio/Obstacle/Saw/Saw_Hit.mp3",
+		 "NameID":"Saw_Hit",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
+		"location":"Audio/Obstacle/Spike/Spike_Hit.mp3",
+		 "NameID":"Spike_Hit",
+		 "volume":1.0,
+		 "loop":false
 	  }
+	  
   ]
 }

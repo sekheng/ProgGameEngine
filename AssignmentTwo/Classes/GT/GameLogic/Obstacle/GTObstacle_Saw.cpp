@@ -11,6 +11,10 @@ NS_GT_BEGIN
 // Sprite
 const mkString GTObstacle_Saw::m_SawSpriteFile = "Textures/Gameplay/Obstacle/Saw/Saw.png";
 
+// Audio
+const mkString GTObstacle_Saw::m_SawSpinningSoundName = "Saw_Spinning";
+const mkString GTObstacle_Saw::m_SawHitSoundName = "Saw_Hit";
+
 GTObstacle_Saw* GTObstacle_Saw::Create(MKScene* _scene)
 {
 	GTObstacle_Saw* obstacle = new (std::nothrow) GTObstacle_Saw(_scene);
@@ -90,7 +94,27 @@ gtBool GTObstacle_Saw::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 
+    // Play Saw Hit Audio
+    GTSimperMusicSys::GetInstance()->playSound(m_SawHitSoundName);
+
 	return true;
+}
+
+void GTObstacle_Saw::update(gtF32 _deltaTime)
+{
+    // Play the saw audio when on screen
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    //gtF32 screenLeft = GetScene()->getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f;
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    if (m_SawSpinningSoundID == GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+    {
+        if (obstacleLeft < screenRight)
+        {
+            m_SawSpinningSoundID = GTSimperMusicSys::GetInstance()->playSound(m_SawSpinningSoundName);
+        }
+    }
 }
 
 NS_GT_END

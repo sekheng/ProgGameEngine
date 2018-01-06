@@ -3,6 +3,7 @@
 
 // Include GT
 #include "GTObstacleNode.h"
+#include "../../../GT/Audio/GTSimperMusicSys.h"
 
 USING_NS_MK
 
@@ -12,16 +13,20 @@ class GTObstacle_Saw : public GTObstacleNode
 {
 	typedef GTObstacleNode Super;
 
-private:
+protected:
 	MKSprite* m_Saw = NULL;
     gtF32 m_RotationSpeed = 720.0f;
+    gtS32 m_SawSpinningSoundID = GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND;
 
-protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
 	// Sprite
 	static const mkString m_SawSpriteFile;
+
+    // Audio
+    static const mkString m_SawSpinningSoundName;
+    static const mkString m_SawHitSoundName;
 
 	static GTObstacle_Saw* Create(MKScene* _scene);
 
@@ -34,8 +39,13 @@ CC_CONSTRUCTOR_ACCESS:
 	virtual ~GTObstacle_Saw()
 	{
 		DeinitialiseContactListener();
+        if (m_SawSpinningSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+        {
+            GTSimperMusicSys::GetInstance()->stopSound(m_SawSpinningSoundID);
+        }
 	}
 
+    virtual void update(gtF32 _deltaTime) override;
 	virtual gtBool init() override;
 };
 

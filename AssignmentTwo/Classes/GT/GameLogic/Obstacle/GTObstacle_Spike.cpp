@@ -1,11 +1,15 @@
 // Include GT
 #include "GTObstacle_Spike.h"
 #include "../../../GT/Animation/GTAnimationHandlerNode.h"
+#include "../../../GT/Audio/GTSimperMusicSys.h"
 
 // Include STL
 #include <string>
 
 NS_GT_BEGIN
+
+// Audio
+const mkString GTObstacle_Spike::m_SawHitSoundName = "Spike_Hit";
 
 // Sprite
 const mkString GTObstacle_Spike::m_SpikeSpriteFile = "Textures/Gameplay/Obstacle/Spikes/SpikesSingle.png";
@@ -83,6 +87,8 @@ gtBool GTObstacle_Spike::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	// Stop everything. The only reason we are not deleting instantly is so that
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
+
+    GTSimperMusicSys::GetInstance()->playSound(m_SawHitSoundName);
 
 	return true;
 }

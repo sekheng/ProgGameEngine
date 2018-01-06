@@ -12,11 +12,12 @@ const mkString GTObstacle_Missile::m_MissileSpriteFile = "Textures/Gameplay/Obst
 const mkString GTObstacle_Missile::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.plist";
 const mkString GTObstacle_Missile::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Missile/Explosion/Explosion.json";
 const mkString GTObstacle_Missile::m_ExplosionSpriteFrameName = "Explosion_0.png";
+const mkString GTObstacle_Missile::m_ExplosionTransitState = "None";
+const mkString GTObstacle_Missile::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
 
 // Audio
 const mkString GTObstacle_Missile::m_MissileFlightSoundName = "Missile_Flight";
 const mkString GTObstacle_Missile::m_MissileExplosionSoundName = "Missile_Explosion";
-const mkString GTObstacle_Missile::m_MissileWarningSpriteFile = "Textures/Gameplay/Obstacle/Missile/Missile_Warning.png";
 const mkString GTObstacle_Missile::m_MissileWarningSoundName = "Missile_Warning";
 
 // Others
@@ -132,9 +133,9 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
     explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
 
-    GTAnimationHandlerNode* _explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
-    _explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
-    _explosionAnimation->transitState("None");
+    GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+    explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+    explosionAnimation->transitState(m_ExplosionTransitState);
 
     explosionSprite->setPosition(this->getPosition());
     GetScene()->addChild(explosionSprite);
@@ -163,7 +164,7 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning()
     return warning;
 }
 
-void GTObstacle_Missile::update(mkF32 _deltaTime)
+void GTObstacle_Missile::update(gtF32 _deltaTime)
 {
     // Play the rocket audio when on screen
     Size visibleSize = Director::getInstance()->getVisibleSize();

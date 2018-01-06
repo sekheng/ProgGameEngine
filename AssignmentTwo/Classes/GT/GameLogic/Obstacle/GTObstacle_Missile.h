@@ -16,13 +16,12 @@ class GTObstacle_Missile : public GTObstacleNode
 {
     typedef GTObstacleNode Super;
 
-private:
+protected:
     MKSprite* m_Missile = NULL;
     CCParticleSmoke* m_ParticleSmoke = NULL;
     gtS32 m_MissileFlightSoundID = GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND;
     gtBool m_SpawnedWarning = false;
 
-protected:
     virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
@@ -31,12 +30,12 @@ public:
     static const mkString m_ExplosionPListFile;
     static const mkString m_ExplosionJSONFile;
     static const mkString m_ExplosionSpriteFrameName;
+    static const mkString m_ExplosionTransitState;
+    static const mkString m_MissileWarningSpriteFile;
 
     // Audio
     static const mkString m_MissileFlightSoundName;
     static const mkString m_MissileExplosionSoundName;
-
-    static const mkString m_MissileWarningSpriteFile;
     static const mkString m_MissileWarningSoundName;
 
     // Others
@@ -62,7 +61,7 @@ CC_CONSTRUCTOR_ACCESS:
     }
 
     virtual gtBool init() override;
-    virtual void update(mkF32 _deltaTime) override;
+    virtual void update(gtF32 _deltaTime) override;
 
 };
 

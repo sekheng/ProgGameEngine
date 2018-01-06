@@ -5,6 +5,7 @@
 #include "GTObstacle_Missile.h"
 #include "GTObstacle_Spike.h"
 #include "GTObstacle_Saw.h"
+#include "GTObstacle_Laser.h"
 
 // Include MK
 #include "../../../MK/Common/MKMathsHelper.h"
@@ -120,16 +121,17 @@ void GTObstacleSpawner::SpawnObstacleBatch()
         switch (obstacleType)
         {
         case GinTama::GTObstacleSpawner::MISSILE:
-            SpawnSaw();
-            //SpawnMissile();
+            SpawnMissile();
             break;
         case GinTama::GTObstacleSpawner::SPIKE:
-            SpawnSaw();
-            //SpawnSpike();
+            SpawnSpike();
             break;
 		case GinTama::GTObstacleSpawner::SAW:
 			SpawnSaw();
 			break;
+        case GinTama::GTObstacleSpawner::LASER:
+            SpawnLaser();
+            break;
         default:
             CC_ASSERT(false);
             break;
@@ -186,6 +188,17 @@ void GTObstacleSpawner::SpawnSaw()
 
     GTObstacle_Saw* obstacle = GTObstacle_Saw::Create(m_Scene);
     obstacle->setPosition(m_SpawnPositionX, visibleSize.height * 0.5f);
+
+    m_Scene->addChild(obstacle);
+    m_ObstacleList.push_back(obstacle);
+}
+
+void GTObstacleSpawner::SpawnLaser()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    GTObstacle_Laser* obstacle = GTObstacle_Laser::Create(m_Scene);
+    obstacle->setPosition(m_SpawnPositionX, visibleSize.height);
 
     m_Scene->addChild(obstacle);
     m_ObstacleList.push_back(obstacle);

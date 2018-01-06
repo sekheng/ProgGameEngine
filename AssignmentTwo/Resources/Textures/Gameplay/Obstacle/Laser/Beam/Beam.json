@@ -1,0 +1,46 @@
+{  
+
+   "AnimationLoading":[  
+      {
+         "StateName":"Beam",
+         "FPS" : 0.01,
+         "loop" : 1,
+         "SpriteReference":[
+            "Beam_0.png",
+            "Beam_1.png",
+			"Beam_2.png",
+			"Beam_3.png",
+			"Beam_4.png",
+            "Beam_5.png",
+            "Beam_6.png",
+			"Beam_7.png",
+			"Beam_7.png",
+			"Beam_7.png",
+			"Beam_7.png",
+			"Beam_7.png",
+			"Beam_7.png",
+			"Beam_6.png",
+			"Beam_5.png",
+			"Beam_4.png",
+			"Beam_3.png",
+			"Beam_2.png",
+			"Beam_1.png",
+			"Beam_0.png"
+         ]
+      }
+   ],
+
+   "AnimationTransition":[
+      {
+         "TransitName" : "None",
+         "TransitCondition" : "",
+         "ActionSequence" : [  
+            {  
+               "ActionName" : "AnimTrans",
+               "ActionValue" : "Beam"
+            }
+         ]
+      }
+   ]
+   
+}

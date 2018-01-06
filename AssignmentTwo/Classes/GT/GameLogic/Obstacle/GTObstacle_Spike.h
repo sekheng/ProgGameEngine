@@ -12,7 +12,7 @@ class GTObstacle_Spike : public GTObstacleNode
 {
 	typedef GTObstacleNode Super;
 
-private:
+protected:
 	// Sprite
 	static const mkString m_SpikeSpriteFile;
 	static const mkString m_ExplosionPListFile;
@@ -22,10 +22,12 @@ private:
 	MKSprite* m_Spike = NULL;
 	gtU32 m_NumberOfSpikes = 3;
 
-protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
+    // Audio
+    static const mkString m_SawHitSoundName;
+
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Spike);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Spike);
 
