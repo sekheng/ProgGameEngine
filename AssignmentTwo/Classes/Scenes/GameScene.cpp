@@ -10,6 +10,7 @@
 #include "../GT/Audio/GTSimperMusicSys.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
+#include "../GT/GameLogic/Powerup/GTInvulnerablePowerUp.h"
 
 using namespace GinTama;
 
@@ -36,6 +37,8 @@ bool GameScene::initWithPhysics()
 
     // Create Obstacle Spawner
     InitialiseObstacles();
+
+    GTInvulverablePowerUp::create(this);
 
 	return true;
 }
