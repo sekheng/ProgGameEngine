@@ -52,6 +52,9 @@
     <Filter Include="UIClass">
       <UniqueIdentifier>{6dd304cf-c8e2-475a-b95e-504b63251e37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GT\GameLogic\PowerUp">
+      <UniqueIdentifier>{291b1666-1e21-4e8c-8756-3ed213c47ed4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.cpp">
+      <Filter>GT\GameLogic\PowerUp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.h">
+      <Filter>GT\GameLogic\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUp.h">
+      <Filter>GT\GameLogic\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
