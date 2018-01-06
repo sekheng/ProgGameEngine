@@ -335,35 +335,68 @@ void GameScene::ClearGameOverUI()
 void GameScene::OnButton(EventCustom * _event)
 {
     MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
-    switch (buttonEvent->m_ButtonState)
-    {
-    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+    if (buttonEvent->m_ButtonState == MinamiKotori::MKInputButton::ButtonState::PRESS)
     {
         switch (buttonEvent->m_InputName)
         {
         case MinamiKotori::MKInputName::JUMP:
-        {
             m_CharaStatNode->CharJump();
-        }
-        break;
+            break;
         case MKInputName::SLIDE:
             m_CharaStatNode->setState(CHARACTER_STATE::SLIDE);
-            break;
-        case MKInputName::SMASH:
-            //charaStat->setState(CHARACTER_STATE::DASH);
             break;
         default:
             break;
         }
-        break;
-    }
-    default:
-        break;
     }
 }
 
 void GameScene::OnClick(EventCustom * _event)
 {
+    MKInputClick* clickEvent = static_cast<MKInputClick*>(_event->getUserData());
+
+    switch (clickEvent->m_ButtonState)
+    {
+    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+        m_ClickStartPosition[clickEvent->m_InputName] = clickEvent->m_CursorPosition;
+        break;
+    case MinamiKotori::MKInputButton::ButtonState::HOLD:
+        m_ClickCurrentPosition[clickEvent->m_InputName] = clickEvent->m_CursorPosition;
+        break;
+    case MinamiKotori::MKInputButton::ButtonState::RELEASE:
+        m_ClickStartPosition[clickEvent->m_InputName].Set(0.0f, 0.0f);
+        m_ClickCurrentPosition[clickEvent->m_InputName].Set(0.0f, 0.0f);
+        break;
+    default:
+        break;
+    }
+
+    // Ensure that the delta movement of the click is greater than the deadZone.
+    mkF32 deadZone = 0.2f;
+    // We only care about the vertical movement.
+    mkF32 movementDelta = m_ClickCurrentPosition[clickEvent->m_InputName].GetY() - m_ClickStartPosition[clickEvent->m_InputName].GetY();
+    if (MKMathsHelper::Abs(movementDelta) < 0.2f)
+    {
+        return;
+    }
+
+    switch (clickEvent->m_InputName)
+    {
+    case MinamiKotori::MKInputName::JUMP:
+        if (movementDelta > 0.0f)
+        {
+            m_CharaStatNode->CharJump();
+        }
+        break;
+    case MinamiKotori::MKInputName::SLIDE:
+        if (movementDelta < 0.0f)
+        {
+            m_CharaStatNode->setState(CHARACTER_STATE::SLIDE);
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void GameScene::OnAxis(EventCustom * _event)

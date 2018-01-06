@@ -28,18 +28,18 @@ private:
     // Input Callbacks
     MK_INITIALISEINPUT(StartScreenScene);
     MK_DEINITIALISEINPUT(StartScreenScene);
-    virtual void OnButton(EventCustom * _event);
+    virtual void OnButton(EventCustom * _event) {}
     virtual void OnClick(EventCustom * _event);
-    virtual void OnAxis(EventCustom * _event);
+    virtual void OnAxis(EventCustom * _event) {}
 
-    void Deinitialise();
+    void Deinitialise() { DeinitialiseInput(); }
 
 public:
     StartScreenScene() {}
     virtual ~StartScreenScene() {}
 
     virtual bool init();
-    virtual void update(float _deltaTime) override;
+    virtual void update(float _deltaTime) override {}
 
     CREATE_FUNC(StartScreenScene);
 };

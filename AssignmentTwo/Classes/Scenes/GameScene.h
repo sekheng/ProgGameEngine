@@ -42,6 +42,9 @@ private:
     Node* m_PlayerNode;
     GTCharacterStatNode *m_CharaStatNode = nullptr;
 
+    MKCursorPosition m_ClickStartPosition[NUM_INPUTNAME];
+    MKCursorPosition m_ClickCurrentPosition[NUM_INPUTNAME];
+
     // Initialisation
     void InitialisePlayer();
 	void InitialiseGround();

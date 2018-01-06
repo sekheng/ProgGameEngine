@@ -17,10 +17,10 @@ NS_MK_BEGIN
 class MKInputDefinition
 {
 public:
-	//typedef void(*HandlerRegisterFunction)(mkU64 _mask, MKInputName _inputName);
-	//typedef void(*HandlerUnregisterFunction)(mkU64 _mask, MKInputName _inputName);
 	typedef std::function<void(MKPasskey<MKInputDefinition>, mkU64 _mask, MKInputName _inputName)> HandlerRegisterFunction;
 	typedef std::function<void(MKPasskey<MKInputDefinition>, mkU64 _mask, MKInputName _inputName)> HandlerUnregisterFunction;
+
+    static const mkU32 MAX_INPUTS_PER_DEFINITION = 3;
 
 private:
 	struct InputRegisterData
@@ -31,7 +31,7 @@ private:
 	};
 
 	const MKInputName m_InputName;
-	InputRegisterData* m_InputRegisterData[2] = { nullptr, nullptr };
+	InputRegisterData* m_InputRegisterData[MAX_INPUTS_PER_DEFINITION] = { nullptr, nullptr, nullptr };
 
 	void Register(const HandlerRegisterFunction& _registerFunction, const HandlerUnregisterFunction& _unregisterFunction, mkU64 _mask, mkU32 _index);
 	void Unregister(mkU32 _index);
@@ -49,8 +49,10 @@ public:
 
 	void Register1(const HandlerRegisterFunction& _registerFunction, const HandlerUnregisterFunction& _unregisterFunction, mkU64 _mask) { Register(_registerFunction, _unregisterFunction, _mask, 0); }
 	void Register2(const HandlerRegisterFunction& _registerFunction, const HandlerUnregisterFunction& _unregisterFunction, mkU64 _mask) { Register(_registerFunction, _unregisterFunction, _mask, 1); }
+    void Register3(const HandlerRegisterFunction& _registerFunction, const HandlerUnregisterFunction& _unregisterFunction, mkU64 _mask) { Register(_registerFunction, _unregisterFunction, _mask, 2); }
 	void Unregister1() { Unregister(0); }
 	void Unregister2() { Unregister(1); }
+    void Unregister3() { Unregister(2); }
 
 };
 

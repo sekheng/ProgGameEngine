@@ -9,7 +9,6 @@ enum MKInputName
 {
 	JUMP = 0,
 	SLIDE,
-	SMASH,
 
 	NUM_INPUTNAME,
 };

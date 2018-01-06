@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __SETTINGS_SCENE_H__
 #define __SETTINGS_SCENE_H__
 
@@ -16,28 +15,20 @@ USING_NS_MK
 
 class SettingsScene : public MKScene
 {
-private:
-	Label* m_InputLabel = nullptr;
-
-	float m_SceneChangeCounter = 3.0f;
+    typedef MKScene Super;
 
 public:
-	SettingsScene();
-	virtual ~SettingsScene();
+    SettingsScene() {}
+    virtual ~SettingsScene() {}
 
 	virtual bool init();
-	virtual void update(float _deltaTime) override;
 
-	void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
-
-	// Sek Heng here trying to do branching.
+    void OnButton(EventCustom * _event) {}
+    void OnClick(EventCustom * _event) {}
+    void OnAxis(EventCustom * _event) {}
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(SettingsScene);
-    MK_INITIALISEINPUT(SettingsScene);
-    MK_DEINITIALISEINPUT(SettingsScene);
 };
 
-#endif // __MENU_SCENE_H__
+#endif // __SETTINGS_SCENE_H__

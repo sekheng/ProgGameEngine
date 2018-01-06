@@ -16,21 +16,21 @@ USING_NS_MK
 
 class MainMenuScene : public MKScene
 {
+    typedef MKScene Super;
+
 private:
-	Label* m_InputLabel = nullptr;
 	MKSprite* m_SkyBackground = nullptr;
 
 	void InitialiseSkyBackground();
 
-	void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
+    void OnButton(EventCustom * _event) {}
+    void OnClick(EventCustom * _event) {}
+    void OnAxis(EventCustom * _event) {}
 public:
-	MainMenuScene();
-	virtual ~MainMenuScene();
+    MainMenuScene() {}
+    virtual ~MainMenuScene() {}
 
     virtual bool init();
-    virtual void update(float _deltaTime) override;
 
     // a selector callback	
     void menuCloseCallback(cocos2d::Ref* pSender);

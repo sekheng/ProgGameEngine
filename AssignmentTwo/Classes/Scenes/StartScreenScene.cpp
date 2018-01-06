@@ -3,10 +3,7 @@
 
 bool StartScreenScene::init()
 {
-    if (!Super::init())
-    {
-        return false;
-    }
+    if (!Super::init()) { return false; }
 
     InitialiseSkyBackground();
     InitialiseLogo();
@@ -69,14 +66,6 @@ void StartScreenScene::InitialiseSkyBackground()
     addChild(m_SkyBackground);
 }
 
-void StartScreenScene::update(float _deltaTime)
-{
-}
-
-void StartScreenScene::OnButton(EventCustom * _event)
-{
-}
-
 void StartScreenScene::OnClick(EventCustom * _event)
 {
     MKInputClick* input = static_cast<MKInputClick*>(_event->getUserData());
@@ -86,13 +75,4 @@ void StartScreenScene::OnClick(EventCustom * _event)
         Deinitialise();
         MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
     }
-}
-
-void StartScreenScene::OnAxis(EventCustom * _event)
-{
-}
-
-void StartScreenScene::Deinitialise()
-{
-    DeinitialiseInput();
 }

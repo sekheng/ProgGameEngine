@@ -18,13 +18,13 @@ NS_MK_BEGIN
 class MKInputBase
 {
 protected:
-	MKInputBase(MKInputName _inputName, MKInputContext _context)
-		: m_InputName(_inputName), m_Context(_context) {}
+	MKInputBase(MKInputName _inputName, MKInputContext _contextDuringInput)
+		: m_InputName(_inputName), m_ContextDuringInput(_contextDuringInput) {}
 	virtual ~MKInputBase() {}
 
 public:
 	const MKInputName m_InputName;
-	const MKInputContext m_Context; // The current context when this Input was created.
+	const MKInputContext m_ContextDuringInput; // The current context when this Input was created.
 
 };
 
@@ -40,8 +40,8 @@ public:
 
 	const mkF32 m_AxisValue;
 
-	MKInputAxis(MKInputName _inputName, MKInputContext _context, mkF32 _axisValue)
-		: MKInputBase(_inputName, _context), m_AxisValue(_axisValue) {}
+	MKInputAxis(MKInputName _inputName, MKInputContext _contextDuringInput, mkF32 _axisValue)
+		: MKInputBase(_inputName, _contextDuringInput), m_AxisValue(_axisValue) {}
 	virtual ~MKInputAxis() {}
 	
 	static std::string GetName()
@@ -65,8 +65,8 @@ public:
 	
 	const ButtonState m_ButtonState;
 
-	MKInputButton(MKInputName _inputName, MKInputContext _context, ButtonState _buttonState)
-		: MKInputBase(_inputName, _context), m_ButtonState(_buttonState) {}
+	MKInputButton(MKInputName _inputName, MKInputContext _contextDuringInput, ButtonState _buttonState)
+		: MKInputBase(_inputName, _contextDuringInput), m_ButtonState(_buttonState) {}
 	virtual ~MKInputButton() {}
 	
 	static std::string GetName()
@@ -78,9 +78,10 @@ public:
 
 struct MKCursorPosition
 {
-public:
-	mkF32 m_X, m_Y;
+private:
+    mkF32 m_X, m_Y;
 
+public:
 	MKCursorPosition(mkF32 _x = 0, mkF32 _y = 0) { Set(_x, _y); }
 	MKCursorPosition(const MKCursorPosition& _other) { Set(_other.m_X, _other.m_Y); }
 	~MKCursorPosition() {}
@@ -97,8 +98,8 @@ class MKInputClick : public MKInputButton
 public:
 	const MKCursorPosition m_CursorPosition;
 
-	MKInputClick(MKInputName _inputName, MKInputContext _context, ButtonState _buttonState, const MKCursorPosition& _cursorPosition)
-		: MKInputButton(_inputName, _context, _buttonState), m_CursorPosition(_cursorPosition) {}
+	MKInputClick(MKInputName _inputName, MKInputContext _contextDuringInput, ButtonState _buttonState, const MKCursorPosition& _cursorPosition)
+		: MKInputButton(_inputName, _contextDuringInput, _buttonState), m_CursorPosition(_cursorPosition) {}
 	virtual ~MKInputClick() {}
 	
 	static std::string GetName()
