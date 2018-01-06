@@ -19,7 +19,7 @@ class GameOverScene : public MKScene
 private:
 	Label* m_InputLabel = nullptr;
 
-	float m_SceneChangeCounter = 3.0f;
+    float m_TimeCounter = 0.0f;
 
 public:
 	GameOverScene();
@@ -28,7 +28,7 @@ public:
 	virtual bool init();
 	virtual void update(float _deltaTime) override;
 
-	void InitializePlayerHighScoreUI();
+	void InitializeLoadingUI();
 	void InitializeGameOverMenuButtons();
 
 	void OnButton(EventCustom * _event);
@@ -37,8 +37,6 @@ public:
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameOverScene);
-	MK_INITIALISEINPUT(GameOverScene);
-	MK_DEINITIALISEINPUT(GameOverScene);
 };
 
 #endif // __MENU_SCENE_H__#pragma once

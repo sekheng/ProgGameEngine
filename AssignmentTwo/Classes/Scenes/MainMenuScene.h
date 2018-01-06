@@ -20,17 +20,11 @@ private:
 	Label* m_InputLabel = nullptr;
 	MKSprite* m_SkyBackground = nullptr;
 
-	float m_SceneChangeCounter = 3.0f;
-
 	void InitialiseSkyBackground();
 
 	void OnButton(EventCustom * _event);
 	void OnClick(EventCustom * _event);
 	void OnAxis(EventCustom * _event);
-
-	MK_INITIALISEINPUT(MainMenuScene);
-	MK_DEINITIALISEINPUT(MainMenuScene);
-
 public:
 	MainMenuScene();
 	virtual ~MainMenuScene();

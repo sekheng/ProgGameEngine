@@ -50,29 +50,29 @@ bool GameOverScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	
-	InitializePlayerHighScoreUI();
-	InitializeGameOverMenuButtons();
+	InitializeLoadingUI();
+	//InitializeGameOverMenuButtons();
 
-	auto label = Label::createWithTTF("GAME OVER", "Fonts/Marker_Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'Fonts/Marker_Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
+	//auto label = Label::createWithTTF("GAME OVER", "Fonts/Marker_Felt.ttf", 24);
+	//if (label == nullptr)
+	//{
+	//	problemLoading("'Fonts/Marker_Felt.ttf'");
+	//}
+	//else
+	//{
+	//	// position the label on the center of the screen
+	//	label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//		origin.y + visibleSize.height - label->getContentSize().height));
 
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
+	//	// add the label as a child to this layer
+	//	this->addChild(label, 1);
+	//}
 	scheduleUpdate();
-
+    m_TimeCounter = 0;
 	return true;
 }
 
-void GameOverScene::InitializePlayerHighScoreUI()
+void GameOverScene::InitializeLoadingUI()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
@@ -81,7 +81,7 @@ void GameOverScene::InitializePlayerHighScoreUI()
 	m_FinalHighScoreTxt->setTextColor(Color4B::WHITE);
 	m_FinalHighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	m_FinalHighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.7f);
-	m_FinalHighScoreTxt->setString("HighScore: ");
+	m_FinalHighScoreTxt->setString("Loading");
 	
 	this->addChild(m_FinalHighScoreTxt);
 }
@@ -147,4 +147,9 @@ void GameOverScene::OnAxis(EventCustom* _event)
 
 void GameOverScene::update(float _deltaTime)
 {
+    m_TimeCounter += _deltaTime;
+    if (m_TimeCounter > 0.2f)
+    {
+        MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+    }
 }

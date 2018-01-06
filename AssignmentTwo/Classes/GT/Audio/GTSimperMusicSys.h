@@ -49,6 +49,8 @@ public:
     void setMasterVol(const float &_vol);
     float getMasterVol();
 
+    bool isPlayingSound(const int &_songID);
+
     GTSimperMusicSys();
 protected:
     virtual ~GTSimperMusicSys();

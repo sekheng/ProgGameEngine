@@ -9,6 +9,7 @@
 #include "../GT/Common/GTMacros.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleSpawner.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
+#include "ui/UIButton.h"
 
 USING_NS_CC;
 USING_NS_MK
@@ -33,6 +34,7 @@ private:
 	MKSprite* m_Ground = nullptr;
     Label* m_HighScoreTxt = nullptr;
     GTCharacterStatNode *m_CharaStatNode = nullptr;
+    std::vector<Node*> m_ArrayOfGameOverUI;
 
     void InitialisePlayer();
 	void InitialiseGround();
@@ -40,7 +42,8 @@ private:
 	void ScrollBackgrounds(float _deltaTime);
 	void InitialiseUI();
     void InitialiseText();
-
+    void InitialiseGameOverUI();
+    void ClearGameOverUI();
 
     // Obstacles
     GTObstacleSpawner* m_ObstacleSpawner = nullptr;
@@ -66,7 +69,7 @@ private:
 
 public:
 	GameScene() {}
-	virtual ~GameScene() {}
+    virtual ~GameScene() { Deinitialise(); }
 
     CREATEWITHPHYSICS_FUNC(GameScene);
 

@@ -198,6 +198,7 @@ void GameScene::Deinitialise()
 {
 	DeinitialiseInput();
     DeinitialiseObstacles();
+    ClearGameOverUI();
 }
 
 void GameScene::update(float _deltaTime)
@@ -207,6 +208,12 @@ void GameScene::update(float _deltaTime)
     m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
     UpdateUINode();
     UpdateText();
+    // TODO: change this when we have time
+    if (m_CharaStatNode->getCurrentState() == DEAD)
+    {
+        // create all of the UI needed!
+        InitialiseGameOverUI();
+    }
 }
 
 void GameScene::InitialiseObstacles()
@@ -275,4 +282,72 @@ void GameScene::UpdateText()
     //std::string zeStr = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
     std::string zeStr = "HighScore: " + std::to_string(getDefaultCamera()->getPositionX());
     m_HighScoreTxt->setString(zeStr);
+}
+
+void GameScene::InitialiseGameOverUI()
+{
+    // need to ensure that the array of GameOverUI is empty!
+    if (m_ArrayOfGameOverUI.size() == 0)
+    {
+        auto visibleSize = Director::getInstance()->getVisibleSize();
+        float UIButtonPosX = (visibleSize.width * 0.5f);
+        float UIButtonPosY = (visibleSize.height * 0.5f);
+        //RESUME BUTTON//
+        auto RetryButton = MKUICreator::GetInstance()->createButton(
+            Vec2(UIButtonPosX, UIButtonPosY),
+            "ButtonNormal.png",
+            "ButtonSelected.png",
+            "Retry",
+            [&](Ref*) -> void
+        {
+            //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+            // cannot replace the current scene in the same scene
+            MKSceneManager::GetInstance()->ReplaceScene("GameOverScene");
+        }
+        );
+        GetUINode()->addChild(RetryButton);
+        m_ArrayOfGameOverUI.push_back(RetryButton);
+        //SETTINGS BUTTON//
+        auto ReviveButton = MKUICreator::GetInstance()->createButton(
+            Vec2(UIButtonPosX, UIButtonPosY - RetryButton->getContentSize().height),
+            "ButtonNormal.png",
+            "ButtonSelected.png",
+            "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
+            [&](Ref*) -> void
+        {
+            if (m_CharaStatNode->getReviveCounter() > 0)
+            {
+                // have to clear the buttons
+                ClearGameOverUI();
+                // then revive the player!
+                m_CharaStatNode->setState(REVIVE);
+            }
+        }
+        );
+        GetUINode()->addChild(ReviveButton);
+        m_ArrayOfGameOverUI.push_back(ReviveButton);
+        //MAIN MENU BUTTON//
+        auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
+            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * 2)),
+            "ButtonNormal.png",
+            "ButtonSelected.png",
+            "Main Menu",
+            [&](Ref*) -> void
+        {
+            MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
+        }
+        );
+        GetUINode()->addChild(ToMainMenuButton);
+        m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
+    }
+}
+
+void GameScene::ClearGameOverUI()
+{
+    // clear the Vector of UI
+    for (std::vector<Node*>::iterator it = m_ArrayOfGameOverUI.begin(), end = m_ArrayOfGameOverUI.end(); it != end; ++it)
+    {
+        GetUINode()->removeChild(*it);
+    }
+    m_ArrayOfGameOverUI.clear();
 }

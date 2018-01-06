@@ -19,12 +19,15 @@ using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace GinTama;
 
+static int BGM_ID = -1;
+
 MainMenuScene::MainMenuScene()
 {
 }
 
 MainMenuScene::~MainMenuScene()
 {
+
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -120,9 +123,10 @@ bool MainMenuScene::init()
 	}
 
 	scheduleUpdate();
-
-	GinTama::GTSimperMusicSys::GetInstance()->playSound("testbgm");
-
+    if (!GTSimperMusicSys::GetInstance()->isPlayingSound(BGM_ID))
+    {
+        BGM_ID = GTSimperMusicSys::GetInstance()->playSound("testbgm");
+    }
 	return true;
 }
 
@@ -266,11 +270,4 @@ void MainMenuScene::OnAxis(EventCustom* _event)
 
 void MainMenuScene::update(float _deltaTime)
 {
-	m_SceneChangeCounter -= _deltaTime;
-	if (m_SceneChangeCounter < 0.0f)
-	{
-		//MKSceneManager::GetInstance()->ReplaceScene("MKSceneDerived");
-		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
-		m_SceneChangeCounter = 3.0f;
-	}
 }
