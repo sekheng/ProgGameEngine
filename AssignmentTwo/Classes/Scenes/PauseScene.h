@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __PAUSE_SCENE_H__
 #define __PAUSE_SCENE_H__
 
@@ -16,28 +15,24 @@ USING_NS_MK
 
 class PauseScene : public MKScene
 {
-private:
-	Label* m_InputLabel = nullptr;
+protected:
+    // Input
+    void OnButton(EventCustom * _event) {}
+    void OnClick(EventCustom * _event) {}
+    void OnAxis(EventCustom * _event) {}
 
-	float m_SceneChangeCounter = 3.0f;
+    // Initialisation
+    void InitializeTitle();
+    void InitializePauseMenuButtons();
 
 public:
-	PauseScene();
-	virtual ~PauseScene();
+    PauseScene() {}
+    virtual ~PauseScene() {}
 
 	virtual bool init();
-	virtual void update(float _deltaTime) override;
-
-	void InitializePauseMenuButtons();
-
-	void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(PauseScene);
-	MK_INITIALISEINPUT(PauseScene);
-	MK_DEINITIALISEINPUT(PauseScene);
+    CREATE_FUNC(PauseScene);
 };
 
-#endif // __MENU_SCENE_H__#pragma once
+#endif // __PAUSE_SCENE_H__

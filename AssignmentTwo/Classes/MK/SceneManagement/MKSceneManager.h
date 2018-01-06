@@ -28,41 +28,41 @@ class MKSceneManager : public MKSingletonTemplate<MKSceneManager>
 	friend MKSingletonTemplate<MKSceneManager>;
 
 private:
-	std::unordered_map<std::string, std::function<MKScene*()> > m_SceneMap;
+	std::unordered_map<mkString, std::function<MKScene*()> > m_SceneMap;
 
 	// Constructor(s) & Destructor
 	MKSceneManager();
 	virtual ~MKSceneManager();	
 
-	MKScene* CreateScene(const std::string& _sceneName);
+	MKScene* CreateScene(const mkString& _sceneName);
 
 public:
 	template <typename T>
-	void AddScene(const std::string& _sceneName)
+	void AddScene(const mkString& _sceneName)
 	{
 		MK_ASSERTWITHMSG((!CheckSceneExist(_sceneName)), "MKSceneManager::AddScene - There is already a scene with this name!");
-		m_SceneMap.insert(std::pair<std::string, std::function<MKScene*()> >(_sceneName, T::create));
+		m_SceneMap.insert(std::pair<mkString, std::function<MKScene*()> >(_sceneName, T::create));
 	}
 
 	template <typename T>
-	void AddSceneWithPhysics(const std::string& _sceneName)
+	void AddSceneWithPhysics(const mkString& _sceneName)
 	{
 		MK_ASSERTWITHMSG((!CheckSceneExist(_sceneName)), "MKSceneManager::AddScene - There is already a scene with this name!");
-		m_SceneMap.insert(std::pair < std::string, std::function<MKScene*()> >(_sceneName, T::createWithPhysics));
+		m_SceneMap.insert(std::pair < mkString, std::function<MKScene*()> >(_sceneName, T::createWithPhysics));
 	}
 	
-	void RemoveScene(const std::string& _sceneName)
+	void RemoveScene(const mkString& _sceneName)
 	{
-		std::unordered_map<std::string, std::function<MKScene*()> >::const_iterator iter = m_SceneMap.find(_sceneName);
+		std::unordered_map<mkString, std::function<MKScene*()> >::const_iterator iter = m_SceneMap.find(_sceneName);
 		MK_ASSERTWITHMSG((iter != m_SceneMap.end()), "MKSceneManager::RemoveScene - Scene not found!");
 		m_SceneMap.erase(iter);
 	}
 
 	inline unsigned int GetSceneCount() const { return m_SceneMap.size(); }
-	inline bool CheckSceneExist(const std::string& _sceneName) const { return m_SceneMap.count(_sceneName) != 0; }
+	inline bool CheckSceneExist(const mkString& _sceneName) const { return m_SceneMap.count(_sceneName) != 0; }
 
-	void ReplaceScene(const std::string& _sceneName);
-	void PushScene(const std::string& _sceneName);
+	void ReplaceScene(const mkString& _sceneName);
+	void PushScene(const mkString& _sceneName);
 	void PopScene();
 };
 

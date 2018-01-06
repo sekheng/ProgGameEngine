@@ -30,28 +30,37 @@ private:
 		NUM_BACKGROUNDLAYERS,
 	};
 
+    // Environment
 	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
+    // Obstacles
+    GTObstacleSpawner* m_ObstacleSpawner = nullptr;
+    // UI
     Label* m_HighScoreTxt = nullptr;
-    GTCharacterStatNode *m_CharaStatNode = nullptr;
     std::vector<Node*> m_ArrayOfGameOverUI;
+    // Player
+    Node* m_PlayerNode;
+    GTCharacterStatNode *m_CharaStatNode = nullptr;
 
+    // Initialisation
     void InitialisePlayer();
 	void InitialiseGround();
 	void InitialiseBackgrounds();
-	void ScrollBackgrounds(float _deltaTime);
 	void InitialiseUI();
     void InitialiseText();
     void InitialiseGameOverUI();
-    void ClearGameOverUI();
-
-    // Obstacles
-    GTObstacleSpawner* m_ObstacleSpawner = nullptr;
-
     void InitialiseObstacles();
-    void DeinitialiseObstacles();
 
-	void Deinitialise();
+    // Update
+    void ScrollBackgrounds(float _deltaTime);
+    void UpdateCamera();
+    void UpdateUINode();
+    void UpdateText();
+
+    // Deinitialisation
+    void Deinitialise();
+    void ClearGameOverUI();
+    void DeinitialiseObstacles();
 
 	// Input Callbacks
 	MK_INITIALISEINPUT(GameScene);
@@ -60,23 +69,17 @@ private:
 	virtual void OnClick(EventCustom * _event) override;
 	virtual void OnAxis(EventCustom * _event) override;
 
-    // Camera
-    void UpdateCamera();
-    // UI
-    void UpdateUINode();
-    // Text
-    void UpdateText();
-
 public:
 	GameScene() {}
     virtual ~GameScene() { Deinitialise(); }
 
     CREATEWITHPHYSICS_FUNC(GameScene);
 
+    // Overrides
     virtual bool initWithPhysics() override;
 	virtual void update(float _deltaTime) override;
-
-    Node* m_PlayerNode;
+    virtual void onEnter() override;
+    virtual void onExit() override;
 };
 
 #endif

@@ -20,14 +20,6 @@ using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace GinTama;
 
-PauseScene::PauseScene()
-{
-}
-
-PauseScene::~PauseScene()
-{
-}
-
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
@@ -41,34 +33,36 @@ bool PauseScene::init()
 	//////////////////////////////
 	// 1. super init first
 	if (!Scene::init())
-	{
+    {
 		return false;
 	}
 
-	// Trying to figure out the Lua stuff
-
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	InitializePauseMenuButtons();
-
-	auto label = Label::createWithTTF("Pause", "Fonts/Marker_Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'Fonts/Marker_Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
-
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
+    InitializeTitle();
+    InitializePauseMenuButtons();
 	scheduleUpdate();
 
 	return true;
+}
+
+void PauseScene::InitializeTitle()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    auto label = Label::createWithTTF("Pause", "Fonts/Marker_Felt.ttf", 24);
+    if (label == nullptr)
+    {
+        problemLoading("'Fonts/Marker_Felt.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - label->getContentSize().height));
+
+        // add the label as a child to this layer
+        this->addChild(label, 1);
+    }
 }
 
 void PauseScene::InitializePauseMenuButtons()
@@ -83,14 +77,13 @@ void PauseScene::InitializePauseMenuButtons()
 		"Resume",
 		[&](Ref*) -> void
 		{
-			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		}
 	);
 	this->addChild(toPrevSceneButton);
 
 	//SETTINGS BUTTON//
-	auto ToSettingsButton = MKUICreator::GetInstance()->createButton(
+	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
 		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - toPrevSceneButton->getContentSize().height),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
@@ -101,35 +94,19 @@ void PauseScene::InitializePauseMenuButtons()
 			MKSceneManager::GetInstance()->PushScene("SettingsScene");
 		}
 	);
-	this->addChild(ToSettingsButton);
+	this->addChild(toSettingsButton);
 
 	//MAIN MENU BUTTON//
-	auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
+	auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
 		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - toPrevSceneButton->getContentSize().height * 2),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Main Menu",
 		[&](Ref*) -> void
 		{
-			//DeinitialiseInput();
+            MKSceneManager::GetInstance()->PopScene();
 			MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
 		}
 	);
-	this->addChild(ToMainMenuButton);
-}
-
-void PauseScene::OnButton(EventCustom* _event)
-{
-}
-
-void PauseScene::OnClick(EventCustom* _event)
-{
-}
-
-void PauseScene::OnAxis(EventCustom* _event)
-{
-}
-
-void PauseScene::update(float _deltaTime)
-{
+	this->addChild(toMainMenuButton);
 }

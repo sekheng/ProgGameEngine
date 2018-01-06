@@ -23,16 +23,11 @@ const gtF32 GTObstacle_Laser::m_MoveDownDuration = 1.5f;
 const gtF32 GTObstacle_Laser::m_LaserBeamChargeDuration = 1.5f;
 const gtF32 GTObstacle_Laser::m_LaserBeamShootDuration = 0.2;
 const gtF32 GTObstacle_Laser::m_MoveUpDuration = 2.0f;
-const gtF32 GTObstacle_Laser::m_TotalDuration =
-    GTObstacle_Laser::m_MoveDownDuration +
-    GTObstacle_Laser::m_LaserBeamChargeDuration +
-    GTObstacle_Laser::m_LaserBeamShootDuration +
-    GTObstacle_Laser::m_MoveUpDuration;
 
-GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene)
+GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene, gtF32 _spawnDelay)
 {
     GTObstacle_Laser* obstacle = new (std::nothrow) GTObstacle_Laser(_scene);
-    if (obstacle && obstacle->init())
+    if (obstacle && obstacle->init(_spawnDelay))
     {
         obstacle->autorelease();
         return obstacle;
@@ -42,35 +37,21 @@ GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene)
     return nullptr;
 }
 
-gtBool GTObstacle_Laser::init()
+gtBool GTObstacle_Laser::init(gtF32 _spawnDelay)
 {
     if (!Super::init()) { return false; }
+
+    m_SpawnDelay = _spawnDelay;
+    m_TotalDuration = m_MoveDownDuration + m_LaserBeamChargeDuration + m_LaserBeamShootDuration + m_MoveUpDuration + m_SpawnDelay;
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     // Set the anchor point.
     this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-    // Create the sprites.
-    m_LaserGunLeft = MKSprite::Create(m_LaserGunSpriteFile, true);
-    m_LaserGunLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    this->addChild(m_LaserGunLeft, m_LaserGunZPriority);
-    m_LaserGunLeft->setPosition(-visibleSize.width * 0.5f, 0.5f);
-
-    // Make the right laser gun face the opposite direction.
-    m_LaserGunRight = MKSprite::Create(m_LaserGunSpriteFile, true);
-    m_LaserGunRight->SetTextureScale(-1.0f, 1.0f);
-    m_LaserGunRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-    this->addChild(m_LaserGunRight, m_LaserGunZPriority);
-    m_LaserGunRight->setPosition(visibleSize.width * 0.5f, 0.5f);
-
-    // Scale the laser guns to the correct size.
-    gtF32 desiredLaserGunSize = (visibleSize.height * 0.05f) / m_LaserGunLeft->getContentSize().height;
-    m_LaserGunLeft->setScale(desiredLaserGunSize);
-    m_LaserGunRight->setScale(desiredLaserGunSize);
-
     // Other Actions Action
     auto followAction = GTFollowNodeAction::Create(m_TotalDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);
+    auto spawnGunsCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::SpawnLaserGuns, this));
     auto spawnBeamCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::SpawnLaserBeam, this));
 
     // Move Actions
@@ -84,21 +65,16 @@ gtBool GTObstacle_Laser::init()
     auto spawnPhysicsBodyCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::SpawnPhysicsBody, this));
     auto despawnPhysicsBodyCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::DespawnPhysicsBody, this));
 
-    // Play Sound Actions
-    GTPlaySoundAction* playChargingSoundAction = GTPlaySoundAction::Create(m_LaserChargingSoundName);
-    GTPlaySoundAction* playShootingSoundAction = GTPlaySoundAction::Create(m_LaserShootingSoundName);
-
-
     this->runAction(Spawn::createWithTwoActions(followAction,
         Sequence::create(
+            DelayTime::create(m_SpawnDelay),
+            spawnGunsCallback,
             // Move the laser into position.
             moveDownAction,
             // Charge up the beam.
-            playChargingSoundAction,
             spawnParticlesCallback,
             DelayTime::create(m_LaserBeamChargeDuration),
             // Shoot the beam.
-            playShootingSoundAction,
             spawnBeamCallback,
             spawnPhysicsBodyCallback,
             DelayTime::create(m_LaserBeamShootDuration),
@@ -147,6 +123,29 @@ gtBool GTObstacle_Laser::OnContactBegin(cocos2d::PhysicsContact& _contact)
     return true;
 }
 
+void GTObstacle_Laser::SpawnLaserGuns()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    // Create the sprites.
+    m_LaserGunLeft = MKSprite::Create(m_LaserGunSpriteFile, true);
+    m_LaserGunLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    this->addChild(m_LaserGunLeft, m_LaserGunZPriority);
+    m_LaserGunLeft->setPosition(-visibleSize.width * 0.5f, 0.5f);
+
+    // Make the right laser gun face the opposite direction.
+    m_LaserGunRight = MKSprite::Create(m_LaserGunSpriteFile, true);
+    m_LaserGunRight->SetTextureScale(-1.0f, 1.0f);
+    m_LaserGunRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    this->addChild(m_LaserGunRight, m_LaserGunZPriority);
+    m_LaserGunRight->setPosition(visibleSize.width * 0.5f, 0.5f);
+
+    // Scale the laser guns to the correct size.
+    gtF32 desiredLaserGunSize = (visibleSize.height * 0.05f) / m_LaserGunLeft->getContentSize().height;
+    m_LaserGunLeft->setScale(desiredLaserGunSize);
+    m_LaserGunRight->setScale(desiredLaserGunSize);
+}
+
 void GTObstacle_Laser::SpawnParticles()
 {
     // Create our particles for the left gun.
@@ -180,6 +179,12 @@ void GTObstacle_Laser::SpawnParticles()
     particlesRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     particlesRight->setPosition(Vec2(0.0f, m_LaserGunRight->getContentSize().height * 0.5f));
     m_LaserGunRight->addChild(particlesRight);
+
+    // Play Audio
+    if (m_LaserBeamChargingSoundID == GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+    {
+        m_LaserBeamChargingSoundID = GTSimperMusicSys::GetInstance()->playSound(m_LaserChargingSoundName);
+    }
 }
 
 void GTObstacle_Laser::SpawnLaserBeam()
@@ -212,6 +217,12 @@ void GTObstacle_Laser::SpawnPhysicsBody()
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
     InitialiseContactListener();
+
+    // Play Audio
+    if (m_LaserBeamShootingSoundID == GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+    {
+        m_LaserBeamShootingSoundID = GTSimperMusicSys::GetInstance()->playSound(m_LaserShootingSoundName);
+    }
 }
 
 void GTObstacle_Laser::DespawnPhysicsBody()

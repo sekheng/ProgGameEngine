@@ -48,6 +48,33 @@ public:
     GT_INITIALISECONTACTLISTENER(GTObstacle_Missile);
     GT_DEINITIALISECONTACTLISTENER(GTObstacle_Missile);
 
+    virtual void PauseObstacle()
+    {
+        Super::PauseObstacle();
+
+        // Pause Audio
+        if (m_MissileFlightSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+        {
+            GTSimperMusicSys::GetInstance()->pauseSound(m_MissileFlightSoundID);
+        }
+
+        // Pause Actions
+        _actionManager->pauseTarget(this);
+    } 
+    virtual void ResumeObstacle()
+    {
+        Super::ResumeObstacle();
+
+        // Resume Audio
+        if (m_MissileFlightSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+        {
+            GTSimperMusicSys::GetInstance()->resumeSound(m_MissileFlightSoundID);
+        }
+
+        // Resume Actions
+        _actionManager->resumeTarget(this);
+    }
+
 CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
     GTObstacle_Missile(MKScene* _scene) : GTObstacleNode(_scene) {}

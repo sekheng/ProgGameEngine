@@ -72,11 +72,15 @@ private:
 
 public:
     // Constructor(s) & Destructor
+    // The initial spawn position is to allow the obstacles some buffer time to spawn, since some obstacles take multiple seconds to get ready
+    // before it can hurt the player. Such as missile and Laser Beam.
     GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _playerNode, gtF32 _playerVelocityX, gtF32 _initialObstacleSpawnPositionX);
     virtual ~GTObstacleSpawner();
 
     virtual void Update(gtF32 _deltaTime);
 
+    void PauseAllObstacles(); // Call this function when opening the pause scene.
+    void ResumeAllObstacles();  // Call this function when closing the pause scene.
     void MoveAllObstacles(gtF32 _distance);
     void Reset();
 

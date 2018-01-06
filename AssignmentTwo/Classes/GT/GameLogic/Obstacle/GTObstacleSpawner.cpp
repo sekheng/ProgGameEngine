@@ -12,7 +12,7 @@
 
 NS_GT_BEGIN
 
-GTObstacleSpawner::GTObstacleSpawner(MKScene* _scene, cocos2d::Node* _playerNode, gtF32 _playerVelocityX, gtF32 _initialObstacleSpawnPositionX) :
+GTObstacleSpawner::GTObstacleSpawner(MKScene * _scene, cocos2d::Node * _playerNode, gtF32 _playerVelocityX, gtF32 _initialObstacleSpawnPositionX) :
     m_Scene(_scene),
     m_PlayerNode(_playerNode),
     m_PlayerVelocityX(_playerVelocityX),
@@ -93,6 +93,30 @@ void GTObstacleSpawner::DespawnOutOfScreenObstacles()
         else
         {
             ++i;
+        }
+    }
+}
+
+void GTObstacleSpawner::PauseAllObstacles()
+{
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)
+    {
+        GTObstacleNode* obstacleNode = *i;
+        if (!obstacleNode->IsPaused())
+        {
+            obstacleNode->PauseObstacle();
+        }
+    }
+}
+
+void GTObstacleSpawner::ResumeAllObstacles()
+{
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)
+    {
+        GTObstacleNode* obstacleNode = *i;
+        if (obstacleNode->IsPaused())
+        {
+            obstacleNode->ResumeObstacle();
         }
     }
 }
@@ -195,9 +219,16 @@ void GTObstacleSpawner::SpawnSaw()
 
 void GTObstacleSpawner::SpawnLaser()
 {
+    gtF32 playerPositionX = m_PlayerNode->getPositionX();
+    // Even though we call it m_SpawnPositionX, it only applies to static obstacles.
+    // For moving obstacles such as missiles, we need to spawn it further away,
+    // such that when the player reaches the spawn position, so will the missile.
+    gtF32 playerToSpawnPositionDistance = m_SpawnPositionX - playerPositionX;
+    gtF32 secondsToSpawnPosition = (playerToSpawnPositionDistance / m_PlayerVelocityX) - (GTObstacle_Laser::m_MoveDownDuration + GTObstacle_Laser::m_LaserBeamChargeDuration);
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    GTObstacle_Laser* obstacle = GTObstacle_Laser::Create(m_Scene);
+    GTObstacle_Laser* obstacle = GTObstacle_Laser::Create(m_Scene, secondsToSpawnPosition);
     obstacle->setPosition(m_SpawnPositionX, visibleSize.height);
 
     m_Scene->addChild(obstacle);

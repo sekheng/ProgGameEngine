@@ -24,6 +24,7 @@ class GTObstacleNode : public cocos2d::Node
 
 private:
     MKScene* m_Scene = nullptr;
+    mkBool m_IsPaused = false;
 
 protected:
     EventListenerPhysicsContact* m_ContactListener = NULL;
@@ -34,8 +35,13 @@ public:
     MKScene* GetScene() { return m_Scene; }
     const MKScene* GetScene() const { return m_Scene; }
 
+    mkBool IsPaused() { return m_IsPaused; }
+
     const EventListenerPhysicsContact* GetContactListener() const { return m_ContactListener; }
     EventListenerPhysicsContact* GetContactListener() { return m_ContactListener; }
+
+    virtual void PauseObstacle() { m_IsPaused = true; }
+    virtual void ResumeObstacle() { m_IsPaused = false; }
 
 protected:
     GTObstacleNode(MKScene* _scene) : m_Scene(_scene) {}

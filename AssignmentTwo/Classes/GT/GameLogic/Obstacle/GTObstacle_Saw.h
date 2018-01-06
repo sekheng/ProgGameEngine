@@ -33,6 +33,33 @@ public:
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Saw);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Saw);
 
+    virtual void PauseObstacle()
+    {
+        Super::PauseObstacle();
+
+        // Pause Audio
+        if (m_SawSpinningSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+        {
+            GTSimperMusicSys::GetInstance()->pauseSound(m_SawSpinningSoundID);
+        }
+
+        // Pause Actions
+        _actionManager->pauseTarget(this);
+    }
+    virtual void ResumeObstacle()
+    {
+        Super::ResumeObstacle();
+
+        // Resume Audio
+        if (m_SawSpinningSoundID != GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND)
+        {
+            GTSimperMusicSys::GetInstance()->resumeSound(m_SawSpinningSoundID);
+        }
+
+        // Resume Actions
+        _actionManager->resumeTarget(this);
+    }
+
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
 	GTObstacle_Saw(MKScene* _scene) : GTObstacleNode(_scene) {}

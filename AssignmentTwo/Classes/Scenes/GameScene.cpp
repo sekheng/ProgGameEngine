@@ -17,6 +17,7 @@
 
 using namespace GinTama;
 
+// Overrides
 bool GameScene::initWithPhysics()
 {
     if (!Super::initWithPhysics())
@@ -47,6 +48,37 @@ bool GameScene::initWithPhysics()
 	return true;
 }
 
+void GameScene::update(float _deltaTime)
+{
+    ScrollBackgrounds(_deltaTime);
+    UpdateCamera();
+    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+    UpdateUINode();
+    UpdateText();
+
+    // TODO: change this when we have time
+    if (m_CharaStatNode->getCurrentState() == DEAD)
+    {
+        // create all of the UI needed!
+        InitialiseGameOverUI();
+    }
+}
+
+void GameScene::onEnter()
+{
+    Super::onEnter();
+
+    if (m_ObstacleSpawner) { m_ObstacleSpawner->ResumeAllObstacles(); }
+}
+
+void GameScene::onExit()
+{
+    Super::onExit();
+
+    if (m_ObstacleSpawner) { m_ObstacleSpawner->PauseAllObstacles(); }
+}
+
+// Initialisation
 void GameScene::InitialisePlayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -149,119 +181,23 @@ void GameScene::InitialiseBackgrounds()
 	}
 }
 
-void GameScene::OnButton(EventCustom * _event)
-{
-    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
-    switch (buttonEvent->m_ButtonState)
-    {
-    case MinamiKotori::MKInputButton::ButtonState::PRESS:
-    {
-        switch (buttonEvent->m_InputName)
-        {
-        case MinamiKotori::MKInputName::JUMP:
-        {
-            m_CharaStatNode->CharJump();
-        }
-        break;
-        case MKInputName::SLIDE:
-            m_CharaStatNode->setState(CHARACTER_STATE::SLIDE);
-            break;
-        case MKInputName::SMASH:
-            //charaStat->setState(CHARACTER_STATE::DASH);
-            break;
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void GameScene::OnClick(EventCustom * _event)
-{
-}
-
-void GameScene::OnAxis(EventCustom * _event)
-{
-}
-
-void GameScene::ScrollBackgrounds(float _deltaTime)
-{
-    m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
-	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
-	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
-}
-
-void GameScene::Deinitialise()
-{
-	DeinitialiseInput();
-    DeinitialiseObstacles();
-    ClearGameOverUI();
-}
-
-void GameScene::update(float _deltaTime)
-{
-    ScrollBackgrounds(_deltaTime);
-    UpdateCamera();
-    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
-    UpdateUINode();
-    UpdateText();
-    // TODO: change this when we have time
-    if (m_CharaStatNode->getCurrentState() == DEAD)
-    {
-        // create all of the UI needed!
-        InitialiseGameOverUI();
-    }
-}
-
-void GameScene::InitialiseObstacles()
-{
-    DeinitialiseObstacles();
-
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 2.0f);
-}
-
-void GameScene::DeinitialiseObstacles()
-{
-    if (m_ObstacleSpawner != nullptr)
-    {
-        delete m_ObstacleSpawner;
-    }
-}
-
-void GameScene::UpdateCamera()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
-}
-
-void GameScene::UpdateUINode()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-
-    m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);
-}
-
 void GameScene::InitialiseUI()
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	Sprite* pauseButtonSprite = Sprite::create("PauseIcon.png");
+    Sprite* pauseButtonSprite = Sprite::create("PauseIcon.png");
 
-	auto PauseButton = MKUICreator::GetInstance()->createButton(
-		Vec2(pauseButtonSprite->getContentSize().width, visibleSize.height - pauseButtonSprite->getContentSize().width),
-		"PauseIcon.png",
-		"PauseIcon.png",
-		"",
-		[&](Ref*) -> void
-		{
-			MKSceneManager::GetInstance()->PushScene("PauseScene");
-		}
-	);
-	GetUINode()->addChild(PauseButton);
+    auto PauseButton = MKUICreator::GetInstance()->createButton(
+        Vec2(pauseButtonSprite->getContentSize().width, visibleSize.height - pauseButtonSprite->getContentSize().width),
+        "PauseIcon.png",
+        "PauseIcon.png",
+        "",
+        [&](Ref*) -> void
+    {
+        MKSceneManager::GetInstance()->PushScene("PauseScene");
+    }
+    );
+    GetUINode()->addChild(PauseButton);
 }
 
 void GameScene::InitialiseText()
@@ -274,14 +210,6 @@ void GameScene::InitialiseText()
     m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
     GetUINode()->addChild(m_HighScoreTxt);
-}
-
-void GameScene::UpdateText()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    //std::string zeStr = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
-    std::string zeStr = "HighScore: " + std::to_string(getDefaultCamera()->getPositionX());
-    m_HighScoreTxt->setString(zeStr);
 }
 
 void GameScene::InitialiseGameOverUI()
@@ -342,6 +270,57 @@ void GameScene::InitialiseGameOverUI()
     }
 }
 
+void GameScene::InitialiseObstacles()
+{
+    DeinitialiseObstacles();
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 2.0f);
+}
+
+// Update
+void GameScene::ScrollBackgrounds(float _deltaTime)
+{
+    m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
+	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
+	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
+}
+
+void GameScene::UpdateCamera()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
+}
+
+void GameScene::UpdateUINode()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);
+}
+
+void GameScene::UpdateText()
+{
+    std::string highScoreString = "HighScore: " + std::to_string((mkS32)getDefaultCamera()->getPositionX());
+    m_HighScoreTxt->setString(highScoreString);
+}
+
+// Deinitialisation
+void GameScene::Deinitialise()
+{
+	DeinitialiseInput();
+    DeinitialiseObstacles();
+    ClearGameOverUI();
+}
+
+void GameScene::DeinitialiseObstacles()
+{
+    if (m_ObstacleSpawner != nullptr)
+    {
+        delete m_ObstacleSpawner;
+    }
+}
+
 void GameScene::ClearGameOverUI()
 {
     // clear the Vector of UI
@@ -350,4 +329,43 @@ void GameScene::ClearGameOverUI()
         GetUINode()->removeChild(*it);
     }
     m_ArrayOfGameOverUI.clear();
+}
+
+// Input Callbacks
+void GameScene::OnButton(EventCustom * _event)
+{
+    MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
+    switch (buttonEvent->m_ButtonState)
+    {
+    case MinamiKotori::MKInputButton::ButtonState::PRESS:
+    {
+        switch (buttonEvent->m_InputName)
+        {
+        case MinamiKotori::MKInputName::JUMP:
+        {
+            m_CharaStatNode->CharJump();
+        }
+        break;
+        case MKInputName::SLIDE:
+            m_CharaStatNode->setState(CHARACTER_STATE::SLIDE);
+            break;
+        case MKInputName::SMASH:
+            //charaStat->setState(CHARACTER_STATE::DASH);
+            break;
+        default:
+            break;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void GameScene::OnClick(EventCustom * _event)
+{
+}
+
+void GameScene::OnAxis(EventCustom * _event)
+{
 }
