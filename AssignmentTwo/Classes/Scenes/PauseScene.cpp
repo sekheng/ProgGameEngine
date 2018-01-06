@@ -120,126 +120,16 @@ void PauseScene::InitializePauseMenuButtons()
 
 void PauseScene::OnButton(EventCustom* _event)
 {
-	MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
-
-	std::string inputName;
-	switch (buttonEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string buttonState;
-	switch (buttonEvent->m_ButtonState)
-	{
-	case MinamiKotori::MKInputButton::ButtonState::PRESS:
-		buttonState = "Pressed";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::HOLD:
-		buttonState = "Held";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
-		buttonState = "Released";
-		break;
-	default:
-		buttonState = "Unknown ButtonState";
-		break;
-	}
-
-	std::string logMessage = inputName + " " + buttonState;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void PauseScene::OnClick(EventCustom* _event)
 {
-	MKInputClick* clickEvent = static_cast<MKInputClick*>(_event->getUserData());
-
-	std::string inputName;
-	switch (clickEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string buttonState;
-	switch (clickEvent->m_ButtonState)
-	{
-	case MinamiKotori::MKInputButton::ButtonState::PRESS:
-		buttonState = "Pressed";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::HOLD:
-		buttonState = "Held";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
-		buttonState = "Released";
-		break;
-	default:
-		buttonState = "Unknown ButtonState";
-		break;
-	}
-
-	std::string logMessage = inputName + " " + buttonState;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void PauseScene::OnAxis(EventCustom* _event)
 {
-	MKInputAxis* axisEvent = static_cast<MKInputAxis*>(_event->getUserData());
-
-	std::string inputName;
-	switch (axisEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string axisValue;
-	axisValue += axisEvent->m_AxisValue;
-
-	std::string logMessage = inputName + " " + axisValue;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void PauseScene::update(float _deltaTime)
 {
-	m_SceneChangeCounter -= _deltaTime;
-	if (m_SceneChangeCounter < 0.0f)
-	{
-		//MKSceneManager::GetInstance()->ReplaceScene("MKSceneDerived");
-		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
-		m_SceneChangeCounter = 3.0f;
-	}
 }

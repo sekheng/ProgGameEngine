@@ -227,3 +227,12 @@ bool GTSimperMusicSys::resumeSound(const int &_songID)
     }
     return false;
 }
+
+bool GTSimperMusicSys::isPlayingSound(const int &_songID)
+{
+    if (m_AudioIDPlaying.count(_songID))
+    {
+        return true;
+    }
+    return false;
+}

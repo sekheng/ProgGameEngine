@@ -50,29 +50,29 @@ bool GameOverScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	
-	InitializePlayerHighScoreUI();
-	InitializeGameOverMenuButtons();
+	InitializeLoadingUI();
+	//InitializeGameOverMenuButtons();
 
-	auto label = Label::createWithTTF("GAME OVER", "Fonts/Marker_Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'Fonts/Marker_Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
+	//auto label = Label::createWithTTF("GAME OVER", "Fonts/Marker_Felt.ttf", 24);
+	//if (label == nullptr)
+	//{
+	//	problemLoading("'Fonts/Marker_Felt.ttf'");
+	//}
+	//else
+	//{
+	//	// position the label on the center of the screen
+	//	label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//		origin.y + visibleSize.height - label->getContentSize().height));
 
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
+	//	// add the label as a child to this layer
+	//	this->addChild(label, 1);
+	//}
 	scheduleUpdate();
-
+    m_TimeCounter = 0;
 	return true;
 }
 
-void GameOverScene::InitializePlayerHighScoreUI()
+void GameOverScene::InitializeLoadingUI()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
@@ -81,7 +81,7 @@ void GameOverScene::InitializePlayerHighScoreUI()
 	m_FinalHighScoreTxt->setTextColor(Color4B::WHITE);
 	m_FinalHighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
 	m_FinalHighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.7f);
-	m_FinalHighScoreTxt->setString("HighScore: ");
+	m_FinalHighScoreTxt->setString("Loading");
 	
 	this->addChild(m_FinalHighScoreTxt);
 }
@@ -135,126 +135,21 @@ void GameOverScene::InitializeGameOverMenuButtons()
 
 void GameOverScene::OnButton(EventCustom* _event)
 {
-	MKInputButton* buttonEvent = static_cast<MKInputButton*>(_event->getUserData());
-
-	std::string inputName;
-	switch (buttonEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string buttonState;
-	switch (buttonEvent->m_ButtonState)
-	{
-	case MinamiKotori::MKInputButton::ButtonState::PRESS:
-		buttonState = "Pressed";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::HOLD:
-		buttonState = "Held";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
-		buttonState = "Released";
-		break;
-	default:
-		buttonState = "Unknown ButtonState";
-		break;
-	}
-
-	std::string logMessage = inputName + " " + buttonState;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void GameOverScene::OnClick(EventCustom* _event)
 {
-	MKInputClick* clickEvent = static_cast<MKInputClick*>(_event->getUserData());
-
-	std::string inputName;
-	switch (clickEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string buttonState;
-	switch (clickEvent->m_ButtonState)
-	{
-	case MinamiKotori::MKInputButton::ButtonState::PRESS:
-		buttonState = "Pressed";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::HOLD:
-		buttonState = "Held";
-		break;
-	case MinamiKotori::MKInputButton::ButtonState::RELEASE:
-		buttonState = "Released";
-		break;
-	default:
-		buttonState = "Unknown ButtonState";
-		break;
-	}
-
-	std::string logMessage = inputName + " " + buttonState;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void GameOverScene::OnAxis(EventCustom* _event)
 {
-	MKInputAxis* axisEvent = static_cast<MKInputAxis*>(_event->getUserData());
-
-	std::string inputName;
-	switch (axisEvent->m_InputName)
-	{
-	case MinamiKotori::MKInputName::JUMP:
-		inputName = "Jump";
-		break;
-	case MinamiKotori::MKInputName::SLIDE:
-		inputName = "Slide";
-		break;
-	case MinamiKotori::MKInputName::SMASH:
-		inputName = "Smash";
-		break;
-	default:
-		inputName = "Unknown InputName";
-		break;
-	}
-
-	std::string axisValue;
-	axisValue += axisEvent->m_AxisValue;
-
-	std::string logMessage = inputName + " " + axisValue;
-	//CCLOG(logMessage.c_str());
-	m_InputLabel->setString(logMessage);
 }
 
 void GameOverScene::update(float _deltaTime)
 {
-	m_SceneChangeCounter -= _deltaTime;
-	if (m_SceneChangeCounter < 0.0f)
-	{
-		//MKSceneManager::GetInstance()->ReplaceScene("MKSceneDerived");
-		//MKSceneManager::GetInstance()->PushScene("MKSceneDerived");
-		m_SceneChangeCounter = 3.0f;
-	}
+    m_TimeCounter += _deltaTime;
+    if (m_TimeCounter > 0.2f)
+    {
+        MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+    }
 }

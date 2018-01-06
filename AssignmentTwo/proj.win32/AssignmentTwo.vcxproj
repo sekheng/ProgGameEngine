@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.cpp" />
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.cpp" />
     <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp" />
     <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
@@ -195,6 +196,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Missile.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.h" />
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.h" />
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUp.h" />
     <ClInclude Include="..\Classes\MK\Common\MKAssertions.h" />
     <ClInclude Include="..\Classes\MK\Common\MKMacros.h" />
     <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h" />

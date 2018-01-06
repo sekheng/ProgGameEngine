@@ -37,13 +37,12 @@ public:
     const EventListenerPhysicsContact* GetContactListener() const { return m_ContactListener; }
     EventListenerPhysicsContact* GetContactListener() { return m_ContactListener; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     GTObstacleNode(MKScene* _scene) : m_Scene(_scene) {}
     virtual ~GTObstacleNode() {}
 
     virtual bool init() override { return Super::init(); }
     virtual void update(gtF32 _deltaTime) override { Super::update(_deltaTime); };
-
 };
 
 NS_GT_END
