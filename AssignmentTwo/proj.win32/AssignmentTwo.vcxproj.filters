@@ -52,9 +52,6 @@
     <Filter Include="UIClass">
       <UniqueIdentifier>{6dd304cf-c8e2-475a-b95e-504b63251e37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GT\GameLogic\Powerup">
-      <UniqueIdentifier>{d9f0d968-89d1-4983-b476-e1419a6f51f6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,8 +126,11 @@
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Saw.cpp">
       <Filter>GT\GameLogic\Obstacle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.cpp">
-      <Filter>GT\GameLogic\Powerup</Filter>
+    <ClCompile Include="..\Classes\Scenes\PauseScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,11 +266,11 @@
     <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParentAction.h">
       <Filter>GT\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.h">
-      <Filter>GT\GameLogic\Powerup</Filter>
+    <ClInclude Include="..\Classes\Scenes\PauseScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUp.h">
-      <Filter>GT\GameLogic\Powerup</Filter>
+    <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

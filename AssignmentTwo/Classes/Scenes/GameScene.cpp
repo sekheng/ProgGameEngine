@@ -12,6 +12,9 @@
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
 #include "../GT/GameLogic/Powerup/GTInvulnerablePowerUp.h"
 
+// Include UI
+#include "../UIClass/UICreator.h"
+
 using namespace GinTama;
 
 bool GameScene::initWithPhysics()
@@ -28,6 +31,7 @@ bool GameScene::initWithPhysics()
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
+	InitialiseUI();
     InitialiseText();
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
@@ -232,6 +236,25 @@ void GameScene::UpdateUINode()
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
     m_UINode->setPosition(getDefaultCamera()->getPositionX() - visibleSize.width * 0.5f, getDefaultCamera()->getPositionY() - visibleSize.height * 0.5f);
+}
+
+void GameScene::InitialiseUI()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	Sprite* pauseButtonSprite = Sprite::create("PauseIcon.png");
+
+	auto PauseButton = MKUICreator::GetInstance()->createButton(
+		Vec2(pauseButtonSprite->getContentSize().width, visibleSize.height - pauseButtonSprite->getContentSize().width),
+		"PauseIcon.png",
+		"PauseIcon.png",
+		"",
+		[&](Ref*) -> void
+		{
+			MKSceneManager::GetInstance()->PushScene("PauseScene");
+		}
+	);
+	GetUINode()->addChild(PauseButton);
 }
 
 void GameScene::InitialiseText()

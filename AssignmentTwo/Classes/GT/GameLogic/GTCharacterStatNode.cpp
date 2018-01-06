@@ -218,6 +218,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_SpeedX = 0;
             m_DeadPositionX = _parent->getPositionX();
             m_AnimHandler->transitState("Died");
+			MKSceneManager::GetInstance()->PushScene("GameOverScene");
             break;
         }
         break;

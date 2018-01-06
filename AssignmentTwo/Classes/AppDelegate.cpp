@@ -105,6 +105,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     MKSceneManager::GetInstance()->AddSceneWithPhysics<GameScene>("GameScene");
 	MKSceneManager::GetInstance()->AddScene<MainMenuScene>("MainMenuScene");
 	MKSceneManager::GetInstance()->AddScene<SettingsScene>("SettingsScene");
+	MKSceneManager::GetInstance()->AddScene<PauseScene>("PauseScene");
+	MKSceneManager::GetInstance()->AddScene<GameOverScene>("GameOverScene");
     MKSceneManager::GetInstance()->ReplaceScene("GameScene");
     //MKSceneManager::GetInstance()->AddSceneWithPhysics<HelloWorld>("HelloWorld");
     //MKSceneManager::GetInstance()->ReplaceScene("HelloWorld");
