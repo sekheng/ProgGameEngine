@@ -9,7 +9,7 @@ USING_NS_GT
 USING_NS_CC;
 USING_NS_MK
 
-const static float ACCEPTABLE_VELY = 0.9f;
+const static float ACCEPTABLE_VELY = 0.8f;
 
 GTCharacterStatNode::GTCharacterStatNode()
     : m_CurrentState(RUNNING)
@@ -109,18 +109,14 @@ void GTCharacterStatNode::update(float delta)
             {
                 _parent->setPositionX(m_DeadPositionX);
             }
-            //REVIVECOUNTER += delta;
-            //if (REVIVECOUNTER > 2)
-            //{
-            //    setState(REVIVE);
-            //    REVIVECOUNTER = 0;
-            //}
             break;
         default:
             break;
         }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
+        m_TotalDist += (m_SpeedX * delta);
     }
+
 }
 
 void GTCharacterStatNode::setPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)

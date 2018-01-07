@@ -17,6 +17,8 @@
 
 using namespace GinTama;
 
+static float RESET_PLAYERDISTANCE_X;
+
 // Overrides
 bool GameScene::initWithPhysics()
 {
@@ -50,18 +52,28 @@ bool GameScene::initWithPhysics()
 
 void GameScene::update(float _deltaTime)
 {
-    ScrollBackgrounds(_deltaTime);
-    UpdateCamera();
-    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
-    UpdateUINode();
-    UpdateText();
-
     // TODO: change this when we have time
     if (m_CharaStatNode->getCurrentState() == DEAD)
     {
         // create all of the UI needed!
         InitialiseGameOverUI();
     }
+    else
+    {
+        if (m_PlayerNode->getPositionX() > RESET_PLAYERDISTANCE_X)
+        {
+            float playerNewPositionX = m_PlayerNode->getPositionX() - RESET_PLAYERDISTANCE_X;
+            m_PlayerNode->setPositionX(playerNewPositionX);
+            m_ObstacleSpawner->MoveAllObstacles(-RESET_PLAYERDISTANCE_X);
+        }
+    }
+
+    ScrollBackgrounds(_deltaTime);
+    UpdateCamera();
+    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+    UpdateUINode();
+    UpdateText();
+
 }
 
 void GameScene::onEnter()
@@ -119,6 +131,8 @@ void GameScene::InitialisePlayer()
 
     playerSprite->setPosition(Vec2(0.0f, visibleSize.height * 0.1f + playerSprite->getContentSize().height * 0.5f));
     m_PlayerNode = playerSprite;
+
+    RESET_PLAYERDISTANCE_X = m_Ground->getScaleX() * 2.f;
 }
 
 void GameScene::InitialiseGround()
@@ -217,6 +231,7 @@ void GameScene::InitialiseGameOverUI()
     // need to ensure that the array of GameOverUI is empty!
     if (m_ArrayOfGameOverUI.size() == 0)
     {
+        m_ObstacleSpawner->PauseAllObstacles();
         auto visibleSize = Director::getInstance()->getVisibleSize();
         float UIButtonPosX = (visibleSize.width * 0.5f);
         float UIButtonPosY = (visibleSize.height * 0.5f);
@@ -249,6 +264,7 @@ void GameScene::InitialiseGameOverUI()
                 ClearGameOverUI();
                 // then revive the player!
                 m_CharaStatNode->setState(REVIVE);
+                m_ObstacleSpawner->ResumeAllObstacles();
             }
         }
         );
@@ -301,7 +317,7 @@ void GameScene::UpdateUINode()
 
 void GameScene::UpdateText()
 {
-    std::string highScoreString = "HighScore: " + std::to_string((mkS32)getDefaultCamera()->getPositionX());
+    std::string highScoreString = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
     m_HighScoreTxt->setString(highScoreString);
 }
 
