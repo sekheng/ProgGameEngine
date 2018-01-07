@@ -24,9 +24,17 @@ void MKInputManager::InitializeDefinitions()
 
 	// Add Input Definitions here.
 
+    // Start Game (Touch/Mouse)
+    {
+        mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_STARTSCENE, MK_CONTROLLER_ALL, 0);
+        m_InputDefinitions[MKInputName::START_GAME]->Register1(
+            CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
+            CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
+            inputMask);
+    }
     // Jumping (Keyboard)
 	{
-		mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
+		mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_GAMESCENE, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_UP_ARROW);
 		m_InputDefinitions[MKInputName::JUMP]->Register1(
 			CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
 			CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -34,7 +42,7 @@ void MKInputManager::InitializeDefinitions()
 	}
     // Jumping (Touch/Mouse)
 	{
-		mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, 0);
+		mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_GAMESCENE, MK_CONTROLLER_1, 0);
 		m_InputDefinitions[MKInputName::JUMP]->Register2(
 			CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
 			CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),
@@ -42,7 +50,7 @@ void MKInputManager::InitializeDefinitions()
 	}
     // Sliding (Keyboard)
     {
-        mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_DOWN_ARROW);
+        mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_GAMESCENE, MK_CONTROLLER_1, (mkU32)EventKeyboard::KeyCode::KEY_DOWN_ARROW);
         m_InputDefinitions[MKInputName::SLIDE]->Register1(
             CC_CALLBACK_3(MKKeyboardHandler::RegisterButton, keyboardHandler),
             CC_CALLBACK_3(MKKeyboardHandler::UnregisterButton, keyboardHandler),
@@ -50,7 +58,7 @@ void MKInputManager::InitializeDefinitions()
     }
     // Sliding (Touch/Mouse)
     {
-        mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_ALL, MK_CONTROLLER_1, 0);
+        mkU64 inputMask = MKInputManager::GenerateMask(MK_INPUT_CONTEXT_GAMESCENE, MK_CONTROLLER_1, 0);
         m_InputDefinitions[MKInputName::SLIDE]->Register2(
             CC_CALLBACK_3(MKTouchHandler::RegisterClick, touchHandler),
             CC_CALLBACK_3(MKTouchHandler::UnregisterClick, touchHandler),

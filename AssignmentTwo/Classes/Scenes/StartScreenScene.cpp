@@ -13,6 +13,18 @@ bool StartScreenScene::init()
     return true;
 }
 
+void StartScreenScene::onEnter()
+{
+    Super::onEnter();
+    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_STARTSCENE);
+}
+
+void StartScreenScene::onExit()
+{
+    Super::onExit();
+    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_DEFAULT);
+}
+
 void StartScreenScene::InitialiseStartLabel()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -70,9 +82,12 @@ void StartScreenScene::OnClick(EventCustom * _event)
 {
     MKInputClick* input = static_cast<MKInputClick*>(_event->getUserData());
 
-    if (input->m_ButtonState == MKInputClick::ButtonState::RELEASE)
+    if (input->m_InputName == START_GAME)
     {
-        Deinitialise();
-        MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
+        if (input->m_ButtonState == MKInputClick::ButtonState::RELEASE)
+        {
+            Deinitialise();
+            MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
+        }
     }
 }

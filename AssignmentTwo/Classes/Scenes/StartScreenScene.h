@@ -40,6 +40,8 @@ public:
 
     virtual bool init();
     virtual void update(float _deltaTime) override {}
+    virtual void onEnter() override;
+    virtual void onExit() override;
 
     CREATE_FUNC(StartScreenScene);
 };

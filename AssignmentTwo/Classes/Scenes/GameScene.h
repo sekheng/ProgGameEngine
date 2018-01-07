@@ -42,8 +42,18 @@ private:
     Node* m_PlayerNode;
     GTCharacterStatNode *m_CharaStatNode = nullptr;
 
-    MKCursorPosition m_ClickStartPosition[NUM_INPUTNAME];
-    MKCursorPosition m_ClickCurrentPosition[NUM_INPUTNAME];
+    // Player Controls
+    mkF32 m_SwipeDeadZone = 0.2f;
+    // Slide
+    mkBool m_SlideActionReleased = true;
+    MKCursorPosition m_SlideClickStartPosition;
+    MKCursorPosition m_SlideClickCurrentPosition;
+    void SlideInput(const MKInputClick* _input);
+    // Jump
+    mkBool m_JumpActionReleased = true;
+    MKCursorPosition m_JumpClickStartPosition;
+    MKCursorPosition m_JumpClickCurrentPosition;
+    void JumpInput(const MKInputClick* _input);
 
     // Initialisation
     void InitialisePlayer();

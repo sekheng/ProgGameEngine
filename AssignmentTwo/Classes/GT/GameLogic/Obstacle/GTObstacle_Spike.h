@@ -20,7 +20,7 @@ protected:
 	static const mkString m_ExplosionSpriteFrameName;
 
 	MKSprite* m_Spike = NULL;
-	gtU32 m_NumberOfSpikes = 3;
+	gtU32 m_NumberOfSpikes = 2;
 
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
