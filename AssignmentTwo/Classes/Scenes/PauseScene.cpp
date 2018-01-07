@@ -32,7 +32,7 @@ bool PauseScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
-	if (!Scene::init())
+	if (!Super::init())
     {
 		return false;
 	}

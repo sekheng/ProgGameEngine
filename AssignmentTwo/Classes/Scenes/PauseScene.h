@@ -15,6 +15,8 @@ USING_NS_MK
 
 class PauseScene : public MKScene
 {
+    typedef MKScene Super;
+
 protected:
     // Input
     void OnButton(EventCustom * _event) {}

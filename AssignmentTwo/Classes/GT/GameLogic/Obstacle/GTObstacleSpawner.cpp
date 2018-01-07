@@ -126,10 +126,10 @@ void GTObstacleSpawner::MoveAllObstacles(gtF32 _distance)
     for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)
     {
         GTObstacleNode* obstacleNode = *i;
-        obstacleNode->setPosition(obstacleNode->getPosition() - Vec2(_distance, 0.0f));
+        obstacleNode->setPosition(obstacleNode->getPosition() + Vec2(_distance, 0.0f));
     }
 
-    m_SpawnPositionX -= _distance;
+    m_SpawnPositionX += _distance;
 }
 
 void GTObstacleSpawner::SpawnObstacleBatch()
