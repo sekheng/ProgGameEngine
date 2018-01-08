@@ -55,8 +55,8 @@ gtBool GTObstacle_Laser::init(gtF32 _spawnDelay)
     auto spawnBeamCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::SpawnLaserBeam, this));
 
     // Move Actions
-    auto moveDownAction = MoveBy::create(m_MoveDownDuration, cocos2d::Vec3(0.0f, -visibleSize.height * 0.8f, 0.0f));
-    auto moveUpAction = MoveBy::create(m_MoveUpDuration, cocos2d::Vec3(0.0f, visibleSize.height * 0.8f, 0.0f) * 2.0f);
+    auto moveDownAction = MoveBy::create(m_MoveDownDuration, cocos2d::Vec3(0.0f, -visibleSize.height * 0.7f, 0.0f));
+    auto moveUpAction = MoveBy::create(m_MoveUpDuration, cocos2d::Vec3(0.0f, visibleSize.height * 0.7f, 0.0f) * 2.0f);
 
     // Particles Callbacks
     auto spawnParticlesCallback = CallFunc::create(CC_CALLBACK_0(GTObstacle_Laser::SpawnParticles, this));

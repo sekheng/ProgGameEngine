@@ -21,7 +21,7 @@ GTObstacleSpawner::GTObstacleSpawner(MKScene * _scene, cocos2d::Node * _playerNo
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    m_MinObstacleInterval = visibleSize.height * 0.5f;
+    m_MinObstacleInterval = visibleSize.height * 0.8f;
     m_MaxObstacleInterval = visibleSize.height * 1.5f;
 }
 
@@ -38,11 +38,11 @@ void GTObstacleSpawner::Reset()
 
 gtF32 GTObstacleSpawner::CalculateObstacleInterval() const
 {
-    return Director::getInstance()->getVisibleSize().height;
+    //return Director::getInstance()->getVisibleSize().height;
 
     gtF32 denominatorSquareRoot = m_DifficultyMultiplier * (gtF32)m_ObstaclesSpawned;
     gtF32 result = 1.0f / (denominatorSquareRoot * denominatorSquareRoot) * m_MaxObstacleInterval;
-    return MKMathsHelper::Clamp<gtF32>(result, m_MinObstacleCount, m_MaxObstacleInterval);
+    return MKMathsHelper::Clamp<gtF32>(result, m_MinObstacleInterval, m_MaxObstacleInterval);
 }
 
 gtF32 GTObstacleSpawner::CalculateScreenRight() const
