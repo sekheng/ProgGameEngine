@@ -66,7 +66,6 @@
 		EB3045C71FE79A8F008B8585 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B61FE79A8E008B8585 /* Shaders */; };
 		EB3045C81FE79A8F008B8585 /* SliderBar.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B71FE79A8E008B8585 /* SliderBar.png */; };
 		EB3045C91FE79A8F008B8585 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B81FE79A8E008B8585 /* Audio */; };
-		EB3045CA1FE79A8F008B8585 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B91FE79A8E008B8585 /* fonts */; };
 		EB3045CB1FE79A8F008B8585 /* mainspritecharaidlespritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */; };
 		EB3045CC1FE79A8F008B8585 /* ButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */; };
 		EB3045CD1FE79A8F008B8585 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BC1FE79A8E008B8585 /* CloseNormal.png */; };
@@ -92,8 +91,13 @@
 		EB3046211FE79B06008B8585 /* MainMenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046161FE79B04008B8585 /* MainMenuScene.cpp */; };
 		EB3046221FE79B06008B8585 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046191FE79B04008B8585 /* GameScene.cpp */; };
 		EB3046231FE79B06008B8585 /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30461A1FE79B05008B8585 /* SettingsScene.cpp */; };
-		EB3046241FE79B06008B8585 /* CrashTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30461D1FE79B05008B8585 /* CrashTestScene.cpp */; };
-		EB3046251FE79B06008B8585 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30461F1FE79B05008B8585 /* HelloWorldScene.cpp */; };
+		EB7484FC200374F000D4E6EC /* PauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F8200374EF00D4E6EC /* PauseScene.cpp */; };
+		EB7484FD200374F000D4E6EC /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */; };
+		EB748501200374F700D4E6EC /* GTInvulnerablePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */; };
+		EB7485062003750600D4E6EC /* GTObstacle_Laser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */; };
+		EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */; };
+		EB74850E2003758300D4E6EC /* PauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EB74850D2003758300D4E6EC /* PauseIcon.png */; };
+		EB748510200375B900D4E6EC /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = EB74850F200375B900D4E6EC /* fonts */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -199,7 +203,6 @@
 		EB3045B61FE79A8E008B8585 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		EB3045B71FE79A8E008B8585 /* SliderBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderBar.png; sourceTree = "<group>"; };
 		EB3045B81FE79A8E008B8585 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
-		EB3045B91FE79A8E008B8585 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainspritecharaidlespritesheet.png; sourceTree = "<group>"; };
 		EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSelected.png; sourceTree = "<group>"; };
 		EB3045BC1FE79A8E008B8585 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
@@ -207,7 +210,6 @@
 		EB3045BE1FE79A8E008B8585 /* Tileset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tileset; sourceTree = "<group>"; };
 		EB3045BF1FE79A8F008B8585 /* ProgressBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProgressBar.png; sourceTree = "<group>"; };
 		EB3045D11FE79AA4008B8585 /* GTPlaySoundAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTPlaySoundAction.h; path = GT/Actions/GTPlaySoundAction.h; sourceTree = "<group>"; };
-		EB3045D21FE79AA4008B8585 /* GTRemoveFromParent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTRemoveFromParent.h; path = GT/Actions/GTRemoveFromParent.h; sourceTree = "<group>"; };
 		EB3045D31FE79AA4008B8585 /* GTScaleUpAndDownAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTScaleUpAndDownAction.h; path = GT/Actions/GTScaleUpAndDownAction.h; sourceTree = "<group>"; };
 		EB3045D41FE79AAD008B8585 /* GTAnimationHandlerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimationHandlerNode.h; path = GT/Animation/GTAnimationHandlerNode.h; sourceTree = "<group>"; };
 		EB3045D51FE79AAD008B8585 /* GTAnimTransAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimTransAct.h; path = GT/Animation/GTAnimTransAct.h; sourceTree = "<group>"; };
@@ -253,9 +255,7 @@
 		EB30460E1FE79AF5008B8585 /* MKSceneMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneMacros.h; path = MK/SceneManagement/MKSceneMacros.h; sourceTree = "<group>"; };
 		EB30460F1FE79AF5008B8585 /* MKSceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKSceneManager.cpp; path = MK/SceneManagement/MKSceneManager.cpp; sourceTree = "<group>"; };
 		EB3046101FE79AF5008B8585 /* MKScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKScene.h; path = MK/SceneManagement/MKScene.h; sourceTree = "<group>"; };
-		EB3046121FE79B03008B8585 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Scenes/HelloWorldScene.h; sourceTree = "<group>"; };
 		EB3046131FE79B04008B8585 /* StartScreenScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartScreenScene.cpp; path = Scenes/StartScreenScene.cpp; sourceTree = "<group>"; };
-		EB3046141FE79B04008B8585 /* CrashTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrashTestScene.h; path = Scenes/CrashTestScene.h; sourceTree = "<group>"; };
 		EB3046151FE79B04008B8585 /* UICreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICreator.h; path = UIClass/UICreator.h; sourceTree = "<group>"; };
 		EB3046161FE79B04008B8585 /* MainMenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScene.cpp; path = Scenes/MainMenuScene.cpp; sourceTree = "<group>"; };
 		EB3046171FE79B04008B8585 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScene.h; path = Scenes/MainMenuScene.h; sourceTree = "<group>"; };
@@ -264,9 +264,25 @@
 		EB30461A1FE79B05008B8585 /* SettingsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SettingsScene.cpp; path = Scenes/SettingsScene.cpp; sourceTree = "<group>"; };
 		EB30461B1FE79B05008B8585 /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsScene.h; path = Scenes/SettingsScene.h; sourceTree = "<group>"; };
 		EB30461C1FE79B05008B8585 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = Scenes/GameScene.h; sourceTree = "<group>"; };
-		EB30461D1FE79B05008B8585 /* CrashTestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CrashTestScene.cpp; path = Scenes/CrashTestScene.cpp; sourceTree = "<group>"; };
 		EB30461E1FE79B05008B8585 /* StartScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreenScene.h; path = Scenes/StartScreenScene.h; sourceTree = "<group>"; };
-		EB30461F1FE79B05008B8585 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Scenes/HelloWorldScene.cpp; sourceTree = "<group>"; };
+		EB7484F8200374EF00D4E6EC /* PauseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PauseScene.cpp; path = Scenes/PauseScene.cpp; sourceTree = "<group>"; };
+		EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = Scenes/GameOverScene.cpp; sourceTree = "<group>"; };
+		EB7484FA200374EF00D4E6EC /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PauseScene.h; path = Scenes/PauseScene.h; sourceTree = "<group>"; };
+		EB7484FB200374EF00D4E6EC /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverScene.h; path = Scenes/GameOverScene.h; sourceTree = "<group>"; };
+		EB7484FE200374F700D4E6EC /* GTInvulnerablePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTInvulnerablePowerUp.h; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.h; sourceTree = "<group>"; };
+		EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTInvulnerablePowerUp.cpp; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.cpp; sourceTree = "<group>"; };
+		EB748500200374F700D4E6EC /* GTPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUp.h; path = GT/GameLogic/Powerup/GTPowerUp.h; sourceTree = "<group>"; };
+		EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Laser.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Laser.cpp; sourceTree = "<group>"; };
+		EB7485032003750500D4E6EC /* GTObstacle_Laser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Laser.h; path = GT/GameLogic/Obstacle/GTObstacle_Laser.h; sourceTree = "<group>"; };
+		EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Saw.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Saw.cpp; sourceTree = "<group>"; };
+		EB7485052003750500D4E6EC /* GTObstacle_Saw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Saw.h; path = GT/GameLogic/Obstacle/GTObstacle_Saw.h; sourceTree = "<group>"; };
+		EB7485082003750E00D4E6EC /* GTScaleUpAndDownAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTScaleUpAndDownAction.h; path = GT/Actions/GTScaleUpAndDownAction.h; sourceTree = "<group>"; };
+		EB7485092003750E00D4E6EC /* GTFollowNodeAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTFollowNodeAction.h; path = GT/Actions/GTFollowNodeAction.h; sourceTree = "<group>"; };
+		EB74850A2003750F00D4E6EC /* GTPlaySoundAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTPlaySoundAction.h; path = GT/Actions/GTPlaySoundAction.h; sourceTree = "<group>"; };
+		EB74850B2003750F00D4E6EC /* GTMoveBySinAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTMoveBySinAction.h; path = GT/Actions/GTMoveBySinAction.h; sourceTree = "<group>"; };
+		EB74850C2003750F00D4E6EC /* GTRemoveFromParentAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTRemoveFromParentAction.h; path = GT/Actions/GTRemoveFromParentAction.h; sourceTree = "<group>"; };
+		EB74850D2003758300D4E6EC /* PauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PauseIcon.png; sourceTree = "<group>"; };
+		EB74850F200375B900D4E6EC /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -393,12 +409,13 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EB74850F200375B900D4E6EC /* fonts */,
+				EB74850D2003758300D4E6EC /* PauseIcon.png */,
 				EB3045B81FE79A8E008B8585 /* Audio */,
 				EB3045B21FE79A8D008B8585 /* ButtonNormal.png */,
 				EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */,
 				EB3045BC1FE79A8E008B8585 /* CloseNormal.png */,
 				EB3045B41FE79A8D008B8585 /* CloseSelected.png */,
-				EB3045B91FE79A8E008B8585 /* fonts */,
 				EB3045B01FE79A8D008B8585 /* HelloWorld.png */,
 				EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */,
 				EB3045B11FE79A8D008B8585 /* PlaceHolder */,
@@ -418,10 +435,25 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EB7485092003750E00D4E6EC /* GTFollowNodeAction.h */,
+				EB74850B2003750F00D4E6EC /* GTMoveBySinAction.h */,
+				EB74850A2003750F00D4E6EC /* GTPlaySoundAction.h */,
+				EB74850C2003750F00D4E6EC /* GTRemoveFromParentAction.h */,
+				EB7485082003750E00D4E6EC /* GTScaleUpAndDownAction.h */,
+				EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */,
+				EB7485032003750500D4E6EC /* GTObstacle_Laser.h */,
+				EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */,
+				EB7485052003750500D4E6EC /* GTObstacle_Saw.h */,
+				EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */,
+				EB7484FE200374F700D4E6EC /* GTInvulnerablePowerUp.h */,
+				EB748500200374F700D4E6EC /* GTPowerUp.h */,
+				EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */,
+				EB7484FB200374EF00D4E6EC /* GameOverScene.h */,
+				EB7484F8200374EF00D4E6EC /* PauseScene.cpp */,
+				EB7484FA200374EF00D4E6EC /* PauseScene.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				EB3045D11FE79AA4008B8585 /* GTPlaySoundAction.h */,
-				EB3045D21FE79AA4008B8585 /* GTRemoveFromParent.h */,
 				EB3045D31FE79AA4008B8585 /* GTScaleUpAndDownAction.h */,
 				EB3045D61FE79AAE008B8585 /* GTAnimationHandlerNode.cpp */,
 				EB3045D41FE79AAD008B8585 /* GTAnimationHandlerNode.h */,
@@ -468,12 +500,8 @@
 				EB30460F1FE79AF5008B8585 /* MKSceneManager.cpp */,
 				EB30460D1FE79AF5008B8585 /* MKSceneManager.h */,
 				EB3046181FE79B04008B8585 /* AvailableScenes.h */,
-				EB30461D1FE79B05008B8585 /* CrashTestScene.cpp */,
-				EB3046141FE79B04008B8585 /* CrashTestScene.h */,
 				EB3046191FE79B04008B8585 /* GameScene.cpp */,
 				EB30461C1FE79B05008B8585 /* GameScene.h */,
-				EB30461F1FE79B05008B8585 /* HelloWorldScene.cpp */,
-				EB3046121FE79B03008B8585 /* HelloWorldScene.h */,
 				EB3046161FE79B04008B8585 /* MainMenuScene.cpp */,
 				EB3046171FE79B04008B8585 /* MainMenuScene.h */,
 				EB30461A1FE79B05008B8585 /* SettingsScene.cpp */,
@@ -651,11 +679,11 @@
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
-				EB3045CA1FE79A8F008B8585 /* fonts in Resources */,
 				EB3045CE1FE79A8F008B8585 /* Textures in Resources */,
 				EB3045CC1FE79A8F008B8585 /* ButtonSelected.png in Resources */,
 				EB3045C21FE79A8F008B8585 /* PlaceHolder in Resources */,
 				EB3045C91FE79A8F008B8585 /* Audio in Resources */,
+				EB748510200375B900D4E6EC /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				EB3045C51FE79A8F008B8585 /* CloseSelected.png in Resources */,
 				EB3045C81FE79A8F008B8585 /* SliderBar.png in Resources */,
@@ -671,6 +699,7 @@
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				EB3045D01FE79A8F008B8585 /* ProgressBar.png in Resources */,
 				EB3045C31FE79A8F008B8585 /* ButtonNormal.png in Resources */,
+				EB74850E2003758300D4E6EC /* PauseIcon.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				EB3045CB1FE79A8F008B8585 /* mainspritecharaidlespritesheet.png in Resources */,
@@ -693,8 +722,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB748501200374F700D4E6EC /* GTInvulnerablePowerUp.cpp in Sources */,
+				EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */,
 				EB3045DF1FE79AB7008B8585 /* GTSimperMusicSys.cpp in Sources */,
-				EB3046241FE79B06008B8585 /* CrashTestScene.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				EB3045EF1FE79ACE008B8585 /* GTObstacle_Missile.cpp in Sources */,
 				EB3046221FE79B06008B8585 /* GameScene.cpp in Sources */,
@@ -711,12 +741,14 @@
 				EB3045DC1FE79AAE008B8585 /* GTAnimTransAct.cpp in Sources */,
 				EB30460C1FE79AE9008B8585 /* MKKeyboardHandler.cpp in Sources */,
 				EB3046091FE79AE9008B8585 /* MKTouchHandler.cpp in Sources */,
+				EB7485062003750600D4E6EC /* GTObstacle_Laser.cpp in Sources */,
+				EB7484FD200374F000D4E6EC /* GameOverScene.cpp in Sources */,
 				EB3045DA1FE79AAE008B8585 /* GTAnimationHandlerNode.cpp in Sources */,
 				EB3046201FE79B06008B8585 /* StartScreenScene.cpp in Sources */,
+				EB7484FC200374F000D4E6EC /* PauseScene.cpp in Sources */,
 				EB3046111FE79AF5008B8585 /* MKSceneManager.cpp in Sources */,
 				EB3045F11FE79ACE008B8585 /* GTObstacleSpawner.cpp in Sources */,
 				EB30460A1FE79AE9008B8585 /* MKInputDefinition.cpp in Sources */,
-				EB3046251FE79B06008B8585 /* HelloWorldScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

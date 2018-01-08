@@ -73,7 +73,7 @@ bool SettingsScene::init()
 	slider->setPercent(masterVolume);
 	this->addChild(slider);
 
-	auto label = Label::createWithTTF("Settings Scene", "Fonts/Marker_Felt.ttf", 24);
+	auto label = Label::createWithTTF("Settings Scene", "fonts/Marker_Felt.ttf", 24);
 	if (label == nullptr)
 	{
 		problemLoading("'Fonts/Marker_Felt.ttf'");

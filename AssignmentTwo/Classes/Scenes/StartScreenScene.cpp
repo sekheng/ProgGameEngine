@@ -31,7 +31,7 @@ void StartScreenScene::InitialiseStartLabel()
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 
     float fontSize = visibleSize.height * 0.05f;
-    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "Fonts/Marker_Felt.ttf", fontSize);
+    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "fonts/Marker_Felt.ttf", fontSize);
     m_StartLabel->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
         visibleOrigin.y + visibleSize.height * 0.25f));
 

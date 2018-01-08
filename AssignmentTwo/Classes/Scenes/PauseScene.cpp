@@ -49,10 +49,10 @@ void PauseScene::InitializeTitle()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = Label::createWithTTF("Pause", "Fonts/Marker_Felt.ttf", 24);
+    auto label = Label::createWithTTF("Pause", "fonts/Marker_Felt.ttf", 24);
     if (label == nullptr)
     {
-        problemLoading("'Fonts/Marker_Felt.ttf'");
+        problemLoading("'fonts/Marker_Felt.ttf'");
     }
     else
     {

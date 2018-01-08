@@ -98,7 +98,7 @@ bool MainMenuScene::init()
 	// add a label shows "Hello World"
 	// create and initialize a label
 
-	auto label = Label::createWithTTF("Main Menu Scene", "Fonts/Marker_Felt.ttf", 24);
+	auto label = Label::createWithTTF("Main Menu Scene", "fonts/Marker_Felt.ttf", 24);
 	if (label == nullptr)
 	{
 		problemLoading("'Fonts/Marker_Felt.ttf'");
