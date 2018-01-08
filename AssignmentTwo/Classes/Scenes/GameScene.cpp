@@ -29,7 +29,7 @@ bool GameScene::initWithPhysics()
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    //this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
@@ -116,7 +116,8 @@ void GameScene::InitialisePlayer()
     playerSprite->addChild(playerAnimationHandler);
 
     // Create player physics.
-    PhysicsBody* playerPhysicsBody = PhysicsBody::createBox(playerSprite->getContentSize() * 0.8f);
+    Size playerSpriteContentSize = Size(playerSprite->getContentSize().width * 0.6f, playerSprite->getContentSize().height * 0.8f);
+    PhysicsBody* playerPhysicsBody = PhysicsBody::createBox(playerSpriteContentSize);
     playerPhysicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     playerPhysicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
     playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
