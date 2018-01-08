@@ -31,7 +31,7 @@ public:
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Spike);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Spike);
 
-	static GTObstacle_Spike* Create(MKScene* _scene, gtU32 _numberOfSpikes = 10);
+	static GTObstacle_Spike* Create(MKScene* _scene, gtU32 _numberOfSpikes = 2);
 
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
