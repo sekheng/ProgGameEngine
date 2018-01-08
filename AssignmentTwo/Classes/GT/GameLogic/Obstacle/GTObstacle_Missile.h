@@ -21,6 +21,7 @@ protected:
     CCParticleSmoke* m_ParticleSmoke = NULL;
     gtS32 m_MissileFlightSoundID = GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND;
     gtBool m_SpawnedWarning = false;
+    mkF32 m_PlayerVelocityX = 0.0f;
 
     virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
@@ -41,7 +42,7 @@ public:
     // Others
     static const gtF32 m_WarningDuration;
 
-    static GTObstacle_Missile* Create(MKScene* _scene);
+    static GTObstacle_Missile* Create(MKScene* _scene, mkF32 _playerVelocityX);
     static gtF32 GetHorizontalVelocity();
     static MKSprite* CreateMissileWarning();
 
@@ -87,7 +88,7 @@ CC_CONSTRUCTOR_ACCESS:
         }
     }
 
-    virtual gtBool init() override;
+    virtual gtBool init(mkF32 _playerVelocityX);
     virtual void update(gtF32 _deltaTime) override;
 
 };
