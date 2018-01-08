@@ -9,7 +9,7 @@ USING_NS_GT
 USING_NS_CC;
 USING_NS_MK
 
-const static float ACCEPTABLE_VELY = 0.8f;
+const static float ACCEPTABLE_VELY = 0.9f;
 
 GTCharacterStatNode::GTCharacterStatNode()
     : m_CurrentState(RUNNING)
