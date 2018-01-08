@@ -106,7 +106,7 @@ void GameOverScene::InitializeGameOverMenuButtons()
 
 	//SETTINGS BUTTON//
 	auto ReviveButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - RetryButton->getContentSize().height),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (RetryButton->getContentSize().height * RetryButton->getScale())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Revive",
@@ -120,7 +120,7 @@ void GameOverScene::InitializeGameOverMenuButtons()
 
 	//MAIN MENU BUTTON//
 	auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - RetryButton->getContentSize().height * 2),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (RetryButton->getContentSize().height * RetryButton->getScale() * 2)),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Main Menu",

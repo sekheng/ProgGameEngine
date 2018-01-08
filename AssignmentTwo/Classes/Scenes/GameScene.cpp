@@ -258,7 +258,7 @@ void GameScene::InitialiseGameOverUI()
         m_ArrayOfGameOverUI.push_back(RetryButton);
         //SETTINGS BUTTON//
         auto ReviveButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - RetryButton->getContentSize().height),
+            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale())),
             "ButtonNormal.png",
             "ButtonSelected.png",
             "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
@@ -278,7 +278,7 @@ void GameScene::InitialiseGameOverUI()
         m_ArrayOfGameOverUI.push_back(ReviveButton);
         //MAIN MENU BUTTON//
         auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * 2)),
+            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 2)),
             "ButtonNormal.png",
             "ButtonSelected.png",
             "Main Menu",

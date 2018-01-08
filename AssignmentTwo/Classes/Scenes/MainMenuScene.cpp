@@ -69,7 +69,7 @@ bool MainMenuScene::init()
 	this->addChild(toGameButton);
 
 	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - toGameButton->getContentSize().height),
+		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - (toGameButton->getContentSize().height * toGameButton->getScale())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Settings",
@@ -81,7 +81,7 @@ bool MainMenuScene::init()
 	this->addChild(toSettingsButton);
 
 	auto exitButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - (2 * toGameButton->getContentSize().height)),
+		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - (2 * toGameButton->getContentSize().height * toGameButton->getScale())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Exit",

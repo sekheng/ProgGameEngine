@@ -23,13 +23,14 @@ class MKUICreator : public MKSingletonTemplate<MKUICreator>
 	friend MKSingletonTemplate<MKUICreator>;
 public:
 	//Create Button
-	ui::Button* createButton(const Vec2& _position, const std::string& _normalSprite, const std::string& _pressedSprite, const std::string& _labelName, const std::function<void(Ref*)>& _funcPtr)
+	ui::Button* createButton(const Vec2& _position, const std::string& _normalSprite, const std::string& _pressedSprite, const std::string& _labelName, const std::function<void(Ref*)>& _funcPtr, const float& _scale = 1.75f)
 	{
 		//GoSceneButton::GoSceneButton("GameScene");
-		auto label = Label::createWithTTF(_labelName, "fonts/Marker_Felt.ttf", 24);
+		auto label = Label::createWithTTF(_labelName, "fonts/Marker_Felt.ttf", 28);
 		label->setPosition(_position);
 		auto button = ui::Button::create(_normalSprite, _pressedSprite);
 		button->setPosition(_position);
+		button->setScale(_scale);
 		//button->addTouchEventListener(_funcPtr);
         button->addClickEventListener(_funcPtr);
 		button->setTitleLabel(label);
