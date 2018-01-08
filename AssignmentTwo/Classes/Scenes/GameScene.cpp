@@ -66,9 +66,10 @@ void GameScene::update(float _deltaTime)
             m_PlayerNode->setPositionX(playerNewPositionX);
             m_ObstacleSpawner->MoveAllObstacles(-RESET_PLAYERDISTANCE_X);
         }
+        // only updates the background when the player is alive!
+        ScrollBackgrounds(_deltaTime);
     }
 
-    ScrollBackgrounds(_deltaTime);
     UpdateCamera();
     m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
     UpdateUINode();

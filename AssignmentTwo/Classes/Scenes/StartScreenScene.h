@@ -36,7 +36,7 @@ private:
 
 public:
     StartScreenScene() {}
-    virtual ~StartScreenScene() {}
+    virtual ~StartScreenScene() { Deinitialise(); }
 
     virtual bool init();
     virtual void update(float _deltaTime) override {}
