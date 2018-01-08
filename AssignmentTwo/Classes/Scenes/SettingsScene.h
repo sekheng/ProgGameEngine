@@ -23,9 +23,9 @@ public:
 
 	virtual bool init();
 
-    void OnButton(EventCustom * _event) {}
-    void OnClick(EventCustom * _event) {}
-    void OnAxis(EventCustom * _event) {}
+    virtual void OnButton(EventCustom * _event) {}
+    virtual void OnClick(EventCustom * _event) {}
+    virtual void OnAxis(EventCustom * _event) {}
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(SettingsScene);

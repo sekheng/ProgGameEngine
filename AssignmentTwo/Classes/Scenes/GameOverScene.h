@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __GAME_OVER_SCENE_H__
 #define __GAME_OVER_SCENE_H__
 
@@ -16,9 +15,9 @@ USING_NS_MK
 
 class GameOverScene : public MKScene
 {
-private:
-	Label* m_InputLabel = nullptr;
+    typedef MKScene Super;
 
+private:
     float m_TimeCounter = 0.0f;
 
 public:
@@ -31,12 +30,12 @@ public:
 	void InitializeLoadingUI();
 	void InitializeGameOverMenuButtons();
 
-	void OnButton(EventCustom * _event);
-	void OnClick(EventCustom * _event);
-	void OnAxis(EventCustom * _event);
+    virtual void OnButton(EventCustom * _event) {}
+    virtual void OnClick(EventCustom * _event) {}
+    virtual void OnAxis(EventCustom * _event) {}
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(GameOverScene);
 };
 
-#endif // __MENU_SCENE_H__#pragma once
+#endif // __GAME_OVER_SCENE_H__

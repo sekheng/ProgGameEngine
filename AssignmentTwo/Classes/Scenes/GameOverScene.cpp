@@ -40,7 +40,7 @@ bool GameOverScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
-	if (!Scene::init())
+	if (!Super::init())
 	{
 		return false;
 	}
@@ -131,18 +131,6 @@ void GameOverScene::InitializeGameOverMenuButtons()
 		}
 	);
 	this->addChild(ToMainMenuButton);
-}
-
-void GameOverScene::OnButton(EventCustom* _event)
-{
-}
-
-void GameOverScene::OnClick(EventCustom* _event)
-{
-}
-
-void GameOverScene::OnAxis(EventCustom* _event)
-{
 }
 
 void GameOverScene::update(float _deltaTime)
