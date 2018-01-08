@@ -290,17 +290,14 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
     {
         switch (m_CurrentState)
         {
-        case DEAD:
-            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
-            m_physicsNode->resetForces();
-            break;
         case JUMPING:
         case SLIDE_JUMP:
-            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
-            m_physicsNode->resetForces();
             // this means the character touched the ground!
             m_AnimHandler->transitState("Idle");
             setState(RUNNING);
+        case DEAD:
+            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0.f));
+            m_physicsNode->resetForces();
             break;
         default:
             break;
