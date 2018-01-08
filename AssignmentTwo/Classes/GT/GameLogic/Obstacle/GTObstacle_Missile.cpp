@@ -23,10 +23,10 @@ const mkString GTObstacle_Missile::m_MissileWarningSoundName = "Missile_Warning"
 // Others
 const gtF32 GTObstacle_Missile::m_WarningDuration = 2.0f;
 
-GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
+GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene, mkF32 _playerVelocityX)
 {
     GTObstacle_Missile* obstacle = new (std::nothrow) GTObstacle_Missile(_scene);
-    if (obstacle && obstacle->init())
+    if (obstacle && obstacle->init(_playerVelocityX))
     {
         obstacle->autorelease();
         return obstacle;
@@ -36,9 +36,11 @@ GTObstacle_Missile* GTObstacle_Missile::Create(MKScene* _scene)
     return nullptr;
 }
 
-gtBool GTObstacle_Missile::init()
+gtBool GTObstacle_Missile::init(mkF32 _playerVelocityX)
 {
     if (!Super::init()) { return false; }
+
+    m_PlayerVelocityX = _playerVelocityX;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -182,9 +184,8 @@ void GTObstacle_Missile::update(gtF32 _deltaTime)
 
     if (m_SpawnedWarning == false)
     {
-        gtF32 distanceToOnScreen = obstacleLeft - screenRight;
-        gtF32 timeToOnScreen = MKMathsHelper::Abs<gtF32>(distanceToOnScreen / GetHorizontalVelocity());
-        if (timeToOnScreen < m_WarningDuration)
+        mkF32 combinedVelocity = m_PlayerVelocityX - GetHorizontalVelocity();
+        if (obstacleLeft <= (screenRight + m_WarningDuration * combinedVelocity))
         {
             MKSprite* warning = CreateMissileWarning();
             warning->setPosition(Vec2(visibleSize.width * 0.95f, this->getPositionY()));

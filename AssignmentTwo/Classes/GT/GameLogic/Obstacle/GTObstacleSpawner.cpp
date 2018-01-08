@@ -151,7 +151,7 @@ void GTObstacleSpawner::SpawnObstacleBatch()
             SpawnSpike();
             break;
 		case GinTama::GTObstacleSpawner::SAW:
-			SpawnSaw();
+            SpawnSaw();
 			break;
         case GinTama::GTObstacleSpawner::LASER:
             SpawnLaser();
@@ -199,7 +199,7 @@ void GTObstacleSpawner::SpawnMissile()
         int test = 0;
     }
 
-    GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene);
+    GTObstacle_Missile* obstacle = GTObstacle_Missile::Create(m_Scene, m_PlayerVelocityX);
     obstacle->setPosition(missileSpawnPositionX, missileSpawnPositionY);
 
     m_Scene->addChild(obstacle);
