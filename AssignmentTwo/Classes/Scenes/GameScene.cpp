@@ -74,7 +74,6 @@ void GameScene::update(float _deltaTime)
     m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
     UpdateUINode();
     UpdateText();
-
 }
 
 void GameScene::onEnter()

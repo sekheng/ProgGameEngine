@@ -83,6 +83,7 @@ public:
     void ResumeAllObstacles();  // Call this function when closing the pause scene.
     void MoveAllObstacles(gtF32 _distance);
     void Reset();
+    void DestroyObstacles(mkU32 _numObstacles);
 
 };
 

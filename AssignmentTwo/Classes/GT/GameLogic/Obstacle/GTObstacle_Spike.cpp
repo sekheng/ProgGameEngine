@@ -27,6 +27,10 @@ GTObstacle_Spike* GTObstacle_Spike::Create(MKScene* _scene, gtU32 _numberOfSpike
 	return nullptr;
 }
 
+void GTObstacle_Spike::DestroyObstacle()
+{
+}
+
 gtBool GTObstacle_Spike::init()
 {
 	if (!Super::init()) { return false; }

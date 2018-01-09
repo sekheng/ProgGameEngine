@@ -32,6 +32,8 @@ protected:
     virtual bool OnContactBegin(cocos2d::PhysicsContact& _contact) = 0;
 
 public:
+    static const mkF32 m_DestroyedAnimationDuration;
+
     MKScene* GetScene() { return m_Scene; }
     const MKScene* GetScene() const { return m_Scene; }
 
@@ -43,6 +45,8 @@ public:
     virtual void PauseObstacle() { m_IsPaused = true; }
     virtual void ResumeObstacle() { m_IsPaused = false; }
 
+    virtual void DestroyObstacle() { removeFromParent(); }
+
 protected:
     GTObstacleNode(MKScene* _scene) : m_Scene(_scene) {}
     virtual ~GTObstacleNode() {}
@@ -50,6 +54,8 @@ protected:
     virtual bool init() override { return Super::init(); }
     virtual void update(gtF32 _deltaTime) override { Super::update(_deltaTime); };
 };
+
+const mkF32 GTObstacleNode::m_DestroyedAnimationDuration = 1.5f;
 
 NS_GT_END
 

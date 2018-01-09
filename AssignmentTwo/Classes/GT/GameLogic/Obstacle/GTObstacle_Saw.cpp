@@ -28,6 +28,10 @@ GTObstacle_Saw* GTObstacle_Saw::Create(MKScene* _scene)
 	return nullptr;
 }
 
+void GTObstacle_Saw::DestroyObstacle()
+{
+}
+
 gtBool GTObstacle_Saw::init()
 {
 	if (!Super::init()) { return false; }

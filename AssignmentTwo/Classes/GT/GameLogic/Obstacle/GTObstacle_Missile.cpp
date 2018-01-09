@@ -166,6 +166,10 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning()
     return warning;
 }
 
+void GTObstacle_Missile::DestroyObstacle()
+{
+}
+
 void GTObstacle_Missile::update(gtF32 _deltaTime)
 {
     // Play the rocket audio when on screen

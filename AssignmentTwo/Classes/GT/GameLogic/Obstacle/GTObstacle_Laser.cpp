@@ -37,6 +37,59 @@ GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene, gtF32 _spawnDelay)
     return nullptr;
 }
 
+void GTObstacle_Laser::DestroyObstacle()
+{
+    this->stopAllActions();
+    if (!m_LaserGunLeft && !m_LaserGunRight)
+    {
+        removeFromParent();
+        return;
+    }
+
+    // Create our particles for the left gun.
+    ParticleSpiral* particlesLeft = ParticleSpiral::createWithTotalParticles(10);
+    particlesLeft->setEmissionRate(particlesLeft->getTotalParticles() / m_DestroyedAnimationDuration);
+    particlesLeft->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
+    particlesLeft->setDuration(m_DestroyedAnimationDuration);
+    particlesLeft->setLife(m_DestroyedAnimationDuration);
+    particlesLeft->setLifeVar(0.0f);
+    particlesLeft->setStartSize(m_LaserGunLeft->getContentSize().height);
+    particlesLeft->setStartSizeVar(0.0f);
+    particlesLeft->setEndSize(m_LaserGunLeft->getContentSize().height * 6.0f);
+    particlesLeft->setEndSizeVar(0.0f);
+    particlesLeft->setAutoRemoveOnFinish(true);
+    particlesLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    particlesLeft->setPosition(cocos2d::Vec2(m_LaserGunLeft->getContentSize().width * 0.5f, m_LaserGunLeft->getContentSize().height * 0.5f));
+    m_LaserGunLeft->addChild(particlesLeft);
+    
+    // Create our particles for the right gun.
+    ParticleSpiral* particlesRight = ParticleSpiral::createWithTotalParticles(10);
+    particlesRight->setEmissionRate(particlesRight->getTotalParticles() / m_DestroyedAnimationDuration);
+    particlesRight->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
+    particlesRight->setDuration(m_DestroyedAnimationDuration);
+    particlesRight->setLife(m_DestroyedAnimationDuration);
+    particlesRight->setLifeVar(0.0f);
+    particlesRight->setStartSize(m_LaserGunRight->getContentSize().height);
+    particlesRight->setStartSizeVar(0.0f);
+    particlesRight->setEndSize(m_LaserGunRight->getContentSize().height * 6.0f);
+    particlesRight->setEndSizeVar(0.0f);
+    particlesRight->setAutoRemoveOnFinish(true);
+    particlesRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    particlesRight->setPosition(cocos2d::Vec2(m_LaserGunRight->getContentSize().width * 0.5f, m_LaserGunRight->getContentSize().height * 0.5f));
+    m_LaserGunRight->addChild(particlesRight);
+
+    // Run Actions
+    auto followAction = GTFollowNodeAction::Create(m_TotalDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);
+    this->runAction(
+        Spawn::createWithTwoActions(followAction,
+            Sequence::create(
+            DelayTime::create(m_DestroyedAnimationDuration),
+            GTRemoveFromParentAction::Create(),
+            nullptr)
+        )
+    );
+}
+
 gtBool GTObstacle_Laser::init(gtF32 _spawnDelay)
 {
     if (!Super::init()) { return false; }
