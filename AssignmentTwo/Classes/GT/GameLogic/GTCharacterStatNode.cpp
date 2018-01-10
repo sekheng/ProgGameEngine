@@ -125,7 +125,7 @@ void GTCharacterStatNode::setPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)
     {
         _physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
         _physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-        _physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+        _physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
     }
 }
 
@@ -141,7 +141,7 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->retain();
     m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
 
     // Then set the contact listener when it happens
     setPhysicsBitmasks(m_physicsNode);
@@ -309,6 +309,11 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
         setState(DEAD);
         return true;
     }
+	else if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_POWERUP, otherPhysicsBody->getCategoryBitmask()))
+	{
+		return true;
+	}
+
 
     return false;
 }

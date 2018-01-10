@@ -55,8 +55,6 @@ protected:
     virtual void update(gtF32 _deltaTime) override { Super::update(_deltaTime); };
 };
 
-const mkF32 GTObstacleNode::m_DestroyedAnimationDuration = 1.5f;
-
 NS_GT_END
 
 #endif // GT_OBSTACLENODE_H

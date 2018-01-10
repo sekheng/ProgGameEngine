@@ -168,6 +168,7 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning()
 
 void GTObstacle_Missile::DestroyObstacle()
 {
+	Super::DestroyObstacle();
 }
 
 void GTObstacle_Missile::update(gtF32 _deltaTime)

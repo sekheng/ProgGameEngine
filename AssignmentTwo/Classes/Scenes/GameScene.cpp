@@ -10,7 +10,7 @@
 #include "../GT/Audio/GTSimperMusicSys.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
-#include "../GT/GameLogic/Powerup/GTInvulnerablePowerUp.h"
+#include "../GT/GameLogic/PowerUp/GTPowerUp.h"
 
 // Include UI
 #include "../UIClass/UICreator.h"
@@ -29,7 +29,7 @@ bool GameScene::initWithPhysics()
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    //this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
@@ -42,10 +42,11 @@ bool GameScene::initWithPhysics()
 
     InitialisePlayer();
 
-    // Create Obstacle Spawner
+    // Create Obstacle & PowerUps Spawner
     InitialiseObstacles();
+	InitialisePowerUps();
 
-    GTInvulverablePowerUp::create(this);
+    //GTInvulverablePowerUp::create(this);
 
 	return true;
 }
@@ -65,6 +66,7 @@ void GameScene::update(float _deltaTime)
             float playerNewPositionX = m_PlayerNode->getPositionX() - RESET_PLAYERDISTANCE_X;
             m_PlayerNode->setPositionX(playerNewPositionX);
             m_ObstacleSpawner->MoveAllObstacles(-RESET_PLAYERDISTANCE_X);
+			m_PowerUpSpawner->MoveAllPowerUps(-RESET_PLAYERDISTANCE_X);
         }
         // only updates the background when the player is alive!
         ScrollBackgrounds(_deltaTime);
@@ -72,6 +74,7 @@ void GameScene::update(float _deltaTime)
 
     UpdateCamera();
     m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+	m_PowerUpSpawner->Update(_deltaTime);
     UpdateUINode();
     UpdateText();
 }
@@ -81,6 +84,7 @@ void GameScene::onEnter()
     Super::onEnter();
 
     if (m_ObstacleSpawner) { m_ObstacleSpawner->ResumeAllObstacles(); }
+	if (m_PowerUpSpawner) { m_PowerUpSpawner->ResumeAllPowerUps(); }
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_GAMESCENE);
 }
@@ -90,6 +94,7 @@ void GameScene::onExit()
     Super::onExit();
 
     if (m_ObstacleSpawner) { m_ObstacleSpawner->PauseAllObstacles(); }
+	if (m_PowerUpSpawner) { m_PowerUpSpawner->PauseAllPowerUps(); }
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_DEFAULT);
 }
@@ -120,7 +125,7 @@ void GameScene::InitialisePlayer()
     PhysicsBody* playerPhysicsBody = PhysicsBody::createBox(playerSpriteContentSize);
     playerPhysicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     playerPhysicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
     playerPhysicsBody->setAngularVelocityLimit(0.0f);
     playerPhysicsBody->setMass(20.0f);
     playerPhysicsBody->setDynamic(true);
@@ -237,6 +242,7 @@ void GameScene::InitialiseGameOverUI()
     if (m_ArrayOfGameOverUI.size() == 0)
     {
         m_ObstacleSpawner->PauseAllObstacles();
+		m_PowerUpSpawner->PauseAllPowerUps();
         auto visibleSize = Director::getInstance()->getVisibleSize();
         float UIButtonPosX = (visibleSize.width * 0.5f);
         float UIButtonPosY = (visibleSize.height * 0.5f);
@@ -270,6 +276,7 @@ void GameScene::InitialiseGameOverUI()
                 // then revive the player!
                 m_CharaStatNode->setState(REVIVE);
                 m_ObstacleSpawner->ResumeAllObstacles();
+				m_PowerUpSpawner->ResumeAllPowerUps();
             }
         }
         );
@@ -296,7 +303,15 @@ void GameScene::InitialiseObstacles()
     DeinitialiseObstacles();
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 2.0f);
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.height * 4.0f);
+}
+
+void GameScene::InitialisePowerUps()
+{
+	DeinitialisePowerUps();
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	m_PowerUpSpawner = new GTPowerUpSpawner(this, m_PlayerNode, visibleSize.height * 10.0f, m_ObstacleSpawner);
 }
 
 // Update
@@ -331,6 +346,7 @@ void GameScene::Deinitialise()
 {
 	DeinitialiseInput();
     DeinitialiseObstacles();
+	DeinitialisePowerUps();
     ClearGameOverUI();
 }
 
@@ -340,6 +356,14 @@ void GameScene::DeinitialiseObstacles()
     {
         delete m_ObstacleSpawner;
     }
+}
+
+void GameScene::DeinitialisePowerUps()
+{
+	if (m_PowerUpSpawner != nullptr)
+	{
+		delete m_PowerUpSpawner;
+	}
 }
 
 void GameScene::ClearGameOverUI()

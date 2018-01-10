@@ -8,6 +8,7 @@
 // Include GT
 #include "../GT/Common/GTMacros.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleSpawner.h"
+#include "../GT/GameLogic/PowerUp/GTPowerUpSpawner.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "ui/UIButton.h"
 
@@ -35,6 +36,8 @@ private:
 	MKSprite* m_Ground = nullptr;
     // Obstacles
     GTObstacleSpawner* m_ObstacleSpawner = nullptr;
+	// PowerUps
+	GTPowerUpSpawner* m_PowerUpSpawner = nullptr;
     // UI
     Label* m_HighScoreTxt = nullptr;
     std::vector<Node*> m_ArrayOfGameOverUI;
@@ -63,6 +66,7 @@ private:
     void InitialiseText();
     void InitialiseGameOverUI();
     void InitialiseObstacles();
+	void InitialisePowerUps();
 
     // Update
     void ScrollBackgrounds(float _deltaTime);
@@ -74,6 +78,7 @@ private:
     void Deinitialise();
     void ClearGameOverUI();
     void DeinitialiseObstacles();
+	void DeinitialisePowerUps();
 
 	// Input Callbacks
 	MK_INITIALISEINPUT(GameScene);
