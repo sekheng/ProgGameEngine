@@ -1,32 +1,31 @@
-#include "GTSlowTimePowerUp.h"
+#include "GTSphereShieldPowerUp.h"
+#include "GTSphereShield.h"
 #include "../../../GT/Audio/GTSimperMusicSys.h"
 
 #include <string>
 
 NS_GT_BEGIN
 
-const mkString GTSlowTimePowerUp::m_OnCollectSoundName = "";
+const mkString GTSphereShield::m_OnCollectSoundName = "";
 
-const mkString GTSlowTimePowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SlowTimeSprite.png";
+const mkString GTSphereShield::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
-// Initialising Global Variables
-bool GTSlowTimePowerUp::m_OnContact = false;
-float GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
+bool GTSphereShield::m_powerUpActivated = false;
 
-GTSlowTimePowerUp* GTSlowTimePowerUp::Create(MKScene* _scene)
+GTSphereShield* GTSphereShield::Create(MKScene* _scene, GTCharacterStatNode* _playerNode)
 {
-	GTSlowTimePowerUp* powerUp = new (std::nothrow) GTSlowTimePowerUp(_scene);
-	if (powerUp && powerUp->init())
+	GTSphereShield* shield = new (std::nothrow) GTSphereShield(_scene, _playerNode);
+	if (shield && shield->init())
 	{
-		powerUp->autorelease();
-		return powerUp;
+		shield->autorelease();
+		return shield;
 	}
 
-	CC_SAFE_DELETE(powerUp);
+	CC_SAFE_DELETE(shield);
 	return nullptr;
 }
 
-gtBool GTSlowTimePowerUp::init()
+gtBool GTSphereShield::init()
 {
 	if (!Super::init()) { return false; }
 
@@ -37,7 +36,7 @@ gtBool GTSlowTimePowerUp::init()
 	m_objectSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	this->addChild(m_objectSprite);
 	this->setContentSize(m_objectSprite->getContentSize());
-	this->setScale(0.75f);
+	this->setScale(1.5f);
 	m_objectSprite->setPosition(this->getContentSize() * 0.5f);
 
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -46,7 +45,7 @@ gtBool GTSlowTimePowerUp::init()
 	physicsBody->setDynamic(true);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_POWERUP);
-	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
 	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
 	this->setPhysicsBody(physicsBody);
 	InitialiseContactListener();
@@ -54,7 +53,7 @@ gtBool GTSlowTimePowerUp::init()
 	return true;
 }
 
-gtBool GTSlowTimePowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
+gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 {
 	PhysicsShape* physicsShapeA = _contact.getShapeA();
 	PhysicsShape* physicsShapeB = _contact.getShapeB();
@@ -72,27 +71,41 @@ gtBool GTSlowTimePowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
-	// Only check collision with the player.
-	if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
 	{
 		return false;
 	}
 
-	// Stop everything. The only reason we are not deleting instantly is so that
+	// Only check collision with the player.
+	if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
+	{
+		return false;
+	}
+
+	if (GTSphereShield::m_powerUpActivated)
+	{
+		setPosition(m_PlayerNode->getPosition());
+	}
+	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
+	{
+		auto obstacle = otherPhysicsBody->getNode();
+		if (obstacle->getPhysicsBody() == nullptr)
+			return false;
+		else
+			obstacle->removeComponent(getPhysicsBody());
+	}
+
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 
-	GTSimperMusicSys::GetInstance()->playSound(m_OnCollectSoundName);
-
-	if (!m_OnContact)
-	{
-		Director::getInstance()->getScheduler()->setTimeScale(0.5f);
-		GetScene()->getPhysicsWorld()->setSpeed(0.5f);
-		m_OnContact = true;
-		m_currentCountDownTimer = m_countDownTimer;
-	}
+	removeFromParent();
 
 	return true;
+}
+
+void GTSphereShield::update(gtF32 _deltaTime)
+{
+	setPosition(m_PlayerNode->getPosition());
 }
 
 NS_GT_END

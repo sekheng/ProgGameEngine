@@ -290,6 +290,7 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
     {
         switch (m_CurrentState)
         {
+		case RUNNING:
         case JUMPING:
         case SLIDE_JUMP:
             // this means the character touched the ground!

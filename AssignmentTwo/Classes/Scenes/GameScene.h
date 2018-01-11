@@ -73,6 +73,7 @@ private:
     void UpdateCamera();
     void UpdateUINode();
     void UpdateText();
+	void UpdatePowerUpEffects(float _deltaTime);
 
     // Deinitialisation
     void Deinitialise();

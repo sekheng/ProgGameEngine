@@ -11,6 +11,8 @@ class GTSlowTimePowerUp : public GTPowerUp
 {
 	typedef GTPowerUp Super;
 
+	
+
 protected:
 	static const gtString m_SpriteFileName;
 	static const mkString m_OnCollectSoundName;
@@ -20,6 +22,10 @@ protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
+	static bool m_OnContact;
+	float m_countDownTimer = 10.0f;
+	static float m_currentCountDownTimer;
+
 	GT_INITIALISECONTACTLISTENER(GTSlowTimePowerUp);
 	GT_DEINITIALISECONTACTLISTENER(GTSlowTimePowerUp);
 

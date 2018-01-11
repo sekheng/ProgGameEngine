@@ -164,6 +164,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTCleanSlatePowerUp.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpSpawner.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSlowTimePowerUp.cpp" />
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.cpp" />
     <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp" />
     <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
@@ -206,6 +207,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpMacros.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpSpawner.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSlowTimePowerUp.h" />
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.h" />
     <ClInclude Include="..\Classes\MK\Common\MKAssertions.h" />
     <ClInclude Include="..\Classes\MK\Common\MKMacros.h" />

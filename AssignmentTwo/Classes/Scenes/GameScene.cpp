@@ -12,6 +12,8 @@
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
 #include "../GT/GameLogic/PowerUp/GTPowerUp.h"
 
+#include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
+
 // Include UI
 #include "../UIClass/UICreator.h"
 
@@ -22,6 +24,7 @@ static float RESET_PLAYERDISTANCE_X;
 // Overrides
 bool GameScene::initWithPhysics()
 {
+	
     if (!Super::initWithPhysics())
     {
         return false;
@@ -29,7 +32,7 @@ bool GameScene::initWithPhysics()
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    //this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
@@ -54,6 +57,7 @@ bool GameScene::initWithPhysics()
 void GameScene::update(float _deltaTime)
 {
     // TODO: change this when we have time
+	
     if (m_CharaStatNode->getCurrentState() == DEAD)
     {
         // create all of the UI needed!
@@ -77,6 +81,7 @@ void GameScene::update(float _deltaTime)
 	m_PowerUpSpawner->Update(_deltaTime);
     UpdateUINode();
     UpdateText();
+	UpdatePowerUpEffects(_deltaTime);
 }
 
 void GameScene::onEnter()
@@ -326,6 +331,24 @@ void GameScene::UpdateCamera()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
+}
+
+void GameScene::UpdatePowerUpEffects(float _deltaTime)
+{
+	//UPDATE FOR IN-GAME EFFECT: SLOW TIME POWER UP
+	if (GTSlowTimePowerUp::m_OnContact)
+	{
+		GTSlowTimePowerUp::m_currentCountDownTimer -= _deltaTime;
+	}
+	if (GTSlowTimePowerUp::m_currentCountDownTimer <= 0.0f)
+	{
+		Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+		getPhysicsWorld()->setSpeed(1.0f);
+		GTSlowTimePowerUp::m_OnContact = false;
+		GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
+	}
+
+	//UPDATE FOR IN-GAME EFFECT: SPHERE SHIELD POWER UP
 }
 
 void GameScene::UpdateUINode()

@@ -1,4 +1,5 @@
 #include "GTSphereShieldPowerUp.h"
+#include "GTSphereShield.h"
 #include "../../../GT/Audio/GTSimperMusicSys.h"
 
 #include <string>
@@ -9,9 +10,11 @@ const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "";
 
 const mkString GTSphereShieldPowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
-GTSphereShieldPowerUp* GTSphereShieldPowerUp::Create(MKScene* _scene)
+bool GTSphereShieldPowerUp::m_OnContact = false;
+
+GTSphereShieldPowerUp* GTSphereShieldPowerUp::Create(MKScene* _scene, GTCharacterStatNode* _playerNode)
 {
-	GTSphereShieldPowerUp* powerUp = new (std::nothrow) GTSphereShieldPowerUp(_scene);
+	GTSphereShieldPowerUp* powerUp = new (std::nothrow) GTSphereShieldPowerUp(_scene, _playerNode);
 	if (powerUp && powerUp->init())
 	{
 		powerUp->autorelease();
@@ -74,7 +77,24 @@ gtBool GTSphereShieldPowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
+
 	// Stop everything. The only reason we are not deleting instantly is so that
+	if (!m_OnContact)
+	{
+		m_OnContact = true;
+	}
+
+	if (m_OnContact)
+	{
+		GTSphereShield::m_powerUpActivated = true;
+		m_OnContact = false;
+	}
+	if (GTSphereShield::m_powerUpActivated)
+	{
+		GTSphereShield* shield = GTSphereShield::Create(GetScene(), m_PlayerNode);
+		GetScene()->addChild(shield);
+	}
+
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 

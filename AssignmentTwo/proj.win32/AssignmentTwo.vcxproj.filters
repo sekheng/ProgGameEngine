@@ -147,6 +147,9 @@
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.cpp">
       <Filter>GT\GameLogic\Obstacle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -303,6 +306,9 @@
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTCleanSlatePowerUp.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.h">
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClInclude>
   </ItemGroup>

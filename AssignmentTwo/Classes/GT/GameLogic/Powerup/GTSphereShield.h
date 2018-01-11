@@ -1,5 +1,5 @@
-#ifndef GT_SPHERE_SHIELD_POWER_UP_H
-#define GT_SPHERE_SHIELD_POWER_UP_H
+#ifndef GT_SPHERE_SHIELD_H
+#define GT_SPHERE_SHIELD__H
 
 #include "GTPowerUp.h"
 #include "../../../GT/GameLogic/GTCharacterStatNode.h"
@@ -8,7 +8,7 @@ USING_NS_MK
 
 NS_GT_BEGIN
 
-class GTSphereShieldPowerUp : public GTPowerUp
+class GTSphereShield : public GTPowerUp
 {
 	typedef GTPowerUp Super;
 
@@ -22,24 +22,25 @@ protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
-	static bool m_OnContact;
+	static bool m_powerUpActivated;
 
-	GT_INITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
-	GT_DEINITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
+	GT_INITIALISECONTACTLISTENER(GTSphereShield);
+	GT_DEINITIALISECONTACTLISTENER(GTSphereShield);
 
-	static GTSphereShieldPowerUp* Create(MKScene* _scene, GTCharacterStatNode* _playerNode);
+	static GTSphereShield* Create(MKScene* _scene, GTCharacterStatNode* _playerNode);
 
 CC_CONSTRUCTOR_ACCESS:
-	GTSphereShieldPowerUp(MKScene* _scene, GTCharacterStatNode* _playerNode) :
+	GTSphereShield(MKScene* _scene, GTCharacterStatNode* _playerNode) :
 		GTPowerUp(_scene),
 		m_PlayerNode(_playerNode)
 	{}
-	virtual ~GTSphereShieldPowerUp()
+	virtual ~GTSphereShield()
 	{
 		DeinitialiseContactListener();
 	}
 
 	virtual bool init();
+	virtual void update(gtF32 _deltaTime);
 };
 
 NS_GT_END
