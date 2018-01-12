@@ -1,6 +1,7 @@
 #include "GTSphereShieldPowerUp.h"
 #include "GTSphereShield.h"
 #include "../../../GT/Audio/GTSimperMusicSys.h"
+#include "../../Actions/GTFollowNodeAction.h"
 
 #include <string>
 
