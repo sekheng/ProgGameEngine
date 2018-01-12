@@ -10,9 +10,7 @@ const mkString GTSphereShield::m_OnCollectSoundName = "";
 
 const mkString GTSphereShield::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
-bool GTSphereShield::m_powerUpActivated = false;
-
-GTSphereShield* GTSphereShield::Create(MKScene* _scene, GTCharacterStatNode* _playerNode)
+GTSphereShield* GTSphereShield::Create(MKScene* _scene, Node* _playerNode)
 {
 	GTSphereShield* shield = new (std::nothrow) GTSphereShield(_scene, _playerNode);
 	if (shield && shield->init())
@@ -29,26 +27,32 @@ gtBool GTSphereShield::init()
 {
 	if (!Super::init()) { return false; }
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+	InitialiseContactListener();
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	// Create the MKSprite
 	m_objectSprite = MKSprite::Create(m_SpriteFileName, true);
 	m_objectSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	this->addChild(m_objectSprite);
 	this->setContentSize(m_objectSprite->getContentSize());
-	this->setScale(1.5f);
 	m_objectSprite->setPosition(this->getContentSize() * 0.5f);
 
+	gtF32 desiredScale = (visibleSize.height * 0.3f) / this->getContentSize().height;
+	this->setScale(desiredScale);
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(m_objectSprite->getContentSize().height * 0.5f);
-	physicsBody->setDynamic(true);
+	// Create the PhysicsBody.
+	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(this->getContentSize().height * 0.5f);
+	physicsBody->setDynamic(false);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_POWERUP);
 	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
 	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
 	this->setPhysicsBody(physicsBody);
-	InitialiseContactListener();
+
+	GTFollowNodeAction* followAction = GTFollowNodeAction::Create(0.0f, m_PlayerNode, GTFollowNodeAction::FollowAxis::ALL);
+	this->runAction(RepeatForever::create(followAction));
 
 	return true;
 }
@@ -71,29 +75,18 @@ gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
-	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()) == false)
 	{
 		return false;
 	}
 
-	// Only check collision with the player.
-	if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
+	// We have collided.
+	auto obstacle = otherPhysicsBody->getNode();
+	if (obstacle->getPhysicsBody() == nullptr)
 	{
 		return false;
 	}
-
-	if (GTSphereShield::m_powerUpActivated)
-	{
-		setPosition(m_PlayerNode->getPosition());
-	}
-	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
-	{
-		auto obstacle = otherPhysicsBody->getNode();
-		if (obstacle->getPhysicsBody() == nullptr)
-			return false;
-		else
-			obstacle->removeComponent(getPhysicsBody());
-	}
+	obstacle->removeComponent(getPhysicsBody());
 
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
@@ -103,9 +96,5 @@ gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	return true;
 }
 
-void GTSphereShield::update(gtF32 _deltaTime)
-{
-	setPosition(m_PlayerNode->getPosition());
-}
 
 NS_GT_END

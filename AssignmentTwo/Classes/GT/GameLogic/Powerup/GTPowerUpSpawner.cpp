@@ -162,7 +162,7 @@ void GTPowerUpSpawner::SpawnSphereShield()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	GTSphereShieldPowerUp* powerUp = GTSphereShieldPowerUp::Create(m_Scene, (GTCharacterStatNode*)m_PlayerNode);
+	GTSphereShieldPowerUp* powerUp = GTSphereShieldPowerUp::Create(m_Scene, m_PlayerNode);
 	powerUp->setPosition(m_SpawnPositionX, MKMathsHelper::RandomInt(visibleSize.height * 0.1f, visibleSize.height - powerUp->getContentSize().height));
 
 	m_Scene->addChild(powerUp);

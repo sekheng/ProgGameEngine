@@ -43,6 +43,7 @@ private:
     std::vector<Node*> m_ArrayOfGameOverUI;
     // Player
     Node* m_PlayerNode;
+
     GTCharacterStatNode *m_CharaStatNode = nullptr;
 
     // Player Controls

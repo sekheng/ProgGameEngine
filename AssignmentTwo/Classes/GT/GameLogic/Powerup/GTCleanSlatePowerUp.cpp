@@ -5,7 +5,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTCleanSlatePowerUp::m_OnCollectSoundName = "";
+const mkString GTCleanSlatePowerUp::m_OnCollectSoundName = "PowerUp_Collect";
 
 const mkString GTCleanSlatePowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/CleanSlateSprite.png";
 
@@ -80,7 +80,9 @@ gtBool GTCleanSlatePowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 
 	GTSimperMusicSys::GetInstance()->playSound(m_OnCollectSoundName);
 
-	m_ObstacleSpawner->DestroyObstacles(5);
+	m_ObstacleSpawner->DestroyObstacles(3);
+
+	this->setVisible(false);
 
 	return true;
 }

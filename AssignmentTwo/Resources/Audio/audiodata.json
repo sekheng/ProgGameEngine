@@ -72,6 +72,12 @@
 		 "NameID":"Spike_Hit",
 		 "volume":1.0,
 		 "loop":false
+	  },
+	  {
+		 "location":"Audio/PowerUp/PowerUp_Collection.mp3",
+		 "NameID":"PowerUp_Collect",
+		 "volume":1.0,
+		 "loop":false
 	  }
 	  
   ]

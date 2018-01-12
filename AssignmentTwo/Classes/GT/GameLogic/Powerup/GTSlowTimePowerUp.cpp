@@ -5,7 +5,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTSlowTimePowerUp::m_OnCollectSoundName = "";
+const mkString GTSlowTimePowerUp::m_OnCollectSoundName = "PowerUp_Collect";
 
 const mkString GTSlowTimePowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SlowTimeSprite.png";
 
@@ -91,6 +91,7 @@ gtBool GTSlowTimePowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		m_OnContact = true;
 		m_currentCountDownTimer = m_countDownTimer;
 	}
+	this->setVisible(false);
 
 	return true;
 }

@@ -32,7 +32,7 @@ bool GameScene::initWithPhysics()
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    //this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
@@ -49,7 +49,7 @@ bool GameScene::initWithPhysics()
     InitialiseObstacles();
 	InitialisePowerUps();
 
-    //GTInvulverablePowerUp::create(this);
+    //GTInvulverablePowerUp::create(this)
 
 	return true;
 }
@@ -82,6 +82,7 @@ void GameScene::update(float _deltaTime)
     UpdateUINode();
     UpdateText();
 	UpdatePowerUpEffects(_deltaTime);
+
 }
 
 void GameScene::onEnter()
@@ -261,6 +262,8 @@ void GameScene::InitialiseGameOverUI()
         {
             //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
             // cannot replace the current scene in the same scene
+			Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+			this->getPhysicsWorld()->setSpeed(1.0f);
             MKSceneManager::GetInstance()->ReplaceScene("GameOverScene");
         }
         );
@@ -316,7 +319,7 @@ void GameScene::InitialisePowerUps()
 	DeinitialisePowerUps();
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	m_PowerUpSpawner = new GTPowerUpSpawner(this, m_PlayerNode, visibleSize.height * 10.0f, m_ObstacleSpawner);
+	m_PowerUpSpawner = new GTPowerUpSpawner(this, m_PlayerNode, visibleSize.height * 1.0f, m_ObstacleSpawner);
 }
 
 // Update

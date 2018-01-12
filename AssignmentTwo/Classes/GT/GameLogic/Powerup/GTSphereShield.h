@@ -3,6 +3,7 @@
 
 #include "GTPowerUp.h"
 #include "../../../GT/GameLogic/GTCharacterStatNode.h"
+#include "../../../GT/Actions/GTFollowNodeAction.h"
 
 USING_NS_MK
 
@@ -17,20 +18,18 @@ protected:
 	static const mkString m_OnCollectSoundName;
 
 	MKSprite* m_objectSprite = NULL;
-	GTCharacterStatNode* m_PlayerNode;
+	Node* m_PlayerNode;
 
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
-	static bool m_powerUpActivated;
-
 	GT_INITIALISECONTACTLISTENER(GTSphereShield);
 	GT_DEINITIALISECONTACTLISTENER(GTSphereShield);
 
-	static GTSphereShield* Create(MKScene* _scene, GTCharacterStatNode* _playerNode);
+	static GTSphereShield* Create(MKScene* _scene, Node* _playerNode);
 
 CC_CONSTRUCTOR_ACCESS:
-	GTSphereShield(MKScene* _scene, GTCharacterStatNode* _playerNode) :
+	GTSphereShield(MKScene* _scene, Node* _playerNode) :
 		GTPowerUp(_scene),
 		m_PlayerNode(_playerNode)
 	{}
@@ -40,7 +39,6 @@ CC_CONSTRUCTOR_ACCESS:
 	}
 
 	virtual bool init();
-	virtual void update(gtF32 _deltaTime);
 };
 
 NS_GT_END

@@ -17,20 +17,18 @@ protected:
 	static const mkString m_OnCollectSoundName;
 
 	MKSprite* m_objectSprite = NULL;
-	GTCharacterStatNode* m_PlayerNode;
+	Node* m_PlayerNode;
 
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
-	static bool m_OnContact;
-
 	GT_INITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
 	GT_DEINITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
 
-	static GTSphereShieldPowerUp* Create(MKScene* _scene, GTCharacterStatNode* _playerNode);
+	static GTSphereShieldPowerUp* Create(MKScene* _scene, Node* _playerNode);
 
 CC_CONSTRUCTOR_ACCESS:
-	GTSphereShieldPowerUp(MKScene* _scene, GTCharacterStatNode* _playerNode) :
+	GTSphereShieldPowerUp(MKScene* _scene, Node* _playerNode) :
 		GTPowerUp(_scene),
 		m_PlayerNode(_playerNode)
 	{}

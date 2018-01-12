@@ -6,13 +6,11 @@
 
 NS_GT_BEGIN
 
-const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "";
+const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "PowerUp_Collect";
 
 const mkString GTSphereShieldPowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
-bool GTSphereShieldPowerUp::m_OnContact = false;
-
-GTSphereShieldPowerUp* GTSphereShieldPowerUp::Create(MKScene* _scene, GTCharacterStatNode* _playerNode)
+GTSphereShieldPowerUp* GTSphereShieldPowerUp::Create(MKScene* _scene, Node* _playerNode)
 {
 	GTSphereShieldPowerUp* powerUp = new (std::nothrow) GTSphereShieldPowerUp(_scene, _playerNode);
 	if (powerUp && powerUp->init())
@@ -72,33 +70,22 @@ gtBool GTSphereShieldPowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	}
 
 	// Only check collision with the player.
-	if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()) == false)
 	{
 		return false;
 	}
 
-
-	// Stop everything. The only reason we are not deleting instantly is so that
-	if (!m_OnContact)
-	{
-		m_OnContact = true;
-	}
-
-	if (m_OnContact)
-	{
-		GTSphereShield::m_powerUpActivated = true;
-		m_OnContact = false;
-	}
-	if (GTSphereShield::m_powerUpActivated)
-	{
-		GTSphereShield* shield = GTSphereShield::Create(GetScene(), m_PlayerNode);
-		GetScene()->addChild(shield);
-	}
+	GTSphereShield* shield = GTSphereShield::Create(GetScene(), m_PlayerNode);
+	GetScene()->addChild(shield);
+	shield->setPosition(m_PlayerNode->getPosition());
 
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 
 	GTSimperMusicSys::GetInstance()->playSound(m_OnCollectSoundName);
+
+	// Set visible to false. We do not despawn here because the spawner handles the despawning.
+	this->setVisible(false);
 
 	return true;
 }
