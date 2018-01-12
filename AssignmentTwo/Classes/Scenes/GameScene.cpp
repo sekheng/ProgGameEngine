@@ -19,8 +19,6 @@
 
 using namespace GinTama;
 
-static float RESET_PLAYERDISTANCE_X;
-
 // Overrides
 bool GameScene::initWithPhysics()
 {
@@ -57,7 +55,6 @@ bool GameScene::initWithPhysics()
 void GameScene::update(float _deltaTime)
 {
     // TODO: change this when we have time
-	
     if (m_CharaStatNode->getCurrentState() == DEAD)
     {
         // create all of the UI needed!
@@ -65,14 +62,6 @@ void GameScene::update(float _deltaTime)
     }
     else
     {
-        if (m_PlayerNode->getPositionX() > RESET_PLAYERDISTANCE_X)
-        {
-            float playerNewPositionX = m_PlayerNode->getPositionX() - RESET_PLAYERDISTANCE_X;
-            m_PlayerNode->setPositionX(playerNewPositionX);
-            m_ObstacleSpawner->MoveAllObstacles(-RESET_PLAYERDISTANCE_X);
-			m_PowerUpSpawner->MoveAllPowerUps(-RESET_PLAYERDISTANCE_X);
-        }
-        // only updates the background when the player is alive!
         ScrollBackgrounds(_deltaTime);
     }
 
@@ -148,7 +137,13 @@ void GameScene::InitialisePlayer()
     playerSprite->setPosition(Vec2(0.0f, visibleSize.height * 0.1f + playerSprite->getContentSize().height * 0.5f));
     m_PlayerNode = playerSprite;
 
-    RESET_PLAYERDISTANCE_X = m_Ground->getScaleX() * 2.f;
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_ObstacleSpawner->MoveAllObstacles(_dist); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_PowerUpSpawner->MoveAllPowerUps(_dist); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateCamera(); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateText(); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateUINode(); });
+
+    m_CharaStatNode->setResetDistance(m_Ground->getScaleX() * 5.0f);
 }
 
 void GameScene::InitialiseGround()
