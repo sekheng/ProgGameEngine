@@ -24,6 +24,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_AnimHandler(nullptr)
     , m_TotalDist(0)
     , m_ReviveCounter(1)
+    , m_ResetDistanceX(300.0f)
 {
 	setTag(1);
 }
@@ -111,6 +112,16 @@ void GTCharacterStatNode::update(float delta)
             }
             break;
         default:
+            // check whether it has crossed over the certain distance
+            if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
+            {
+                float playerNewPositionX = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                m_physicsNode->getOwner()->setPositionX(playerNewPositionX);
+                for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
+                {
+                    (*it)(-m_ResetDistanceX);
+                }
+            }
             break;
         }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
@@ -356,4 +367,9 @@ void GTCharacterStatNode::setReviveCounter(const int &_reviveTimes)
 int GTCharacterStatNode::getReviveCounter()
 {
     return m_ReviveCounter;
+}
+
+void GTCharacterStatNode::PassInvokeFunctionWhenResetDistance(std::function<void(float)> _functionCall)
+{
+    m_VectorOfResetDistCalls.push_back(_functionCall);
 }

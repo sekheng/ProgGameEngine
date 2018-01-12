@@ -68,6 +68,11 @@ namespace GinTama
         MKScene* GetScene() { return m_Scene; }
         const MKScene* GetScene() const { return m_Scene; }
 
+        void setResetDistance(float _dist) { m_ResetDistanceX = _dist; }
+        float getResetDistance() { return m_ResetDistanceX; }
+
+        void PassInvokeFunctionWhenResetDistance(std::function<void(float)> _functionCall);
+
 	protected:
 		GTCharacterStatNode();
 		virtual ~GTCharacterStatNode();
@@ -83,12 +88,15 @@ namespace GinTama
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
         float m_SpeedX, m_OriginalSpeedX;
+        float m_ResetDistanceX;
         float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
         float m_DeadPositionX;
         int m_ReviveCounter;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
+
+        std::vector<std::function<void(float)>> m_VectorOfResetDistCalls;
 
         cocos2d::EventListenerPhysicsContact* m_ContactListener = NULL;
     };
