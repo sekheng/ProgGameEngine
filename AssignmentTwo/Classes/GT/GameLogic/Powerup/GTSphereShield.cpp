@@ -7,7 +7,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTSphereShield::m_OnCollectSoundName = "";
+const mkString GTSphereShield::m_OnDestroyedSoundName = "SphereShield_PowerDown";
 
 const mkString GTSphereShield::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
@@ -91,6 +91,8 @@ gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
+
+	GTSimperMusicSys::GetInstance()->playSound(m_OnDestroyedSoundName);
 
 	removeFromParent();
 

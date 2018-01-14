@@ -6,7 +6,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "PowerUp_Collect";
+const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "SphereShield_Collect";
 
 const mkString GTSphereShieldPowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 

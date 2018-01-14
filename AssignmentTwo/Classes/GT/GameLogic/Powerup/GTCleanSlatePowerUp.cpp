@@ -5,7 +5,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTCleanSlatePowerUp::m_OnCollectSoundName = "PowerUp_Collect";
+const mkString GTCleanSlatePowerUp::m_OnCollectSoundName = "CleanSlate_Collect";
 
 const mkString GTCleanSlatePowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/CleanSlateSprite.png";
 

@@ -5,7 +5,7 @@
 
 NS_GT_BEGIN
 
-const mkString GTSlowTimePowerUp::m_OnCollectSoundName = "PowerUp_Collect";
+const mkString GTSlowTimePowerUp::m_OnCollectSoundName = "SlowTime_Collect";
 
 const mkString GTSlowTimePowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SlowTimeSprite.png";
 

@@ -15,7 +15,7 @@ class GTSphereShield : public GTPowerUp
 
 protected:
 	static const gtString m_SpriteFileName;
-	static const mkString m_OnCollectSoundName;
+	static const mkString m_OnDestroyedSoundName;
 
 	MKSprite* m_objectSprite = NULL;
 	Node* m_PlayerNode;
