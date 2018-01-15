@@ -4,6 +4,7 @@
 #include "../../GT/Animation/GTAnimationHandlerNode.h"
 #include "../../GT/Audio/GTSimperMusicSys.h"
 #include "../GameLogic/GTCollisionCategory.h"
+#include "Powerup/GTSphereShieldPowerUp.h"
 
 USING_NS_GT
 USING_NS_CC;
@@ -113,14 +114,20 @@ void GTCharacterStatNode::update(float delta)
             break;
         default:
             // check whether it has crossed over the certain distance
-            if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
+            if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX && !m_RunResetActionPtr)
             {
-                float playerNewPositionX = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
-                m_physicsNode->getOwner()->setPositionX(playerNewPositionX);
+                /*m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
                 for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
                 {
                     (*it)(-m_ResetDistanceX);
-                }
+                }*/
+
+                //m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                //auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
+                //MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
+                //// then make sure the owner of the sprite will run this action!
+                //m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
             }
             break;
         }
@@ -372,4 +379,19 @@ int GTCharacterStatNode::getReviveCounter()
 void GTCharacterStatNode::PassInvokeFunctionWhenResetDistance(std::function<void(float)> _functionCall)
 {
     m_VectorOfResetDistCalls.push_back(_functionCall);
+}
+
+void GTCharacterStatNode::ResetPlayerDistance()
+{
+    if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
+    {
+        // need to get the new distance as there is a huge delay between the new player position and the old one!
+        m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+        m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
+        for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
+        {
+            (*it)(-m_ResetDistanceX);
+        }
+        m_RunResetActionPtr = nullptr;
+    }
 }

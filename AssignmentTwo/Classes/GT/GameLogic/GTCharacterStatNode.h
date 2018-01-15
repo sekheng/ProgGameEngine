@@ -26,6 +26,8 @@ namespace GinTama
         GT_INITIALISECONTACTLISTENER(GTCharacterStatNode);
         GT_DEINITIALISECONTACTLISTENER(GTCharacterStatNode);
 
+        void ResetPlayerDistance();
+
 		static GTCharacterStatNode* create(MKScene *_scene);
         static GTCharacterStatNode* create(MKScene *_scene, cocos2d::PhysicsBody *_physicsBody);
 
@@ -88,13 +90,14 @@ namespace GinTama
         CHARACTER_STATE m_CurrentState;
         float m_countingFloat;
         float m_SpeedX, m_OriginalSpeedX;
-        float m_ResetDistanceX;
+        float m_ResetDistanceX, m_PlayerPosXAfterReset;
         float m_MovedDistance, m_TotalDist;
         float m_DurationOfSlide, m_SlideCountDown;
         float m_DeadPositionX;
         int m_ReviveCounter;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
+        cocos2d::FiniteTimeAction *m_RunResetActionPtr = nullptr;
 
         std::vector<std::function<void(float)>> m_VectorOfResetDistCalls;
 
