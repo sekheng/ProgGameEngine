@@ -35,25 +35,30 @@ gtBool GTSphereShield::init()
 	// Create the MKSprite
 	m_objectSprite = MKSprite::Create(m_SpriteFileName, true);
 	m_objectSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	this->addChild(m_objectSprite);
 	this->setContentSize(m_objectSprite->getContentSize());
 	m_objectSprite->setPosition(this->getContentSize() * 0.5f);
+    this->addChild(m_objectSprite);
 
 	gtF32 desiredScale = (visibleSize.height * 0.3f) / this->getContentSize().height;
 	this->setScale(desiredScale);
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	// Create the PhysicsBody.
-	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(this->getContentSize().height * 0.5f);
-	physicsBody->setDynamic(false);
-	physicsBody->setGravityEnable(false);
-	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_SHIELD);
-	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
-	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
-	this->setPhysicsBody(physicsBody);
-
+    auto functionCallback = CallFunc::create([&]() {
+        cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(m_objectSprite->getContentSize().height * 0.5f);
+        physicsBody->setDynamic(false);
+        physicsBody->setGravityEnable(false);
+        physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_SHIELD);
+        physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
+        physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
+        this->setPhysicsBody(physicsBody);
+    }
+    );
 	GTFollowNodeAction* followAction = GTFollowNodeAction::Create(0.0f, m_PlayerNode, GTFollowNodeAction::FollowAxis::ALL);
-	this->runAction(RepeatForever::create(followAction));
+    // have to cheat like this!!
+    this->runAction(RepeatForever::create(followAction));
+    this->runAction(functionCallback);
+    setPosition(m_PlayerNode->getPositionX(), m_PlayerNode->getPositionY()) ;
 
 	return true;
 }

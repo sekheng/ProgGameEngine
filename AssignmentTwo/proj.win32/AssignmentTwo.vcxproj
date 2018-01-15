@@ -187,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\Actions\GTMoveBySinAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTPlaySoundAction.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTRemoveFromParentAction.h" />
+    <ClInclude Include="..\Classes\GT\Actions\GTRepeatActionInstantForever.h" />
     <ClInclude Include="..\Classes\GT\Actions\GTScaleUpAndDownAction.h" />
     <ClInclude Include="..\Classes\GT\Animation\GTAnimationHandlerNode.h" />
     <ClInclude Include="..\Classes\GT\Animation\GTAnimTransAct.h" />
