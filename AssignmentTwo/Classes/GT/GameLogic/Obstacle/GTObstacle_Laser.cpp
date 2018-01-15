@@ -161,8 +161,8 @@ gtBool GTObstacle_Laser::OnContactBegin(cocos2d::PhysicsContact& _contact)
         return false;
     }
 
-    // Only check collision with the player.
-    if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+    // Only check collision with the player and shield.
+    if (!NS_MK::MKMathsHelper::CompareBitmasks<mkS32>(getPhysicsBody()->getContactTestBitmask(), otherPhysicsBody->getCategoryBitmask()))
     {
         return false;
     }
@@ -266,7 +266,7 @@ void GTObstacle_Laser::SpawnPhysicsBody()
     physicsBody->setDynamic(true);
     physicsBody->setGravityEnable(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
-    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_SHIELD);
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
     InitialiseContactListener();

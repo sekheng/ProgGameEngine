@@ -47,7 +47,7 @@ gtBool GTSphereShield::init()
 	cocos2d::PhysicsBody* physicsBody = PhysicsBody::createCircle(this->getContentSize().height * 0.5f);
 	physicsBody->setDynamic(false);
 	physicsBody->setGravityEnable(false);
-	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_POWERUP);
+	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_SHIELD);
 	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
 	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
 	this->setPhysicsBody(physicsBody);
@@ -76,18 +76,10 @@ gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
-	if (NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()) == false)
+	if (!NS_MK::MKMathsHelper::CompareBitmasks<mkS32>(getPhysicsBody()->getContactTestBitmask(), otherPhysicsBody->getCategoryBitmask()))
 	{
 		return false;
 	}
-
-	// We have collided.
-	auto obstacle = otherPhysicsBody->getNode();
-	if (obstacle->getPhysicsBody() == nullptr)
-	{
-		return false;
-	}
-	obstacle->removeComponent(getPhysicsBody());
 
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
