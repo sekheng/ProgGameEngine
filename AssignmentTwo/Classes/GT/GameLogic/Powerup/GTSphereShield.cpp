@@ -85,6 +85,7 @@ gtBool GTSphereShield::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	this->removeComponent(getPhysicsBody());
 
 	GTSimperMusicSys::GetInstance()->playSound(m_OnDestroyedSoundName);
+	GTSphereShieldPowerUp::m_shieldActivated = false;
 
 	removeFromParent();
 

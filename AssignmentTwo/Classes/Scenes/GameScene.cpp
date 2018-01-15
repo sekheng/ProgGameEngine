@@ -244,6 +244,7 @@ void GameScene::InitialiseText()
 	m_SlowTimerTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.8f);
 	m_SlowTimerTxt->setVisible(false);
 	GetUINode()->addChild(m_SlowTimerTxt);
+
 }
 
 void GameScene::InitialiseGameOverUI()
@@ -354,11 +355,10 @@ void GameScene::UpdateText()
     std::string highScoreString = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
     m_HighScoreTxt->setString(highScoreString);
 
-	std::string slowTimerString = "Slow Time: " + std::to_string((gtU32)GTSlowTimePowerUp::m_currentCountDownTimer);
-	m_SlowTimerTxt->setString(slowTimerString);
-
 	if (GTSlowTimePowerUp::m_OnContact)
 	{
+		std::string slowTimerString = "Slow Time: " + std::to_string((gtU32)GTSlowTimePowerUp::m_currentCountDownTimer);
+		m_SlowTimerTxt->setString(slowTimerString);
 		m_SlowTimerTxt->setVisible(true);
 	}
 	if (!GTSlowTimePowerUp::m_OnContact)

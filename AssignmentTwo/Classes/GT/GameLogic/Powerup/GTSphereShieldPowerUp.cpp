@@ -10,6 +10,8 @@ const mkString GTSphereShieldPowerUp::m_OnCollectSoundName = "SphereShield_Colle
 
 const mkString GTSphereShieldPowerUp::m_SpriteFileName = "Textures/Gameplay/PowerUp/SphereShieldSprite.png";
 
+bool GTSphereShieldPowerUp::m_shieldActivated = false;
+
 GTSphereShieldPowerUp* GTSphereShieldPowerUp::Create(MKScene* _scene, Node* _playerNode)
 {
 	GTSphereShieldPowerUp* powerUp = new (std::nothrow) GTSphereShieldPowerUp(_scene, _playerNode);
@@ -43,7 +45,7 @@ gtBool GTSphereShieldPowerUp::init()
 	physicsBody->setDynamic(true);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_POWERUP);
-	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+	physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_SHIELD);
 	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
 	this->setPhysicsBody(physicsBody);
 	InitialiseContactListener();
@@ -75,9 +77,13 @@ gtBool GTSphereShieldPowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 		return false;
 	}
 
-	GTSphereShield* shield = GTSphereShield::Create(GetScene(), m_PlayerNode);
-	GetScene()->addChild(shield);
-	shield->setPosition(m_PlayerNode->getPosition());
+	if (!m_shieldActivated)
+	{
+		GTSphereShield* shield = GTSphereShield::Create(GetScene(), m_PlayerNode);
+		GetScene()->addChild(shield);
+		shield->setPosition(m_PlayerNode->getPosition());
+		m_shieldActivated = true;
+	}
 
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());

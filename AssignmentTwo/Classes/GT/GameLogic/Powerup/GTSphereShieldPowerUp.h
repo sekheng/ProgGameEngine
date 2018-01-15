@@ -22,6 +22,8 @@ protected:
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
+	static bool m_shieldActivated;
+
 	GT_INITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
 	GT_DEINITIALISECONTACTLISTENER(GTSphereShieldPowerUp);
 
