@@ -235,6 +235,15 @@ void GameScene::InitialiseText()
     m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
     m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
     GetUINode()->addChild(m_HighScoreTxt);
+
+	// Timer Text For Slow Time
+	gtF32 desiredTextScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
+	m_SlowTimerTxt = Label::createWithTTF("Slow Timer:", "fonts/Marker_Felt.ttf", desiredTextScale);
+	m_SlowTimerTxt->setTextColor(Color4B::BLACK);
+	m_SlowTimerTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	m_SlowTimerTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.8f);
+	m_SlowTimerTxt->setVisible(false);
+	GetUINode()->addChild(m_SlowTimerTxt);
 }
 
 void GameScene::InitialiseGameOverUI()
@@ -344,6 +353,18 @@ void GameScene::UpdateText()
 {
     std::string highScoreString = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
     m_HighScoreTxt->setString(highScoreString);
+
+	std::string slowTimerString = "Slow Time: " + std::to_string((gtU32)GTSlowTimePowerUp::m_currentCountDownTimer);
+	m_SlowTimerTxt->setString(slowTimerString);
+
+	if (GTSlowTimePowerUp::m_OnContact)
+	{
+		m_SlowTimerTxt->setVisible(true);
+	}
+	if (!GTSlowTimePowerUp::m_OnContact)
+	{
+		m_SlowTimerTxt->setVisible(false);
+	}
 }
 
 // Deinitialisation

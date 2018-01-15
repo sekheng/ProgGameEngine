@@ -56,8 +56,6 @@ void GTPowerUpSpawner::Update(gtF32 _deltaTime)
         GTSlowTimePowerUp::m_OnContact = false;
         GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
     }
-
-    //UPDATE FOR IN-GAME EFFECT: SPHERE SHIELD POWER UP
 }
 
 void GTPowerUpSpawner::DespawnAllPowerUps()

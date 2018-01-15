@@ -23,7 +23,7 @@ protected:
 
 public:
 	static bool m_OnContact;
-	float m_countDownTimer = 10.0f;
+	float m_countDownTimer = 6.0f;
 	static float m_currentCountDownTimer;
 
 	GT_INITIALISECONTACTLISTENER(GTSlowTimePowerUp);

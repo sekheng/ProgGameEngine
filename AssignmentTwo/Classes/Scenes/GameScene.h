@@ -40,6 +40,7 @@ private:
 	GTPowerUpSpawner* m_PowerUpSpawner = nullptr;
     // UI
     Label* m_HighScoreTxt = nullptr;
+	Label* m_SlowTimerTxt = nullptr;
     std::vector<Node*> m_ArrayOfGameOverUI;
     // Player
     Node* m_PlayerNode;
