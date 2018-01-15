@@ -43,6 +43,21 @@ void GTPowerUpSpawner::Update(gtF32 _deltaTime)
 		SpawnPowerUpBatch();
 	}
 	DespawnOutOfScreenPowerUps();
+
+    //UPDATE FOR IN-GAME EFFECT: SLOW TIME POWER UP
+    if (GTSlowTimePowerUp::m_OnContact)
+    {
+        GTSlowTimePowerUp::m_currentCountDownTimer -= _deltaTime;
+    }
+    if (GTSlowTimePowerUp::m_currentCountDownTimer <= 0.0f)
+    {
+        Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+        m_Scene->getPhysicsWorld()->setSpeed(1.0f);
+        GTSlowTimePowerUp::m_OnContact = false;
+        GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
+    }
+
+    //UPDATE FOR IN-GAME EFFECT: SPHERE SHIELD POWER UP
 }
 
 void GTPowerUpSpawner::DespawnAllPowerUps()

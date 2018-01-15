@@ -68,13 +68,12 @@ private:
     void InitialiseGameOverUI();
     void InitialiseObstacles();
 	void InitialisePowerUps();
+    void InitialiseCamera();
 
     // Update
     void ScrollBackgrounds(float _deltaTime);
-    void UpdateCamera();
     void UpdateUINode();
     void UpdateText();
-	void UpdatePowerUpEffects(float _deltaTime);
 
     // Deinitialisation
     void Deinitialise();

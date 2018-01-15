@@ -11,6 +11,7 @@
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
 #include "../GT/GameLogic/PowerUp/GTPowerUp.h"
+#include "../GT/Actions/GTFollowNodeAction.h"
 
 #include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
 
@@ -47,7 +48,8 @@ bool GameScene::initWithPhysics()
     InitialiseObstacles();
 	InitialisePowerUps();
 
-    //GTInvulverablePowerUp::create(this)
+    // Initialise Camera
+    InitialiseCamera();
 
 	return true;
 }
@@ -65,13 +67,10 @@ void GameScene::update(float _deltaTime)
         ScrollBackgrounds(_deltaTime);
     }
 
-    UpdateCamera();
-    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+    m_ObstacleSpawner->Update(_deltaTime);
 	m_PowerUpSpawner->Update(_deltaTime);
     UpdateUINode();
     UpdateText();
-	UpdatePowerUpEffects(_deltaTime);
-
 }
 
 void GameScene::onEnter()
@@ -140,7 +139,7 @@ void GameScene::InitialisePlayer()
 
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_ObstacleSpawner->MoveAllObstacles(_dist); });
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_PowerUpSpawner->MoveAllPowerUps(_dist); });
-    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateCamera(); });
+    //m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateCamera(); });
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateText(); });
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateUINode(); });
 
@@ -318,36 +317,20 @@ void GameScene::InitialisePowerUps()
 	m_PowerUpSpawner = new GTPowerUpSpawner(this, m_PlayerNode, visibleSize.height * 1.0f, m_ObstacleSpawner);
 }
 
+void GameScene::InitialiseCamera()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    GTFollowNodeAction* followAction = GTFollowNodeAction::Create(0.0f, m_PlayerNode, GTFollowNodeAction::X, cocos2d::Vec2(visibleSize.width * 0.3f, 0.0f));
+    getDefaultCamera()->runAction(RepeatForever::create(followAction));
+}
+
 // Update
 void GameScene::ScrollBackgrounds(float _deltaTime)
 {
     m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
 	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
 	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
-}
-
-void GameScene::UpdateCamera()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
-}
-
-void GameScene::UpdatePowerUpEffects(float _deltaTime)
-{
-	//UPDATE FOR IN-GAME EFFECT: SLOW TIME POWER UP
-	if (GTSlowTimePowerUp::m_OnContact)
-	{
-		GTSlowTimePowerUp::m_currentCountDownTimer -= _deltaTime;
-	}
-	if (GTSlowTimePowerUp::m_currentCountDownTimer <= 0.0f)
-	{
-		Director::getInstance()->getScheduler()->setTimeScale(1.0f);
-		getPhysicsWorld()->setSpeed(1.0f);
-		GTSlowTimePowerUp::m_OnContact = false;
-		GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
-	}
-
-	//UPDATE FOR IN-GAME EFFECT: SPHERE SHIELD POWER UP
 }
 
 void GameScene::UpdateUINode()
