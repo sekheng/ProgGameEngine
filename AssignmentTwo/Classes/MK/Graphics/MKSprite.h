@@ -38,9 +38,6 @@ public:
 	static MKSprite* Create(const mkString& _fileName, mkBool _useTextureRepeat = false);
 	static MKSprite* CreateWithTexture(Texture2D *texture, mkBool _useTextureRepeat = false);
 
-    // WARNING: USING THIS WILL CAUSE THE SCREEN TO RENDER A BLACK FRAME FOR 1 FRAME. ONLY USE IN SCENE INITIALISATION.
-	static MKSprite* CreateWithSize(const mkString& _fileName, const Size& _desiredSize, mkBool _useTextureRepeat = false);
-
     mkBool GetUseTextureRepeat() const
 	{
 		return m_UseTextureRepeat;
