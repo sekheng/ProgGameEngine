@@ -105,7 +105,8 @@ void GameScene::InitialisePlayer()
     // Create the player sprite.
     Sprite *playerSprite = Sprite::create();
     playerSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
-    playerSprite->setScale(0.5f);
+    gtF32 desiredObstacleScale = (visibleSize.height * 0.25f) / playerSprite->getContentSize().height;
+    playerSprite->setScale(desiredObstacleScale);
     addChild(playerSprite);
 
     // Create player animation.
