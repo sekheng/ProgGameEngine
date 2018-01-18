@@ -88,8 +88,8 @@ gtBool GTSlowTimePowerUp::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	{
 		Director::getInstance()->getScheduler()->setTimeScale(0.5f);
 		GetScene()->getPhysicsWorld()->setSpeed(0.5f);
-		m_OnContact = true;
 		m_currentCountDownTimer = m_countDownTimer;
+		m_OnContact = true;
 	}
 	this->setVisible(false);
 
