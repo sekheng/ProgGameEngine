@@ -39,11 +39,15 @@ private:
 	// PowerUps
 	GTPowerUpSpawner* m_PowerUpSpawner = nullptr;
     // UI
+	Label* m_ScoreTxt = nullptr;
     Label* m_HighScoreTxt = nullptr;
 	Label* m_SlowTimerTxt = nullptr;
     std::vector<Node*> m_ArrayOfGameOverUI;
     // Player
     Node* m_PlayerNode;
+	// HighScore
+	UserDefault *def;
+	mkU32 m_HighScore;
 
     GTCharacterStatNode *m_CharaStatNode = nullptr;
 

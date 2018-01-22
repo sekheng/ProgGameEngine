@@ -148,6 +148,10 @@ void GameScene::InitialisePlayer()
 
     auto runResetActionPtr = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, m_CharaStatNode));
     m_CharaStatNode->runAction(GTRepeatActionInstantForever::Create(runResetActionPtr));
+
+	def = UserDefault::getInstance();
+
+	m_HighScore = def->getIntegerForKey("HIGHSCORE", 0);
 }
 
 void GameScene::InitialiseGround()
@@ -233,12 +237,12 @@ void GameScene::InitialiseText()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    gtF32 desiredObstacleScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
-    m_HighScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
-    m_HighScoreTxt->setTextColor(Color4B::BLACK);
-    m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
-    GetUINode()->addChild(m_HighScoreTxt);
+    gtF32 desiredObstacleScale = (visibleSize.height * 28.0f) / this->getContentSize().height;
+    m_ScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
+    m_ScoreTxt->setTextColor(Color4B::BLACK);
+    m_ScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    m_ScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
+    GetUINode()->addChild(m_ScoreTxt);
 
 	// Timer Text For Slow Time
 	gtF32 desiredTextScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
@@ -249,11 +253,19 @@ void GameScene::InitialiseText()
 	m_SlowTimerTxt->setVisible(false);
 	GetUINode()->addChild(m_SlowTimerTxt);
 
+	// HighScore Text 
+	m_HighScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
+	m_HighScoreTxt->setTextColor(Color4B::RED);
+	m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.75f);
+	m_HighScoreTxt->setVisible(false);
+	GetUINode()->addChild(m_HighScoreTxt);
 }
 
 void GameScene::InitialiseGameOverUI()
 {
     // need to ensure that the array of GameOverUI is empty!
+
     if (m_ArrayOfGameOverUI.size() == 0)
     {
         m_ObstacleSpawner->PauseAllObstacles();
@@ -288,6 +300,7 @@ void GameScene::InitialiseGameOverUI()
         {
             if (m_CharaStatNode->getReviveCounter() > 0)
             {
+				m_HighScoreTxt->setVisible(false);
                 // have to clear the buttons
                 ClearGameOverUI();
                 // then revive the player!
@@ -312,6 +325,17 @@ void GameScene::InitialiseGameOverUI()
         );
         GetUINode()->addChild(ToMainMenuButton);
         m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
+
+		if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
+		{
+			m_HighScore = m_CharaStatNode->getConvertedDistWalk();
+
+			def->setIntegerForKey("HIGHSCORE", m_HighScore);
+		}	
+
+		std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
+		m_HighScoreTxt->setString(HighScoreString);
+		m_HighScoreTxt->setVisible(true);
     }
 }
 
@@ -356,8 +380,8 @@ void GameScene::UpdateUINode()
 
 void GameScene::UpdateText()
 {
-    std::string highScoreString = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
-    m_HighScoreTxt->setString(highScoreString);
+    std::string CurrentScoreString = "Score: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+	m_ScoreTxt->setString(CurrentScoreString);
 
 	if (GTSlowTimePowerUp::m_OnContact)
 	{
