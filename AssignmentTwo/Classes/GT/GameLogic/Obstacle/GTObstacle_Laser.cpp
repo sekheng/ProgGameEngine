@@ -13,10 +13,15 @@ const mkString GTObstacle_Laser::m_BeamPListFile = "Textures/Gameplay/Obstacle/L
 const mkString GTObstacle_Laser::m_BeamJSONFile = "Textures/Gameplay/Obstacle/Laser/Beam/Beam.json";
 const mkString GTObstacle_Laser::m_BeamSpriteFrameName = "Beam_0.png";
 const mkString GTObstacle_Laser::m_BeamTransitState = "None";
+const mkString GTObstacle_Laser::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Laser/Explosion/Explosion.plist";
+const mkString GTObstacle_Laser::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Laser/Explosion/Explosion.json";
+const mkString GTObstacle_Laser::m_ExplosionSpriteFrameName = "Explosion_0.png";
+const mkString GTObstacle_Laser::m_ExplosionTransitState = "None";
 
 // Audio
 const mkString GTObstacle_Laser::m_LaserChargingSoundName = "Laser_Charging";
 const mkString GTObstacle_Laser::m_LaserShootingSoundName = "Laser_Shooting";
+const mkString GTObstacle_Laser::m_LaserExplosionSoundName = "Laser_Explosion";
 
 // Others
 const gtF32 GTObstacle_Laser::m_MoveDownDuration = 1.5f;
@@ -35,6 +40,60 @@ GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene, gtF32 _spawnDelay)
 
     CC_SAFE_DELETE(obstacle);
     return nullptr;
+}
+
+void GTObstacle_Laser::DestroyObstacle()
+{
+    this->stopAllActions();
+    if (!m_LaserGunLeft && !m_LaserGunRight)
+    {
+        removeFromParent();
+        return;
+    }
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    // Create Sprite Animation (Left Laser Gun)
+    {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+        explosionAnimation->transitState(m_ExplosionTransitState);
+        explosionSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        explosionSprite->setPosition(m_LaserGunLeft->getPosition());
+        explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+        addChild(explosionSprite, m_LaserGunZPriority + 1);
+    }
+
+    // Create Sprite Animation (Right Laser Gun)
+    {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+        explosionAnimation->transitState(m_ExplosionTransitState);
+        explosionSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        explosionSprite->setPosition(m_LaserGunRight->getPosition());
+        explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+        addChild(explosionSprite, m_LaserGunZPriority + 1);
+    }
+
+    // Play the explosion audio.
+    GTSimperMusicSys::GetInstance()->playSound(m_LaserExplosionSoundName);
+
+    // Run Actions
+    auto followAction = GTFollowNodeAction::Create(m_TotalDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);
+    this->runAction(
+        Spawn::createWithTwoActions(followAction,
+            Sequence::create(
+            DelayTime::create(m_DestroyedAnimationDuration),
+            GTRemoveFromParentAction::Create(),
+            nullptr)
+        )
+    );
 }
 
 gtBool GTObstacle_Laser::init(gtF32 _spawnDelay)
@@ -108,8 +167,8 @@ gtBool GTObstacle_Laser::OnContactBegin(cocos2d::PhysicsContact& _contact)
         return false;
     }
 
-    // Only check collision with the player.
-    if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+    // Only check collision with the player and shield.
+    if (!NS_MK::MKMathsHelper::CompareBitmasks<mkS32>(getPhysicsBody()->getContactTestBitmask(), otherPhysicsBody->getCategoryBitmask()))
     {
         return false;
     }
@@ -213,7 +272,7 @@ void GTObstacle_Laser::SpawnPhysicsBody()
     physicsBody->setDynamic(true);
     physicsBody->setGravityEnable(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
-    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_SHIELD);
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
     InitialiseContactListener();

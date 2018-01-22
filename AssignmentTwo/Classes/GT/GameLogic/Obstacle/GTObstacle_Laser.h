@@ -42,10 +42,15 @@ public:
     static const mkString m_BeamJSONFile;
     static const mkString m_BeamSpriteFrameName;
     static const mkString m_BeamTransitState;
+    static const mkString m_ExplosionPListFile;
+    static const mkString m_ExplosionJSONFile;
+    static const mkString m_ExplosionSpriteFrameName;
+    static const mkString m_ExplosionTransitState;
 
     // Audio
     static const mkString m_LaserChargingSoundName;
     static const mkString m_LaserShootingSoundName;
+    static const mkString m_LaserExplosionSoundName;
 
     // Others
     static const gtF32 m_MoveDownDuration;
@@ -93,9 +98,14 @@ public:
         _actionManager->resumeTarget(this);
     }
 
+    virtual void DestroyObstacle() override;
+
 CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
-    GTObstacle_Laser(MKScene* _scene) : GTObstacleNode(_scene) {}
+    GTObstacle_Laser(MKScene* _scene) : GTObstacleNode(_scene)
+    {
+        m_DestroyedAnimationDuration = 0.26f;
+    }
     virtual ~GTObstacle_Laser()
     {
         DeinitialiseContactListener();

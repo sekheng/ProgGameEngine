@@ -59,7 +59,7 @@ gtBool GTObstacle_Missile::init(mkF32 _playerVelocityX)
     physicsBody->setDynamic(true);
     physicsBody->setGravityEnable(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
-    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER);
+    physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_PLAYER | GT_COLLISION_CATEGORY_SHIELD);
     physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
     this->setPhysicsBody(physicsBody);
     InitialiseContactListener();
@@ -110,8 +110,8 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
         return false;
     }
 
-    // Only check collision with the player.
-    if (!NS_MK::MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_PLAYER, otherPhysicsBody->getCategoryBitmask()))
+    // Only check collision with the player and shield.
+    if (!NS_MK::MKMathsHelper::CompareBitmasks<mkS32>(getPhysicsBody()->getContactTestBitmask(), otherPhysicsBody->getCategoryBitmask()))
     {
         return false;
     }
@@ -150,7 +150,7 @@ gtF32 GTObstacle_Missile::GetHorizontalVelocity()
     return -Director::getInstance()->getVisibleSize().height * 2.0f;
 }
 
-MKSprite* GTObstacle_Missile::CreateMissileWarning()
+MKSprite* GTObstacle_Missile::CreateMissileWarning(std::function<void()> _callback)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -161,9 +161,47 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning()
     GTScaleUpAndDownAction* scaleUpAndDownAction = GTScaleUpAndDownAction::Create(m_WarningDuration, 0.8f * desiredScale, 1.2f * desiredScale, 0.0f, 10.0f);
     GTRemoveFromParentAction* removeFromParentAction = GTRemoveFromParentAction::Create();
     GTPlaySoundAction* playSoundAction = GTPlaySoundAction::Create(m_MissileWarningSoundName);
-    warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, removeFromParentAction, NULL));
+    CallFunc* callbackAction = CallFunc::create(_callback);
+    warning->runAction(Sequence::create(scaleUpAndDownAction, playSoundAction, callbackAction, removeFromParentAction, NULL));
 
     return warning;
+}
+
+void GTObstacle_Missile::DestroyObstacle()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    // If the missile is on screen, explode.
+    if (obstacleLeft < screenRight)
+    {
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+
+        // Explode
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+
+        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+
+        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+        explosionAnimation->transitState(m_ExplosionTransitState);
+
+        explosionSprite->setPosition(this->getPosition());
+        GetScene()->addChild(explosionSprite);
+
+        // Play the explosion audio.
+        GTSimperMusicSys::GetInstance()->playSound(m_MissileExplosionSoundName);
+    }
+
+    // Destroy the warning if it exists.
+    if (m_SpawnedWarning && m_Warning)
+    {
+        m_Warning->removeFromParent();
+    }
+
+    Super::DestroyObstacle();
 }
 
 void GTObstacle_Missile::update(gtF32 _deltaTime)
@@ -187,9 +225,9 @@ void GTObstacle_Missile::update(gtF32 _deltaTime)
         mkF32 combinedVelocity = m_PlayerVelocityX - GetHorizontalVelocity();
         if (obstacleLeft <= (screenRight + m_WarningDuration * combinedVelocity))
         {
-            MKSprite* warning = CreateMissileWarning();
-            warning->setPosition(Vec2(visibleSize.width * 0.95f, this->getPositionY()));
-            GetScene()->GetUINode()->addChild(warning);
+            m_Warning = CreateMissileWarning(CC_CALLBACK_0(GTObstacle_Missile::OnWarningDestroyed, this));
+            m_Warning->setPosition(Vec2(visibleSize.width * 0.95f, this->getPositionY()));
+            GetScene()->GetUINode()->addChild(m_Warning);
             m_SpawnedWarning = true;
         }
     }

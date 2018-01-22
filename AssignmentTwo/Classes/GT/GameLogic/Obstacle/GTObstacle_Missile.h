@@ -7,6 +7,7 @@
 #include "../../../GT/Actions/GTRemoveFromParentAction.h"
 #include "../../../GT/Actions/GTScaleUpAndDownAction.h"
 #include "../../../GT/Actions/GTPlaySoundAction.h"
+#include "../../../GT/Actions/GTFollowNodeAction.h"
 
 USING_NS_MK
 
@@ -17,13 +18,16 @@ class GTObstacle_Missile : public GTObstacleNode
     typedef GTObstacleNode Super;
 
 protected:
-    MKSprite* m_Missile = NULL;
-    CCParticleSmoke* m_ParticleSmoke = NULL;
+    MKSprite* m_Missile = nullptr;
+    CCParticleSmoke* m_ParticleSmoke = nullptr;
     gtS32 m_MissileFlightSoundID = GTSimperMusicSys::SOUND_EFFECT_NOT_FOUND;
     gtBool m_SpawnedWarning = false;
+    MKSprite* m_Warning = nullptr;
     mkF32 m_PlayerVelocityX = 0.0f;
 
     virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
+
+    virtual void OnWarningDestroyed() { m_Warning = nullptr; }
 
 public:
     // Sprite
@@ -44,7 +48,7 @@ public:
 
     static GTObstacle_Missile* Create(MKScene* _scene, mkF32 _playerVelocityX);
     static gtF32 GetHorizontalVelocity();
-    static MKSprite* CreateMissileWarning();
+    static MKSprite* CreateMissileWarning(std::function<void()> _callback);
 
     GT_INITIALISECONTACTLISTENER(GTObstacle_Missile);
     GT_DEINITIALISECONTACTLISTENER(GTObstacle_Missile);
@@ -76,9 +80,14 @@ public:
         _actionManager->resumeTarget(this);
     }
 
+    virtual void DestroyObstacle() override;
+
 CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
-    GTObstacle_Missile(MKScene* _scene) : GTObstacleNode(_scene) {}
+    GTObstacle_Missile(MKScene* _scene) : GTObstacleNode(_scene)
+    {
+        m_DestroyedAnimationDuration;
+    }
     virtual ~GTObstacle_Missile()
     {
         DeinitialiseContactListener();

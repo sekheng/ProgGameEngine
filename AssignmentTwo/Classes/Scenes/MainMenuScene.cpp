@@ -45,31 +45,22 @@ bool MainMenuScene::init()
 
 	InitialiseSkyBackground();
 
-	// Input Testing
-	//InitialiseInput();
-
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-
+	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+	
 	auto toGameButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.6f),
 		"ButtonNormal.png", 
 		"ButtonSelected.png",
 		"Play Game",
 		[&](Ref*) -> void
 		{
-        //DeinitialiseInput();
-        CCLOG("Go to GameScene");
-        MKSceneManager::GetInstance()->ReplaceScene("GameScene");
+			MKSceneManager::GetInstance()->ReplaceScene("GameScene");
 		}
 	);
 	this->addChild(toGameButton);
 
 	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - toGameButton->getContentSize().height),
+		Vec2(visibleSize.width * 0.5f, (visibleSize.height * 0.6f) - (buttonSprite->getContentSize().height * toGameButton->getScaleY())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Settings",
@@ -81,7 +72,7 @@ bool MainMenuScene::init()
 	this->addChild(toSettingsButton);
 
 	auto exitButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 2 - (2 * toGameButton->getContentSize().height)),
+		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (2 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Exit",

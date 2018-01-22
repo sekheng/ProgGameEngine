@@ -126,14 +126,29 @@
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Laser.cpp">
       <Filter>GT\GameLogic\Obstacle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.cpp">
-      <Filter>GT\GameLogic\Powerup</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\PauseScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpSpawner.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSlowTimePowerUp.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTCleanSlatePowerUp.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.cpp">
+      <Filter>GT\GameLogic\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.cpp">
+      <Filter>GT\GameLogic\Powerup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +284,6 @@
     <ClInclude Include="..\Classes\GT\Actions\GTFollowNodeAction.h">
       <Filter>GT\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTInvulnerablePowerUp.h">
-      <Filter>GT\GameLogic\Powerup</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUp.h">
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClInclude>
@@ -280,6 +292,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpSpawner.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSlowTimePowerUp.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpMacros.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTCleanSlatePowerUp.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.h">
+      <Filter>GT\GameLogic\Powerup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Actions\GTRepeatActionInstantForever.h">
+      <Filter>GT\Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

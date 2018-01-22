@@ -56,6 +56,12 @@
 		 "loop":false
 	  },
 	  {
+		"location":"Audio/Obstacle/Laser/Laser_Explosion.mp3",
+		 "NameID":"Laser_Explosion",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
 		"location":"Audio/Obstacle/Saw/Saw_Spinning.mp3",
 		 "NameID":"Saw_Spinning",
 		 "volume":1.0,
@@ -72,7 +78,30 @@
 		 "NameID":"Spike_Hit",
 		 "volume":1.0,
 		 "loop":false
+	  },
+	  {
+		 "location":"Audio/PowerUp/SphereShield_Collection.mp3",
+		 "NameID":"SphereShield_Collect",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
+		 "location":"Audio/PowerUp/CleanSlate_Collection.mp3",
+		 "NameID":"CleanSlate_Collect",
+		 "volume":1.0,
+		 "loop":false
+	  },
+  	  {
+		 "location":"Audio/PowerUp/SlowTime_Collection.mp3",
+		 "NameID":"SlowTime_Collect",
+		 "volume":10.0,
+		 "loop":false
+	  },
+	  {
+		 "location":"Audio/PowerUp/SphereShield_PowerDown.mp3",
+		 "NameID":"SphereShield_PowerDown",
+		 "volume":1.0,
+		 "loop":false
 	  }
-	  
   ]
 }

@@ -10,18 +10,21 @@
 #include "../GT/Audio/GTSimperMusicSys.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "../GT/GameLogic/Obstacle/GTObstacleNode.h"
-#include "../GT/GameLogic/Powerup/GTInvulnerablePowerUp.h"
+#include "../GT/GameLogic/PowerUp/GTPowerUp.h"
+#include "../GT/Actions/GTFollowNodeAction.h"
+#include "../GT/Actions/GTRepeatActionInstantForever.h"
+
+#include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
 
 // Include UI
 #include "../UIClass/UICreator.h"
 
 using namespace GinTama;
 
-static float RESET_PLAYERDISTANCE_X;
-
 // Overrides
 bool GameScene::initWithPhysics()
 {
+	
     if (!Super::initWithPhysics())
     {
         return false;
@@ -42,10 +45,12 @@ bool GameScene::initWithPhysics()
 
     InitialisePlayer();
 
-    // Create Obstacle Spawner
+    // Create Obstacle & PowerUps Spawner
     InitialiseObstacles();
+	InitialisePowerUps();
 
-    GTInvulverablePowerUp::create(this);
+    // Initialise Camera
+    InitialiseCamera();
 
 	return true;
 }
@@ -60,20 +65,13 @@ void GameScene::update(float _deltaTime)
     }
     else
     {
-        if (m_PlayerNode->getPositionX() > RESET_PLAYERDISTANCE_X)
-        {
-            float playerNewPositionX = m_PlayerNode->getPositionX() - RESET_PLAYERDISTANCE_X;
-            m_PlayerNode->setPositionX(playerNewPositionX);
-            m_ObstacleSpawner->MoveAllObstacles(-RESET_PLAYERDISTANCE_X);
-        }
+        ScrollBackgrounds(_deltaTime);
     }
 
-    ScrollBackgrounds(_deltaTime);
-    UpdateCamera();
-    m_ObstacleSpawner->Update(_deltaTime); // This must be updated AFTER the camera.
+    m_ObstacleSpawner->Update(_deltaTime);
+	m_PowerUpSpawner->Update(_deltaTime);
     UpdateUINode();
     UpdateText();
-
 }
 
 void GameScene::onEnter()
@@ -81,6 +79,7 @@ void GameScene::onEnter()
     Super::onEnter();
 
     if (m_ObstacleSpawner) { m_ObstacleSpawner->ResumeAllObstacles(); }
+	if (m_PowerUpSpawner) { m_PowerUpSpawner->ResumeAllPowerUps(); }
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_GAMESCENE);
 }
@@ -90,6 +89,7 @@ void GameScene::onExit()
     Super::onExit();
 
     if (m_ObstacleSpawner) { m_ObstacleSpawner->PauseAllObstacles(); }
+	if (m_PowerUpSpawner) { m_PowerUpSpawner->PauseAllPowerUps(); }
 
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_DEFAULT);
 }
@@ -105,7 +105,8 @@ void GameScene::InitialisePlayer()
     // Create the player sprite.
     Sprite *playerSprite = Sprite::create();
     playerSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("Run (1).png"));
-    playerSprite->setScale(0.5f);
+    gtF32 desiredObstacleScale = (visibleSize.height * 0.25f) / playerSprite->getContentSize().height;
+    playerSprite->setScale(desiredObstacleScale);
     addChild(playerSprite);
 
     // Create player animation.
@@ -120,7 +121,7 @@ void GameScene::InitialisePlayer()
     PhysicsBody* playerPhysicsBody = PhysicsBody::createBox(playerSpriteContentSize);
     playerPhysicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     playerPhysicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    playerPhysicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
     playerPhysicsBody->setAngularVelocityLimit(0.0f);
     playerPhysicsBody->setMass(20.0f);
     playerPhysicsBody->setDynamic(true);
@@ -137,7 +138,20 @@ void GameScene::InitialisePlayer()
     playerSprite->setPosition(Vec2(0.0f, visibleSize.height * 0.1f + playerSprite->getContentSize().height * 0.5f));
     m_PlayerNode = playerSprite;
 
-    RESET_PLAYERDISTANCE_X = m_Ground->getScaleX() * 2.f;
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_ObstacleSpawner->MoveAllObstacles(_dist); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { m_PowerUpSpawner->MoveAllPowerUps(_dist); });
+    //m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateCamera(); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateText(); });
+    m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateUINode(); });
+
+    m_CharaStatNode->setResetDistance(m_Ground->getScaleX() * 5.0f);
+
+    auto runResetActionPtr = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, m_CharaStatNode));
+    m_CharaStatNode->runAction(GTRepeatActionInstantForever::Create(runResetActionPtr));
+
+	def = UserDefault::getInstance();
+
+	m_HighScore = def->getIntegerForKey("HIGHSCORE", 0);
 }
 
 void GameScene::InitialiseGround()
@@ -223,20 +237,39 @@ void GameScene::InitialiseText()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    gtF32 desiredObstacleScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
-    m_HighScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
-    m_HighScoreTxt->setTextColor(Color4B::BLACK);
-    m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-    m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
-    GetUINode()->addChild(m_HighScoreTxt);
+    gtF32 desiredObstacleScale = (visibleSize.height * 28.0f) / this->getContentSize().height;
+    m_ScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
+    m_ScoreTxt->setTextColor(Color4B::BLACK);
+    m_ScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    m_ScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.9f);
+    GetUINode()->addChild(m_ScoreTxt);
+
+	// Timer Text For Slow Time
+	gtF32 desiredTextScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
+	m_SlowTimerTxt = Label::createWithTTF("Slow Timer:", "fonts/Marker_Felt.ttf", desiredTextScale);
+	m_SlowTimerTxt->setTextColor(Color4B::BLACK);
+	m_SlowTimerTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	m_SlowTimerTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.8f);
+	m_SlowTimerTxt->setVisible(false);
+	GetUINode()->addChild(m_SlowTimerTxt);
+
+	// HighScore Text 
+	m_HighScoreTxt = Label::createWithTTF("HighScore", "fonts/Marker_Felt.ttf", desiredObstacleScale);
+	m_HighScoreTxt->setTextColor(Color4B::RED);
+	m_HighScoreTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	m_HighScoreTxt->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.75f);
+	m_HighScoreTxt->setVisible(false);
+	GetUINode()->addChild(m_HighScoreTxt);
 }
 
 void GameScene::InitialiseGameOverUI()
 {
     // need to ensure that the array of GameOverUI is empty!
+
     if (m_ArrayOfGameOverUI.size() == 0)
     {
         m_ObstacleSpawner->PauseAllObstacles();
+		m_PowerUpSpawner->PauseAllPowerUps();
         auto visibleSize = Director::getInstance()->getVisibleSize();
         float UIButtonPosX = (visibleSize.width * 0.5f);
         float UIButtonPosY = (visibleSize.height * 0.5f);
@@ -250,6 +283,8 @@ void GameScene::InitialiseGameOverUI()
         {
             //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
             // cannot replace the current scene in the same scene
+			Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+			this->getPhysicsWorld()->setSpeed(1.0f);
             MKSceneManager::GetInstance()->ReplaceScene("GameOverScene");
         }
         );
@@ -257,7 +292,7 @@ void GameScene::InitialiseGameOverUI()
         m_ArrayOfGameOverUI.push_back(RetryButton);
         //SETTINGS BUTTON//
         auto ReviveButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - RetryButton->getContentSize().height),
+            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale())),
             "ButtonNormal.png",
             "ButtonSelected.png",
             "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
@@ -265,11 +300,13 @@ void GameScene::InitialiseGameOverUI()
         {
             if (m_CharaStatNode->getReviveCounter() > 0)
             {
+				m_HighScoreTxt->setVisible(false);
                 // have to clear the buttons
                 ClearGameOverUI();
                 // then revive the player!
                 m_CharaStatNode->setState(REVIVE);
                 m_ObstacleSpawner->ResumeAllObstacles();
+				m_PowerUpSpawner->ResumeAllPowerUps();
             }
         }
         );
@@ -277,7 +314,7 @@ void GameScene::InitialiseGameOverUI()
         m_ArrayOfGameOverUI.push_back(ReviveButton);
         //MAIN MENU BUTTON//
         auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * 2)),
+            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 2)),
             "ButtonNormal.png",
             "ButtonSelected.png",
             "Main Menu",
@@ -288,6 +325,17 @@ void GameScene::InitialiseGameOverUI()
         );
         GetUINode()->addChild(ToMainMenuButton);
         m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
+
+		if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
+		{
+			m_HighScore = m_CharaStatNode->getConvertedDistWalk();
+
+			def->setIntegerForKey("HIGHSCORE", m_HighScore);
+		}	
+
+		std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
+		m_HighScoreTxt->setString(HighScoreString);
+		m_HighScoreTxt->setVisible(true);
     }
 }
 
@@ -296,7 +344,23 @@ void GameScene::InitialiseObstacles()
     DeinitialiseObstacles();
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.width * 2.0f);
+    m_ObstacleSpawner = new GTObstacleSpawner(this, m_PlayerNode, m_CharaStatNode->getSpeedX(), visibleSize.height * 4.0f);
+}
+
+void GameScene::InitialisePowerUps()
+{
+	DeinitialisePowerUps();
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	m_PowerUpSpawner = new GTPowerUpSpawner(this, m_PlayerNode, visibleSize.height * 1.0f, m_ObstacleSpawner);
+}
+
+void GameScene::InitialiseCamera()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    GTFollowNodeAction* followAction = GTFollowNodeAction::Create(0.0f, m_PlayerNode, GTFollowNodeAction::X, cocos2d::Vec2(visibleSize.width * 0.3f, 0.0f));
+    getDefaultCamera()->runAction(RepeatForever::create(followAction));
 }
 
 // Update
@@ -305,12 +369,6 @@ void GameScene::ScrollBackgrounds(float _deltaTime)
     m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
 	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
 	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
-}
-
-void GameScene::UpdateCamera()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    getDefaultCamera()->setPosition(Vec2(m_PlayerNode->getPositionX() + visibleSize.width * 0.3f, visibleSize.height * 0.5f));
 }
 
 void GameScene::UpdateUINode()
@@ -322,8 +380,19 @@ void GameScene::UpdateUINode()
 
 void GameScene::UpdateText()
 {
-    std::string highScoreString = "HighScore: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
-    m_HighScoreTxt->setString(highScoreString);
+    std::string CurrentScoreString = "Score: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+	m_ScoreTxt->setString(CurrentScoreString);
+
+	if (GTSlowTimePowerUp::m_OnContact)
+	{
+		std::string slowTimerString = "Slow Time: " + std::to_string((gtU32)GTSlowTimePowerUp::m_currentCountDownTimer);
+		m_SlowTimerTxt->setString(slowTimerString);
+		m_SlowTimerTxt->setVisible(true);
+	}
+	if (!GTSlowTimePowerUp::m_OnContact)
+	{
+		m_SlowTimerTxt->setVisible(false);
+	}
 }
 
 // Deinitialisation
@@ -331,6 +400,7 @@ void GameScene::Deinitialise()
 {
 	DeinitialiseInput();
     DeinitialiseObstacles();
+	DeinitialisePowerUps();
     ClearGameOverUI();
 }
 
@@ -340,6 +410,14 @@ void GameScene::DeinitialiseObstacles()
     {
         delete m_ObstacleSpawner;
     }
+}
+
+void GameScene::DeinitialisePowerUps()
+{
+	if (m_PowerUpSpawner != nullptr)
+	{
+		delete m_PowerUpSpawner;
+	}
 }
 
 void GameScene::ClearGameOverUI()

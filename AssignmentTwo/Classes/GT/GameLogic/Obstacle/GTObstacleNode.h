@@ -28,6 +28,7 @@ private:
 
 protected:
     EventListenerPhysicsContact* m_ContactListener = NULL;
+    mkF32 m_DestroyedAnimationDuration = 0.0f;
 
     virtual bool OnContactBegin(cocos2d::PhysicsContact& _contact) = 0;
 
@@ -42,6 +43,8 @@ public:
 
     virtual void PauseObstacle() { m_IsPaused = true; }
     virtual void ResumeObstacle() { m_IsPaused = false; }
+
+    virtual void DestroyObstacle() { removeFromParent(); }
 
 protected:
     GTObstacleNode(MKScene* _scene) : m_Scene(_scene) {}

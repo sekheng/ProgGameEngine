@@ -41,7 +41,7 @@ bool SettingsScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width / 2, visibleSize.height / 5),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.2f),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Back",
@@ -56,7 +56,7 @@ bool SettingsScene::init()
 	int masterVolume = GinTama::GTSimperMusicSys::GetInstance()->getMasterVol() * 100;
 
 	auto slider = MKUICreator::GetInstance()->createSlider(
-		Vec2(visibleSize.width / 2, visibleSize.height / 2),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f),
 		"SliderBar.png",
 		"ProgressBar.png",
 		"SliderBall.png",

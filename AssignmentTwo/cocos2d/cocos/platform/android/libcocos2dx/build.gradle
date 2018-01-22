@@ -26,5 +26,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: '../java/libs', include: ['*.jar'])
+    compile project(':facebook_lib')
+    compile fileTree(dir: '../java/libs', include: ['*.jar']).exclude(['android-support-v4.jar', 'android_support_v7/appcompat/libs/android-support-v4.jar'])
 }

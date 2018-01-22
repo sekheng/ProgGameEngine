@@ -82,32 +82,4 @@ MKSprite* MKSprite::CreateWithTexture(Texture2D *texture, mkBool _useTextureRepe
 	return nullptr;
 }
 
-MKSprite* MKSprite::CreateWithSize(const mkString& _fileName, const Size& _desiredSize, mkBool _useTextureRepeat)
-{
-	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-
-	// Original image
-	auto originalSprite = Sprite::create(_fileName);;
-	originalSprite->setFlippedY(true);
-	// Scale the sprite to our desired size.
-	originalSprite->setScale(
-		_desiredSize.width / originalSprite->getContentSize().width,
-		_desiredSize.height / originalSprite->getContentSize().height);
-	originalSprite->setAnchorPoint(Vec2::ZERO);
-	originalSprite->setPosition(visibleOrigin.x, visibleOrigin.y);
-
-	// Render the sprite onto a texture.
-	auto renderTexture = RenderTexture::create(_desiredSize.width, _desiredSize.height, Texture2D::PixelFormat::RGBA8888);
-	// What this does is that originalSprite will be set to the texture.
-	renderTexture->begin();
-	originalSprite->visit();
-	renderTexture->end();
-
-	// Create new Sprite which is the size that we want.
-	MKSprite* resultSprite = MKSprite::CreateWithTexture(renderTexture->getSprite()->getTexture(), _useTextureRepeat);
-
-	return resultSprite;
-}
-
 NS_MK_END

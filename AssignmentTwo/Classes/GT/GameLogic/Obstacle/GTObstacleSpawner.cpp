@@ -67,6 +67,18 @@ void GTObstacleSpawner::Update(gtF32 _deltaTime)
     DespawnOutOfScreenObstacles();
 }
 
+void GTObstacleSpawner::DestroyObstacles(mkU32 _numObstacles)
+{
+    mkU32 obstaclesDestroyed = 0;
+    for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); (i != m_ObstacleList.end()) && (obstaclesDestroyed < _numObstacles); )
+    {
+        GTObstacleNode* obstacleNode = *i;
+        obstacleNode->DestroyObstacle();
+        ++obstaclesDestroyed;
+        i = m_ObstacleList.erase(i);
+    }
+}
+
 void GTObstacleSpawner::DespawnAllObstacles()
 {
     for (std::list<GTObstacleNode*>::iterator i = m_ObstacleList.begin(); i != m_ObstacleList.end(); ++i)

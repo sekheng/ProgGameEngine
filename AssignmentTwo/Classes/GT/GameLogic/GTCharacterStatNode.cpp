@@ -4,6 +4,7 @@
 #include "../../GT/Animation/GTAnimationHandlerNode.h"
 #include "../../GT/Audio/GTSimperMusicSys.h"
 #include "../GameLogic/GTCollisionCategory.h"
+#include "Powerup/GTSphereShieldPowerUp.h"
 
 USING_NS_GT
 USING_NS_CC;
@@ -24,6 +25,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_AnimHandler(nullptr)
     , m_TotalDist(0)
     , m_ReviveCounter(1)
+    , m_ResetDistanceX(300.0f)
 {
 	setTag(1);
 }
@@ -111,6 +113,22 @@ void GTCharacterStatNode::update(float delta)
             }
             break;
         default:
+            // check whether it has crossed over the certain distance
+            if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX && !m_RunResetActionPtr)
+            {
+                /*m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
+                for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
+                {
+                    (*it)(-m_ResetDistanceX);
+                }*/
+
+                //m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                //auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
+                //MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
+                //// then make sure the owner of the sprite will run this action!
+                //m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
+            }
             break;
         }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
@@ -125,7 +143,7 @@ void GTCharacterStatNode::setPhysicsBitmasks(cocos2d::PhysicsBody *_physicsBody)
     {
         _physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
         _physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-        _physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+        _physicsBody->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
     }
 }
 
@@ -141,7 +159,7 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->retain();
     m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
-    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE);
+    m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
 
     // Then set the contact listener when it happens
     setPhysicsBitmasks(m_physicsNode);
@@ -290,6 +308,7 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
     {
         switch (m_CurrentState)
         {
+		case RUNNING:
         case JUMPING:
         case SLIDE_JUMP:
             // this means the character touched the ground!
@@ -309,6 +328,11 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
         setState(DEAD);
         return true;
     }
+	else if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_POWERUP, otherPhysicsBody->getCategoryBitmask()))
+	{
+		return true;
+	}
+
 
     return false;
 }
@@ -350,4 +374,24 @@ void GTCharacterStatNode::setReviveCounter(const int &_reviveTimes)
 int GTCharacterStatNode::getReviveCounter()
 {
     return m_ReviveCounter;
+}
+
+void GTCharacterStatNode::PassInvokeFunctionWhenResetDistance(std::function<void(float)> _functionCall)
+{
+    m_VectorOfResetDistCalls.push_back(_functionCall);
+}
+
+void GTCharacterStatNode::ResetPlayerDistance()
+{
+    if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
+    {
+        // need to get the new distance as there is a huge delay between the new player position and the old one!
+        m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+        m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
+        for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
+        {
+            (*it)(-m_ResetDistanceX);
+        }
+        m_RunResetActionPtr = nullptr;
+    }
 }

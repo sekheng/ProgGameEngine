@@ -60,6 +60,8 @@ public:
         _actionManager->resumeTarget(this);
     }
 
+    virtual void DestroyObstacle() override;
+
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
 	GTObstacle_Saw(MKScene* _scene) : GTObstacleNode(_scene) {}

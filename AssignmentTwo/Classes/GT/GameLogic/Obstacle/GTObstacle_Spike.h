@@ -33,6 +33,8 @@ public:
 
 	static GTObstacle_Spike* Create(MKScene* _scene, gtU32 _numberOfSpikes = 2);
 
+    virtual void DestroyObstacle() override;
+
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
 	GTObstacle_Spike(MKScene* _scene, gtU32 _numberOfSpikes) :

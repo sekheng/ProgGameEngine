@@ -84,7 +84,7 @@ void PauseScene::InitializePauseMenuButtons()
 
 	//SETTINGS BUTTON//
 	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - toPrevSceneButton->getContentSize().height),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Settings",
@@ -98,7 +98,7 @@ void PauseScene::InitializePauseMenuButtons()
 
 	//MAIN MENU BUTTON//
 	auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - toPrevSceneButton->getContentSize().height * 2),
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale() * 2)),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Main Menu",
