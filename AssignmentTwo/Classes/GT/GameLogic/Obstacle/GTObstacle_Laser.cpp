@@ -13,10 +13,15 @@ const mkString GTObstacle_Laser::m_BeamPListFile = "Textures/Gameplay/Obstacle/L
 const mkString GTObstacle_Laser::m_BeamJSONFile = "Textures/Gameplay/Obstacle/Laser/Beam/Beam.json";
 const mkString GTObstacle_Laser::m_BeamSpriteFrameName = "Beam_0.png";
 const mkString GTObstacle_Laser::m_BeamTransitState = "None";
+const mkString GTObstacle_Laser::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Laser/Explosion/Explosion.plist";
+const mkString GTObstacle_Laser::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Laser/Explosion/Explosion.json";
+const mkString GTObstacle_Laser::m_ExplosionSpriteFrameName = "Explosion_0.png";
+const mkString GTObstacle_Laser::m_ExplosionTransitState = "None";
 
 // Audio
 const mkString GTObstacle_Laser::m_LaserChargingSoundName = "Laser_Charging";
 const mkString GTObstacle_Laser::m_LaserShootingSoundName = "Laser_Shooting";
+const mkString GTObstacle_Laser::m_LaserExplosionSoundName = "Laser_Explosion";
 
 // Others
 const gtF32 GTObstacle_Laser::m_MoveDownDuration = 1.5f;
@@ -46,37 +51,38 @@ void GTObstacle_Laser::DestroyObstacle()
         return;
     }
 
-    // Create our particles for the left gun.
-    ParticleSpiral* particlesLeft = ParticleSpiral::createWithTotalParticles(10);
-    particlesLeft->setEmissionRate(particlesLeft->getTotalParticles() / m_DestroyedAnimationDuration);
-    particlesLeft->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
-    particlesLeft->setDuration(m_DestroyedAnimationDuration);
-    particlesLeft->setLife(m_DestroyedAnimationDuration);
-    particlesLeft->setLifeVar(0.0f);
-    particlesLeft->setStartSize(m_LaserGunLeft->getContentSize().height);
-    particlesLeft->setStartSizeVar(0.0f);
-    particlesLeft->setEndSize(m_LaserGunLeft->getContentSize().height * 6.0f);
-    particlesLeft->setEndSizeVar(0.0f);
-    particlesLeft->setAutoRemoveOnFinish(true);
-    particlesLeft->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    particlesLeft->setPosition(cocos2d::Vec2(m_LaserGunLeft->getContentSize().width * 0.5f, m_LaserGunLeft->getContentSize().height * 0.5f));
-    m_LaserGunLeft->addChild(particlesLeft);
-    
-    // Create our particles for the right gun.
-    ParticleSpiral* particlesRight = ParticleSpiral::createWithTotalParticles(10);
-    particlesRight->setEmissionRate(particlesRight->getTotalParticles() / m_DestroyedAnimationDuration);
-    particlesRight->setPositionType(cocos2d::ParticleSystem::PositionType::RELATIVE);
-    particlesRight->setDuration(m_DestroyedAnimationDuration);
-    particlesRight->setLife(m_DestroyedAnimationDuration);
-    particlesRight->setLifeVar(0.0f);
-    particlesRight->setStartSize(m_LaserGunRight->getContentSize().height);
-    particlesRight->setStartSizeVar(0.0f);
-    particlesRight->setEndSize(m_LaserGunRight->getContentSize().height * 6.0f);
-    particlesRight->setEndSizeVar(0.0f);
-    particlesRight->setAutoRemoveOnFinish(true);
-    particlesRight->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    particlesRight->setPosition(cocos2d::Vec2(m_LaserGunRight->getContentSize().width * 0.5f, m_LaserGunRight->getContentSize().height * 0.5f));
-    m_LaserGunRight->addChild(particlesRight);
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    // Create Sprite Animation (Left Laser Gun)
+    {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+        explosionAnimation->transitState(m_ExplosionTransitState);
+        explosionSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        explosionSprite->setPosition(m_LaserGunLeft->getPosition());
+        explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+        addChild(explosionSprite, m_LaserGunZPriority + 1);
+    }
+
+    // Create Sprite Animation (Right Laser Gun)
+    {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+        explosionAnimation->transitState(m_ExplosionTransitState);
+        explosionSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        explosionSprite->setPosition(m_LaserGunRight->getPosition());
+        explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+        addChild(explosionSprite, m_LaserGunZPriority + 1);
+    }
+
+    // Play the explosion audio.
+    GTSimperMusicSys::GetInstance()->playSound(m_LaserExplosionSoundName);
 
     // Run Actions
     auto followAction = GTFollowNodeAction::Create(m_TotalDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);

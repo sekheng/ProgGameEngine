@@ -1,0 +1,39 @@
+{  
+
+   "AnimationLoading":[  
+      {
+         "StateName":"Explosion",
+         "FPS" : 0.02,
+         "loop" : 1,
+         "SpriteReference":[
+            "Explosion_0.png",
+            "Explosion_1.png",
+            "Explosion_2.png",
+            "Explosion_3.png",
+            "Explosion_4.png",
+            "Explosion_5.png",
+            "Explosion_6.png",
+            "Explosion_7.png",
+            "Explosion_8.png",
+            "Explosion_9.png",
+			"Explosion_10.png",
+			"Explosion_11.png",
+			"Explosion_12.png"
+         ]
+      }
+   ],
+
+   "AnimationTransition":[
+      {
+         "TransitName" : "None",
+         "TransitCondition" : "",
+         "ActionSequence" : [  
+            {  
+               "ActionName" : "AnimTrans",
+               "ActionValue" : "Explosion"
+            }
+         ]
+      }
+   ]
+   
+}
