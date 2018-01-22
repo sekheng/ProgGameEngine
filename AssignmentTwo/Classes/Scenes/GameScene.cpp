@@ -32,7 +32,7 @@ bool GameScene::initWithPhysics()
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    //this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     InitialiseBackgrounds();
     InitialiseGround();
@@ -144,7 +144,7 @@ void GameScene::InitialisePlayer()
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateText(); });
     m_CharaStatNode->PassInvokeFunctionWhenResetDistance([&](float _dist) { UpdateUINode(); });
 
-    m_CharaStatNode->setResetDistance(m_Ground->getScaleX() * 0.25f);
+    m_CharaStatNode->setResetDistance(m_Ground->getScaleX() * 5.0f);
 
     auto runResetActionPtr = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, m_CharaStatNode));
     m_CharaStatNode->runAction(GTRepeatActionInstantForever::Create(runResetActionPtr));
