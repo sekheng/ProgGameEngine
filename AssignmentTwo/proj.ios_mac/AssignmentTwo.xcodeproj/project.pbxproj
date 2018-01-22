@@ -93,7 +93,6 @@
 		EB3046231FE79B06008B8585 /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30461A1FE79B05008B8585 /* SettingsScene.cpp */; };
 		EB7484FC200374F000D4E6EC /* PauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F8200374EF00D4E6EC /* PauseScene.cpp */; };
 		EB7484FD200374F000D4E6EC /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */; };
-		EB748501200374F700D4E6EC /* GTInvulnerablePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */; };
 		EB7485062003750600D4E6EC /* GTObstacle_Laser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */; };
 		EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */; };
 		EB74850E2003758300D4E6EC /* PauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EB74850D2003758300D4E6EC /* PauseIcon.png */; };
@@ -269,9 +268,6 @@
 		EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = Scenes/GameOverScene.cpp; sourceTree = "<group>"; };
 		EB7484FA200374EF00D4E6EC /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PauseScene.h; path = Scenes/PauseScene.h; sourceTree = "<group>"; };
 		EB7484FB200374EF00D4E6EC /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverScene.h; path = Scenes/GameOverScene.h; sourceTree = "<group>"; };
-		EB7484FE200374F700D4E6EC /* GTInvulnerablePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTInvulnerablePowerUp.h; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.h; sourceTree = "<group>"; };
-		EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTInvulnerablePowerUp.cpp; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.cpp; sourceTree = "<group>"; };
-		EB748500200374F700D4E6EC /* GTPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUp.h; path = GT/GameLogic/Powerup/GTPowerUp.h; sourceTree = "<group>"; };
 		EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Laser.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Laser.cpp; sourceTree = "<group>"; };
 		EB7485032003750500D4E6EC /* GTObstacle_Laser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Laser.h; path = GT/GameLogic/Obstacle/GTObstacle_Laser.h; sourceTree = "<group>"; };
 		EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Saw.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Saw.cpp; sourceTree = "<group>"; };
@@ -444,9 +440,6 @@
 				EB7485032003750500D4E6EC /* GTObstacle_Laser.h */,
 				EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */,
 				EB7485052003750500D4E6EC /* GTObstacle_Saw.h */,
-				EB7484FF200374F700D4E6EC /* GTInvulnerablePowerUp.cpp */,
-				EB7484FE200374F700D4E6EC /* GTInvulnerablePowerUp.h */,
-				EB748500200374F700D4E6EC /* GTPowerUp.h */,
 				EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */,
 				EB7484FB200374EF00D4E6EC /* GameOverScene.h */,
 				EB7484F8200374EF00D4E6EC /* PauseScene.cpp */,
@@ -722,7 +715,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB748501200374F700D4E6EC /* GTInvulnerablePowerUp.cpp in Sources */,
 				EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */,
 				EB3045DF1FE79AB7008B8585 /* GTSimperMusicSys.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
