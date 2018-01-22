@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-
+#define SDKBOX_ENABLED
 // Include MK
 #include "MK/SceneManagement/MKSceneManager.h"
 

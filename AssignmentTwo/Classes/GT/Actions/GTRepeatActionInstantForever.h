@@ -59,7 +59,7 @@ public:
         return m_InnerAction;
     }
 
-    void GTRepeatActionInstantForever::startWithTarget(cocos2d::Node* target) override
+    void startWithTarget(cocos2d::Node* target) override
     {
         Super::startWithTarget(target);
         m_InnerAction->startWithTarget(target);
