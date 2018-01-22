@@ -28,12 +28,11 @@ private:
 
 protected:
     EventListenerPhysicsContact* m_ContactListener = NULL;
+    mkF32 m_DestroyedAnimationDuration = 0.0f;
 
     virtual bool OnContactBegin(cocos2d::PhysicsContact& _contact) = 0;
 
 public:
-    static const mkF32 m_DestroyedAnimationDuration;
-
     MKScene* GetScene() { return m_Scene; }
     const MKScene* GetScene() const { return m_Scene; }
 

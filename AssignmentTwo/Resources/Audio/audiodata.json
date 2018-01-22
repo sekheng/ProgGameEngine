@@ -56,6 +56,12 @@
 		 "loop":false
 	  },
 	  {
+		"location":"Audio/Obstacle/Laser/Laser_Explosion.mp3",
+		 "NameID":"Laser_Explosion",
+		 "volume":1.0,
+		 "loop":false
+	  },
+	  {
 		"location":"Audio/Obstacle/Saw/Saw_Spinning.mp3",
 		 "NameID":"Saw_Spinning",
 		 "volume":1.0,
