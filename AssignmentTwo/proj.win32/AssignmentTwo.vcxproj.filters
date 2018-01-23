@@ -150,6 +150,9 @@
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShield.cpp">
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\ShopScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GT\Actions\GTRepeatActionInstantForever.h">
       <Filter>GT\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\ShopScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

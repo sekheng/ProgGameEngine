@@ -71,8 +71,20 @@ bool MainMenuScene::init()
 	);
 	this->addChild(toSettingsButton);
 
-	auto exitButton = MKUICreator::GetInstance()->createButton(
+	auto toShopButton = MKUICreator::GetInstance()->createButton(
 		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (2 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"Shop",
+		[&](Ref*) -> void
+	{
+		MKSceneManager::GetInstance()->PushScene("ShopScene");
+	}
+	);
+	this->addChild(toShopButton);
+
+	auto exitButton = MKUICreator::GetInstance()->createButton(
+		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (3 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Exit",
