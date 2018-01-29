@@ -40,17 +40,22 @@ bool SettingsScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	InitialiseSkyBackground();
+
+	Sprite* backButton = Sprite::create("BackButton.png");
+
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.2f),
-		"ButtonNormal.png",
-		"ButtonSelected.png",
-		"Back",
+		Vec2(backButton->getContentSize().width, visibleSize.height - backButton->getContentSize().height),
+		"BackButton.png",
+		"BackButton.png",
+		"",
 		[&](Ref*) -> void
-		{
-        //DeinitialiseInput();
-			MKSceneManager::GetInstance()->PopScene();
-		}
-	);
+	{
+		//DeinitialiseInput();
+		MKSceneManager::GetInstance()->PopScene();
+	},
+		1.0f
+		);
 	this->addChild(toPrevSceneButton);
 
 	int masterVolume = GinTama::GTSimperMusicSys::GetInstance()->getMasterVol() * 100;
@@ -94,4 +99,27 @@ bool SettingsScene::init()
 	scheduleUpdate();
 
 	return true;
+}
+
+void SettingsScene::InitialiseSkyBackground()
+{
+	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	m_SkyBackground = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
+	m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
+	m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
+
+	// We want the background to fill up the whole screen.
+	float backgroundWidth = m_SkyBackground->getContentSize().width;
+	float backgroundHeight = m_SkyBackground->getContentSize().height;
+	float backgroundAspectRatio = backgroundWidth / backgroundHeight;
+
+	float desiredWidth = visibleSize.width;
+	float desiredHeight = visibleSize.height;
+
+	m_SkyBackground->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+	m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
+
+	addChild(m_SkyBackground);
 }

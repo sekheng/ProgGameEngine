@@ -21,7 +21,11 @@ public:
     SettingsScene() {}
     virtual ~SettingsScene() {}
 
+	MKSprite* m_SkyBackground = nullptr;
+
 	virtual bool init();
+
+	void InitialiseSkyBackground();
 
     virtual void OnButton(EventCustom * _event) {}
     virtual void OnClick(EventCustom * _event) {}
