@@ -139,7 +139,7 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
     explosionAnimation->transitState(m_ExplosionTransitState);
 
-    explosionSprite->setPosition(this->getPosition());
+    explosionSprite->setPosition(getContentSize() * 0.5f);
     GetScene()->addChild(explosionSprite);
 
     return true;
@@ -211,7 +211,8 @@ void GTObstacle_Missile::DestroyObstacle()
     explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
     // As the missile is scaled, we have to divide the explosion scale by the missile scale,
     // to get rid of the missile's scaling.
-    explosionSprite->setScale(1.0f / this->getScaleX(), 1.0f / this->getScaleY());
+    explosionSprite->setScale(explosionSprite->getScaleX() / this->getScaleX(), explosionSprite->getScaleY() / this->getScaleY());
+    explosionSprite->setPosition(getContentSize() * 0.5f);
 
     this->addChild(explosionSprite);
 

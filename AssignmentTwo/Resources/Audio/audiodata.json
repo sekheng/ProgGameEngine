@@ -73,9 +73,21 @@
 		 "volume":1.0,
 		 "loop":false
 	  },
+      {
+		"location":"Audio/Obstacle/Saw/Saw_Explosion.mp3",
+		 "NameID":"Saw_Explosion",
+		 "volume":1.0,
+		 "loop":false
+	  },
 	  {
 		"location":"Audio/Obstacle/Spike/Spike_Hit.mp3",
 		 "NameID":"Spike_Hit",
+		 "volume":1.0,
+		 "loop":false
+	  },
+      {
+		"location":"Audio/Obstacle/Spike/Spike_Explosion.mp3",
+		 "NameID":"Spike_Explosion",
 		 "volume":1.0,
 		 "loop":false
 	  },

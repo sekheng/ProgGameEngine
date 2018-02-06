@@ -2,6 +2,7 @@
 #include "GTObstacle_Saw.h"
 #include "../../../GT/Animation/GTAnimationHandlerNode.h"
 #include "../../Actions/GTMoveBySinAction.h"
+#include "../../Actions/GTRemoveFromParentAction.h"
 
 // Include STL
 #include <string>
@@ -10,10 +11,15 @@ NS_GT_BEGIN
 
 // Sprite
 const mkString GTObstacle_Saw::m_SawSpriteFile = "Textures/Gameplay/Obstacle/Saw/Saw.png";
+const mkString GTObstacle_Saw::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Saw/Explosion/Explosion.plist";
+const mkString GTObstacle_Saw::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Saw/Explosion/Explosion.json";
+const mkString GTObstacle_Saw::m_ExplosionSpriteFrameName = "Explosion_0.png";
+const mkString GTObstacle_Saw::m_ExplosionTransitState = "None";
 
 // Audio
 const mkString GTObstacle_Saw::m_SawSpinningSoundName = "Saw_Spinning";
 const mkString GTObstacle_Saw::m_SawHitSoundName = "Saw_Hit";
+const mkString GTObstacle_Saw::m_SawExplosionSoundName = "Saw_Explosion";
 
 GTObstacle_Saw* GTObstacle_Saw::Create(MKScene* _scene)
 {
@@ -30,7 +36,50 @@ GTObstacle_Saw* GTObstacle_Saw::Create(MKScene* _scene)
 
 void GTObstacle_Saw::DestroyObstacle()
 {
-	Super::DestroyObstacle();
+    // Remove our physics body.
+    DeinitialiseContactListener();
+    if (getPhysicsBody() != nullptr)
+    {
+        this->removeComponent(getPhysicsBody());
+    }
+
+    // Stop All Actions
+    this->stopAllActions();
+
+    // Explode
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+
+    cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+
+    GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+    explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+    explosionAnimation->transitState(m_ExplosionTransitState);
+
+    // Scale the explosion sprite.
+    explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+    // As the missile is scaled, we have to divide the explosion scale by the missile scale,
+    // to get rid of the missile's scaling.
+    explosionSprite->setScale(explosionSprite->getScaleX() / this->getScaleX(), explosionSprite->getScaleY() / this->getScaleY());
+    explosionSprite->setPosition(this->getContentSize() * 0.5f);
+
+    this->addChild(explosionSprite);
+
+    // Play the explosion audio.
+    GTSimperMusicSys::GetInstance()->playSound(m_SawExplosionSoundName);
+
+    // Run Actions
+    this->runAction(
+        Sequence::create(
+            DelayTime::create(m_DestroyedAnimationDuration),
+            GTRemoveFromParentAction::Create(),
+            nullptr
+        )
+    );
 }
 
 gtBool GTObstacle_Saw::init()
