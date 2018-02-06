@@ -65,6 +65,10 @@ static int register_all_packages()
 bool AppDelegate::applicationDidFinishLaunching() {
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::init();
+    if (!sdkbox::PluginFacebook::isLoggedIn())
+    {
+        sdkbox::PluginFacebook::login();
+    }
 #endif
     // initialize director
     auto director = Director::getInstance();
