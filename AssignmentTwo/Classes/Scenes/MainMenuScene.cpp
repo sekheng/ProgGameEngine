@@ -45,7 +45,11 @@ bool MainMenuScene::init()
 
 	InitialiseSkyBackground();
 
+	isLoggedin = false;
+
 	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+	Sprite* FBLoginbuttonSprite = Sprite::create("FacebookLoginButton.png");
+	Sprite* FBLoginbuttonSelectedSprite = Sprite::create("FacebookLoginButtonSelected.png");
 	
 	auto toGameButton = MKUICreator::GetInstance()->createButton(
 		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.6f),
@@ -99,6 +103,8 @@ bool MainMenuScene::init()
 	);
 	this->addChild(exitButton);
 
+	FacebookUI();
+
 	/////////////////////////////
 	// 3. add your codes below...
 
@@ -128,6 +134,44 @@ bool MainMenuScene::init()
 	return true;
 }
 
+void MainMenuScene::FacebookUI()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+	Sprite* FBLoginbuttonSprite = Sprite::create("FacebookLoginButton.png");
+
+	FacebookLoginButton = MKUICreator::GetInstance()->createButton(
+		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		"FacebookLoginButton.png",
+		"FacebookLoginButtonSelected.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//DO LOGIN STUFF
+			isLoggedin = true;
+		},
+		(0.1f * visibleSize.height) / FBLoginbuttonSprite->getContentSize().height
+		);
+	FacebookLoginButton->setVisible(true);
+	this->addChild(FacebookLoginButton);
+
+	FacebookLogoutButton = MKUICreator::GetInstance()->createButton(
+		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		"FacebookLogoutButton.png",
+		"FacebookLogoutButtonSelected.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//DO LOGOUT STUFF
+			isLoggedin = false;
+		},
+		(0.1f * visibleSize.height) / FBLoginbuttonSprite->getContentSize().height
+		);
+	FacebookLogoutButton->setVisible(false);
+	this->addChild(FacebookLogoutButton);
+}
+
 void MainMenuScene::InitialiseSkyBackground()
 {
     Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
@@ -149,4 +193,18 @@ void MainMenuScene::InitialiseSkyBackground()
     m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
     addChild(m_SkyBackground);
+}
+
+void MainMenuScene::update(float _deltaTime)
+{
+	if (isLoggedin)
+	{
+		FacebookLoginButton->setVisible(false);
+		FacebookLogoutButton->setVisible(true);
+	}
+	else
+	{
+		FacebookLoginButton->setVisible(true);
+		FacebookLogoutButton->setVisible(false);
+	}
 }

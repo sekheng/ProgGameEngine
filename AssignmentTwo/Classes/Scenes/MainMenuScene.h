@@ -11,6 +11,8 @@
 #include "../MK/SceneManagement/MKScene.h"
 #include "../MK/Graphics/MKSprite.h"
 
+#include "../UIClass/UICreator.h"
+
 USING_NS_CC;
 USING_NS_MK
 
@@ -20,6 +22,11 @@ class MainMenuScene : public MKScene
 
 private:
 	MKSprite* m_SkyBackground = nullptr;
+
+	//TEMP VARIABLE//
+	bool isLoggedin;
+	ui::Button* FacebookLoginButton;
+	ui::Button* FacebookLogoutButton;
 
 	void InitialiseSkyBackground();
 
@@ -31,9 +38,12 @@ public:
     virtual ~MainMenuScene() {}
 
     virtual bool init();
+	virtual void update(float _deltaTime) override;
 
     // a selector callback	
     void menuCloseCallback(cocos2d::Ref* pSender);
+
+	void FacebookUI();
 
 	CREATE_FUNC(MainMenuScene);
 
