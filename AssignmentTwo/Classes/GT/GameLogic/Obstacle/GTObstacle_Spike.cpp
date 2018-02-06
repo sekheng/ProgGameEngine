@@ -2,17 +2,23 @@
 #include "GTObstacle_Spike.h"
 #include "../../../GT/Animation/GTAnimationHandlerNode.h"
 #include "../../../GT/Audio/GTSimperMusicSys.h"
+#include "../../Actions/GTRemoveFromParentAction.h"
 
 // Include STL
 #include <string>
 
 NS_GT_BEGIN
 
-// Audio
-const mkString GTObstacle_Spike::m_SawHitSoundName = "Spike_Hit";
-
 // Sprite
 const mkString GTObstacle_Spike::m_SpikeSpriteFile = "Textures/Gameplay/Obstacle/Spikes/SpikesSingle.png";
+const mkString GTObstacle_Spike::m_ExplosionPListFile = "Textures/Gameplay/Obstacle/Spikes/Explosion/Explosion.plist";
+const mkString GTObstacle_Spike::m_ExplosionJSONFile = "Textures/Gameplay/Obstacle/Spikes/Explosion/Explosion.json";
+const mkString GTObstacle_Spike::m_ExplosionSpriteFrameName = "Explosion_0.png";
+const mkString GTObstacle_Spike::m_ExplosionTransitState = "None";
+
+// Audio
+const mkString GTObstacle_Spike::m_SpikeHitSoundName = "Spike_Hit";
+const mkString GTObstacle_Spike::m_SpikeExplosionSoundName = "Spike_Explosion";
 
 GTObstacle_Spike* GTObstacle_Spike::Create(MKScene* _scene, gtU32 _numberOfSpikes)
 {
@@ -29,7 +35,50 @@ GTObstacle_Spike* GTObstacle_Spike::Create(MKScene* _scene, gtU32 _numberOfSpike
 
 void GTObstacle_Spike::DestroyObstacle()
 {
-	Super::DestroyObstacle();
+    // Remove our physics body.
+    DeinitialiseContactListener();
+    if (getPhysicsBody() != nullptr)
+    {
+        this->removeComponent(getPhysicsBody());
+    }
+
+    // Stop All Actions
+    this->stopAllActions();
+
+    // Explode
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+
+    cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+
+    GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+    explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+    explosionAnimation->transitState(m_ExplosionTransitState);
+
+    // Scale the explosion sprite.
+    explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+    // As the missile is scaled, we have to divide the explosion scale by the missile scale,
+    // to get rid of the missile's scaling.
+    explosionSprite->setScale(explosionSprite->getScaleX() / this->getScaleX(), explosionSprite->getScaleY() / this->getScaleY());
+    explosionSprite->setPosition(this->getContentSize() * 0.5f);
+
+    this->addChild(explosionSprite);
+
+    // Play the explosion audio.
+    GTSimperMusicSys::GetInstance()->playSound(m_SpikeExplosionSoundName);
+
+    // Run Actions
+    this->runAction(
+        Sequence::create(
+            DelayTime::create(m_DestroyedAnimationDuration),
+            GTRemoveFromParentAction::Create(),
+            nullptr
+        )
+    );
 }
 
 gtBool GTObstacle_Spike::init()
@@ -93,7 +142,7 @@ gtBool GTObstacle_Spike::OnContactBegin(cocos2d::PhysicsContact& _contact)
 	DeinitialiseContactListener(); // Stop listening or else this still gets called somehow.
 	this->removeComponent(getPhysicsBody());
 
-    GTSimperMusicSys::GetInstance()->playSound(m_SawHitSoundName);
+    GTSimperMusicSys::GetInstance()->playSound(m_SpikeHitSoundName);
 
 	return true;
 }

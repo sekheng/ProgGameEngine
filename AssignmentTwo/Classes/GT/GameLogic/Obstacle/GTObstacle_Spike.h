@@ -13,20 +13,22 @@ class GTObstacle_Spike : public GTObstacleNode
 	typedef GTObstacleNode Super;
 
 protected:
-	// Sprite
-	static const mkString m_SpikeSpriteFile;
-	static const mkString m_ExplosionPListFile;
-	static const mkString m_ExplosionJSONFile;
-	static const mkString m_ExplosionSpriteFrameName;
-
 	MKSprite* m_Spike = NULL;
 	gtU32 m_NumberOfSpikes = 2;
 
 	virtual gtBool OnContactBegin(cocos2d::PhysicsContact& _contact);
 
 public:
+    // Sprite
+    static const mkString m_SpikeSpriteFile;
+    static const mkString m_ExplosionPListFile;
+    static const mkString m_ExplosionJSONFile;
+    static const mkString m_ExplosionSpriteFrameName;
+    static const mkString m_ExplosionTransitState;
+
     // Audio
-    static const mkString m_SawHitSoundName;
+    static const mkString m_SpikeHitSoundName;
+    static const mkString m_SpikeExplosionSoundName;
 
 	GT_INITIALISECONTACTLISTENER(GTObstacle_Spike);
 	GT_DEINITIALISECONTACTLISTENER(GTObstacle_Spike);
@@ -40,7 +42,9 @@ CC_CONSTRUCTOR_ACCESS:
 	GTObstacle_Spike(MKScene* _scene, gtU32 _numberOfSpikes) :
         GTObstacleNode(_scene),
         m_NumberOfSpikes(_numberOfSpikes)
-    {}
+    {
+        m_DestroyedAnimationDuration = 0.28f;
+    }
 	virtual ~GTObstacle_Spike()
 	{
 		DeinitialiseContactListener();

@@ -23,10 +23,15 @@ protected:
 public:
 	// Sprite
 	static const mkString m_SawSpriteFile;
+    static const mkString m_ExplosionPListFile;
+    static const mkString m_ExplosionJSONFile;
+    static const mkString m_ExplosionSpriteFrameName;
+    static const mkString m_ExplosionTransitState;
 
     // Audio
     static const mkString m_SawSpinningSoundName;
     static const mkString m_SawHitSoundName;
+    static const mkString m_SawExplosionSoundName;
 
 	static GTObstacle_Saw* Create(MKScene* _scene);
 
@@ -64,7 +69,10 @@ public:
 
 CC_CONSTRUCTOR_ACCESS:
 	// Constructor(s) & Destructor
-	GTObstacle_Saw(MKScene* _scene) : GTObstacleNode(_scene) {}
+	GTObstacle_Saw(MKScene* _scene) : GTObstacleNode(_scene)
+    {
+        m_DestroyedAnimationDuration = 0.28f;
+    }
 	virtual ~GTObstacle_Saw()
 	{
 		DeinitialiseContactListener();
