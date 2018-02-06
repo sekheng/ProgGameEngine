@@ -51,6 +51,7 @@ bool ShopScene::init()
 	{
 		ui::Button *button = ui::Button::create("ButtonNormal.png", "ButtonNormal.png");
 		button->setPosition( Vec2(shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.35f + (i * visibleSize.height)) );
+		button->setScale((0.1f * visibleSize.height) / button->getContentSize().height);
 		shopScroller->addChild(button);
 	}
 	this->addChild(shopScroller);
@@ -67,7 +68,7 @@ bool ShopScene::init()
 		//DeinitialiseInput();
 		MKSceneManager::GetInstance()->PopScene();
 	},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / backButton->getContentSize().height
 	);
 	this->addChild(toPrevSceneButton);
 

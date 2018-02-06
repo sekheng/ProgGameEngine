@@ -54,7 +54,7 @@ bool SettingsScene::init()
 			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / backButton->getContentSize().height
 		);
 	this->addChild(toPrevSceneButton);
 

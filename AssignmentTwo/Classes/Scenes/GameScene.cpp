@@ -229,7 +229,7 @@ void GameScene::InitialiseUI()
 		{
 			MKSceneManager::GetInstance()->PushScene("PauseScene");
 		},
-		0.003f * visibleSize.height
+		(0.075f * visibleSize.height) / pauseButtonSprite->getContentSize().height
     );
     GetUINode()->addChild(PauseButton);
 }
@@ -267,6 +267,9 @@ void GameScene::InitialiseGameOverUI()
 {
     // need to ensure that the array of GameOverUI is empty!
 
+	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+	Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
+
     if (m_ArrayOfGameOverUI.size() == 0)
     {
         m_ObstacleSpawner->PauseAllObstacles();
@@ -288,7 +291,7 @@ void GameScene::InitialiseGameOverUI()
 			this->getPhysicsWorld()->setSpeed(1.0f);
             MKSceneManager::GetInstance()->ReplaceScene("GameOverScene");
         },
-			0.003f * visibleSize.height
+			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
         GetUINode()->addChild(RetryButton);
         m_ArrayOfGameOverUI.push_back(RetryButton);
@@ -311,7 +314,7 @@ void GameScene::InitialiseGameOverUI()
 				m_PowerUpSpawner->ResumeAllPowerUps();
             }
         },
-			0.003f * visibleSize.height
+			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
         GetUINode()->addChild(ReviveButton);
         m_ArrayOfGameOverUI.push_back(ReviveButton);
@@ -325,7 +328,7 @@ void GameScene::InitialiseGameOverUI()
         {
             MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
         },
-			0.003f * visibleSize.height
+			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
         GetUINode()->addChild(ToMainMenuButton);
         m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
@@ -339,7 +342,7 @@ void GameScene::InitialiseGameOverUI()
 			{
 				//DO FB LOGIC HERE
 			},
-			0.001f * visibleSize.height
+			(0.1f * visibleSize.height) / facebookButtonSprite->getContentSize().height
 			);
 		GetUINode()->addChild(FacebookButton);
 		m_ArrayOfGameOverUI.push_back(FacebookButton);

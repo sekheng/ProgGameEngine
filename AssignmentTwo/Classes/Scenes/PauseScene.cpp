@@ -69,6 +69,8 @@ void PauseScene::InitializePauseMenuButtons()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
+	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+
 	//RESUME BUTTON//
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
 		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f),
@@ -79,7 +81,7 @@ void PauseScene::InitializePauseMenuButtons()
 		{
 			MKSceneManager::GetInstance()->PopScene();
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toPrevSceneButton);
 
@@ -94,7 +96,7 @@ void PauseScene::InitializePauseMenuButtons()
 			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PushScene("SettingsScene");
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toSettingsButton);
 
@@ -109,7 +111,7 @@ void PauseScene::InitializePauseMenuButtons()
             MKSceneManager::GetInstance()->PopScene();
 			MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toMainMenuButton);
 }

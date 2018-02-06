@@ -56,10 +56,10 @@ bool MainMenuScene::init()
 		{
 			MKSceneManager::GetInstance()->ReplaceScene("GameScene");
 	},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toGameButton);
-
+	
 	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
 		Vec2(visibleSize.width * 0.5f, (visibleSize.height * 0.6f) - (buttonSprite->getContentSize().height * toGameButton->getScaleY())),
 		"ButtonNormal.png",
@@ -69,7 +69,7 @@ bool MainMenuScene::init()
 		{
             MKSceneManager::GetInstance()->PushScene("SettingsScene");
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toSettingsButton);
 
@@ -82,7 +82,7 @@ bool MainMenuScene::init()
 	{
 		MKSceneManager::GetInstance()->PushScene("ShopScene");
 	},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(toShopButton);
 
@@ -95,7 +95,7 @@ bool MainMenuScene::init()
 		{
 			Director::getInstance()->end();
 		},
-		0.003f * visibleSize.height
+		(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
 	);
 	this->addChild(exitButton);
 
