@@ -6,7 +6,9 @@
     }, 
     "ios": {
         "Facebook": {
-            "debug": true
+            "debug": true,
+            "app_id":"525685824496654",
+            "url_scheme_suffix":""
         }
     }
 }

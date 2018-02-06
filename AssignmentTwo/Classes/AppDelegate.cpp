@@ -6,7 +6,7 @@
 // Include Scenes
 #include "Scenes/AvailableScenes.h"
 #ifdef SDKBOX_ENABLED
-//#include "PluginFacebook/PluginFacebook.h"
+#include "PluginFacebook/PluginFacebook.h"
 #endif
 
 // #define USE_AUDIO_ENGINE 1
@@ -63,14 +63,14 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+    // initialize director
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::init();
-    if (!sdkbox::PluginFacebook::isLoggedIn())
+    if (sdkbox::PluginFacebook::isLoggedIn())
     {
-        sdkbox::PluginFacebook::login();
+        sdkbox::PluginFacebook::logout();
     }
 #endif
-    // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -111,19 +111,19 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     MKSceneManager::GetInstance()->AddScene<StartScreenScene>("StartScreenScene");
-	MKSceneManager::GetInstance()->AddScene<MainMenuScene>("MainMenuScene");
+    MKSceneManager::GetInstance()->AddScene<MainMenuScene>("MainMenuScene");
     MKSceneManager::GetInstance()->AddSceneWithPhysics<GameScene>("GameScene");
-	MKSceneManager::GetInstance()->AddScene<SettingsScene>("SettingsScene");
-	MKSceneManager::GetInstance()->AddScene<ShopScene>("ShopScene");
-	MKSceneManager::GetInstance()->AddScene<PauseScene>("PauseScene");
-	MKSceneManager::GetInstance()->AddScene<GameOverScene>("GameOverScene");
+    MKSceneManager::GetInstance()->AddScene<SettingsScene>("SettingsScene");
+    MKSceneManager::GetInstance()->AddScene<ShopScene>("ShopScene");
+    MKSceneManager::GetInstance()->AddScene<PauseScene>("PauseScene");
+    MKSceneManager::GetInstance()->AddScene<GameOverScene>("GameOverScene");
 
     // The first scene to launch.
     MKSceneManager::GetInstance()->ReplaceScene("StartScreenScene");
 #ifdef NDEBUG
     Director::getInstance()->setDisplayStats(false);
 #endif
-	return true;
+    return true;
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.

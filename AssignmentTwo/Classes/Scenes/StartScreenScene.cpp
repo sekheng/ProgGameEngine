@@ -9,7 +9,13 @@ bool StartScreenScene::init()
     InitialiseLogo();
     InitialiseStartLabel();
     InitialiseInput();
-
+#ifdef SDKBOX_ENABLED
+    sdkbox::PluginFacebook::setListener(this);
+    if (!sdkbox::PluginFacebook::isLoggedIn())
+    {
+        sdkbox::PluginFacebook::login();
+    }
+#endif
     return true;
 }
 
@@ -88,3 +94,61 @@ void StartScreenScene::OnClick(EventCustom * _event)
         }
     }
 }
+
+void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
+{
+    CCLOG("FB login: %u", isLogin);
+    //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+}
+void StartScreenScene::onSharedSuccess(const std::string& message)
+{
+    CCLOG("Sharing is successful according to %s", message.c_str());
+}
+void StartScreenScene::onSharedFailed(const std::string& message)
+{
+    CCLOG("Sharing is failed. plz fix this bug!");
+}
+void StartScreenScene::onSharedCancel()
+{
+    CCLOG("sharing is cancel");
+}
+void StartScreenScene::onAPI(const std::string& key, const std::string& jsonData)
+{
+    
+}
+void StartScreenScene::onPermission(bool isLogin, const std::string& msg)
+{
+    // TODO, remove this sharing post example
+    if (isLogin)
+    {
+        sdkbox::FBShareInfo info;
+        info.type  = sdkbox::FB_LINK;
+        info.link  = "http://www.cocos2d-x.org";
+        info.title = "cocos2d-x";
+        info.text  = "Sek Heng here trying out sharing for COCOS2DX!!!!!!";
+        info.image = "http://cocos2d-x.org/images/logo.png";
+        sdkbox::PluginFacebook::dialog(info);
+    }
+}
+void StartScreenScene::onFetchFriends(bool ok, const std::string& msg)
+{
+    
+}
+void StartScreenScene::onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends )
+{
+    
+}
+void StartScreenScene::onInviteFriendsWithInviteIdsResult( bool result, const std::string& msg )
+{
+    
+}
+void StartScreenScene::onInviteFriendsResult( bool result, const std::string& msg )
+{
+    
+}
+
+void StartScreenScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
+{
+    
+}
+
