@@ -330,6 +330,20 @@ void GameScene::InitialiseGameOverUI()
         GetUINode()->addChild(ToMainMenuButton);
         m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
 
+		auto FacebookButton = MKUICreator::GetInstance()->createButton(
+			Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 3)),
+			"FacebookButton.png",
+			"FacebookButtonSelected.png",
+			"",
+			[&](Ref*) -> void
+			{
+				//DO FB LOGIC HERE
+			},
+			0.001f * visibleSize.height
+			);
+		GetUINode()->addChild(FacebookButton);
+		m_ArrayOfGameOverUI.push_back(FacebookButton);
+
 		if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
 		{
 			m_HighScore = m_CharaStatNode->getConvertedDistWalk();
