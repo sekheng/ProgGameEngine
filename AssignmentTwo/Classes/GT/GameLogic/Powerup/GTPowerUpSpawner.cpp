@@ -133,11 +133,11 @@ void GTPowerUpSpawner::SpawnPowerUpBatch()
 
 		gtU32 randomNumber = MKMathsHelper::RandomInt(0, 9);
 		if(randomNumber >= 0 && randomNumber <= 4)
-			powerUpType = GinTama::GTPowerUpSpawner::TIME_SLOW;
+            powerUpType = GinTama::GTPowerUpSpawner::TIME_SLOW;
 		if (randomNumber >= 5 && randomNumber <= 7)
-			powerUpType = GinTama::GTPowerUpSpawner::SPHERE_SHIELD;
+            powerUpType = GinTama::GTPowerUpSpawner::SPHERE_SHIELD;
 		if (randomNumber >= 8 && randomNumber <= 9)
-			powerUpType = GinTama::GTPowerUpSpawner::CLEAN_SLATE;
+            powerUpType = GinTama::GTPowerUpSpawner::CLEAN_SLATE;
 
 		switch (powerUpType)
 		{

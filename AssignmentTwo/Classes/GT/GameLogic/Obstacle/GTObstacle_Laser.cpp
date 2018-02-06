@@ -44,16 +44,26 @@ GTObstacle_Laser* GTObstacle_Laser::Create(MKScene* _scene, gtF32 _spawnDelay)
 
 void GTObstacle_Laser::DestroyObstacle()
 {
+    // Remove our physics body.
+    DeinitialiseContactListener();
+    if (getPhysicsBody() != nullptr)
+    {
+        this->removeComponent(getPhysicsBody());
+    }
+
+    // Stop All Actions
     this->stopAllActions();
+
+    // If we aren't on screen yet, simply remove from parent without any animations.
     if (!m_LaserGunLeft && !m_LaserGunRight)
     {
-        removeFromParent();
+        Super::DestroyObstacle();
         return;
     }
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    // Create Sprite Animation (Left Laser Gun)
+    // Create Explosion Sprite Animation (Left Laser Gun)
     {
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
         cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
@@ -67,7 +77,7 @@ void GTObstacle_Laser::DestroyObstacle()
         addChild(explosionSprite, m_LaserGunZPriority + 1);
     }
 
-    // Create Sprite Animation (Right Laser Gun)
+    // Create Explosion Sprite Animation (Right Laser Gun)
     {
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
         cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
@@ -85,7 +95,7 @@ void GTObstacle_Laser::DestroyObstacle()
     GTSimperMusicSys::GetInstance()->playSound(m_LaserExplosionSoundName);
 
     // Run Actions
-    auto followAction = GTFollowNodeAction::Create(m_TotalDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);
+    auto followAction = GTFollowNodeAction::Create(m_DestroyedAnimationDuration, GetScene()->getDefaultCamera(), GTFollowNodeAction::FollowAxis::X);
     this->runAction(
         Spawn::createWithTwoActions(followAction,
             Sequence::create(

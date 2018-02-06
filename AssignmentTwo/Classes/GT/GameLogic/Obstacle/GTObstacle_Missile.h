@@ -86,7 +86,8 @@ CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
     GTObstacle_Missile(MKScene* _scene) : GTObstacleNode(_scene)
     {
-        m_DestroyedAnimationDuration;
+        // Sync this with the explosion animation.
+        m_DestroyedAnimationDuration = 0.28f;
     }
     virtual ~GTObstacle_Missile()
     {

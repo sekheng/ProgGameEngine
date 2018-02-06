@@ -12,10 +12,13 @@ NS_GT_BEGIN
 #define GT_INITIALISECONTACTLISTENER(_TYPE_) \
 void InitialiseContactListener() \
 { \
-    m_ContactListener = EventListenerPhysicsContact::create(); \
-    m_ContactListener->onContactBegin = CC_CALLBACK_1(_TYPE_::OnContactBegin, this); \
-    m_ContactListener->retain(); \
-    GetScene()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_ContactListener, GetScene()); \
+    if (m_ContactListener == NULL) \
+    { \
+        m_ContactListener = EventListenerPhysicsContact::create(); \
+        m_ContactListener->onContactBegin = CC_CALLBACK_1(_TYPE_::OnContactBegin, this); \
+        m_ContactListener->retain(); \
+        GetScene()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_ContactListener, GetScene()); \
+    } \
 }
 
 #define GT_DEINITIALISECONTACTLISTENER(_TYPE_) \
