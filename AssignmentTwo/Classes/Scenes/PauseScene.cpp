@@ -78,7 +78,8 @@ void PauseScene::InitializePauseMenuButtons()
 		[&](Ref*) -> void
 		{
 			MKSceneManager::GetInstance()->PopScene();
-		}
+		},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toPrevSceneButton);
 
@@ -92,7 +93,8 @@ void PauseScene::InitializePauseMenuButtons()
 		{
 			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PushScene("SettingsScene");
-		}
+		},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toSettingsButton);
 
@@ -106,7 +108,8 @@ void PauseScene::InitializePauseMenuButtons()
 		{
             MKSceneManager::GetInstance()->PopScene();
 			MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
-		}
+		},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toMainMenuButton);
 }

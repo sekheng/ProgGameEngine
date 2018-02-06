@@ -67,7 +67,7 @@ bool ShopScene::init()
 		//DeinitialiseInput();
 		MKSceneManager::GetInstance()->PopScene();
 	},
-		1.0f
+		0.003f * visibleSize.height
 	);
 	this->addChild(toPrevSceneButton);
 

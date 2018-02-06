@@ -55,7 +55,8 @@ bool MainMenuScene::init()
 		[&](Ref*) -> void
 		{
 			MKSceneManager::GetInstance()->ReplaceScene("GameScene");
-		}
+	},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toGameButton);
 
@@ -67,7 +68,8 @@ bool MainMenuScene::init()
 		[&](Ref*) -> void
 		{
             MKSceneManager::GetInstance()->PushScene("SettingsScene");
-		}
+		},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toSettingsButton);
 
@@ -79,7 +81,8 @@ bool MainMenuScene::init()
 		[&](Ref*) -> void
 	{
 		MKSceneManager::GetInstance()->PushScene("ShopScene");
-	}
+	},
+		0.003f * visibleSize.height
 	);
 	this->addChild(toShopButton);
 
@@ -91,7 +94,8 @@ bool MainMenuScene::init()
 		[](Ref*) -> void
 		{
 			Director::getInstance()->end();
-		}
+		},
+		0.003f * visibleSize.height
 	);
 	this->addChild(exitButton);
 

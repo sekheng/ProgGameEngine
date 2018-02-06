@@ -50,11 +50,11 @@ bool SettingsScene::init()
 		"BackButton.png",
 		"",
 		[&](Ref*) -> void
-	{
-		//DeinitialiseInput();
-		MKSceneManager::GetInstance()->PopScene();
-	},
-		1.0f
+		{
+			//DeinitialiseInput();
+			MKSceneManager::GetInstance()->PopScene();
+		},
+		0.003f * visibleSize.height
 		);
 	this->addChild(toPrevSceneButton);
 
