@@ -7,6 +7,7 @@
 //Include UI classes
 #include "ui/UIButton.h"
 #include "ui/UISlider.h"
+#include "ui/UIScrollView.h"
 
 //Include MKMacros
 #include "../MK/Common/MKAssertions.h"
@@ -49,7 +50,19 @@ public:
 
 		return slider;
 	}
+	//Create ScrollView
+	ui::ScrollView* createScroller(ui::ScrollView::Direction _direction, const Size& _contentSize, const Size& _innerContainerSize, const bool& _bounceEnable, const Vec2& _position)
+	{
+		auto scroller = ui::ScrollView::create();
+		scroller->setDirection(_direction);
+		scroller->setContentSize(_contentSize);
+		scroller->setInnerContainerSize(_innerContainerSize);
+		scroller->setBounceEnabled(_bounceEnable);
+		scroller->setAnchorPoint(Vec2(0.5f, 0.5f));
+		scroller->setPosition(_position);
 
+		return scroller;
+	}
 
 private:
 	MKUICreator() {}

@@ -79,6 +79,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>Explosion_13.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{256,256}</string>
+                <key>spriteSourceSize</key>
+                <string>{256,256}</string>
+                <key>textureRect</key>
+                <string>{{256,1536},{256,256}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>Explosion_2.png</key>
             <dict>
                 <key>aliases</key>
@@ -213,7 +228,7 @@
             <key>size</key>
             <string>{512,1792}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d308a0e74a81be493f6bd4cef6df848d:97b6f0d1cc3b820a6ae35c57e8616d5f:fe049886709682b4c74f6865e9893d85$</string>
+            <string>$TexturePacker:SmartUpdate:ae20bd208c3bf2da5b60658271cd9ed0:cc0ded57689f1b30955f5c31b5210553:fe049886709682b4c74f6865e9893d85$</string>
             <key>textureFileName</key>
             <string>Explosion.png</string>
         </dict>

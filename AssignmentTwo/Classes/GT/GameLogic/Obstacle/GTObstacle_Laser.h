@@ -104,7 +104,8 @@ CC_CONSTRUCTOR_ACCESS:
     // Constructor(s) & Destructor
     GTObstacle_Laser(MKScene* _scene) : GTObstacleNode(_scene)
     {
-        m_DestroyedAnimationDuration = 0.26f;
+        // Sync this with the explosion animation.
+        m_DestroyedAnimationDuration = 0.28f;
     }
     virtual ~GTObstacle_Laser()
     {

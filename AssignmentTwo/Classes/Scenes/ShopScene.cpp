@@ -12,23 +12,20 @@
 #include "AvailableScenes.h"
 #include "AudioEngine.h"
 
-//#include "ui/UIButton.h"
 #include "../UIClass/UICreator.h"
-#include "SettingsScene.h"
+#include "ShopScene.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
 using namespace GinTama;
 
-// Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in SettingsScene.cpp\n");
 }
 
-// on "init" you need to initialize your instance
-bool SettingsScene::init()
+bool ShopScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -41,6 +38,22 @@ bool SettingsScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	InitialiseSkyBackground();
+
+	auto shopScroller = MKUICreator::GetInstance()->createScroller(
+		ui::ScrollView::Direction::VERTICAL,
+		Size(visibleSize.width, visibleSize.height),
+		Size(visibleSize.width, visibleSize.height * 5),
+		true,
+		Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y)
+	);
+
+	for (int i = 0; i < 5; i++)
+	{
+		ui::Button *button = ui::Button::create("ButtonNormal.png", "ButtonNormal.png");
+		button->setPosition( Vec2(shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.35f + (i * visibleSize.height)) );
+		shopScroller->addChild(button);
+	}
+	this->addChild(shopScroller);
 
 	Sprite* backButton = Sprite::create("BackButton.png");
 
@@ -55,43 +68,8 @@ bool SettingsScene::init()
 		MKSceneManager::GetInstance()->PopScene();
 	},
 		1.0f
-		);
-	this->addChild(toPrevSceneButton);
-
-	int masterVolume = GinTama::GTSimperMusicSys::GetInstance()->getMasterVol() * 100;
-
-	auto slider = MKUICreator::GetInstance()->createSlider(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f),
-		"SliderBar.png",
-		"ProgressBar.png",
-		"SliderBall.png",
-		[&](Ref* _sender, ui::Slider::EventType _type) -> void
-		{
-			ui::Slider* slider = dynamic_cast<ui::Slider*>(_sender);
-			if (_type == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
-			{
-				int percent = slider->getPercent();
-				GinTama::GTSimperMusicSys::GetInstance()->setMasterVol((float)percent / 100);
-			}
-		}
 	);
-	slider->setPercent(masterVolume);
-	this->addChild(slider);
-
-	auto label = Label::createWithTTF("Settings Scene", "fonts/Marker_Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'Fonts/Marker_Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - label->getContentSize().height));
-
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
+	this->addChild(toPrevSceneButton);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
@@ -101,7 +79,7 @@ bool SettingsScene::init()
 	return true;
 }
 
-void SettingsScene::InitialiseSkyBackground()
+void ShopScene::InitialiseSkyBackground()
 {
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 	Size visibleSize = Director::getInstance()->getVisibleSize();

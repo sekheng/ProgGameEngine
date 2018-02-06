@@ -169,39 +169,62 @@ MKSprite* GTObstacle_Missile::CreateMissileWarning(std::function<void()> _callba
 
 void GTObstacle_Missile::DestroyObstacle()
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
-    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
-
-    // If the missile is on screen, explode.
-    if (obstacleLeft < screenRight)
+    // Remove our physics body.
+    DeinitialiseContactListener();
+    if (getPhysicsBody() != nullptr)
     {
-        Size visibleSize = Director::getInstance()->getVisibleSize();
-
-        // Explode
-        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
-
-        cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
-        explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
-
-        GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
-        explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
-        explosionAnimation->transitState(m_ExplosionTransitState);
-
-        explosionSprite->setPosition(this->getPosition());
-        GetScene()->addChild(explosionSprite);
-
-        // Play the explosion audio.
-        GTSimperMusicSys::GetInstance()->playSound(m_MissileExplosionSoundName);
+        this->removeComponent(getPhysicsBody());
     }
 
     // Destroy the warning if it exists.
     if (m_SpawnedWarning && m_Warning)
     {
+        m_Warning->stopAllActions();
         m_Warning->removeFromParent();
     }
 
-    Super::DestroyObstacle();
+    // Stop all actions
+    this->stopAllActions();
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    gtF32 screenRight = GetScene()->getDefaultCamera()->getPositionX() + visibleSize.width * 0.5f;
+    gtF32 obstacleLeft = getPositionX() - (getContentSize().width * 0.5f * getScaleX());
+
+    // If the missile has not gotten on screen, simply remove from parent without any animation.
+    if (screenRight < obstacleLeft)
+    {
+        Super::DestroyObstacle();
+        return;
+    }
+
+    // Explode
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
+    
+    cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
+    explosionSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getInstance()->getSpriteFrameByName(m_ExplosionSpriteFrameName));
+    
+    GTAnimationHandlerNode* explosionAnimation = GTAnimationHandlerNode::createWithAutoDestroy(explosionSprite);
+    explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
+    explosionAnimation->transitState(m_ExplosionTransitState);
+
+    // Scale the explosion sprite.
+    explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+    // As the missile is scaled, we have to divide the explosion scale by the missile scale,
+    // to get rid of the missile's scaling.
+    explosionSprite->setScale(1.0f / this->getScaleX(), 1.0f / this->getScaleY());
+
+    this->addChild(explosionSprite);
+
+    // Play the explosion audio.
+    GTSimperMusicSys::GetInstance()->playSound(m_MissileExplosionSoundName);
+    
+    // Run Actions
+    this->runAction(
+        Sequence::create(
+            DelayTime::create(m_DestroyedAnimationDuration),
+            GTRemoveFromParentAction::Create(),
+            nullptr)
+    );
 }
 
 void GTObstacle_Missile::update(gtF32 _deltaTime)

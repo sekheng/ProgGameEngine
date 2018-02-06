@@ -8,5 +8,6 @@
 #include "PauseScene.h"
 #include "SettingsScene.h"
 #include "GameOverScene.h"
+#include "ShopScene.h"
 
 #endif
