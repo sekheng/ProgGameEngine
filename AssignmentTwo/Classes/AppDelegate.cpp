@@ -6,7 +6,7 @@
 // Include Scenes
 #include "Scenes/AvailableScenes.h"
 #ifdef SDKBOX_ENABLED
-#include "PluginFacebook/PluginFacebook.h"
+//#include "PluginFacebook/PluginFacebook.h"
 #endif
 
 // #define USE_AUDIO_ENGINE 1
@@ -27,7 +27,7 @@ using namespace CocosDenshion;
 USING_NS_CC;
 
 // Design Aspect Ratio = 16:9
-static cocos2d::Size designResolutionSize = cocos2d::Size(1280, 720);
+static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(1280, 720);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1920, 1080);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2560, 1440);
@@ -64,7 +64,7 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
 #ifdef SDKBOX_ENABLED
-    sdkbox::PluginFacebook::init();
+    //sdkbox::PluginFacebook::init();
 #endif
     // initialize director
     auto director = Director::getInstance();
@@ -110,6 +110,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	MKSceneManager::GetInstance()->AddScene<MainMenuScene>("MainMenuScene");
     MKSceneManager::GetInstance()->AddSceneWithPhysics<GameScene>("GameScene");
 	MKSceneManager::GetInstance()->AddScene<SettingsScene>("SettingsScene");
+	MKSceneManager::GetInstance()->AddScene<ShopScene>("ShopScene");
 	MKSceneManager::GetInstance()->AddScene<PauseScene>("PauseScene");
 	MKSceneManager::GetInstance()->AddScene<GameOverScene>("GameOverScene");
 
