@@ -24,7 +24,6 @@ private:
 	MKSprite* m_SkyBackground = nullptr;
 
 	//TEMP VARIABLE//
-	bool isLoggedin;
 	ui::Button* FacebookLoginButton;
 	ui::Button* FacebookLogoutButton;
 
@@ -38,7 +37,6 @@ public:
     virtual ~MainMenuScene() {}
 
     virtual bool init();
-	virtual void update(float _deltaTime) override;
 
     // a selector callback	
     void menuCloseCallback(cocos2d::Ref* pSender);

@@ -342,6 +342,9 @@ void GameScene::InitialiseGameOverUI()
 			[&](Ref*) -> void
 			{
 				//DO FB LOGIC HERE
+#ifndef WIN32
+            
+#endif
 			},
 			(0.1f * visibleSize.height) / facebookButtonSprite->getContentSize().height
 			);
