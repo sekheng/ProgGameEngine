@@ -5,10 +5,9 @@ bool StartScreenScene::init()
 {
     if (!Super::init()) { return false; }
 
-    InitialiseSkyBackground();
+    InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
-    InitialiseInput();
 
     return true;
 }
@@ -16,26 +15,38 @@ bool StartScreenScene::init()
 void StartScreenScene::onEnter()
 {
     Super::onEnter();
+    InitialiseInput();
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_STARTSCENE);
 }
 
 void StartScreenScene::onExit()
 {
     Super::onExit();
+    DeinitialiseInput();
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_DEFAULT);
 }
 
-void StartScreenScene::InitialiseStartLabel()
+void StartScreenScene::InitialiseBackground()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
-    float fontSize = visibleSize.height * 0.05f;
-    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "fonts/Marker_Felt.ttf", fontSize);
-    m_StartLabel->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.25f));
-    m_StartLabel->setTextColor(Color4B::BLACK);
+    m_Background = MKSprite::Create("Textures/Backgrounds/Background_Menu.png", true);
+    m_Background->setAnchorPoint(Vec2(0.0f, 0.0f));
+    m_Background->setPosition(visibleOrigin.x, visibleOrigin.y);
 
-    // add the label as a child to this layer
-    this->addChild(m_StartLabel);
+    // We want the background to fill up the whole screen.
+    float backgroundWidth = m_Background->getContentSize().width;
+    float backgroundHeight = m_Background->getContentSize().height;
+    float backgroundAspectRatio = backgroundWidth / backgroundHeight;
+
+    float desiredWidth = visibleSize.width;
+    float desiredHeight = visibleSize.height;
+
+    m_Background->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+    m_Background->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
+
+    addChild(m_Background);
 }
 
 void StartScreenScene::InitialiseLogo()
@@ -52,27 +63,17 @@ void StartScreenScene::InitialiseLogo()
     this->addChild(m_Logo);
 }
 
-void StartScreenScene::InitialiseSkyBackground()
+void StartScreenScene::InitialiseStartLabel()
 {
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    m_SkyBackground = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
-    m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
-    m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
+    float fontSize = visibleSize.height * 0.05f;
+    m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "fonts/Marker_Felt.ttf", fontSize);
+    m_StartLabel->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.25f));
+    m_StartLabel->setTextColor(Color4B::BLACK);
 
-    // We want the background to fill up the whole screen.
-    float backgroundWidth = m_SkyBackground->getContentSize().width;
-    float backgroundHeight = m_SkyBackground->getContentSize().height;
-    float backgroundAspectRatio = backgroundWidth / backgroundHeight;
-
-    float desiredWidth = visibleSize.width;
-    float desiredHeight = visibleSize.height;
-
-    m_SkyBackground->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
-    m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
-
-    addChild(m_SkyBackground);
+    // add the label as a child to this layer
+    this->addChild(m_StartLabel);
 }
 
 void StartScreenScene::OnClick(EventCustom * _event)
@@ -83,7 +84,7 @@ void StartScreenScene::OnClick(EventCustom * _event)
     {
         if (input->m_ButtonState == MKInputClick::ButtonState::RELEASE)
         {
-            Deinitialise();
+            DeinitialiseInput();
             MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
         }
     }

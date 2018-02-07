@@ -5,9 +5,6 @@
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
 
-// Include Input Device Handlers
-#include "../MK/Input/MKKeyboardHandler.h"
-
 // Include Assignment
 #include "AvailableScenes.h"
 #include "AudioEngine.h"

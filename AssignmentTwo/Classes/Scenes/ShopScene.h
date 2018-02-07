@@ -16,22 +16,23 @@ class ShopScene : public MKScene
 {
 	typedef MKScene Super;
 
+protected:
+    // Background
+    void InitialiseBackground();
+    MKSprite* m_Background = nullptr;
+
+    // Input
+    virtual void OnButton(EventCustom * _event) {}
+    virtual void OnClick(EventCustom * _event) {}
+    virtual void OnAxis(EventCustom * _event) {}
+
 public:
+    // Constructor(s) & Destructor
 	ShopScene() {}
 	virtual ~ShopScene() {}
-
-	MKSprite* m_SkyBackground = nullptr;
+    CREATE_FUNC(ShopScene);
 
 	virtual bool init();
-
-	void InitialiseSkyBackground();
-
-	virtual void OnButton(EventCustom * _event) {}
-	virtual void OnClick(EventCustom * _event) {}
-	virtual void OnAxis(EventCustom * _event) {}
-
-	// implement the "static create()" method manually
-	CREATE_FUNC(ShopScene);
 };
 
 #endif

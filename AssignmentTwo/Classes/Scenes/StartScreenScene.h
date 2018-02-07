@@ -16,13 +16,17 @@ class StartScreenScene : public MKScene
 {
     typedef MKScene Super;
 
-private:
-    MKSprite* m_SkyBackground = nullptr;
-    MKSprite* m_Logo = nullptr;
-    cocos2d::Label* m_StartLabel = nullptr;
+protected:
+    // Background
+    MKSprite* m_Background = nullptr;
+    void InitialiseBackground();
 
-    void InitialiseSkyBackground();
+    // Logo
+    MKSprite* m_Logo = nullptr;
     void InitialiseLogo();
+
+    // Start Label
+    cocos2d::Label* m_StartLabel = nullptr;
     void InitialiseStartLabel();
 
     // Input Callbacks
@@ -32,18 +36,16 @@ private:
     virtual void OnClick(EventCustom * _event);
     virtual void OnAxis(EventCustom * _event) {}
 
-    void Deinitialise() { DeinitialiseInput(); }
-
 public:
+    // Constructor(s) & Destructor
     StartScreenScene() {}
-    virtual ~StartScreenScene() { Deinitialise(); }
+    virtual ~StartScreenScene() {}
+    CREATE_FUNC(StartScreenScene);
 
     virtual bool init();
     virtual void update(float _deltaTime) override {}
     virtual void onEnter() override;
     virtual void onExit() override;
-
-    CREATE_FUNC(StartScreenScene);
 };
 
 #endif // START_SCREEN_SCENE_H

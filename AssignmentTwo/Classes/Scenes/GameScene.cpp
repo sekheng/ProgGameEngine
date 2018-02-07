@@ -3,7 +3,9 @@
 
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
-#include "../MK/PlayerData/MKPlayerData.h"
+#include "../MK/GameData/MKPlayerData.h"
+#include "../MK/GameData/MKShopData.h"
+#include "../MK/Common/MKAssertions.h"
 
 // Include GT
 #include "../GT/Animation/GTAnimationHandlerNode.h"
@@ -25,11 +27,13 @@ using namespace GinTama;
 // Overrides
 bool GameScene::initWithPhysics()
 {
-	
     if (!Super::initWithPhysics())
     {
         return false;
     }
+
+    // Load Player Data
+    MKPlayerData::GetInstance()->LoadData();
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
@@ -184,15 +188,19 @@ void GameScene::InitialiseBackgrounds()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_Backgrounds = new MKSprite*[NUM_BACKGROUNDLAYERS];
-	for (unsigned int i = 0; i < NUM_BACKGROUNDLAYERS; ++i) { m_Backgrounds[i] = nullptr; }
+	m_Backgrounds = new MKSprite*[MKShopItem_Background::BackgroundLayers::NUM_BACKGROUND_LAYERS];
+	for (unsigned int i = 0; i < MKShopItem_Background::BackgroundLayers::NUM_BACKGROUND_LAYERS; ++i) { m_Backgrounds[i] = nullptr; }
 
-	m_Backgrounds[SKY] = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
-	m_Backgrounds[REAR] = MKSprite::Create("Textures/Backgrounds/Background_Rear.png", true);
-	m_Backgrounds[MIDDLE] = MKSprite::Create("Textures/Backgrounds/Background_Middle.png", true);
-	m_Backgrounds[FRONT] = MKSprite::Create("Textures/Backgrounds/Background_Front.png", true);
+    // Get the background that the player has currently equipped.
+    MKShopItem_Background* backgroundItem = MKShopData::GetInstance()->GetBackground(MKPlayerData::GetInstance()->GetEquippedBackground());
+    MK_ASSERT((backgroundItem != nullptr));
 
-	for (unsigned int i = 0; i < NUM_BACKGROUNDLAYERS; ++i)
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::STATIC] = MKSprite::Create(backgroundItem->GetBackgroundFile(MKShopItem_Background::STATIC), true);
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::REAR] = MKSprite::Create(backgroundItem->GetBackgroundFile(MKShopItem_Background::REAR), true);
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::MIDDLE] = MKSprite::Create(backgroundItem->GetBackgroundFile(MKShopItem_Background::MIDDLE), true);
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::FRONT] = MKSprite::Create(backgroundItem->GetBackgroundFile(MKShopItem_Background::FRONT), true);
+
+	for (unsigned int i = 0; i < MKShopItem_Background::BackgroundLayers::NUM_BACKGROUND_LAYERS; ++i)
 	{
 		if (m_Backgrounds[i] != nullptr)
 		{
@@ -391,9 +399,9 @@ void GameScene::InitialiseCamera()
 // Update
 void GameScene::ScrollBackgrounds(float _deltaTime)
 {
-    m_Backgrounds[REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
-	m_Backgrounds[MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
-	m_Backgrounds[FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
+    m_Backgrounds[MKShopItem_Background::BackgroundLayers::REAR]->OffsetTexture(_deltaTime * 0.05f, 0.0f);
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::MIDDLE]->OffsetTexture(_deltaTime * 0.075f, 0.0f);
+	m_Backgrounds[MKShopItem_Background::BackgroundLayers::FRONT]->OffsetTexture(_deltaTime * 0.1, 0.0f);
 }
 
 void GameScene::UpdateUINode()

@@ -20,31 +20,32 @@ class MainMenuScene : public MKScene
 {
     typedef MKScene Super;
 
-private:
-	MKSprite* m_SkyBackground = nullptr;
+protected:
+    // Background
+	MKSprite* m_Background = nullptr;
+    void InitialiseBackground();
 
+    // UI
+    void InitialiseUI();
+
+    // Facebook
 	//TEMP VARIABLE//
-	ui::Button* FacebookLoginButton;
-	ui::Button* FacebookLogoutButton;
+	ui::Button* m_FacebookLoginButton;
+	ui::Button* m_FacebookLogoutButton;
+    void InitialiseFacebookUI();
 
-	void InitialiseSkyBackground();
-
+    // Input
     virtual void OnButton(EventCustom * _event) {}
     virtual void OnClick(EventCustom * _event) {}
     virtual void OnAxis(EventCustom * _event) {}
+
 public:
+    // Constructor(s) & Destructor
     MainMenuScene() {}
     virtual ~MainMenuScene() {}
+    CREATE_FUNC(MainMenuScene);
 
     virtual bool init();
-
-    // a selector callback	
-    void menuCloseCallback(cocos2d::Ref* pSender);
-
-	void FacebookUI();
-
-	CREATE_FUNC(MainMenuScene);
-
 };
 
 #endif // __MENU_SCENE_H__

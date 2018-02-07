@@ -37,7 +37,7 @@ bool ShopScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	InitialiseSkyBackground();
+	InitialiseBackground();
 
 	auto shopScroller = MKUICreator::GetInstance()->createScroller(
 		ui::ScrollView::Direction::VERTICAL,
@@ -80,25 +80,25 @@ bool ShopScene::init()
 	return true;
 }
 
-void ShopScene::InitialiseSkyBackground()
+void ShopScene::InitialiseBackground()
 {
 	Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_SkyBackground = MKSprite::Create("Textures/Backgrounds/Background_Sky.png", true);
-	m_SkyBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
-	m_SkyBackground->setPosition(visibleOrigin.x, visibleOrigin.y);
+	m_Background = MKSprite::Create("Textures/Backgrounds/Background_Menu.png", true);
+	m_Background->setAnchorPoint(Vec2(0.0f, 0.0f));
+	m_Background->setPosition(visibleOrigin.x, visibleOrigin.y);
 
 	// We want the background to fill up the whole screen.
-	float backgroundWidth = m_SkyBackground->getContentSize().width;
-	float backgroundHeight = m_SkyBackground->getContentSize().height;
+	float backgroundWidth = m_Background->getContentSize().width;
+	float backgroundHeight = m_Background->getContentSize().height;
 	float backgroundAspectRatio = backgroundWidth / backgroundHeight;
 
 	float desiredWidth = visibleSize.width;
 	float desiredHeight = visibleSize.height;
 
-	m_SkyBackground->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
-	m_SkyBackground->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
+	m_Background->setScale(desiredWidth / backgroundWidth, desiredHeight / backgroundHeight);
+	m_Background->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
-	addChild(m_SkyBackground);
+	addChild(m_Background);
 }
