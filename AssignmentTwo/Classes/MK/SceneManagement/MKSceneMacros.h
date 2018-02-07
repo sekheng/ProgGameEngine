@@ -11,9 +11,20 @@ NS_MK_BEGIN
 #define MK_INITIALISEINPUT(_TYPE_) \
 void InitialiseInput() \
 { \
-	m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(_TYPE_::OnButton, this)); \
-	m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(_TYPE_::OnClick, this)); \
-	m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(_TYPE_::OnAxis, this)); \
+    if (m_ButtonListener == NULL) \
+    { \
+        m_ButtonListener = MKInputManager::GetInstance()->CreateEventListener<MKInputButton>(CC_CALLBACK_1(_TYPE_::OnButton, this)); \
+    } \
+\
+    if (m_ClickListener == NULL) \
+    { \
+        m_ClickListener = MKInputManager::GetInstance()->CreateEventListener<MKInputClick>(CC_CALLBACK_1(_TYPE_::OnClick, this)); \
+    } \
+\
+    if (m_AxisListener == NULL) \
+    { \
+        m_AxisListener = MKInputManager::GetInstance()->CreateEventListener<MKInputAxis>(CC_CALLBACK_1(_TYPE_::OnAxis, this)); \
+    } \
 }
 
 #define MK_DEINITIALISEINPUT(_TYPE_) \

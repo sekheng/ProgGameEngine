@@ -55,6 +55,9 @@
     <Filter Include="GT\GameLogic\Powerup">
       <UniqueIdentifier>{599b2056-fbbc-48f7-a1f9-72527217600d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MK\PlayerData">
+      <UniqueIdentifier>{53597ddf-6c0b-4ec5-8e25-d7422feec817}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -153,6 +156,9 @@
     <ClCompile Include="..\Classes\Scenes\ShopScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MK\PlayerData\MKPlayerData.cpp">
+      <Filter>MK\PlayerData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -186,9 +192,6 @@
       <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacle_Spike.h">
-      <Filter>GT\GameLogic\Obstacle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleMacros.h">
       <Filter>GT\GameLogic\Obstacle</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.h">
@@ -302,9 +305,6 @@
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSlowTimePowerUp.h">
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTPowerUpMacros.h">
-      <Filter>GT\GameLogic\Powerup</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.h">
       <Filter>GT\GameLogic\Powerup</Filter>
     </ClInclude>
@@ -319,6 +319,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\ShopScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\PlayerData\MKPlayerData.h">
+      <Filter>MK\PlayerData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Common\MKJSONHelper.h">
+      <Filter>MK\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\GameLogic\GTGameplayMacros.h">
+      <Filter>GT\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

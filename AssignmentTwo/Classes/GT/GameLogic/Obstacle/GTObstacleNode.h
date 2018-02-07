@@ -6,7 +6,7 @@
 
 // Include GT
 #include "../../../GT/Common/GTMacros.h"
-#include "GTObstacleMacros.h"
+#include "../../../GT/GameLogic/GTGameplayMacros.h"
 #include "../../../GT/GameLogic/GTCollisionCategory.h"
 
 // Include MK

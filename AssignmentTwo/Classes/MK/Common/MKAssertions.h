@@ -1,9 +1,8 @@
 #ifndef MK_ASSERTIONS_H
 #define MK_ASSERTIONS_H
 
-// Include STL
-#include <assert.h>
-#include <iostream>
+// Include Cocos
+#include "cocos2d.h"
 
 // Include MK
 #include "MKMacros.h"
@@ -13,8 +12,8 @@
 #define MK_ASSERTWITHMSG(_condition, _message) \
 	if (!_condition) \
 	{ \
-		std::cout << _message << std::endl; \
-		assert(_condition); \
+        CCLOG(_message); \
+		CC_ASSERT(_condition); \
 	}
 #else
 	#define MK_ASSERT(_condition)

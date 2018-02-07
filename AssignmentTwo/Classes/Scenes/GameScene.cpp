@@ -3,6 +3,7 @@
 
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
+#include "../MK/PlayerData/MKPlayerData.h"
 
 // Include GT
 #include "../GT/Animation/GTAnimationHandlerNode.h"
