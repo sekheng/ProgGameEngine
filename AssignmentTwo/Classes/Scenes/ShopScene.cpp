@@ -5,16 +5,12 @@
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
 
-// Include Input Device Handlers
-#include "../MK/Input/MKKeyboardHandler.h"
-
 // Include Assignment
 #include "AvailableScenes.h"
 #include "AudioEngine.h"
 
 #include "../UIClass/UICreator.h"
 #include "ShopScene.h"
-#include "../MK/GameData/MKPlayerData.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
