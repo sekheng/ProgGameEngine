@@ -4,7 +4,8 @@
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/GameData/MKPlayerData.h"
-#include "../MK/GameData/MKShopData.h"
+#include "../MK/GameData/MKGameBackgroundData.h"
+#include "../MK/GameData/MKGameDataLoader.h"
 #include "../MK/Common/MKAssertions.h"
 
 // Include GT
@@ -33,7 +34,7 @@ bool GameScene::initWithPhysics()
     }
 
     // Load Player Data
-    MKPlayerData::GetInstance()->LoadData();
+    MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->LoadData();
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
@@ -196,7 +197,9 @@ void GameScene::InitialiseBackgrounds()
 	for (unsigned int i = 0; i < MKShopItem_Background::BackgroundLayers::NUM_BACKGROUND_LAYERS; ++i) { m_Backgrounds[i] = nullptr; }
 
     // Get the background that the player has currently equipped.
-    MKShopItem_Background* backgroundItem = MKShopData::GetInstance()->GetBackground(MKPlayerData::GetInstance()->GetEquippedBackground());
+    MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+    MKGameBackgroundData* gameBackgroundData = MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>();
+    MKShopItem_Background* backgroundItem = gameBackgroundData->GetBackground(playerData->GetEquippedBackground());
     MK_ASSERT((backgroundItem != nullptr));
 
 	m_Backgrounds[MKShopItem_Background::BackgroundLayers::STATIC] = MKSprite::Create(backgroundItem->GetBackgroundFile(MKShopItem_Background::STATIC), true);

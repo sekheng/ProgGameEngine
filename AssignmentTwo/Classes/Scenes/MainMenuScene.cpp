@@ -4,7 +4,8 @@
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
-#include "../MK/GameData/MKShopData.h"
+#include "../MK/GameData/MKGameDataLoader.h"
+#include "../MK/GameData/MKGameBackgroundData.h"
 
 // Include Input Device Handlers
 #include "../MK/Input/MKKeyboardHandler.h"
@@ -39,7 +40,7 @@ bool MainMenuScene::init()
 	if (!Super::init()) { return false; }
 
     // Do this in Main Menu as it only needs to be loaded once.
-    MKShopData::GetInstance()->LoadBackgroundsData();
+    MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>()->LoadData();
     
     InitialiseBackground();
     InitialiseUI();
@@ -155,6 +156,11 @@ void MainMenuScene::InitialiseUI()
         [](Ref*) -> void
     {
         Director::getInstance()->end();
+
+        // Destroy the singletons.
+        MKInputManager::GetInstance()->Destroy();
+        MKSceneManager::GetInstance()->Destroy();
+        MKGameDataLoader::GetInstance()->Destroy();
     },
         (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
