@@ -51,11 +51,10 @@ gtBool GTObstacle_Missile::init(mkF32 _playerVelocityX)
 	// Set our size.
 	this->setContentSize(m_Missile->getContentSize());
 	// Set the sprite to be in the middle of this node.
-	m_Missile->setPosition(this->getContentSize() * 0.5f);
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
     // Create the PhysicsBody.
-    cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(m_Missile->getContentSize() * 0.8f);
+    cocos2d::PhysicsBody* physicsBody = PhysicsBody::createBox(m_Missile->getContentSize() * 0.8f, PHYSICSBODY_MATERIAL_DEFAULT, m_Missile->getContentSize() * -0.5f);
     physicsBody->setDynamic(true);
     physicsBody->setGravityEnable(false);
     physicsBody->setCategoryBitmask(GT_COLLISION_CATEGORY_OBSTACLE);
@@ -130,6 +129,7 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     m_Missile = NULL;
 
     // Explode
+    Size visibleSize = Director::getInstance()->getVisibleSize();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(m_ExplosionPListFile);
 
     cocos2d::Sprite* explosionSprite = cocos2d::Sprite::create();
@@ -139,8 +139,14 @@ gtBool GTObstacle_Missile::OnContactBegin(cocos2d::PhysicsContact& _contact)
     explosionAnimation->initWithJSON_tag(m_ExplosionJSONFile);
     explosionAnimation->transitState(m_ExplosionTransitState);
 
-    explosionSprite->setPosition(getContentSize() * 0.5f);
-    GetScene()->addChild(explosionSprite);
+    // Scale the explosion sprite.
+    explosionSprite->setScale((visibleSize.height * 0.3f) / explosionSprite->getContentSize().width, (visibleSize.height * 0.3f) / explosionSprite->getContentSize().height);
+    // As the missile is scaled, we have to divide the explosion scale by the missile scale,
+    // to get rid of the missile's scaling.
+    explosionSprite->setScale(explosionSprite->getScaleX() / this->getScaleX(), explosionSprite->getScaleY() / this->getScaleY());
+    //explosionSprite->setPosition(getContentSize() * 0.5f);
+
+    this->addChild(explosionSprite);
 
     return true;
 }
@@ -212,7 +218,6 @@ void GTObstacle_Missile::DestroyObstacle()
     // As the missile is scaled, we have to divide the explosion scale by the missile scale,
     // to get rid of the missile's scaling.
     explosionSprite->setScale(explosionSprite->getScaleX() / this->getScaleX(), explosionSprite->getScaleY() / this->getScaleY());
-    explosionSprite->setPosition(getContentSize() * 0.5f);
 
     this->addChild(explosionSprite);
 

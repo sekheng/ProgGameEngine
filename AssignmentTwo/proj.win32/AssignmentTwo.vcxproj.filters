@@ -159,6 +159,9 @@
     <ClCompile Include="..\Classes\MK\GameData\MKShopData.cpp">
       <Filter>MK\GameData</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\MK\GameData\MKShopItem_Background.h">
       <Filter>MK\GameData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

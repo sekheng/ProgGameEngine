@@ -36,7 +36,7 @@ gtBool GTSphereShieldPowerUp::init()
 	m_objectSprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	this->addChild(m_objectSprite);
 	this->setContentSize(m_objectSprite->getContentSize());
-	this->setScale(0.75f);
+	//this->setScale(0.75f);
 	m_objectSprite->setPosition(this->getContentSize() * 0.5f);
 
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -49,6 +49,9 @@ gtBool GTSphereShieldPowerUp::init()
 	physicsBody->setCollisionBitmask(GT_COLLISION_CATEGORY_NONE);
 	this->setPhysicsBody(physicsBody);
 	InitialiseContactListener();
+
+	gtF32 desiredObstacleScale = (visibleSize.height * 0.1f) / this->getContentSize().height;
+	this->setScale(desiredObstacleScale, desiredObstacleScale);
 
 	return true;
 }
