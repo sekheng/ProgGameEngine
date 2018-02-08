@@ -14,6 +14,8 @@
 
 #include "../UIClass/UICreator.h"
 #include "ShopScene.h"
+#include "../MK/GameData/MKShopData.h"
+#include "../MK/GameData/MKPlayerData.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
@@ -38,39 +40,8 @@ bool ShopScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	InitialiseBackground();
-
-	auto shopScroller = MKUICreator::GetInstance()->createScroller(
-		ui::ScrollView::Direction::VERTICAL,
-		Size(visibleSize.width, visibleSize.height),
-		Size(visibleSize.width, visibleSize.height * 5),
-		true,
-		Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y)
-	);
-
-	for (int i = 0; i < 5; i++)
-	{
-		ui::Button *button = ui::Button::create("ButtonNormal.png", "ButtonNormal.png");
-		button->setPosition( Vec2(shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.35f + (i * visibleSize.height)) );
-		button->setScale((0.1f * visibleSize.height) / button->getContentSize().height);
-		shopScroller->addChild(button);
-	}
-	this->addChild(shopScroller);
-
-	Sprite* backButton = Sprite::create("BackButton.png");
-
-	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-		Vec2(backButton->getContentSize().width, visibleSize.height - backButton->getContentSize().height),
-		"BackButton.png",
-		"BackButton.png",
-		"",
-		[&](Ref*) -> void
-	{
-		//DeinitialiseInput();
-		MKSceneManager::GetInstance()->PopScene();
-	},
-		(0.1f * visibleSize.height) / backButton->getContentSize().height
-	);
-	this->addChild(toPrevSceneButton);
+	InitialiseUI();
+	
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
@@ -101,4 +72,85 @@ void ShopScene::InitialiseBackground()
 	m_Background->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
 	addChild(m_Background);
+}
+
+void ShopScene::InitialiseUI()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	Sprite *shopItemButtonSprite = Sprite::create("Textures/UI/City_button.png");
+
+	//ADD SHOPITEM BUTTONS to Vector
+	auto cityItem_Button = MKUICreator::GetInstance()->createButton(
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		"Textures/UI/City_button.png",
+		"Textures/UI/City_button_Selected.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//Do ShopItem stuff here
+		},
+		(0.75f * visibleSize.height) / shopItemButtonSprite->getContentSize().height
+		);
+	shopItemButtons.push_back(cityItem_Button);
+
+	auto placeholder0_Item_Button = MKUICreator::GetInstance()->createButton(
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		"Textures/UI/Placeholder0_button.png",
+		"Textures/UI/Placeholder0_button_Selected.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//Do ShopItem stuff here
+		},
+		(0.75f * visibleSize.height) / shopItemButtonSprite->getContentSize().height
+		);
+	shopItemButtons.push_back(placeholder0_Item_Button);
+
+	auto placeholder1_Item_Button = MKUICreator::GetInstance()->createButton(
+		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		"Textures/UI/Placeholder1_button.png",
+		"Textures/UI/Placeholder1_button_Selected.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//Do ShopItem stuff here
+		},
+		(0.75f * visibleSize.height) / shopItemButtonSprite->getContentSize().height
+		);
+	shopItemButtons.push_back(placeholder1_Item_Button);
+
+	//Initialise shopScroller
+	auto shopScroller = MKUICreator::GetInstance()->createScroller(
+		ui::ScrollView::Direction::VERTICAL,
+		Size(visibleSize.width, visibleSize.height),
+		Size(visibleSize.width, visibleSize.height * shopItemButtons.size()),
+		true,
+		Vec2(visibleSize.width * 0.5f + origin.x, visibleSize.height * 0.5f + origin.y)
+	);
+
+	//Loop through the buttons and re-set position of each buttons
+	for (int i = 0; i < shopItemButtons.size(); i++)
+	{
+		shopItemButtons[i]->setPosition(Vec2(shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.5f + (i * visibleSize.height)));
+		shopScroller->addChild(shopItemButtons[i]);
+	}
+	this->addChild(shopScroller);
+
+	Sprite* backButton = Sprite::create("BackButton.png");
+
+	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
+		Vec2(backButton->getContentSize().width, visibleSize.height - backButton->getContentSize().height),
+		"BackButton.png",
+		"BackButton.png",
+		"",
+		[&](Ref*) -> void
+		{
+			//DeinitialiseInput();
+			MKSceneManager::GetInstance()->PopScene();
+		},
+		(0.1f * visibleSize.height) / backButton->getContentSize().height
+		);
+	this->addChild(toPrevSceneButton);
 }
