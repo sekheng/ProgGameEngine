@@ -9,6 +9,8 @@
 #include "../MK/Input/MKInput.h"
 #include "../MK/SceneManagement/MKScene.h"
 
+#include "../UIClass/UICreator.h"
+
 USING_NS_CC;
 USING_NS_MK
 
@@ -19,7 +21,10 @@ class ShopScene : public MKScene
 protected:
     // Background
     void InitialiseBackground();
+	void InitialiseUI();
     MKSprite* m_Background = nullptr;
+
+	std::vector<ui::Button*> shopItemButtons;
 
     // Input
     virtual void OnButton(EventCustom * _event) {}
