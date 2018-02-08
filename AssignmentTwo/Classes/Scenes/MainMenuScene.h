@@ -21,7 +21,12 @@
 USING_NS_CC;
 USING_NS_MK
 
-class MainMenuScene : public MKScene, sdkbox::FacebookListener
+class MainMenuScene : public MKScene
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    , sdkbox::FacebookListener
+#endif
+#endif
 {
     typedef MKScene Super;
 
@@ -52,6 +57,8 @@ public:
     CREATE_FUNC(MainMenuScene);
 
     virtual bool init();
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
     virtual void onLogin(bool isLogin, const std::string& msg);
     virtual void onSharedSuccess(const std::string& message);
     virtual void onSharedFailed(const std::string& message);
@@ -64,6 +71,8 @@ public:
     virtual void onInviteFriendsResult( bool result, const std::string& msg );
     
     virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo );
+#endif
+#endif
 };
 
 #endif // __MENU_SCENE_H__

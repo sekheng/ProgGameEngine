@@ -12,12 +12,14 @@ bool StartScreenScene::init()
     InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
+#ifndef WIN32
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
     if (!sdkbox::PluginFacebook::isLoggedIn())
     {
         sdkbox::PluginFacebook::login();
     }
+#endif
 #endif
     return true;
 }
@@ -100,6 +102,8 @@ void StartScreenScene::OnClick(EventCustom * _event)
     }
 }
 
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
 void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
 {
     CCLOG("FB login: %u", isLogin);
@@ -157,4 +161,5 @@ void StartScreenScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
 {
     
 }
-
+#endif
+#endif

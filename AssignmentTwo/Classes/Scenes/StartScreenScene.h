@@ -4,8 +4,10 @@
 // Include MK
 #include "../MK/SceneManagement/MKScene.h"
 #include "../MK/Graphics/MKSprite.h"
+#ifndef WIN32
 #ifdef SDKBOX_ENABLED
 #include "PluginFacebook/PluginFacebook.h"
+#endif
 #endif
 // Include STL
 #include <cmath>
@@ -14,7 +16,12 @@ USING_NS_MK
 USING_NS_CC;
 using namespace std;
 
-class StartScreenScene : public MKScene, sdkbox::FacebookListener
+class StartScreenScene : public MKScene
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    , sdkbox::FacebookListener
+#endif
+#endif
 {
     typedef MKScene Super;
 
@@ -49,6 +56,8 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
     virtual void onLogin(bool isLogin, const std::string& msg);
     virtual void onSharedSuccess(const std::string& message);
     virtual void onSharedFailed(const std::string& message);
@@ -61,6 +70,8 @@ public:
     virtual void onInviteFriendsResult( bool result, const std::string& msg );
     
     virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo );
+#endif
+#endif
 };
 
 #endif // START_SCREEN_SCENE_H
