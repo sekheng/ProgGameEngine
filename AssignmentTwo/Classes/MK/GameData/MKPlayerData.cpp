@@ -98,4 +98,17 @@ mkBool MKPlayerData::SaveData(const mkString& _filePath)
     return MKJSONHelper::JsonToFile(dataDocument, _filePath);
 }
 
+bool MKPlayerData::OwnsBackground(const mkString& _backgroundName)
+{
+    for (mkU32 i = 0; i < m_OwnedBackgrounds.size(); ++i)
+    {
+        if (m_OwnedBackgrounds[i] == _backgroundName)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 NS_MK_END

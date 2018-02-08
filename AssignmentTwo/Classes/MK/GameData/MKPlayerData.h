@@ -50,11 +50,12 @@ public:
     inline void RemoveCoins(mkU64 _coins) { m_Coins -= _coins; }
     
     inline const mkString& GetEquippedBackground() const { return m_EquippedBackground; }
-    inline void SetEquippedBackground(const mkString& _equippedBackground) { m_EquippedBackground = _equippedBackground; }
-    
+    inline void SetEquippedBackground(const mkString& _backgroundName) { m_EquippedBackground = _backgroundName; }
+
     inline vector<mkString> GetOwnedBackgrounds() const { return m_OwnedBackgrounds; }
-    inline void SetOwnedBackgrounds(vector<mkString> _ownedBackgrounds) { m_OwnedBackgrounds = _ownedBackgrounds; }
-    inline void AddOwnedBackground(mkString _ownedBackground) { m_OwnedBackgrounds.push_back(_ownedBackground); }
+    inline void SetOwnedBackgrounds(vector<mkString> _backgroundNames) { m_OwnedBackgrounds = _backgroundNames; }
+    inline void AddOwnedBackground(const mkString& _backgroundName) { m_OwnedBackgrounds.push_back(_backgroundName); }
+    bool OwnsBackground(const mkString& _backgroundName);
 };
 
 NS_MK_END
