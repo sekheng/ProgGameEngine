@@ -142,10 +142,12 @@ void GTPowerUpSpawner::SpawnPowerUpBatch()
 		switch (powerUpType)
 		{
 		case GinTama::GTPowerUpSpawner::TIME_SLOW:
-			SpawnTimeSlow();
+			//SpawnTimeSlow();
+            SpawnCleanSlate();
             break;
 		case GinTama::GTPowerUpSpawner::SPHERE_SHIELD:
-			SpawnSphereShield();
+			//SpawnSphereShield();
+            SpawnCleanSlate();
 			break;
 		case GinTama::GTPowerUpSpawner::CLEAN_SLATE:
 			SpawnCleanSlate();
