@@ -123,6 +123,7 @@
 		EBB557A4202C005100BD6781 /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55792202C004F00BD6781 /* SettingsScene.cpp */; };
 		EBB557A5202C005100BD6781 /* MKKeyboardHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55794202C005000BD6781 /* MKKeyboardHandler.cpp */; };
 		EBB557A6202C005100BD6781 /* MainMenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55796202C005000BD6781 /* MainMenuScene.cpp */; };
+		EBB557AB202C396D00BD6781 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB557A9202C396C00BD6781 /* GameOverScene.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -343,6 +344,8 @@
 		EBB55795202C005000BD6781 /* MKInputDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputDefinition.h; path = MK/Input/MKInputDefinition.h; sourceTree = "<group>"; };
 		EBB55796202C005000BD6781 /* MainMenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScene.cpp; path = Scenes/MainMenuScene.cpp; sourceTree = "<group>"; };
 		EBB55797202C005000BD6781 /* MKSceneMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneMacros.h; path = MK/SceneManagement/MKSceneMacros.h; sourceTree = "<group>"; };
+		EBB557A9202C396C00BD6781 /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = Scenes/GameOverScene.cpp; sourceTree = "<group>"; };
+		EBB557AA202C396D00BD6781 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverScene.h; path = Scenes/GameOverScene.h; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		F6BE4C118113F25FB67FA493 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -521,6 +524,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EBB557A9202C396C00BD6781 /* GameOverScene.cpp */,
+				EBB557AA202C396D00BD6781 /* GameOverScene.h */,
 				EBB5577B202C004B00BD6781 /* AvailableScenes.h */,
 				EBB5578C202C004E00BD6781 /* GameScene.cpp */,
 				EBB5578B202C004E00BD6781 /* GameScene.h */,
@@ -844,6 +849,7 @@
 				EBB5573D202C002A00BD6781 /* GTSimperMusicSys.cpp in Sources */,
 				EBB5575E202C003B00BD6781 /* GTObstacle_Laser.cpp in Sources */,
 				EBB55738202C002200BD6781 /* GTAnimationHandlerNode.cpp in Sources */,
+				EBB557AB202C396D00BD6781 /* GameOverScene.cpp in Sources */,
 				EBB5575F202C003B00BD6781 /* SH_TestScene.cpp in Sources */,
 				EBB557A5202C005100BD6781 /* MKKeyboardHandler.cpp in Sources */,
 				EBB55767202C003B00BD6781 /* GTSphereShield.cpp in Sources */,
