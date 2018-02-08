@@ -22,6 +22,10 @@ using namespace GinTama;
 
 static int BGM_ID = -1;
 
+MainMenuScene::~MainMenuScene()
+{
+}
+
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
@@ -172,9 +176,12 @@ void MainMenuScene::InitialiseFacebookUI()
 		[&](Ref*) -> void
 		{
 #ifndef WIN32
+            if (!sdkbox::PluginFacebook::isLoggedIn())
+            {
+                sdkbox::PluginFacebook::login();
+            }
 #else
-        m_FacebookLoginButton->setVisible(false);
-        m_FacebookLogoutButton->setVisible(true);
+            ToggleFacebookUI(true);
 #endif
 			//DO LOGIN STUFF
         },
@@ -192,13 +199,92 @@ void MainMenuScene::InitialiseFacebookUI()
 		{
 			//DO LOGOUT STUFF
 #ifndef WIN32
+            if (sdkbox::PluginFacebook::isLoggedIn())
+            {
+                sdkbox::PluginFacebook::logout();
+                ToggleFacebookUI(false);
+            }
 #else
-            m_FacebookLoginButton->setVisible(true);
-            m_FacebookLogoutButton->setVisible(false);
+            ToggleFacebookUI(false);
 #endif
         },
 		(0.1f * visibleSize.height) / FBLoginbuttonSprite->getContentSize().height
 		);
     m_FacebookLogoutButton->setVisible(false);
 	this->addChild(m_FacebookLogoutButton);
+    
+    ToggleFacebookUI(sdkbox::PluginFacebook::isLoggedIn());
+    sdkbox::PluginFacebook::setListener(this);
 }
+
+void MainMenuScene::ToggleFacebookUI(bool _isLoggedIn)
+{
+    if (_isLoggedIn)
+    {
+        m_FacebookLoginButton->setVisible(false);
+        m_FacebookLogoutButton->setVisible(true);
+    }
+    else
+    {
+        m_FacebookLoginButton->setVisible(true);
+        m_FacebookLogoutButton->setVisible(false);
+    }
+}
+
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+void MainMenuScene::onLogin(bool isLogin, const std::string& msg)
+{
+    CCLOG("FB login: %u", isLogin);
+    bool needPermissionForShare = true;
+    for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
+    {
+        if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
+        {
+            needPermissionForShare = false;
+            break;
+        }
+    }
+    if (needPermissionForShare)
+        sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+    ToggleFacebookUI(isLogin);
+}
+void MainMenuScene::onSharedSuccess(const std::string& message)
+{
+}
+void MainMenuScene::onSharedFailed(const std::string& message)
+{
+}
+void MainMenuScene::onSharedCancel()
+{
+}
+void MainMenuScene::onAPI(const std::string& key, const std::string& jsonData)
+{
+    
+}
+void MainMenuScene::onPermission(bool isLogin, const std::string& msg)
+{
+}
+void MainMenuScene::onFetchFriends(bool ok, const std::string& msg)
+{
+    
+}
+void MainMenuScene::onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends )
+{
+    
+}
+void MainMenuScene::onInviteFriendsWithInviteIdsResult( bool result, const std::string& msg )
+{
+    
+}
+void MainMenuScene::onInviteFriendsResult( bool result, const std::string& msg )
+{
+    
+}
+
+void MainMenuScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
+{
+    
+}
+#endif
+#endif

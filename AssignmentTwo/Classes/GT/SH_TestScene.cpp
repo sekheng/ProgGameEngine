@@ -1,6 +1,6 @@
 // Include MK
-#include "..\MK\SceneManagement\MKSceneManager.h"
-#include "..\MK\Common\MKMacros.h"
+#include "../MK/SceneManagement/MKSceneManager.h"
+#include "../MK/Common/MKMacros.h"
 
 // Include Assignment
 #include "SH_TestScene.h"

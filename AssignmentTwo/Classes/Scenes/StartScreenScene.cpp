@@ -1,6 +1,10 @@
 // Include Game
 #include "StartScreenScene.h"
 
+StartScreenScene::~StartScreenScene()
+{
+}
+
 bool StartScreenScene::init()
 {
     if (!Super::init()) { return false; }
@@ -8,7 +12,6 @@ bool StartScreenScene::init()
     InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
-    InitialiseInput();
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
     if (!sdkbox::PluginFacebook::isLoggedIn())
@@ -100,7 +103,20 @@ void StartScreenScene::OnClick(EventCustom * _event)
 void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
 {
     CCLOG("FB login: %u", isLogin);
-    //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+    if (isLogin)
+    {
+        bool needPermissionForShare = true;
+        for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
+        {
+            if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
+            {
+                needPermissionForShare = false;
+                break;
+            }
+        }
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+    }
 }
 void StartScreenScene::onSharedSuccess(const std::string& message)
 {
@@ -116,21 +132,9 @@ void StartScreenScene::onSharedCancel()
 }
 void StartScreenScene::onAPI(const std::string& key, const std::string& jsonData)
 {
-    
 }
 void StartScreenScene::onPermission(bool isLogin, const std::string& msg)
 {
-    // TODO, remove this sharing post example
-    if (isLogin)
-    {
-        sdkbox::FBShareInfo info;
-        info.type  = sdkbox::FB_LINK;
-        info.link  = "http://www.cocos2d-x.org";
-        info.title = "cocos2d-x";
-        info.text  = "Sek Heng here trying out sharing for COCOS2DX!!!!!!";
-        info.image = "http://cocos2d-x.org/images/logo.png";
-        sdkbox::PluginFacebook::dialog(info);
-    }
 }
 void StartScreenScene::onFetchFriends(bool ok, const std::string& msg)
 {

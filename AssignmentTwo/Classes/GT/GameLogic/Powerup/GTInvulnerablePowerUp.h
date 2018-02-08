@@ -3,7 +3,7 @@
 
 #include "GTPowerUp.h"
 #include "../../../MK/Graphics/MKSprite.h"
-#include "../Obstacle/GTObstacleMacros.h"
+
 
 USING_NS_MK
 

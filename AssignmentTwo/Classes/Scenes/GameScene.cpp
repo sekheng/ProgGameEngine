@@ -56,7 +56,11 @@ bool GameScene::initWithPhysics()
 
     // Initialise Camera
     InitialiseCamera();
-
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    sdkbox::PluginFacebook::setListener(this);
+#endif
+#endif
 	return true;
 }
 
@@ -275,12 +279,10 @@ void GameScene::InitialiseText()
 void GameScene::InitialiseGameOverUI()
 {
     // need to ensure that the array of GameOverUI is empty!
-
-	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
-	Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
-
     if (m_ArrayOfGameOverUI.size() == 0)
     {
+        Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+        Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
         m_ObstacleSpawner->PauseAllObstacles();
 		m_PowerUpSpawner->PauseAllPowerUps();
         auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -335,23 +337,33 @@ void GameScene::InitialiseGameOverUI()
             "Main Menu",
             [&](Ref*) -> void
         {
-            MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
+            MKSceneManager::GetInstance()->ReplaceScene("GameScene");
         },
 			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
         GetUINode()->addChild(ToMainMenuButton);
         m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
 
-		auto FacebookButton = MKUICreator::GetInstance()->createButton(
+        auto FacebookButton = MKUICreator::GetInstance()->createButton(
 			Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 3)),
 			"FacebookButton.png",
 			"FacebookButtonSelected.png",
 			"",
 			[&](Ref*) -> void
 			{
-				//DO FB LOGIC HERE
 #ifndef WIN32
-            
+#ifdef SDKBOX_ENABLED
+                //DO FB LOGIC HERE
+                if (sdkbox::PluginFacebook::isLoggedIn())
+                {
+                    //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+                    ShareHighScoreOnFB();
+                }
+                else
+                {
+                    sdkbox::PluginFacebook::login();
+                }
+#endif
 #endif
 			},
 			(0.1f * visibleSize.height) / facebookButtonSprite->getContentSize().height
@@ -563,3 +575,82 @@ void GameScene::JumpInput(const MKInputClick* _input)
 
     m_CharaStatNode->CharJump();
 }
+
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+void GameScene::onLogin(bool isLogin, const std::string& msg)
+{
+    // this means the player has login. only when he/she is login then sharing can occur
+    if (isLogin)
+    {
+        ShareHighScoreOnFB();
+    }
+}
+void GameScene::onSharedSuccess(const std::string& message)
+{
+    CCLOG("Sharing is successful according to %s", message.c_str());
+}
+void GameScene::onSharedFailed(const std::string& message)
+{
+    CCLOG("Sharing is failed. plz fix this bug!");
+}
+void GameScene::onSharedCancel()
+{
+    CCLOG("sharing is cancel");
+}
+void GameScene::onAPI(const std::string& key, const std::string& jsonData)
+{
+    
+}
+void GameScene::onPermission(bool isLogin, const std::string& msg)
+{
+    if (isLogin)
+    {
+        bool needPermissionForShare = true;
+        for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
+        {
+            if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
+            {
+                needPermissionForShare = false;
+                break;
+            }
+        }
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+        //ShareHighScoreOnFB();
+    }
+}
+void GameScene::onFetchFriends(bool ok, const std::string& msg)
+{
+    
+}
+void GameScene::onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends )
+{
+    
+}
+void GameScene::onInviteFriendsWithInviteIdsResult( bool result, const std::string& msg )
+{
+    
+}
+void GameScene::onInviteFriendsResult( bool result, const std::string& msg )
+{
+    
+}
+
+void GameScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
+{
+    
+}
+
+void GameScene::ShareHighScoreOnFB()
+{
+    sdkbox::FBShareInfo info;
+    info.type  = sdkbox::FB_LINK;
+    info.link = "https://runningfromtripleprog.appspot.com";
+    info.title = "Running From Triple Programming!";
+    info.text  = "Jialet liao! I only score " + std::to_string(m_HighScore);
+    info.image = "http://cocos2d-x.org/images/logo.png";
+    sdkbox::PluginFacebook::dialog(info);
+}
+#endif
+#endif

@@ -14,6 +14,7 @@
 #include "external/json/stringbuffer.h"
 #include "external/json/writer.h"
 #include "external/json/document.h"
+#include "cocos2d.h"
 
 using namespace RAPIDJSON_NAMESPACE;
 
@@ -36,7 +37,7 @@ public:
     static bool JsonToFile(RAPIDJSON_NAMESPACE::Document& _jsonObject, const mkString& _filePath)
     {
         std::ofstream outputFile;
-        outputFile.open(_filePath);
+        outputFile.open(cocos2d::FileUtils::getInstance()->fullPathForFilename(_filePath).c_str());
         if (!outputFile.is_open()) { return false; }
 
         std::string jsonObjectData = JsonToString(_jsonObject);
@@ -49,7 +50,7 @@ public:
 
     static void LoadFromJSON(RAPIDJSON_NAMESPACE::Document& _document, const mkString& _filePath)
     {
-        FILE* inputFile = std::fopen(_filePath.c_str(), "r");
+        FILE* inputFile = std::fopen(cocos2d::FileUtils::getInstance()->fullPathForFilename(_filePath).c_str(), "r");
         MK_ASSERTWITHMSG((inputFile != nullptr), "MKJSONHelper::LoadFromJSON - Unable to open file!");
         std::fseek(inputFile, 0, SEEK_SET);
         // The number of characters in the file must not exceed m_MaxFileCharacters.

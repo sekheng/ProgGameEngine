@@ -12,12 +12,22 @@
 #include "../GT/GameLogic/PowerUp/GTPowerUpSpawner.h"
 #include "../GT/GameLogic/GTCharacterStatNode.h"
 #include "ui/UIButton.h"
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+#include "PluginFacebook/PluginFacebook.h"
+#endif
+#endif
 
 USING_NS_CC;
 USING_NS_MK
 USING_NS_GT
 
 class GameScene : public MKScene
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+, sdkbox::FacebookListener
+#endif
+#endif
 {
 	typedef MKScene Super;
 
@@ -100,6 +110,20 @@ public:
 	virtual void update(float _deltaTime) override;
     virtual void onEnter() override;
     virtual void onExit() override;
+    
+    void ShareHighScoreOnFB();
+    virtual void onLogin(bool isLogin, const std::string& msg);
+    virtual void onSharedSuccess(const std::string& message);
+    virtual void onSharedFailed(const std::string& message);
+    virtual void onSharedCancel();
+    virtual void onAPI(const std::string& key, const std::string& jsonData);
+    virtual void onPermission(bool isLogin, const std::string& msg);
+    virtual void onFetchFriends(bool ok, const std::string& msg);
+    virtual void onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends );
+    virtual void onInviteFriendsWithInviteIdsResult( bool result, const std::string& msg );
+    virtual void onInviteFriendsResult( bool result, const std::string& msg );
+    
+    virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo );
 };
 
 #endif

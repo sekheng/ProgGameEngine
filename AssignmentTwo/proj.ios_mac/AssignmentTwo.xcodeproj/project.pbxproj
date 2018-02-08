@@ -18,8 +18,6 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		30D94495BA065ACEB675F5DB /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FEA4E10A0BFB7C2E99EA202 /* Bolts.framework */; };
 		400948FBA9C30C18A33E2E7F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D84F4B168A5D74CB0840D32D /* SystemConfiguration.framework */; };
-		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
-		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -65,54 +63,66 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		DD97440586C738E56F1846BF /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4F4A03904A4D1BBE1F9D23 /* FBSDKShareKit.framework */; };
 		E41141B5B9DB615B26D3EBEC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6BE4C118113F25FB67FA493 /* AdSupport.framework */; };
-		EB3045C01FE79A8F008B8585 /* SpriteAnim in Resources */ = {isa = PBXBuildFile; fileRef = EB3045AF1FE79A8D008B8585 /* SpriteAnim */; };
-		EB3045C11FE79A8F008B8585 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B01FE79A8D008B8585 /* HelloWorld.png */; };
-		EB3045C21FE79A8F008B8585 /* PlaceHolder in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B11FE79A8D008B8585 /* PlaceHolder */; };
-		EB3045C31FE79A8F008B8585 /* ButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B21FE79A8D008B8585 /* ButtonNormal.png */; };
-		EB3045C41FE79A8F008B8585 /* Player in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B31FE79A8D008B8585 /* Player */; };
-		EB3045C51FE79A8F008B8585 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B41FE79A8D008B8585 /* CloseSelected.png */; };
-		EB3045C61FE79A8F008B8585 /* SliderBall.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B51FE79A8E008B8585 /* SliderBall.png */; };
-		EB3045C71FE79A8F008B8585 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B61FE79A8E008B8585 /* Shaders */; };
-		EB3045C81FE79A8F008B8585 /* SliderBar.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B71FE79A8E008B8585 /* SliderBar.png */; };
-		EB3045C91FE79A8F008B8585 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = EB3045B81FE79A8E008B8585 /* Audio */; };
-		EB3045CB1FE79A8F008B8585 /* mainspritecharaidlespritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */; };
-		EB3045CC1FE79A8F008B8585 /* ButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */; };
-		EB3045CD1FE79A8F008B8585 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BC1FE79A8E008B8585 /* CloseNormal.png */; };
-		EB3045CE1FE79A8F008B8585 /* Textures in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BD1FE79A8E008B8585 /* Textures */; };
-		EB3045CF1FE79A8F008B8585 /* Tileset in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BE1FE79A8E008B8585 /* Tileset */; };
-		EB3045D01FE79A8F008B8585 /* ProgressBar.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3045BF1FE79A8F008B8585 /* ProgressBar.png */; };
-		EB3045DA1FE79AAE008B8585 /* GTAnimationHandlerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045D61FE79AAE008B8585 /* GTAnimationHandlerNode.cpp */; };
-		EB3045DB1FE79AAE008B8585 /* GTDestroySelfAct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045D71FE79AAE008B8585 /* GTDestroySelfAct.cpp */; };
-		EB3045DC1FE79AAE008B8585 /* GTAnimTransAct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045D81FE79AAE008B8585 /* GTAnimTransAct.cpp */; };
-		EB3045DF1FE79AB7008B8585 /* GTSimperMusicSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045DE1FE79AB7008B8585 /* GTSimperMusicSys.cpp */; };
-		EB3045E41FE79AC5008B8585 /* GTCharacterStatNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045E21FE79AC5008B8585 /* GTCharacterStatNode.cpp */; };
-		EB3045EF1FE79ACE008B8585 /* GTObstacle_Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045E61FE79ACC008B8585 /* GTObstacle_Missile.cpp */; };
-		EB3045F01FE79ACE008B8585 /* GTObstacle_Spike.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045E71FE79ACC008B8585 /* GTObstacle_Spike.cpp */; };
-		EB3045F11FE79ACE008B8585 /* GTObstacleSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045E91FE79ACD008B8585 /* GTObstacleSpawner.cpp */; };
-		EB3045F91FE79AD9008B8585 /* MKMathsHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045F41FE79AD8008B8585 /* MKMathsHelper.cpp */; };
-		EB3045FC1FE79AE0008B8585 /* MKSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045FB1FE79ADF008B8585 /* MKSprite.cpp */; };
-		EB3046091FE79AE9008B8585 /* MKTouchHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3045FF1FE79AE7008B8585 /* MKTouchHandler.cpp */; };
-		EB30460A1FE79AE9008B8585 /* MKInputDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046031FE79AE8008B8585 /* MKInputDefinition.cpp */; };
-		EB30460B1FE79AE9008B8585 /* MKInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046041FE79AE8008B8585 /* MKInputManager.cpp */; };
-		EB30460C1FE79AE9008B8585 /* MKKeyboardHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046061FE79AE8008B8585 /* MKKeyboardHandler.cpp */; };
-		EB3046111FE79AF5008B8585 /* MKSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30460F1FE79AF5008B8585 /* MKSceneManager.cpp */; };
-		EB3046201FE79B06008B8585 /* StartScreenScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046131FE79B04008B8585 /* StartScreenScene.cpp */; };
-		EB3046211FE79B06008B8585 /* MainMenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046161FE79B04008B8585 /* MainMenuScene.cpp */; };
-		EB3046221FE79B06008B8585 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB3046191FE79B04008B8585 /* GameScene.cpp */; };
-		EB3046231FE79B06008B8585 /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB30461A1FE79B05008B8585 /* SettingsScene.cpp */; };
-		EB6A2B692015C6B100EA8FC3 /* GTInvulnerablePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B5C2015C6AD00EA8FC3 /* GTInvulnerablePowerUp.cpp */; };
-		EB6A2B6A2015C6B100EA8FC3 /* GTSphereShield.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B5F2015C6AE00EA8FC3 /* GTSphereShield.cpp */; };
-		EB6A2B6B2015C6B100EA8FC3 /* GTCleanSlatePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B602015C6AE00EA8FC3 /* GTCleanSlatePowerUp.cpp */; };
-		EB6A2B6C2015C6B100EA8FC3 /* GTSphereShieldPowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B622015C6AF00EA8FC3 /* GTSphereShieldPowerUp.cpp */; };
-		EB6A2B6D2015C6B100EA8FC3 /* GTSlowTimePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B672015C6B000EA8FC3 /* GTSlowTimePowerUp.cpp */; };
-		EB6A2B6E2015C6B100EA8FC3 /* GTPowerUpSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6A2B682015C6B000EA8FC3 /* GTPowerUpSpawner.cpp */; };
-		EB7484FC200374F000D4E6EC /* PauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F8200374EF00D4E6EC /* PauseScene.cpp */; };
-		EB7484FD200374F000D4E6EC /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */; };
-		EB7485062003750600D4E6EC /* GTObstacle_Laser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */; };
-		EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */; };
-		EB74850E2003758300D4E6EC /* PauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EB74850D2003758300D4E6EC /* PauseIcon.png */; };
-		EB748510200375B900D4E6EC /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = EB74850F200375B900D4E6EC /* fonts */; };
-		EBB556E720298F4E00BD6781 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB556E620298F4D00BD6781 /* ShopScene.cpp */; };
+		EBB5570E202BFE5000BD6781 /* ButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F4202BFE4E00BD6781 /* ButtonNormal.png */; };
+		EBB5570F202BFE5000BD6781 /* FacebookLogoutButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F5202BFE4E00BD6781 /* FacebookLogoutButtonSelected.png */; };
+		EBB55710202BFE5000BD6781 /* mainspritecharaidlespritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F6202BFE4E00BD6781 /* mainspritecharaidlespritesheet.png */; };
+		EBB55711202BFE5000BD6781 /* ButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F7202BFE4E00BD6781 /* ButtonSelected.png */; };
+		EBB55712202BFE5000BD6781 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F8202BFE4E00BD6781 /* fonts */; };
+		EBB55713202BFE5000BD6781 /* ProgressBar.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556F9202BFE4E00BD6781 /* ProgressBar.png */; };
+		EBB55714202BFE5000BD6781 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FA202BFE4E00BD6781 /* Shaders */; };
+		EBB55715202BFE5000BD6781 /* SliderBar.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FB202BFE4E00BD6781 /* SliderBar.png */; };
+		EBB55716202BFE5000BD6781 /* Tileset in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FC202BFE4E00BD6781 /* Tileset */; };
+		EBB55717202BFE5000BD6781 /* FacebookLoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FD202BFE4E00BD6781 /* FacebookLoginButton.png */; };
+		EBB55718202BFE5000BD6781 /* BackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FE202BFE4E00BD6781 /* BackButton.png */; };
+		EBB55719202BFE5000BD6781 /* FacebookLoginButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FF202BFE4E00BD6781 /* FacebookLoginButtonSelected.png */; };
+		EBB5571A202BFE5000BD6781 /* Textures in Resources */ = {isa = PBXBuildFile; fileRef = EBB55700202BFE4E00BD6781 /* Textures */; };
+		EBB5571B202BFE5000BD6781 /* Player in Resources */ = {isa = PBXBuildFile; fileRef = EBB55701202BFE4F00BD6781 /* Player */; };
+		EBB5571C202BFE5000BD6781 /* FacebookButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55702202BFE4F00BD6781 /* FacebookButtonSelected.png */; };
+		EBB5571D202BFE5000BD6781 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55703202BFE4F00BD6781 /* CloseSelected.png */; };
+		EBB5571E202BFE5000BD6781 /* FacebookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55704202BFE4F00BD6781 /* FacebookButton.png */; };
+		EBB5571F202BFE5000BD6781 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55705202BFE4F00BD6781 /* CloseNormal.png */; };
+		EBB55720202BFE5000BD6781 /* SpriteAnim in Resources */ = {isa = PBXBuildFile; fileRef = EBB55706202BFE4F00BD6781 /* SpriteAnim */; };
+		EBB55721202BFE5000BD6781 /* PauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55707202BFE4F00BD6781 /* PauseIcon.png */; };
+		EBB55722202BFE5000BD6781 /* PlaceHolder in Resources */ = {isa = PBXBuildFile; fileRef = EBB55708202BFE4F00BD6781 /* PlaceHolder */; };
+		EBB55723202BFE5000BD6781 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = EBB55709202BFE4F00BD6781 /* Audio */; };
+		EBB55724202BFE5000BD6781 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570A202BFE4F00BD6781 /* HelloWorld.png */; };
+		EBB55725202BFE5000BD6781 /* FacebookLogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570B202BFE5000BD6781 /* FacebookLogoutButton.png */; };
+		EBB55726202BFE5000BD6781 /* GameData in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570C202BFE5000BD6781 /* GameData */; };
+		EBB55727202BFE5000BD6781 /* SliderBall.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570D202BFE5000BD6781 /* SliderBall.png */; };
+		EBB5572A202C001600BD6781 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55729202C001500BD6781 /* AppDelegate.cpp */; };
+		EBB55737202C002200BD6781 /* GTAnimTransAct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55731202C002200BD6781 /* GTAnimTransAct.cpp */; };
+		EBB55738202C002200BD6781 /* GTAnimationHandlerNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55732202C002200BD6781 /* GTAnimationHandlerNode.cpp */; };
+		EBB55739202C002200BD6781 /* GTDestroySelfAct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55733202C002200BD6781 /* GTDestroySelfAct.cpp */; };
+		EBB5573D202C002A00BD6781 /* GTSimperMusicSys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5573B202C002900BD6781 /* GTSimperMusicSys.cpp */; };
+		EBB5575D202C003B00BD6781 /* GTInvulnerablePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5573F202C003700BD6781 /* GTInvulnerablePowerUp.cpp */; };
+		EBB5575E202C003B00BD6781 /* GTObstacle_Laser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55740202C003700BD6781 /* GTObstacle_Laser.cpp */; };
+		EBB5575F202C003B00BD6781 /* SH_TestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55743202C003700BD6781 /* SH_TestScene.cpp */; };
+		EBB55760202C003B00BD6781 /* GTObstacle_Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55744202C003700BD6781 /* GTObstacle_Missile.cpp */; };
+		EBB55761202C003B00BD6781 /* GTObstacleNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55745202C003700BD6781 /* GTObstacleNode.cpp */; };
+		EBB55762202C003B00BD6781 /* GTCharacterStatNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55748202C003800BD6781 /* GTCharacterStatNode.cpp */; };
+		EBB55763202C003B00BD6781 /* GTObstacle_Saw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5574B202C003800BD6781 /* GTObstacle_Saw.cpp */; };
+		EBB55764202C003B00BD6781 /* GTSlowTimePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5574D202C003800BD6781 /* GTSlowTimePowerUp.cpp */; };
+		EBB55765202C003B00BD6781 /* GTObstacleSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5574F202C003900BD6781 /* GTObstacleSpawner.cpp */; };
+		EBB55766202C003B00BD6781 /* GTObstacle_Spike.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55753202C003900BD6781 /* GTObstacle_Spike.cpp */; };
+		EBB55767202C003B00BD6781 /* GTSphereShield.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55754202C003A00BD6781 /* GTSphereShield.cpp */; };
+		EBB55768202C003B00BD6781 /* GTCleanSlatePowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55756202C003A00BD6781 /* GTCleanSlatePowerUp.cpp */; };
+		EBB55769202C003B00BD6781 /* GTSphereShieldPowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55758202C003A00BD6781 /* GTSphereShieldPowerUp.cpp */; };
+		EBB5576A202C003B00BD6781 /* GTPowerUpSpawner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5575C202C003B00BD6781 /* GTPowerUpSpawner.cpp */; };
+		EBB55798202C005100BD6781 /* MKShopData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5576B202C004700BD6781 /* MKShopData.cpp */; };
+		EBB55799202C005100BD6781 /* MKInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5576F202C004800BD6781 /* MKInputManager.cpp */; };
+		EBB5579A202C005100BD6781 /* MKTouchHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55774202C004900BD6781 /* MKTouchHandler.cpp */; };
+		EBB5579B202C005100BD6781 /* PauseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55776202C004A00BD6781 /* PauseScene.cpp */; };
+		EBB5579C202C005100BD6781 /* ShopScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55777202C004A00BD6781 /* ShopScene.cpp */; };
+		EBB5579D202C005100BD6781 /* MKPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5577A202C004A00BD6781 /* MKPlayerData.cpp */; };
+		EBB5579E202C005100BD6781 /* MKSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5577C202C004B00BD6781 /* MKSprite.cpp */; };
+		EBB5579F202C005100BD6781 /* MKMathsHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5577E202C004B00BD6781 /* MKMathsHelper.cpp */; };
+		EBB557A0202C005100BD6781 /* StartScreenScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55780202C004C00BD6781 /* StartScreenScene.cpp */; };
+		EBB557A1202C005100BD6781 /* MKInputDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55789202C004D00BD6781 /* MKInputDefinition.cpp */; };
+		EBB557A2202C005100BD6781 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5578C202C004E00BD6781 /* GameScene.cpp */; };
+		EBB557A3202C005100BD6781 /* MKSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55790202C004F00BD6781 /* MKSceneManager.cpp */; };
+		EBB557A4202C005100BD6781 /* SettingsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55792202C004F00BD6781 /* SettingsScene.cpp */; };
+		EBB557A5202C005100BD6781 /* MKKeyboardHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55794202C005000BD6781 /* MKKeyboardHandler.cpp */; };
+		EBB557A6202C005100BD6781 /* MainMenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55796202C005000BD6781 /* MainMenuScene.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -165,8 +175,6 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		42B04FBF8204340F26FDE075 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = SOURCE_ROOT; };
-		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
-		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -216,109 +224,125 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		D84F4B168A5D74CB0840D32D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		EB3045AF1FE79A8D008B8585 /* SpriteAnim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SpriteAnim; sourceTree = "<group>"; };
-		EB3045B01FE79A8D008B8585 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
-		EB3045B11FE79A8D008B8585 /* PlaceHolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PlaceHolder; sourceTree = "<group>"; };
-		EB3045B21FE79A8D008B8585 /* ButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonNormal.png; sourceTree = "<group>"; };
-		EB3045B31FE79A8D008B8585 /* Player */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Player; sourceTree = "<group>"; };
-		EB3045B41FE79A8D008B8585 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
-		EB3045B51FE79A8E008B8585 /* SliderBall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderBall.png; sourceTree = "<group>"; };
-		EB3045B61FE79A8E008B8585 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
-		EB3045B71FE79A8E008B8585 /* SliderBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderBar.png; sourceTree = "<group>"; };
-		EB3045B81FE79A8E008B8585 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
-		EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainspritecharaidlespritesheet.png; sourceTree = "<group>"; };
-		EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSelected.png; sourceTree = "<group>"; };
-		EB3045BC1FE79A8E008B8585 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
-		EB3045BD1FE79A8E008B8585 /* Textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textures; sourceTree = "<group>"; };
-		EB3045BE1FE79A8E008B8585 /* Tileset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tileset; sourceTree = "<group>"; };
-		EB3045BF1FE79A8F008B8585 /* ProgressBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProgressBar.png; sourceTree = "<group>"; };
-		EB3045D11FE79AA4008B8585 /* GTPlaySoundAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTPlaySoundAction.h; path = GT/Actions/GTPlaySoundAction.h; sourceTree = "<group>"; };
-		EB3045D31FE79AA4008B8585 /* GTScaleUpAndDownAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTScaleUpAndDownAction.h; path = GT/Actions/GTScaleUpAndDownAction.h; sourceTree = "<group>"; };
-		EB3045D41FE79AAD008B8585 /* GTAnimationHandlerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimationHandlerNode.h; path = GT/Animation/GTAnimationHandlerNode.h; sourceTree = "<group>"; };
-		EB3045D51FE79AAD008B8585 /* GTAnimTransAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimTransAct.h; path = GT/Animation/GTAnimTransAct.h; sourceTree = "<group>"; };
-		EB3045D61FE79AAE008B8585 /* GTAnimationHandlerNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTAnimationHandlerNode.cpp; path = GT/Animation/GTAnimationHandlerNode.cpp; sourceTree = "<group>"; };
-		EB3045D71FE79AAE008B8585 /* GTDestroySelfAct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTDestroySelfAct.cpp; path = GT/Animation/GTDestroySelfAct.cpp; sourceTree = "<group>"; };
-		EB3045D81FE79AAE008B8585 /* GTAnimTransAct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTAnimTransAct.cpp; path = GT/Animation/GTAnimTransAct.cpp; sourceTree = "<group>"; };
-		EB3045D91FE79AAE008B8585 /* GTDestroySelfAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTDestroySelfAct.h; path = GT/Animation/GTDestroySelfAct.h; sourceTree = "<group>"; };
-		EB3045DD1FE79AB6008B8585 /* GTSimperMusicSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSimperMusicSys.h; path = GT/Audio/GTSimperMusicSys.h; sourceTree = "<group>"; };
-		EB3045DE1FE79AB7008B8585 /* GTSimperMusicSys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSimperMusicSys.cpp; path = GT/Audio/GTSimperMusicSys.cpp; sourceTree = "<group>"; };
-		EB3045E01FE79ABC008B8585 /* GTMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTMacros.h; path = GT/Common/GTMacros.h; sourceTree = "<group>"; };
-		EB3045E11FE79AC5008B8585 /* GTCharacterStatNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCharacterStatNode.h; path = GT/GameLogic/GTCharacterStatNode.h; sourceTree = "<group>"; };
-		EB3045E21FE79AC5008B8585 /* GTCharacterStatNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTCharacterStatNode.cpp; path = GT/GameLogic/GTCharacterStatNode.cpp; sourceTree = "<group>"; };
-		EB3045E31FE79AC5008B8585 /* GTCollisionCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCollisionCategory.h; path = GT/GameLogic/GTCollisionCategory.h; sourceTree = "<group>"; };
-		EB3045E51FE79ACC008B8585 /* GTObstacle_Spike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Spike.h; path = GT/GameLogic/Obstacle/GTObstacle_Spike.h; sourceTree = "<group>"; };
-		EB3045E61FE79ACC008B8585 /* GTObstacle_Missile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Missile.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Missile.cpp; sourceTree = "<group>"; };
-		EB3045E71FE79ACC008B8585 /* GTObstacle_Spike.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Spike.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Spike.cpp; sourceTree = "<group>"; };
-		EB3045E81FE79ACD008B8585 /* GTObstacleNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacleNode.h; path = GT/GameLogic/Obstacle/GTObstacleNode.h; sourceTree = "<group>"; };
-		EB3045E91FE79ACD008B8585 /* GTObstacleSpawner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacleSpawner.cpp; path = GT/GameLogic/Obstacle/GTObstacleSpawner.cpp; sourceTree = "<group>"; };
-		EB3045EB1FE79ACD008B8585 /* GTObstacle_Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Missile.h; path = GT/GameLogic/Obstacle/GTObstacle_Missile.h; sourceTree = "<group>"; };
-		EB3045ED1FE79ACD008B8585 /* GTObstacleMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacleMacros.h; path = GT/GameLogic/Obstacle/GTObstacleMacros.h; sourceTree = "<group>"; };
-		EB3045EE1FE79ACE008B8585 /* GTObstacleSpawner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacleSpawner.h; path = GT/GameLogic/Obstacle/GTObstacleSpawner.h; sourceTree = "<group>"; };
-		EB3045F31FE79AD7008B8585 /* MKMathsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKMathsHelper.h; path = MK/Common/MKMathsHelper.h; sourceTree = "<group>"; };
-		EB3045F41FE79AD8008B8585 /* MKMathsHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKMathsHelper.cpp; path = MK/Common/MKMathsHelper.cpp; sourceTree = "<group>"; };
-		EB3045F51FE79AD8008B8585 /* MKAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKAssertions.h; path = MK/Common/MKAssertions.h; sourceTree = "<group>"; };
-		EB3045F61FE79AD8008B8585 /* MKPasskey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKPasskey.h; path = MK/Common/MKPasskey.h; sourceTree = "<group>"; };
-		EB3045F71FE79AD8008B8585 /* MKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKMacros.h; path = MK/Common/MKMacros.h; sourceTree = "<group>"; };
-		EB3045F81FE79AD8008B8585 /* MKSingletonTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSingletonTemplate.h; path = MK/Common/MKSingletonTemplate.h; sourceTree = "<group>"; };
-		EB3045FA1FE79ADF008B8585 /* MKSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSprite.h; path = MK/Graphics/MKSprite.h; sourceTree = "<group>"; };
-		EB3045FB1FE79ADF008B8585 /* MKSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKSprite.cpp; path = MK/Graphics/MKSprite.cpp; sourceTree = "<group>"; };
-		EB3045FD1FE79AE6008B8585 /* MKInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInput.h; path = MK/Input/MKInput.h; sourceTree = "<group>"; };
-		EB3045FE1FE79AE7008B8585 /* MKKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKKeyboardHandler.h; path = MK/Input/MKKeyboardHandler.h; sourceTree = "<group>"; };
-		EB3045FF1FE79AE7008B8585 /* MKTouchHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKTouchHandler.cpp; path = MK/Input/MKTouchHandler.cpp; sourceTree = "<group>"; };
-		EB3046001FE79AE7008B8585 /* MKTouchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKTouchHandler.h; path = MK/Input/MKTouchHandler.h; sourceTree = "<group>"; };
-		EB3046011FE79AE7008B8585 /* MKInputDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputDefinition.h; path = MK/Input/MKInputDefinition.h; sourceTree = "<group>"; };
-		EB3046021FE79AE7008B8585 /* MKInputContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputContext.h; path = MK/Input/MKInputContext.h; sourceTree = "<group>"; };
-		EB3046031FE79AE8008B8585 /* MKInputDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKInputDefinition.cpp; path = MK/Input/MKInputDefinition.cpp; sourceTree = "<group>"; };
-		EB3046041FE79AE8008B8585 /* MKInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKInputManager.cpp; path = MK/Input/MKInputManager.cpp; sourceTree = "<group>"; };
-		EB3046051FE79AE8008B8585 /* MKInputName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputName.h; path = MK/Input/MKInputName.h; sourceTree = "<group>"; };
-		EB3046061FE79AE8008B8585 /* MKKeyboardHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKKeyboardHandler.cpp; path = MK/Input/MKKeyboardHandler.cpp; sourceTree = "<group>"; };
-		EB3046071FE79AE8008B8585 /* MKInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputManager.h; path = MK/Input/MKInputManager.h; sourceTree = "<group>"; };
-		EB3046081FE79AE9008B8585 /* MKInputControllerIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputControllerIndex.h; path = MK/Input/MKInputControllerIndex.h; sourceTree = "<group>"; };
-		EB30460D1FE79AF5008B8585 /* MKSceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneManager.h; path = MK/SceneManagement/MKSceneManager.h; sourceTree = "<group>"; };
-		EB30460E1FE79AF5008B8585 /* MKSceneMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneMacros.h; path = MK/SceneManagement/MKSceneMacros.h; sourceTree = "<group>"; };
-		EB30460F1FE79AF5008B8585 /* MKSceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKSceneManager.cpp; path = MK/SceneManagement/MKSceneManager.cpp; sourceTree = "<group>"; };
-		EB3046101FE79AF5008B8585 /* MKScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKScene.h; path = MK/SceneManagement/MKScene.h; sourceTree = "<group>"; };
-		EB3046131FE79B04008B8585 /* StartScreenScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartScreenScene.cpp; path = Scenes/StartScreenScene.cpp; sourceTree = "<group>"; };
-		EB3046151FE79B04008B8585 /* UICreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICreator.h; path = UIClass/UICreator.h; sourceTree = "<group>"; };
-		EB3046161FE79B04008B8585 /* MainMenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScene.cpp; path = Scenes/MainMenuScene.cpp; sourceTree = "<group>"; };
-		EB3046171FE79B04008B8585 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScene.h; path = Scenes/MainMenuScene.h; sourceTree = "<group>"; };
-		EB3046181FE79B04008B8585 /* AvailableScenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AvailableScenes.h; path = Scenes/AvailableScenes.h; sourceTree = "<group>"; };
-		EB3046191FE79B04008B8585 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameScene.cpp; path = Scenes/GameScene.cpp; sourceTree = "<group>"; };
-		EB30461A1FE79B05008B8585 /* SettingsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SettingsScene.cpp; path = Scenes/SettingsScene.cpp; sourceTree = "<group>"; };
-		EB30461B1FE79B05008B8585 /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsScene.h; path = Scenes/SettingsScene.h; sourceTree = "<group>"; };
-		EB30461C1FE79B05008B8585 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = Scenes/GameScene.h; sourceTree = "<group>"; };
-		EB30461E1FE79B05008B8585 /* StartScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreenScene.h; path = Scenes/StartScreenScene.h; sourceTree = "<group>"; };
-		EB6A2B5B2015C6AC00EA8FC3 /* GTSphereShield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSphereShield.h; path = GT/GameLogic/Powerup/GTSphereShield.h; sourceTree = "<group>"; };
-		EB6A2B5C2015C6AD00EA8FC3 /* GTInvulnerablePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTInvulnerablePowerUp.cpp; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.cpp; sourceTree = "<group>"; };
-		EB6A2B5D2015C6AD00EA8FC3 /* GTSlowTimePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSlowTimePowerUp.h; path = GT/GameLogic/Powerup/GTSlowTimePowerUp.h; sourceTree = "<group>"; };
-		EB6A2B5E2015C6AD00EA8FC3 /* GTPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUp.h; path = GT/GameLogic/Powerup/GTPowerUp.h; sourceTree = "<group>"; };
-		EB6A2B5F2015C6AE00EA8FC3 /* GTSphereShield.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSphereShield.cpp; path = GT/GameLogic/Powerup/GTSphereShield.cpp; sourceTree = "<group>"; };
-		EB6A2B602015C6AE00EA8FC3 /* GTCleanSlatePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTCleanSlatePowerUp.cpp; path = GT/GameLogic/Powerup/GTCleanSlatePowerUp.cpp; sourceTree = "<group>"; };
-		EB6A2B612015C6AE00EA8FC3 /* GTCleanSlatePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCleanSlatePowerUp.h; path = GT/GameLogic/Powerup/GTCleanSlatePowerUp.h; sourceTree = "<group>"; };
-		EB6A2B622015C6AF00EA8FC3 /* GTSphereShieldPowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSphereShieldPowerUp.cpp; path = GT/GameLogic/Powerup/GTSphereShieldPowerUp.cpp; sourceTree = "<group>"; };
-		EB6A2B632015C6AF00EA8FC3 /* GTPowerUpMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUpMacros.h; path = GT/GameLogic/Powerup/GTPowerUpMacros.h; sourceTree = "<group>"; };
-		EB6A2B642015C6AF00EA8FC3 /* GTPowerUpSpawner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUpSpawner.h; path = GT/GameLogic/Powerup/GTPowerUpSpawner.h; sourceTree = "<group>"; };
-		EB6A2B652015C6B000EA8FC3 /* GTInvulnerablePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTInvulnerablePowerUp.h; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.h; sourceTree = "<group>"; };
-		EB6A2B662015C6B000EA8FC3 /* GTSphereShieldPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSphereShieldPowerUp.h; path = GT/GameLogic/Powerup/GTSphereShieldPowerUp.h; sourceTree = "<group>"; };
-		EB6A2B672015C6B000EA8FC3 /* GTSlowTimePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSlowTimePowerUp.cpp; path = GT/GameLogic/Powerup/GTSlowTimePowerUp.cpp; sourceTree = "<group>"; };
-		EB6A2B682015C6B000EA8FC3 /* GTPowerUpSpawner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTPowerUpSpawner.cpp; path = GT/GameLogic/Powerup/GTPowerUpSpawner.cpp; sourceTree = "<group>"; };
-		EB7484F8200374EF00D4E6EC /* PauseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PauseScene.cpp; path = Scenes/PauseScene.cpp; sourceTree = "<group>"; };
-		EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = Scenes/GameOverScene.cpp; sourceTree = "<group>"; };
-		EB7484FA200374EF00D4E6EC /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PauseScene.h; path = Scenes/PauseScene.h; sourceTree = "<group>"; };
-		EB7484FB200374EF00D4E6EC /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameOverScene.h; path = Scenes/GameOverScene.h; sourceTree = "<group>"; };
-		EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Laser.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Laser.cpp; sourceTree = "<group>"; };
-		EB7485032003750500D4E6EC /* GTObstacle_Laser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Laser.h; path = GT/GameLogic/Obstacle/GTObstacle_Laser.h; sourceTree = "<group>"; };
-		EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Saw.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Saw.cpp; sourceTree = "<group>"; };
-		EB7485052003750500D4E6EC /* GTObstacle_Saw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Saw.h; path = GT/GameLogic/Obstacle/GTObstacle_Saw.h; sourceTree = "<group>"; };
-		EB7485082003750E00D4E6EC /* GTScaleUpAndDownAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTScaleUpAndDownAction.h; path = GT/Actions/GTScaleUpAndDownAction.h; sourceTree = "<group>"; };
-		EB7485092003750E00D4E6EC /* GTFollowNodeAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTFollowNodeAction.h; path = GT/Actions/GTFollowNodeAction.h; sourceTree = "<group>"; };
-		EB74850A2003750F00D4E6EC /* GTPlaySoundAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTPlaySoundAction.h; path = GT/Actions/GTPlaySoundAction.h; sourceTree = "<group>"; };
-		EB74850B2003750F00D4E6EC /* GTMoveBySinAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTMoveBySinAction.h; path = GT/Actions/GTMoveBySinAction.h; sourceTree = "<group>"; };
-		EB74850C2003750F00D4E6EC /* GTRemoveFromParentAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTRemoveFromParentAction.h; path = GT/Actions/GTRemoveFromParentAction.h; sourceTree = "<group>"; };
-		EB74850D2003758300D4E6EC /* PauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PauseIcon.png; sourceTree = "<group>"; };
-		EB74850F200375B900D4E6EC /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		EBB556E420298F4D00BD6781 /* ShopScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShopScene.h; path = Scenes/ShopScene.h; sourceTree = "<group>"; };
-		EBB556E620298F4D00BD6781 /* ShopScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShopScene.cpp; path = Scenes/ShopScene.cpp; sourceTree = "<group>"; };
+		EBB556F4202BFE4E00BD6781 /* ButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonNormal.png; sourceTree = "<group>"; };
+		EBB556F5202BFE4E00BD6781 /* FacebookLogoutButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLogoutButtonSelected.png; sourceTree = "<group>"; };
+		EBB556F6202BFE4E00BD6781 /* mainspritecharaidlespritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainspritecharaidlespritesheet.png; sourceTree = "<group>"; };
+		EBB556F7202BFE4E00BD6781 /* ButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSelected.png; sourceTree = "<group>"; };
+		EBB556F8202BFE4E00BD6781 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		EBB556F9202BFE4E00BD6781 /* ProgressBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProgressBar.png; sourceTree = "<group>"; };
+		EBB556FA202BFE4E00BD6781 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		EBB556FB202BFE4E00BD6781 /* SliderBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderBar.png; sourceTree = "<group>"; };
+		EBB556FC202BFE4E00BD6781 /* Tileset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tileset; sourceTree = "<group>"; };
+		EBB556FD202BFE4E00BD6781 /* FacebookLoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLoginButton.png; sourceTree = "<group>"; };
+		EBB556FE202BFE4E00BD6781 /* BackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackButton.png; sourceTree = "<group>"; };
+		EBB556FF202BFE4E00BD6781 /* FacebookLoginButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLoginButtonSelected.png; sourceTree = "<group>"; };
+		EBB55700202BFE4E00BD6781 /* Textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textures; sourceTree = "<group>"; };
+		EBB55701202BFE4F00BD6781 /* Player */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Player; sourceTree = "<group>"; };
+		EBB55702202BFE4F00BD6781 /* FacebookButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookButtonSelected.png; sourceTree = "<group>"; };
+		EBB55703202BFE4F00BD6781 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
+		EBB55704202BFE4F00BD6781 /* FacebookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookButton.png; sourceTree = "<group>"; };
+		EBB55705202BFE4F00BD6781 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
+		EBB55706202BFE4F00BD6781 /* SpriteAnim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SpriteAnim; sourceTree = "<group>"; };
+		EBB55707202BFE4F00BD6781 /* PauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PauseIcon.png; sourceTree = "<group>"; };
+		EBB55708202BFE4F00BD6781 /* PlaceHolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PlaceHolder; sourceTree = "<group>"; };
+		EBB55709202BFE4F00BD6781 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
+		EBB5570A202BFE4F00BD6781 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
+		EBB5570B202BFE5000BD6781 /* FacebookLogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLogoutButton.png; sourceTree = "<group>"; };
+		EBB5570C202BFE5000BD6781 /* GameData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameData; sourceTree = "<group>"; };
+		EBB5570D202BFE5000BD6781 /* SliderBall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderBall.png; sourceTree = "<group>"; };
+		EBB55728202C001500BD6781 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EBB55729202C001500BD6781 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
+		EBB5572B202C001C00BD6781 /* GTRepeatActionInstantForever.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTRepeatActionInstantForever.h; path = GT/Actions/GTRepeatActionInstantForever.h; sourceTree = "<group>"; };
+		EBB5572C202C001C00BD6781 /* GTScaleUpAndDownAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTScaleUpAndDownAction.h; path = GT/Actions/GTScaleUpAndDownAction.h; sourceTree = "<group>"; };
+		EBB5572D202C001C00BD6781 /* GTRemoveFromParentAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTRemoveFromParentAction.h; path = GT/Actions/GTRemoveFromParentAction.h; sourceTree = "<group>"; };
+		EBB5572E202C001C00BD6781 /* GTFollowNodeAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTFollowNodeAction.h; path = GT/Actions/GTFollowNodeAction.h; sourceTree = "<group>"; };
+		EBB5572F202C001C00BD6781 /* GTMoveBySinAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTMoveBySinAction.h; path = GT/Actions/GTMoveBySinAction.h; sourceTree = "<group>"; };
+		EBB55730202C001C00BD6781 /* GTPlaySoundAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GTPlaySoundAction.h; path = GT/Actions/GTPlaySoundAction.h; sourceTree = "<group>"; };
+		EBB55731202C002200BD6781 /* GTAnimTransAct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTAnimTransAct.cpp; path = GT/Animation/GTAnimTransAct.cpp; sourceTree = "<group>"; };
+		EBB55732202C002200BD6781 /* GTAnimationHandlerNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTAnimationHandlerNode.cpp; path = GT/Animation/GTAnimationHandlerNode.cpp; sourceTree = "<group>"; };
+		EBB55733202C002200BD6781 /* GTDestroySelfAct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTDestroySelfAct.cpp; path = GT/Animation/GTDestroySelfAct.cpp; sourceTree = "<group>"; };
+		EBB55734202C002200BD6781 /* GTDestroySelfAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTDestroySelfAct.h; path = GT/Animation/GTDestroySelfAct.h; sourceTree = "<group>"; };
+		EBB55735202C002200BD6781 /* GTAnimationHandlerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimationHandlerNode.h; path = GT/Animation/GTAnimationHandlerNode.h; sourceTree = "<group>"; };
+		EBB55736202C002200BD6781 /* GTAnimTransAct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTAnimTransAct.h; path = GT/Animation/GTAnimTransAct.h; sourceTree = "<group>"; };
+		EBB5573A202C002900BD6781 /* GTMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMacros.h; path = GT/Common/GTMacros.h; sourceTree = "<group>"; };
+		EBB5573B202C002900BD6781 /* GTSimperMusicSys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSimperMusicSys.cpp; path = GT/Audio/GTSimperMusicSys.cpp; sourceTree = "<group>"; };
+		EBB5573C202C002A00BD6781 /* GTSimperMusicSys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSimperMusicSys.h; path = GT/Audio/GTSimperMusicSys.h; sourceTree = "<group>"; };
+		EBB5573E202C003600BD6781 /* GTSphereShield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSphereShield.h; path = GT/GameLogic/Powerup/GTSphereShield.h; sourceTree = "<group>"; };
+		EBB5573F202C003700BD6781 /* GTInvulnerablePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTInvulnerablePowerUp.cpp; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.cpp; sourceTree = "<group>"; };
+		EBB55740202C003700BD6781 /* GTObstacle_Laser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Laser.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Laser.cpp; sourceTree = "<group>"; };
+		EBB55741202C003700BD6781 /* GTObstacleSpawner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacleSpawner.h; path = GT/GameLogic/Obstacle/GTObstacleSpawner.h; sourceTree = "<group>"; };
+		EBB55742202C003700BD6781 /* GTSlowTimePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSlowTimePowerUp.h; path = GT/GameLogic/Powerup/GTSlowTimePowerUp.h; sourceTree = "<group>"; };
+		EBB55743202C003700BD6781 /* SH_TestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SH_TestScene.cpp; path = GT/SH_TestScene.cpp; sourceTree = "<group>"; };
+		EBB55744202C003700BD6781 /* GTObstacle_Missile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Missile.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Missile.cpp; sourceTree = "<group>"; };
+		EBB55745202C003700BD6781 /* GTObstacleNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacleNode.cpp; path = GT/GameLogic/Obstacle/GTObstacleNode.cpp; sourceTree = "<group>"; };
+		EBB55746202C003700BD6781 /* GTObstacle_Saw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Saw.h; path = GT/GameLogic/Obstacle/GTObstacle_Saw.h; sourceTree = "<group>"; };
+		EBB55747202C003800BD6781 /* GTObstacle_Spike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Spike.h; path = GT/GameLogic/Obstacle/GTObstacle_Spike.h; sourceTree = "<group>"; };
+		EBB55748202C003800BD6781 /* GTCharacterStatNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTCharacterStatNode.cpp; path = GT/GameLogic/GTCharacterStatNode.cpp; sourceTree = "<group>"; };
+		EBB55749202C003800BD6781 /* GTCharacterStatNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCharacterStatNode.h; path = GT/GameLogic/GTCharacterStatNode.h; sourceTree = "<group>"; };
+		EBB5574A202C003800BD6781 /* GTInvulnerablePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTInvulnerablePowerUp.h; path = GT/GameLogic/Powerup/GTInvulnerablePowerUp.h; sourceTree = "<group>"; };
+		EBB5574B202C003800BD6781 /* GTObstacle_Saw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Saw.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Saw.cpp; sourceTree = "<group>"; };
+		EBB5574C202C003800BD6781 /* GTSphereShieldPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTSphereShieldPowerUp.h; path = GT/GameLogic/Powerup/GTSphereShieldPowerUp.h; sourceTree = "<group>"; };
+		EBB5574D202C003800BD6781 /* GTSlowTimePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSlowTimePowerUp.cpp; path = GT/GameLogic/Powerup/GTSlowTimePowerUp.cpp; sourceTree = "<group>"; };
+		EBB5574E202C003900BD6781 /* SH_TestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SH_TestScene.h; path = GT/SH_TestScene.h; sourceTree = "<group>"; };
+		EBB5574F202C003900BD6781 /* GTObstacleSpawner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacleSpawner.cpp; path = GT/GameLogic/Obstacle/GTObstacleSpawner.cpp; sourceTree = "<group>"; };
+		EBB55750202C003900BD6781 /* GTObstacle_Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Missile.h; path = GT/GameLogic/Obstacle/GTObstacle_Missile.h; sourceTree = "<group>"; };
+		EBB55751202C003900BD6781 /* GTObstacleNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacleNode.h; path = GT/GameLogic/Obstacle/GTObstacleNode.h; sourceTree = "<group>"; };
+		EBB55752202C003900BD6781 /* GTPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUp.h; path = GT/GameLogic/Powerup/GTPowerUp.h; sourceTree = "<group>"; };
+		EBB55753202C003900BD6781 /* GTObstacle_Spike.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTObstacle_Spike.cpp; path = GT/GameLogic/Obstacle/GTObstacle_Spike.cpp; sourceTree = "<group>"; };
+		EBB55754202C003A00BD6781 /* GTSphereShield.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSphereShield.cpp; path = GT/GameLogic/Powerup/GTSphereShield.cpp; sourceTree = "<group>"; };
+		EBB55755202C003A00BD6781 /* GTCollisionCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCollisionCategory.h; path = GT/GameLogic/GTCollisionCategory.h; sourceTree = "<group>"; };
+		EBB55756202C003A00BD6781 /* GTCleanSlatePowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTCleanSlatePowerUp.cpp; path = GT/GameLogic/Powerup/GTCleanSlatePowerUp.cpp; sourceTree = "<group>"; };
+		EBB55757202C003A00BD6781 /* GTCleanSlatePowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTCleanSlatePowerUp.h; path = GT/GameLogic/Powerup/GTCleanSlatePowerUp.h; sourceTree = "<group>"; };
+		EBB55758202C003A00BD6781 /* GTSphereShieldPowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTSphereShieldPowerUp.cpp; path = GT/GameLogic/Powerup/GTSphereShieldPowerUp.cpp; sourceTree = "<group>"; };
+		EBB55759202C003A00BD6781 /* GTPowerUpSpawner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTPowerUpSpawner.h; path = GT/GameLogic/Powerup/GTPowerUpSpawner.h; sourceTree = "<group>"; };
+		EBB5575A202C003B00BD6781 /* GTObstacle_Laser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTObstacle_Laser.h; path = GT/GameLogic/Obstacle/GTObstacle_Laser.h; sourceTree = "<group>"; };
+		EBB5575B202C003B00BD6781 /* GTGameplayMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTGameplayMacros.h; path = GT/GameLogic/GTGameplayMacros.h; sourceTree = "<group>"; };
+		EBB5575C202C003B00BD6781 /* GTPowerUpSpawner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTPowerUpSpawner.cpp; path = GT/GameLogic/Powerup/GTPowerUpSpawner.cpp; sourceTree = "<group>"; };
+		EBB5576B202C004700BD6781 /* MKShopData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKShopData.cpp; path = MK/GameData/MKShopData.cpp; sourceTree = "<group>"; };
+		EBB5576C202C004800BD6781 /* MKShopData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKShopData.h; path = MK/GameData/MKShopData.h; sourceTree = "<group>"; };
+		EBB5576D202C004800BD6781 /* UICreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICreator.h; path = UIClass/UICreator.h; sourceTree = "<group>"; };
+		EBB5576E202C004800BD6781 /* MKInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputManager.h; path = MK/Input/MKInputManager.h; sourceTree = "<group>"; };
+		EBB5576F202C004800BD6781 /* MKInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKInputManager.cpp; path = MK/Input/MKInputManager.cpp; sourceTree = "<group>"; };
+		EBB55770202C004800BD6781 /* MKJSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKJSONHelper.h; path = MK/Common/MKJSONHelper.h; sourceTree = "<group>"; };
+		EBB55771202C004900BD6781 /* MKPlayerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKPlayerData.h; path = MK/GameData/MKPlayerData.h; sourceTree = "<group>"; };
+		EBB55772202C004900BD6781 /* MKSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSprite.h; path = MK/Graphics/MKSprite.h; sourceTree = "<group>"; };
+		EBB55773202C004900BD6781 /* MKSceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneManager.h; path = MK/SceneManagement/MKSceneManager.h; sourceTree = "<group>"; };
+		EBB55774202C004900BD6781 /* MKTouchHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKTouchHandler.cpp; path = MK/Input/MKTouchHandler.cpp; sourceTree = "<group>"; };
+		EBB55775202C004900BD6781 /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsScene.h; path = Scenes/SettingsScene.h; sourceTree = "<group>"; };
+		EBB55776202C004A00BD6781 /* PauseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PauseScene.cpp; path = Scenes/PauseScene.cpp; sourceTree = "<group>"; };
+		EBB55777202C004A00BD6781 /* ShopScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShopScene.cpp; path = Scenes/ShopScene.cpp; sourceTree = "<group>"; };
+		EBB55778202C004A00BD6781 /* PauseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PauseScene.h; path = Scenes/PauseScene.h; sourceTree = "<group>"; };
+		EBB55779202C004A00BD6781 /* StartScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScreenScene.h; path = Scenes/StartScreenScene.h; sourceTree = "<group>"; };
+		EBB5577A202C004A00BD6781 /* MKPlayerData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKPlayerData.cpp; path = MK/GameData/MKPlayerData.cpp; sourceTree = "<group>"; };
+		EBB5577B202C004B00BD6781 /* AvailableScenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AvailableScenes.h; path = Scenes/AvailableScenes.h; sourceTree = "<group>"; };
+		EBB5577C202C004B00BD6781 /* MKSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKSprite.cpp; path = MK/Graphics/MKSprite.cpp; sourceTree = "<group>"; };
+		EBB5577D202C004B00BD6781 /* MKScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKScene.h; path = MK/SceneManagement/MKScene.h; sourceTree = "<group>"; };
+		EBB5577E202C004B00BD6781 /* MKMathsHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKMathsHelper.cpp; path = MK/Common/MKMathsHelper.cpp; sourceTree = "<group>"; };
+		EBB5577F202C004B00BD6781 /* MKMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKMacros.h; path = MK/Common/MKMacros.h; sourceTree = "<group>"; };
+		EBB55780202C004C00BD6781 /* StartScreenScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartScreenScene.cpp; path = Scenes/StartScreenScene.cpp; sourceTree = "<group>"; };
+		EBB55781202C004C00BD6781 /* MKInputName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputName.h; path = MK/Input/MKInputName.h; sourceTree = "<group>"; };
+		EBB55782202C004C00BD6781 /* MKInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInput.h; path = MK/Input/MKInput.h; sourceTree = "<group>"; };
+		EBB55783202C004C00BD6781 /* MKTouchHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKTouchHandler.h; path = MK/Input/MKTouchHandler.h; sourceTree = "<group>"; };
+		EBB55784202C004C00BD6781 /* MKAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKAssertions.h; path = MK/Common/MKAssertions.h; sourceTree = "<group>"; };
+		EBB55785202C004D00BD6781 /* MKSingletonTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSingletonTemplate.h; path = MK/Common/MKSingletonTemplate.h; sourceTree = "<group>"; };
+		EBB55786202C004D00BD6781 /* MKMathsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKMathsHelper.h; path = MK/Common/MKMathsHelper.h; sourceTree = "<group>"; };
+		EBB55787202C004D00BD6781 /* MKInputContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputContext.h; path = MK/Input/MKInputContext.h; sourceTree = "<group>"; };
+		EBB55788202C004D00BD6781 /* MKShopItem_Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKShopItem_Background.h; path = MK/GameData/MKShopItem_Background.h; sourceTree = "<group>"; };
+		EBB55789202C004D00BD6781 /* MKInputDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKInputDefinition.cpp; path = MK/Input/MKInputDefinition.cpp; sourceTree = "<group>"; };
+		EBB5578A202C004E00BD6781 /* MKPasskey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKPasskey.h; path = MK/Common/MKPasskey.h; sourceTree = "<group>"; };
+		EBB5578B202C004E00BD6781 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = Scenes/GameScene.h; sourceTree = "<group>"; };
+		EBB5578C202C004E00BD6781 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameScene.cpp; path = Scenes/GameScene.cpp; sourceTree = "<group>"; };
+		EBB5578D202C004E00BD6781 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScene.h; path = Scenes/MainMenuScene.h; sourceTree = "<group>"; };
+		EBB5578E202C004F00BD6781 /* MKInputControllerIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputControllerIndex.h; path = MK/Input/MKInputControllerIndex.h; sourceTree = "<group>"; };
+		EBB5578F202C004F00BD6781 /* MKKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKKeyboardHandler.h; path = MK/Input/MKKeyboardHandler.h; sourceTree = "<group>"; };
+		EBB55790202C004F00BD6781 /* MKSceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKSceneManager.cpp; path = MK/SceneManagement/MKSceneManager.cpp; sourceTree = "<group>"; };
+		EBB55791202C004F00BD6781 /* MKShopItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKShopItem.h; path = MK/GameData/MKShopItem.h; sourceTree = "<group>"; };
+		EBB55792202C004F00BD6781 /* SettingsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SettingsScene.cpp; path = Scenes/SettingsScene.cpp; sourceTree = "<group>"; };
+		EBB55793202C005000BD6781 /* ShopScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShopScene.h; path = Scenes/ShopScene.h; sourceTree = "<group>"; };
+		EBB55794202C005000BD6781 /* MKKeyboardHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MKKeyboardHandler.cpp; path = MK/Input/MKKeyboardHandler.cpp; sourceTree = "<group>"; };
+		EBB55795202C005000BD6781 /* MKInputDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputDefinition.h; path = MK/Input/MKInputDefinition.h; sourceTree = "<group>"; };
+		EBB55796202C005000BD6781 /* MainMenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainMenuScene.cpp; path = Scenes/MainMenuScene.cpp; sourceTree = "<group>"; };
+		EBB55797202C005000BD6781 /* MKSceneMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneMacros.h; path = MK/SceneManagement/MKSceneMacros.h; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		F6BE4C118113F25FB67FA493 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -462,24 +486,32 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EB74850F200375B900D4E6EC /* fonts */,
-				EB74850D2003758300D4E6EC /* PauseIcon.png */,
-				EB3045B81FE79A8E008B8585 /* Audio */,
-				EB3045B21FE79A8D008B8585 /* ButtonNormal.png */,
-				EB3045BB1FE79A8E008B8585 /* ButtonSelected.png */,
-				EB3045BC1FE79A8E008B8585 /* CloseNormal.png */,
-				EB3045B41FE79A8D008B8585 /* CloseSelected.png */,
-				EB3045B01FE79A8D008B8585 /* HelloWorld.png */,
-				EB3045BA1FE79A8E008B8585 /* mainspritecharaidlespritesheet.png */,
-				EB3045B11FE79A8D008B8585 /* PlaceHolder */,
-				EB3045B31FE79A8D008B8585 /* Player */,
-				EB3045BF1FE79A8F008B8585 /* ProgressBar.png */,
-				EB3045B61FE79A8E008B8585 /* Shaders */,
-				EB3045B51FE79A8E008B8585 /* SliderBall.png */,
-				EB3045B71FE79A8E008B8585 /* SliderBar.png */,
-				EB3045AF1FE79A8D008B8585 /* SpriteAnim */,
-				EB3045BD1FE79A8E008B8585 /* Textures */,
-				EB3045BE1FE79A8E008B8585 /* Tileset */,
+				EBB55709202BFE4F00BD6781 /* Audio */,
+				EBB556FE202BFE4E00BD6781 /* BackButton.png */,
+				EBB556F4202BFE4E00BD6781 /* ButtonNormal.png */,
+				EBB556F7202BFE4E00BD6781 /* ButtonSelected.png */,
+				EBB55705202BFE4F00BD6781 /* CloseNormal.png */,
+				EBB55703202BFE4F00BD6781 /* CloseSelected.png */,
+				EBB55704202BFE4F00BD6781 /* FacebookButton.png */,
+				EBB55702202BFE4F00BD6781 /* FacebookButtonSelected.png */,
+				EBB556FD202BFE4E00BD6781 /* FacebookLoginButton.png */,
+				EBB556FF202BFE4E00BD6781 /* FacebookLoginButtonSelected.png */,
+				EBB5570B202BFE5000BD6781 /* FacebookLogoutButton.png */,
+				EBB556F5202BFE4E00BD6781 /* FacebookLogoutButtonSelected.png */,
+				EBB556F8202BFE4E00BD6781 /* fonts */,
+				EBB5570C202BFE5000BD6781 /* GameData */,
+				EBB5570A202BFE4F00BD6781 /* HelloWorld.png */,
+				EBB556F6202BFE4E00BD6781 /* mainspritecharaidlespritesheet.png */,
+				EBB55707202BFE4F00BD6781 /* PauseIcon.png */,
+				EBB55708202BFE4F00BD6781 /* PlaceHolder */,
+				EBB55701202BFE4F00BD6781 /* Player */,
+				EBB556F9202BFE4E00BD6781 /* ProgressBar.png */,
+				EBB556FA202BFE4E00BD6781 /* Shaders */,
+				EBB5570D202BFE5000BD6781 /* SliderBall.png */,
+				EBB556FB202BFE4E00BD6781 /* SliderBar.png */,
+				EBB55706202BFE4F00BD6781 /* SpriteAnim */,
+				EBB55700202BFE4E00BD6781 /* Textures */,
+				EBB556FC202BFE4E00BD6781 /* Tileset */,
 				C0D2452DB21FF20706B855D9 /* sdkbox_config.json */,
 			);
 			name = Resources;
@@ -489,93 +521,99 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EB6A2B602015C6AE00EA8FC3 /* GTCleanSlatePowerUp.cpp */,
-				EB6A2B612015C6AE00EA8FC3 /* GTCleanSlatePowerUp.h */,
-				EB6A2B5C2015C6AD00EA8FC3 /* GTInvulnerablePowerUp.cpp */,
-				EB6A2B652015C6B000EA8FC3 /* GTInvulnerablePowerUp.h */,
-				EB6A2B5E2015C6AD00EA8FC3 /* GTPowerUp.h */,
-				EB6A2B632015C6AF00EA8FC3 /* GTPowerUpMacros.h */,
-				EB6A2B682015C6B000EA8FC3 /* GTPowerUpSpawner.cpp */,
-				EB6A2B642015C6AF00EA8FC3 /* GTPowerUpSpawner.h */,
-				EB6A2B672015C6B000EA8FC3 /* GTSlowTimePowerUp.cpp */,
-				EB6A2B5D2015C6AD00EA8FC3 /* GTSlowTimePowerUp.h */,
-				EB6A2B5F2015C6AE00EA8FC3 /* GTSphereShield.cpp */,
-				EB6A2B5B2015C6AC00EA8FC3 /* GTSphereShield.h */,
-				EB6A2B622015C6AF00EA8FC3 /* GTSphereShieldPowerUp.cpp */,
-				EB6A2B662015C6B000EA8FC3 /* GTSphereShieldPowerUp.h */,
-				EB7485092003750E00D4E6EC /* GTFollowNodeAction.h */,
-				EB74850B2003750F00D4E6EC /* GTMoveBySinAction.h */,
-				EB74850A2003750F00D4E6EC /* GTPlaySoundAction.h */,
-				EB74850C2003750F00D4E6EC /* GTRemoveFromParentAction.h */,
-				EB7485082003750E00D4E6EC /* GTScaleUpAndDownAction.h */,
-				EB7485022003750500D4E6EC /* GTObstacle_Laser.cpp */,
-				EB7485032003750500D4E6EC /* GTObstacle_Laser.h */,
-				EB7485042003750500D4E6EC /* GTObstacle_Saw.cpp */,
-				EB7485052003750500D4E6EC /* GTObstacle_Saw.h */,
-				EB7484F9200374EF00D4E6EC /* GameOverScene.cpp */,
-				EB7484FB200374EF00D4E6EC /* GameOverScene.h */,
-				EB7484F8200374EF00D4E6EC /* PauseScene.cpp */,
-				EB7484FA200374EF00D4E6EC /* PauseScene.h */,
-				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
-				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				EB3045D11FE79AA4008B8585 /* GTPlaySoundAction.h */,
-				EB3045D31FE79AA4008B8585 /* GTScaleUpAndDownAction.h */,
-				EB3045D61FE79AAE008B8585 /* GTAnimationHandlerNode.cpp */,
-				EB3045D41FE79AAD008B8585 /* GTAnimationHandlerNode.h */,
-				EB3045D81FE79AAE008B8585 /* GTAnimTransAct.cpp */,
-				EB3045D51FE79AAD008B8585 /* GTAnimTransAct.h */,
-				EB3045D71FE79AAE008B8585 /* GTDestroySelfAct.cpp */,
-				EB3045D91FE79AAE008B8585 /* GTDestroySelfAct.h */,
-				EB3045DE1FE79AB7008B8585 /* GTSimperMusicSys.cpp */,
-				EB3045DD1FE79AB6008B8585 /* GTSimperMusicSys.h */,
-				EB3045E01FE79ABC008B8585 /* GTMacros.h */,
-				EB3045E21FE79AC5008B8585 /* GTCharacterStatNode.cpp */,
-				EB3045E11FE79AC5008B8585 /* GTCharacterStatNode.h */,
-				EB3045E31FE79AC5008B8585 /* GTCollisionCategory.h */,
-				EB3045E61FE79ACC008B8585 /* GTObstacle_Missile.cpp */,
-				EB3045EB1FE79ACD008B8585 /* GTObstacle_Missile.h */,
-				EB3045E71FE79ACC008B8585 /* GTObstacle_Spike.cpp */,
-				EB3045E51FE79ACC008B8585 /* GTObstacle_Spike.h */,
-				EB3045ED1FE79ACD008B8585 /* GTObstacleMacros.h */,
-				EB3045E81FE79ACD008B8585 /* GTObstacleNode.h */,
-				EB3045E91FE79ACD008B8585 /* GTObstacleSpawner.cpp */,
-				EB3045EE1FE79ACE008B8585 /* GTObstacleSpawner.h */,
-				EB3045F51FE79AD8008B8585 /* MKAssertions.h */,
-				EB3045F71FE79AD8008B8585 /* MKMacros.h */,
-				EB3045F41FE79AD8008B8585 /* MKMathsHelper.cpp */,
-				EB3045F31FE79AD7008B8585 /* MKMathsHelper.h */,
-				EB3045F61FE79AD8008B8585 /* MKPasskey.h */,
-				EB3045F81FE79AD8008B8585 /* MKSingletonTemplate.h */,
-				EB3045FB1FE79ADF008B8585 /* MKSprite.cpp */,
-				EB3045FA1FE79ADF008B8585 /* MKSprite.h */,
-				EB3045FD1FE79AE6008B8585 /* MKInput.h */,
-				EB3046021FE79AE7008B8585 /* MKInputContext.h */,
-				EB3046081FE79AE9008B8585 /* MKInputControllerIndex.h */,
-				EB3046031FE79AE8008B8585 /* MKInputDefinition.cpp */,
-				EB3046011FE79AE7008B8585 /* MKInputDefinition.h */,
-				EB3046041FE79AE8008B8585 /* MKInputManager.cpp */,
-				EB3046071FE79AE8008B8585 /* MKInputManager.h */,
-				EB3046051FE79AE8008B8585 /* MKInputName.h */,
-				EB3046061FE79AE8008B8585 /* MKKeyboardHandler.cpp */,
-				EB3045FE1FE79AE7008B8585 /* MKKeyboardHandler.h */,
-				EB3045FF1FE79AE7008B8585 /* MKTouchHandler.cpp */,
-				EB3046001FE79AE7008B8585 /* MKTouchHandler.h */,
-				EB3046101FE79AF5008B8585 /* MKScene.h */,
-				EB30460E1FE79AF5008B8585 /* MKSceneMacros.h */,
-				EB30460F1FE79AF5008B8585 /* MKSceneManager.cpp */,
-				EB30460D1FE79AF5008B8585 /* MKSceneManager.h */,
-				EB3046181FE79B04008B8585 /* AvailableScenes.h */,
-				EB3046191FE79B04008B8585 /* GameScene.cpp */,
-				EB30461C1FE79B05008B8585 /* GameScene.h */,
-				EB3046161FE79B04008B8585 /* MainMenuScene.cpp */,
-				EB3046171FE79B04008B8585 /* MainMenuScene.h */,
-				EB30461A1FE79B05008B8585 /* SettingsScene.cpp */,
-				EB30461B1FE79B05008B8585 /* SettingsScene.h */,
-				EB3046131FE79B04008B8585 /* StartScreenScene.cpp */,
-				EB30461E1FE79B05008B8585 /* StartScreenScene.h */,
-				EBB556E620298F4D00BD6781 /* ShopScene.cpp */,
-				EBB556E420298F4D00BD6781 /* ShopScene.h */,
-				EB3046151FE79B04008B8585 /* UICreator.h */,
+				EBB5577B202C004B00BD6781 /* AvailableScenes.h */,
+				EBB5578C202C004E00BD6781 /* GameScene.cpp */,
+				EBB5578B202C004E00BD6781 /* GameScene.h */,
+				EBB55796202C005000BD6781 /* MainMenuScene.cpp */,
+				EBB5578D202C004E00BD6781 /* MainMenuScene.h */,
+				EBB55784202C004C00BD6781 /* MKAssertions.h */,
+				EBB55782202C004C00BD6781 /* MKInput.h */,
+				EBB55787202C004D00BD6781 /* MKInputContext.h */,
+				EBB5578E202C004F00BD6781 /* MKInputControllerIndex.h */,
+				EBB55789202C004D00BD6781 /* MKInputDefinition.cpp */,
+				EBB55795202C005000BD6781 /* MKInputDefinition.h */,
+				EBB5576F202C004800BD6781 /* MKInputManager.cpp */,
+				EBB5576E202C004800BD6781 /* MKInputManager.h */,
+				EBB55781202C004C00BD6781 /* MKInputName.h */,
+				EBB55770202C004800BD6781 /* MKJSONHelper.h */,
+				EBB55794202C005000BD6781 /* MKKeyboardHandler.cpp */,
+				EBB5578F202C004F00BD6781 /* MKKeyboardHandler.h */,
+				EBB5577F202C004B00BD6781 /* MKMacros.h */,
+				EBB5577E202C004B00BD6781 /* MKMathsHelper.cpp */,
+				EBB55786202C004D00BD6781 /* MKMathsHelper.h */,
+				EBB5578A202C004E00BD6781 /* MKPasskey.h */,
+				EBB5577A202C004A00BD6781 /* MKPlayerData.cpp */,
+				EBB55771202C004900BD6781 /* MKPlayerData.h */,
+				EBB5577D202C004B00BD6781 /* MKScene.h */,
+				EBB55797202C005000BD6781 /* MKSceneMacros.h */,
+				EBB55790202C004F00BD6781 /* MKSceneManager.cpp */,
+				EBB55773202C004900BD6781 /* MKSceneManager.h */,
+				EBB5576B202C004700BD6781 /* MKShopData.cpp */,
+				EBB5576C202C004800BD6781 /* MKShopData.h */,
+				EBB55788202C004D00BD6781 /* MKShopItem_Background.h */,
+				EBB55791202C004F00BD6781 /* MKShopItem.h */,
+				EBB55785202C004D00BD6781 /* MKSingletonTemplate.h */,
+				EBB5577C202C004B00BD6781 /* MKSprite.cpp */,
+				EBB55772202C004900BD6781 /* MKSprite.h */,
+				EBB55774202C004900BD6781 /* MKTouchHandler.cpp */,
+				EBB55783202C004C00BD6781 /* MKTouchHandler.h */,
+				EBB55776202C004A00BD6781 /* PauseScene.cpp */,
+				EBB55778202C004A00BD6781 /* PauseScene.h */,
+				EBB55792202C004F00BD6781 /* SettingsScene.cpp */,
+				EBB55775202C004900BD6781 /* SettingsScene.h */,
+				EBB55777202C004A00BD6781 /* ShopScene.cpp */,
+				EBB55793202C005000BD6781 /* ShopScene.h */,
+				EBB55780202C004C00BD6781 /* StartScreenScene.cpp */,
+				EBB55779202C004A00BD6781 /* StartScreenScene.h */,
+				EBB5576D202C004800BD6781 /* UICreator.h */,
+				EBB55748202C003800BD6781 /* GTCharacterStatNode.cpp */,
+				EBB55749202C003800BD6781 /* GTCharacterStatNode.h */,
+				EBB55756202C003A00BD6781 /* GTCleanSlatePowerUp.cpp */,
+				EBB55757202C003A00BD6781 /* GTCleanSlatePowerUp.h */,
+				EBB55755202C003A00BD6781 /* GTCollisionCategory.h */,
+				EBB5575B202C003B00BD6781 /* GTGameplayMacros.h */,
+				EBB5573F202C003700BD6781 /* GTInvulnerablePowerUp.cpp */,
+				EBB5574A202C003800BD6781 /* GTInvulnerablePowerUp.h */,
+				EBB55740202C003700BD6781 /* GTObstacle_Laser.cpp */,
+				EBB5575A202C003B00BD6781 /* GTObstacle_Laser.h */,
+				EBB55744202C003700BD6781 /* GTObstacle_Missile.cpp */,
+				EBB55750202C003900BD6781 /* GTObstacle_Missile.h */,
+				EBB5574B202C003800BD6781 /* GTObstacle_Saw.cpp */,
+				EBB55746202C003700BD6781 /* GTObstacle_Saw.h */,
+				EBB55753202C003900BD6781 /* GTObstacle_Spike.cpp */,
+				EBB55747202C003800BD6781 /* GTObstacle_Spike.h */,
+				EBB55745202C003700BD6781 /* GTObstacleNode.cpp */,
+				EBB55751202C003900BD6781 /* GTObstacleNode.h */,
+				EBB5574F202C003900BD6781 /* GTObstacleSpawner.cpp */,
+				EBB55741202C003700BD6781 /* GTObstacleSpawner.h */,
+				EBB55752202C003900BD6781 /* GTPowerUp.h */,
+				EBB5575C202C003B00BD6781 /* GTPowerUpSpawner.cpp */,
+				EBB55759202C003A00BD6781 /* GTPowerUpSpawner.h */,
+				EBB5574D202C003800BD6781 /* GTSlowTimePowerUp.cpp */,
+				EBB55742202C003700BD6781 /* GTSlowTimePowerUp.h */,
+				EBB55754202C003A00BD6781 /* GTSphereShield.cpp */,
+				EBB5573E202C003600BD6781 /* GTSphereShield.h */,
+				EBB55758202C003A00BD6781 /* GTSphereShieldPowerUp.cpp */,
+				EBB5574C202C003800BD6781 /* GTSphereShieldPowerUp.h */,
+				EBB55743202C003700BD6781 /* SH_TestScene.cpp */,
+				EBB5574E202C003900BD6781 /* SH_TestScene.h */,
+				EBB5573A202C002900BD6781 /* GTMacros.h */,
+				EBB5573B202C002900BD6781 /* GTSimperMusicSys.cpp */,
+				EBB5573C202C002A00BD6781 /* GTSimperMusicSys.h */,
+				EBB55732202C002200BD6781 /* GTAnimationHandlerNode.cpp */,
+				EBB55735202C002200BD6781 /* GTAnimationHandlerNode.h */,
+				EBB55731202C002200BD6781 /* GTAnimTransAct.cpp */,
+				EBB55736202C002200BD6781 /* GTAnimTransAct.h */,
+				EBB55733202C002200BD6781 /* GTDestroySelfAct.cpp */,
+				EBB55734202C002200BD6781 /* GTDestroySelfAct.h */,
+				EBB5572E202C001C00BD6781 /* GTFollowNodeAction.h */,
+				EBB5572F202C001C00BD6781 /* GTMoveBySinAction.h */,
+				EBB55730202C001C00BD6781 /* GTPlaySoundAction.h */,
+				EBB5572D202C001C00BD6781 /* GTRemoveFromParentAction.h */,
+				EBB5572B202C001C00BD6781 /* GTRepeatActionInstantForever.h */,
+				EBB5572C202C001C00BD6781 /* GTScaleUpAndDownAction.h */,
+				EBB55729202C001500BD6781 /* AppDelegate.cpp */,
+				EBB55728202C001500BD6781 /* AppDelegate.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -676,7 +714,7 @@
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = QB392SN4V5;
+						DevelopmentTeam = R6CX4RP75W;
 					};
 				};
 			};
@@ -735,42 +773,50 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBB55711202BFE5000BD6781 /* ButtonSelected.png in Resources */,
+				EBB5570E202BFE5000BD6781 /* ButtonNormal.png in Resources */,
+				EBB55718202BFE5000BD6781 /* BackButton.png in Resources */,
+				EBB55727202BFE5000BD6781 /* SliderBall.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
-				EB3045CD1FE79A8F008B8585 /* CloseNormal.png in Resources */,
+				EBB55726202BFE5000BD6781 /* GameData in Resources */,
+				EBB55714202BFE5000BD6781 /* Shaders in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
+				EBB55717202BFE5000BD6781 /* FacebookLoginButton.png in Resources */,
+				EBB5571F202BFE5000BD6781 /* CloseNormal.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
-				EB3045C71FE79A8F008B8585 /* Shaders in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
+				EBB55725202BFE5000BD6781 /* FacebookLogoutButton.png in Resources */,
+				EBB55721202BFE5000BD6781 /* PauseIcon.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
-				EB3045C11FE79A8F008B8585 /* HelloWorld.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
+				EBB5571E202BFE5000BD6781 /* FacebookButton.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
+				EBB5571A202BFE5000BD6781 /* Textures in Resources */,
+				EBB55713202BFE5000BD6781 /* ProgressBar.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
-				EB3045CE1FE79A8F008B8585 /* Textures in Resources */,
-				EB3045CC1FE79A8F008B8585 /* ButtonSelected.png in Resources */,
-				EB3045C21FE79A8F008B8585 /* PlaceHolder in Resources */,
-				EB3045C91FE79A8F008B8585 /* Audio in Resources */,
-				EB748510200375B900D4E6EC /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
-				EB3045C51FE79A8F008B8585 /* CloseSelected.png in Resources */,
-				EB3045C81FE79A8F008B8585 /* SliderBar.png in Resources */,
-				EB3045C01FE79A8F008B8585 /* SpriteAnim in Resources */,
-				EB3045C41FE79A8F008B8585 /* Player in Resources */,
+				EBB5571C202BFE5000BD6781 /* FacebookButtonSelected.png in Resources */,
+				EBB55715202BFE5000BD6781 /* SliderBar.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
-				EB3045CF1FE79A8F008B8585 /* Tileset in Resources */,
+				EBB55710202BFE5000BD6781 /* mainspritecharaidlespritesheet.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				EBB55712202BFE5000BD6781 /* fonts in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
-				EB3045C61FE79A8F008B8585 /* SliderBall.png in Resources */,
+				EBB55723202BFE5000BD6781 /* Audio in Resources */,
+				EBB55719202BFE5000BD6781 /* FacebookLoginButtonSelected.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
+				EBB55720202BFE5000BD6781 /* SpriteAnim in Resources */,
+				EBB5570F202BFE5000BD6781 /* FacebookLogoutButtonSelected.png in Resources */,
+				EBB5571D202BFE5000BD6781 /* CloseSelected.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
-				EB3045D01FE79A8F008B8585 /* ProgressBar.png in Resources */,
-				EB3045C31FE79A8F008B8585 /* ButtonNormal.png in Resources */,
-				EB74850E2003758300D4E6EC /* PauseIcon.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
+				EBB5571B202BFE5000BD6781 /* Player in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
-				EB3045CB1FE79A8F008B8585 /* mainspritecharaidlespritesheet.png in Resources */,
+				EBB55716202BFE5000BD6781 /* Tileset in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
+				EBB55724202BFE5000BD6781 /* HelloWorld.png in Resources */,
+				EBB55722202BFE5000BD6781 /* PlaceHolder in Resources */,
 				241E4FA58074205B445032E6 /* sdkbox_config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -790,39 +836,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB7485072003750600D4E6EC /* GTObstacle_Saw.cpp in Sources */,
-				EB3045DF1FE79AB7008B8585 /* GTSimperMusicSys.cpp in Sources */,
-				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
-				EB3045EF1FE79ACE008B8585 /* GTObstacle_Missile.cpp in Sources */,
-				EB3046221FE79B06008B8585 /* GameScene.cpp in Sources */,
+				EBB557A3202C005100BD6781 /* MKSceneManager.cpp in Sources */,
+				EBB5579D202C005100BD6781 /* MKPlayerData.cpp in Sources */,
+				EBB55762202C003B00BD6781 /* GTCharacterStatNode.cpp in Sources */,
+				EBB5579C202C005100BD6781 /* ShopScene.cpp in Sources */,
+				EBB55763202C003B00BD6781 /* GTObstacle_Saw.cpp in Sources */,
+				EBB5573D202C002A00BD6781 /* GTSimperMusicSys.cpp in Sources */,
+				EBB5575E202C003B00BD6781 /* GTObstacle_Laser.cpp in Sources */,
+				EBB55738202C002200BD6781 /* GTAnimationHandlerNode.cpp in Sources */,
+				EBB5575F202C003B00BD6781 /* SH_TestScene.cpp in Sources */,
+				EBB557A5202C005100BD6781 /* MKKeyboardHandler.cpp in Sources */,
+				EBB55767202C003B00BD6781 /* GTSphereShield.cpp in Sources */,
+				EBB5572A202C001600BD6781 /* AppDelegate.cpp in Sources */,
+				EBB5576A202C003B00BD6781 /* GTPowerUpSpawner.cpp in Sources */,
+				EBB5579E202C005100BD6781 /* MKSprite.cpp in Sources */,
+				EBB55765202C003B00BD6781 /* GTObstacleSpawner.cpp in Sources */,
+				EBB5579A202C005100BD6781 /* MKTouchHandler.cpp in Sources */,
+				EBB55769202C003B00BD6781 /* GTSphereShieldPowerUp.cpp in Sources */,
+				EBB55764202C003B00BD6781 /* GTSlowTimePowerUp.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				EB6A2B6C2015C6B100EA8FC3 /* GTSphereShieldPowerUp.cpp in Sources */,
-				EB6A2B6D2015C6B100EA8FC3 /* GTSlowTimePowerUp.cpp in Sources */,
-				EB6A2B6E2015C6B100EA8FC3 /* GTPowerUpSpawner.cpp in Sources */,
-				EB6A2B692015C6B100EA8FC3 /* GTInvulnerablePowerUp.cpp in Sources */,
-				EB3045FC1FE79AE0008B8585 /* MKSprite.cpp in Sources */,
-				EB3045F91FE79AD9008B8585 /* MKMathsHelper.cpp in Sources */,
-				EB3045E41FE79AC5008B8585 /* GTCharacterStatNode.cpp in Sources */,
-				EB6A2B6A2015C6B100EA8FC3 /* GTSphereShield.cpp in Sources */,
-				EB3046231FE79B06008B8585 /* SettingsScene.cpp in Sources */,
-				EB3045DB1FE79AAE008B8585 /* GTDestroySelfAct.cpp in Sources */,
-				EB3045F01FE79ACE008B8585 /* GTObstacle_Spike.cpp in Sources */,
-				EB3046211FE79B06008B8585 /* MainMenuScene.cpp in Sources */,
-				EB30460B1FE79AE9008B8585 /* MKInputManager.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
-				EBB556E720298F4E00BD6781 /* ShopScene.cpp in Sources */,
-				EB3045DC1FE79AAE008B8585 /* GTAnimTransAct.cpp in Sources */,
-				EB30460C1FE79AE9008B8585 /* MKKeyboardHandler.cpp in Sources */,
-				EB3046091FE79AE9008B8585 /* MKTouchHandler.cpp in Sources */,
-				EB7485062003750600D4E6EC /* GTObstacle_Laser.cpp in Sources */,
-				EB7484FD200374F000D4E6EC /* GameOverScene.cpp in Sources */,
-				EB3045DA1FE79AAE008B8585 /* GTAnimationHandlerNode.cpp in Sources */,
-				EB3046201FE79B06008B8585 /* StartScreenScene.cpp in Sources */,
-				EB7484FC200374F000D4E6EC /* PauseScene.cpp in Sources */,
-				EB3046111FE79AF5008B8585 /* MKSceneManager.cpp in Sources */,
-				EB3045F11FE79ACE008B8585 /* GTObstacleSpawner.cpp in Sources */,
-				EB6A2B6B2015C6B100EA8FC3 /* GTCleanSlatePowerUp.cpp in Sources */,
-				EB30460A1FE79AE9008B8585 /* MKInputDefinition.cpp in Sources */,
+				EBB5579B202C005100BD6781 /* PauseScene.cpp in Sources */,
+				EBB557A2202C005100BD6781 /* GameScene.cpp in Sources */,
+				EBB55739202C002200BD6781 /* GTDestroySelfAct.cpp in Sources */,
+				EBB55760202C003B00BD6781 /* GTObstacle_Missile.cpp in Sources */,
+				EBB5575D202C003B00BD6781 /* GTInvulnerablePowerUp.cpp in Sources */,
+				EBB55798202C005100BD6781 /* MKShopData.cpp in Sources */,
+				EBB557A1202C005100BD6781 /* MKInputDefinition.cpp in Sources */,
+				EBB55766202C003B00BD6781 /* GTObstacle_Spike.cpp in Sources */,
+				EBB55737202C002200BD6781 /* GTAnimTransAct.cpp in Sources */,
+				EBB5579F202C005100BD6781 /* MKMathsHelper.cpp in Sources */,
+				EBB557A0202C005100BD6781 /* StartScreenScene.cpp in Sources */,
+				EBB557A6202C005100BD6781 /* MainMenuScene.cpp in Sources */,
+				EBB557A4202C005100BD6781 /* SettingsScene.cpp in Sources */,
+				EBB55768202C003B00BD6781 /* GTCleanSlatePowerUp.cpp in Sources */,
+				EBB55761202C003B00BD6781 /* GTObstacleNode.cpp in Sources */,
+				EBB55799202C005100BD6781 /* MKInputManager.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -831,7 +880,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,7 +906,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = QB392SN4V5;
+				DEVELOPMENT_TEAM = R6CX4RP75W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -906,7 +954,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = QB392SN4V5;
+				DEVELOPMENT_TEAM = R6CX4RP75W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

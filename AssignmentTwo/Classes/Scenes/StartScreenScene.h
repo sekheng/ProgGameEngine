@@ -41,7 +41,7 @@ protected:
 public:
     // Constructor(s) & Destructor
     StartScreenScene() {}
-    virtual ~StartScreenScene() {}
+    virtual ~StartScreenScene();
     CREATE_FUNC(StartScreenScene);
 
     virtual bool init();
@@ -61,8 +61,6 @@ public:
     virtual void onInviteFriendsResult( bool result, const std::string& msg );
     
     virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo );
-    
-    CREATE_FUNC(StartScreenScene);
 };
 
 #endif // START_SCREEN_SCENE_H
