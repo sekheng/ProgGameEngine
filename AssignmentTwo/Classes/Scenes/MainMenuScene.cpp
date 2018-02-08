@@ -83,7 +83,9 @@ void MainMenuScene::InitialiseBackground()
 void MainMenuScene::InitialiseUI()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
+    float halfWidth = visibleSize.width * 0.5f;
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float estimatedHalfPoint = origin.x + halfWidth;
 
     // Title
     auto label = Label::createWithTTF("Main Menu Scene", "fonts/Marker_Felt.ttf", 24);
@@ -94,7 +96,7 @@ void MainMenuScene::InitialiseUI()
     else
     {
         // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        label->setPosition(Vec2(origin.x + halfWidth,
             origin.y + visibleSize.height - label->getContentSize().height));
 
         // add the label as a child to this layer
@@ -107,7 +109,7 @@ void MainMenuScene::InitialiseUI()
 
     // Start Game Button
     auto toGameButton = MKUICreator::GetInstance()->createButton(
-        Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.6f),
+        Vec2(estimatedHalfPoint, visibleSize.height * 0.6f),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Play Game",
@@ -121,7 +123,7 @@ void MainMenuScene::InitialiseUI()
 
     // Settings Button
     auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-        Vec2(visibleSize.width * 0.5f, (visibleSize.height * 0.6f) - (buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Settings",
@@ -135,7 +137,7 @@ void MainMenuScene::InitialiseUI()
 
     // Shop Button
     auto toShopButton = MKUICreator::GetInstance()->createButton(
-        Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (2 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (2 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Shop",
@@ -149,7 +151,7 @@ void MainMenuScene::InitialiseUI()
 
     // Exit Game Button
     auto exitButton = MKUICreator::GetInstance()->createButton(
-        Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (3 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (3 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Exit",
@@ -170,12 +172,15 @@ void MainMenuScene::InitialiseUI()
 void MainMenuScene::InitialiseFacebookUI()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-
+    float halfWidth = visibleSize.width * 0.5f;
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float estimatedHalfPoint = origin.x + halfWidth;
+    
 	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
 	Sprite* FBLoginbuttonSprite = Sprite::create("FacebookLoginButton.png");
 
 	m_FacebookLoginButton = MKUICreator::GetInstance()->createButton(
-		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
 		"FacebookLoginButton.png",
 		"FacebookLoginButtonSelected.png",
 		"",
@@ -197,7 +202,7 @@ void MainMenuScene::InitialiseFacebookUI()
 	this->addChild(m_FacebookLoginButton);
 
     m_FacebookLogoutButton = MKUICreator::GetInstance()->createButton(
-		Vec2((visibleSize.width * 0.5f), (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
 		"FacebookLogoutButton.png",
 		"FacebookLogoutButtonSelected.png",
 		"",

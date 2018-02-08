@@ -64,13 +64,16 @@ void StartScreenScene::InitialiseBackground()
 void StartScreenScene::InitialiseLogo()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-
+    float halfWidth = visibleSize.width * 0.5f;
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float estimatedHalfPoint = origin.x + halfWidth;
+    
     Size desiredSize(visibleSize.height * 0.75f, visibleSize.height * 0.375f);
     m_Logo = MKSprite::Create("Textures/UI/Logo.png", false);
     m_Logo->setScaleX(desiredSize.width / m_Logo->getContentSize().width);
     m_Logo->setScaleY(desiredSize.height / m_Logo->getContentSize().height);
     m_Logo->setAnchorPoint(Vec2(0.5f, 1.0f));
-    m_Logo->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.8f));
+    m_Logo->setPosition(Vec2(estimatedHalfPoint, visibleSize.height * 0.8f));
 
     this->addChild(m_Logo);
 }
@@ -78,10 +81,13 @@ void StartScreenScene::InitialiseLogo()
 void StartScreenScene::InitialiseStartLabel()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-
+    float halfWidth = visibleSize.width * 0.5f;
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float estimatedHalfPoint = origin.x + halfWidth;
+    
     float fontSize = visibleSize.height * 0.05f;
     m_StartLabel = cocos2d::Label::createWithTTF("Touch screen to start.", "fonts/Marker_Felt.ttf", fontSize);
-    m_StartLabel->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.25f));
+    m_StartLabel->setPosition(Vec2(estimatedHalfPoint, visibleSize.height * 0.25f));
     m_StartLabel->setTextColor(Color4B::BLACK);
 
     // add the label as a child to this layer
