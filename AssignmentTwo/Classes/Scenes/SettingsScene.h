@@ -17,22 +17,25 @@ class SettingsScene : public MKScene
 {
     typedef MKScene Super;
 
-public:
-    SettingsScene() {}
-    virtual ~SettingsScene() {}
+protected:
+    // Background
+    MKSprite * m_Background = nullptr;
+    void InitialiseBackground();
 
-	MKSprite* m_SkyBackground = nullptr;
+    // UI
+    void InitialiseUI();
 
-	virtual bool init();
-
-	void InitialiseSkyBackground();
-
+    // Input
     virtual void OnButton(EventCustom * _event) {}
     virtual void OnClick(EventCustom * _event) {}
     virtual void OnAxis(EventCustom * _event) {}
 
-	// implement the "static create()" method manually
-	CREATE_FUNC(SettingsScene);
+public:
+    SettingsScene() {}
+    virtual ~SettingsScene() {}
+    CREATE_FUNC(SettingsScene);
+    
+    virtual bool init();
 };
 
 #endif // __SETTINGS_SCENE_H__

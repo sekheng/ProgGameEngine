@@ -27,7 +27,7 @@ using namespace CocosDenshion;
 USING_NS_CC;
 
 // Design Aspect Ratio = 16:9
-static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 768);
+static cocos2d::Size designResolutionSize = cocos2d::Size(1280, 720);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(1280, 720);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1920, 1080);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2560, 1440);

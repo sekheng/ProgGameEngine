@@ -4,6 +4,7 @@
 // Include MK
 #include "../MK/SceneManagement/MKScene.h"
 #include "../MK/Graphics/MKSprite.h"
+#include "../MK/GameData/MKShopItem_Background.h"
 
 // Include GT
 #include "../GT/Common/GTMacros.h"
@@ -21,23 +22,18 @@ class GameScene : public MKScene
 	typedef MKScene Super;
 
 private:
-	enum BackgroundLayers
-	{
-		SKY,
-		REAR,
-		MIDDLE,
-		FRONT,
-
-		NUM_BACKGROUNDLAYERS,
-	};
+    mkString m_BackgroundFiles[MKShopItem_Background::BackgroundLayers::NUM_BACKGROUND_LAYERS];
+	MKSprite** m_Backgrounds = nullptr;
 
     // Environment
-	MKSprite** m_Backgrounds = nullptr;
 	MKSprite* m_Ground = nullptr;
+
     // Obstacles
     GTObstacleSpawner* m_ObstacleSpawner = nullptr;
+
 	// PowerUps
 	GTPowerUpSpawner* m_PowerUpSpawner = nullptr;
+
     // UI
 	Label* m_ScoreTxt = nullptr;
     Label* m_HighScoreTxt = nullptr;

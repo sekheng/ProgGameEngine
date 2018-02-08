@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "../GameLogic/Obstacle/GTObstacleMacros.h"
+#include "../../GT/GameLogic/GTGameplayMacros.h"
 #include "../../MK/SceneManagement/MKScene.h"
 #include "../Animation/GTAnimationHandlerNode.h"
 

@@ -72,7 +72,7 @@ public:
 		mkString baseName = typeid(MKInputBase).name();
 		mkString typeName = typeid(T).name();
 		mkString assertMessage = "MKInputManager::AddInput - " + typeName + " is not a base class of " + baseName + "!";
-		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage);
+		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage.c_str());
 #endif // MK_DEBUG
 
 		EventCustom* inputEvent = new EventCustom(T::GetName());
@@ -87,7 +87,7 @@ public:
 		mkString baseName = typeid(MKInputBase).name();
 		mkString typeName = typeid(T).name();
 		mkString assertMessage = "MKInputManager::CreateEventListener - " + typeName + " is not a base class of " + baseName + "!";
-		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage);
+		MK_ASSERTWITHMSG((std::is_base_of<MKInputBase, T>::value), assertMessage.c_str());
 #endif // MK_DEBUG
 		
 		EventListenerCustom* listener = EventListenerCustom::create(T::GetName(), _callback);

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 
 #include "../../../GT/Common/GTMacros.h"
-#include "GTPowerUpMacros.h"
+#include "../../../GT/GameLogic/GTGameplayMacros.h"
 #include "../../../GT/GameLogic/GTCollisionCategory.h"
 
 #include "../../../MK/Common/MKMathsHelper.h"

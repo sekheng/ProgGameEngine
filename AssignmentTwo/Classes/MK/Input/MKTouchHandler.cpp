@@ -189,7 +189,7 @@ void MKTouchHandler::RegisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _mask
 	{
 #if MK_DEBUG
 		mkString assertMessage = "MKTouchHandler::RegisterAxis - A InputName was registered twice with the same mask!";
-		MK_ASSERTWITHMSG((mapIter->second.find(_inputName) == mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter->second.find(_inputName) == mapIter->second.end()), assertMessage.c_str());
 #endif // MK_DEBUG
 
 		mapIter->second.insert(_inputName);
@@ -203,7 +203,7 @@ void MKTouchHandler::UnregisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _ma
 #if MK_DEBUG
 	{
 		mkString assertMessage = "MKTouchHandler::UnregisterAxis - There are no the specified mask is not registered!";
-		MK_ASSERTWITHMSG((mapIter != m_RegisteredAxis.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter != m_RegisteredAxis.end()), assertMessage.c_str());
 	}
 #endif // MK_DEBUG
 
@@ -212,7 +212,7 @@ void MKTouchHandler::UnregisterAxis(MKPasskey<MKInputDefinition> _key, mkU64 _ma
 #if MK_DEBUG
 	{
 		mkString assertMessage = "MKTouchHandler::UnregisterAxis - There are no InputNames registered using the specified mask!";
-		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage.c_str());
 	}
 #endif // MK_DEBUG
 
@@ -238,7 +238,7 @@ void MKTouchHandler::RegisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _mas
 	{
 #if MK_DEBUG
 		mkString assertMessage = "MKTouchHandler::RegisterClick - A InputName was registered twice with the same mask!";
-		MK_ASSERTWITHMSG((mapIter->second.find(_inputName) == mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter->second.find(_inputName) == mapIter->second.end()), assertMessage.c_str());
 #endif // MK_DEBUG
 
 		mapIter->second.insert(_inputName);
@@ -256,7 +256,7 @@ void MKTouchHandler::UnregisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _m
 #if MK_DEBUG
 	{
 		mkString assertMessage = "MKTouchHandler::UnregisterClick - There are no the specified mask is not registered!";
-		MK_ASSERTWITHMSG((mapIter != m_RegisteredClicks.end()), assertMessage);
+		MK_ASSERTWITHMSG((mapIter != m_RegisteredClicks.end()), assertMessage.c_str());
 	}
 #endif // MK_DEBUG
 
@@ -265,7 +265,7 @@ void MKTouchHandler::UnregisterClick(MKPasskey<MKInputDefinition> _key, mkU64 _m
 #if MK_DEBUG
 	{
 		mkString assertMessage = "MKTouchHandler::UnregisterClick - There are no InputNames registered using the specified mask!";
-		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage);
+		MK_ASSERTWITHMSG((setIter != mapIter->second.end()), assertMessage.c_str());
 	}
 #endif // MK_DEBUG
 

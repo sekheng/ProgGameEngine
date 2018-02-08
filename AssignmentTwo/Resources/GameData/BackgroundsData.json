@@ -1,0 +1,28 @@
+{
+    "Backgrounds" : [
+        {
+            "Name" : "City",
+            "Cost" : 0,
+            "Static" : "Textures/Backgrounds/City/Background_Static.png",
+            "Rear" : "Textures/Backgrounds/City/Background_Rear.png",
+            "Middle" : "Textures/Backgrounds/City/Background_Middle.png",
+            "Front" : "Textures/Backgrounds/City/Background_Front.png"
+        },
+        {
+            "Name" : "Placeholder0",
+            "Cost" : 1000,
+            "Static" : "Textures/Backgrounds/Placeholder0/Background_Static.png",
+            "Rear" : "Textures/Backgrounds/Placeholder0/Background_Rear.png",
+            "Middle" : "Textures/Backgrounds/Placeholder0/Background_Middle.png",
+            "Front" : "Textures/Backgrounds/Placeholder0/Background_Front.png"
+        },
+        {
+            "Name" : "Placeholder1",
+            "Cost" : 5000,
+            "Static" : "Textures/Backgrounds/Placeholder1/Background_Static.png",
+            "Rear" : "Textures/Backgrounds/Placeholder1/Background_Rear.png",
+            "Middle" : "Textures/Backgrounds/Placeholder1/Background_Middle.png",
+            "Front" : "Textures/Backgrounds/Placeholder1/Background_Front.png"
+        }
+    ]
+}

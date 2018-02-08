@@ -30,11 +30,9 @@ protected:
 public:
     PauseScene() {}
     virtual ~PauseScene() {}
+    CREATE_FUNC(PauseScene);
 
 	virtual bool init();
-
-	// implement the "static create()" method manually
-    CREATE_FUNC(PauseScene);
 };
 
 #endif // __PAUSE_SCENE_H__

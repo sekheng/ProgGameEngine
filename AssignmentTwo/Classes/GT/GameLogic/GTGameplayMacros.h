@@ -1,11 +1,11 @@
-#ifndef GT_OBSTACLEMACROS_H
-#define GT_OBSTACLEMACROS_H
+#ifndef GT_GAMEPLAYMACROS_H
+#define GT_GAMEPLAYMACROS_H
 
 // Include Cocos
 #include "cocos2d.h"
 
 // Include GT
-#include "../../../GT/Common/GTMacros.h"
+#include "../../GT/Common/GTMacros.h"
 
 NS_GT_BEGIN
 
@@ -35,4 +35,4 @@ void DeinitialiseContactListener() \
 
 NS_GT_END
 
-#endif // GT_OBSTACLEMACROS_H
+#endif // GT_GAMEPLAYMACROS_H
