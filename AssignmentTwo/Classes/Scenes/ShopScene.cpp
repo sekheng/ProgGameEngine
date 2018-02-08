@@ -14,7 +14,6 @@
 
 #include "../UIClass/UICreator.h"
 #include "ShopScene.h"
-#include "../MK/GameData/MKShopData.h"
 #include "../MK/GameData/MKPlayerData.h"
 
 using namespace experimental;
