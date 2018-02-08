@@ -65,12 +65,15 @@ void PauseScene::InitializeTitle()
 void PauseScene::InitializePauseMenuButtons()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
 
 	Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
 
 	//RESUME BUTTON//
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f),
+		Vec2(estimatedHalfPoint, origin.y + visibleSize.height * 0.5f),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Resume",
@@ -84,7 +87,7 @@ void PauseScene::InitializePauseMenuButtons()
 
 	//SETTINGS BUTTON//
 	auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale())),
+		Vec2(estimatedHalfPoint, origin.y + visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale())),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Settings",
@@ -99,7 +102,7 @@ void PauseScene::InitializePauseMenuButtons()
 
 	//MAIN MENU BUTTON//
 	auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale() * 2)),
+		Vec2(estimatedHalfPoint, origin.y + visibleSize.height * 0.5f - (toPrevSceneButton->getContentSize().height * toPrevSceneButton->getScale() * 2)),
 		"ButtonNormal.png",
 		"ButtonSelected.png",
 		"Main Menu",

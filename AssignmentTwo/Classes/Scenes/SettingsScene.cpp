@@ -69,8 +69,10 @@ void SettingsScene::InitialiseBackground()
 
 void SettingsScene::InitialiseUI()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
 
     Sprite* backButton = Sprite::create("BackButton.png");
 
@@ -91,7 +93,7 @@ void SettingsScene::InitialiseUI()
     int masterVolume = GinTama::GTSimperMusicSys::GetInstance()->getMasterVol() * 100;
 
     auto slider = MKUICreator::GetInstance()->createSlider(
-        Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f),
+        Vec2(estimatedHalfPoint, origin.y + visibleSize.height * 0.5f),
         "SliderBar.png",
         "ProgressBar.png",
         "SliderBall.png",

@@ -4,6 +4,9 @@
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
+#include "../MK/GameData/MKGameBackgroundData.h"
+#include "../MK/GameData/MKGameDataLoader.h"
+#include "../MK/GameData//MKPlayerData.h"
 
 // Include Assignment
 #include "AvailableScenes.h"
@@ -31,12 +34,15 @@ bool ShopScene::init()
 		return false;
 	}
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+	playerData->LoadData();
+
+	//shopItem_Background = MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>();
 
 	InitialiseBackground();
 	InitialiseUI();
-	
+	InitialisePlayerCoinUI();
+
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
@@ -69,16 +75,34 @@ void ShopScene::InitialiseBackground()
 	addChild(m_Background);
 }
 
+void ShopScene::InitialisePlayerCoinUI()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
+
+	// Timer Text For Slow Time
+	gtF32 desiredTextScale = (visibleSize.height * 24.0f) / this->getContentSize().height;
+	m_PlayerCoinsLabel = Label::createWithTTF("Player Coins: ", "fonts/Marker_Felt.ttf", desiredTextScale);
+	m_PlayerCoinsLabel->setTextColor(Color4B::BLACK);
+	m_PlayerCoinsLabel->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+	m_PlayerCoinsLabel->setPosition(origin.x + visibleSize.width * 0.9f, visibleSize.height * 0.9f);
+	this->addChild(m_PlayerCoinsLabel);
+}
+
 void ShopScene::InitialiseUI()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
 
 	Sprite *shopItemButtonSprite = Sprite::create("Textures/UI/City_button.png");
 
 	//ADD SHOPITEM BUTTONS to Vector
 	auto cityItem_Button = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		Vec2(estimatedHalfPoint, visibleSize.height * 0.5f + (visibleSize.height)),
 		"Textures/UI/City_button.png",
 		"Textures/UI/City_button_Selected.png",
 		"",
@@ -91,7 +115,7 @@ void ShopScene::InitialiseUI()
 	shopItemButtons.push_back(cityItem_Button);
 
 	auto placeholder0_Item_Button = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		Vec2(estimatedHalfPoint, visibleSize.height * 0.5f + (visibleSize.height)),
 		"Textures/UI/Placeholder0_button.png",
 		"Textures/UI/Placeholder0_button_Selected.png",
 		"",
@@ -104,7 +128,7 @@ void ShopScene::InitialiseUI()
 	shopItemButtons.push_back(placeholder0_Item_Button);
 
 	auto placeholder1_Item_Button = MKUICreator::GetInstance()->createButton(
-		Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f + (visibleSize.height)),
+		Vec2(estimatedHalfPoint, visibleSize.height * 0.5f + (visibleSize.height)),
 		"Textures/UI/Placeholder1_button.png",
 		"Textures/UI/Placeholder1_button_Selected.png",
 		"",
@@ -128,7 +152,10 @@ void ShopScene::InitialiseUI()
 	//Loop through the buttons and re-set position of each buttons
 	for (int i = 0; i < shopItemButtons.size(); i++)
 	{
-		shopItemButtons[i]->setPosition(Vec2(shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.5f + (i * visibleSize.height)));
+		//Add Name of Shop Item and Price Labels here
+
+
+		shopItemButtons[i]->setPosition(Vec2(origin.x + shopScroller->getContentSize().width * 0.5f, visibleSize.height * 0.5f + (i * visibleSize.height)));
 		shopScroller->addChild(shopItemButtons[i]);
 	}
 	this->addChild(shopScroller);
@@ -148,4 +175,10 @@ void ShopScene::InitialiseUI()
 		(0.1f * visibleSize.height) / backButton->getContentSize().height
 		);
 	this->addChild(toPrevSceneButton);
+}
+
+void ShopScene::update(float _deltaTime)
+{
+	std::string PlayerCoins = "PlayerCoin: " + std::to_string(playerData->GetCoins());
+	m_PlayerCoinsLabel->setString(PlayerCoins);
 }

@@ -8,6 +8,9 @@
 #include "../MK/Input/MKInputManager.h"
 #include "../MK/Input/MKInput.h"
 #include "../MK/SceneManagement/MKScene.h"
+#include "../MK/GameData/MKGameBackgroundData.h"
+#include "../MK/GameData/MKGameDataLoader.h"
+#include "../MK/GameData//MKPlayerData.h"
 
 #include "../UIClass/UICreator.h"
 
@@ -22,6 +25,11 @@ protected:
     // Background
     void InitialiseBackground();
 	void InitialiseUI();
+	void InitialisePlayerCoinUI();
+
+	MKPlayerData* playerData;
+	Label* m_PlayerCoinsLabel = nullptr;
+	//MKGameBackgroundData* shopItem_Background;
     MKSprite* m_Background = nullptr;
 
 	std::vector<ui::Button*> shopItemButtons;
@@ -38,6 +46,7 @@ public:
     CREATE_FUNC(ShopScene);
 
 	virtual bool init();
+	virtual void update(float _deltaTime) override;
 };
 
 #endif
