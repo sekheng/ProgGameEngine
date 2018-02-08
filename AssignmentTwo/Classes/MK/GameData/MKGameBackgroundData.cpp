@@ -2,7 +2,7 @@
 #include "cocos2d.h"
 
 // Include MK
-#include "MKShopData.h"
+#include "MKGameBackgroundData.h"
 #include "../Common/MKJSONHelper.h"
 
 // Include JSON
@@ -14,18 +14,18 @@
 NS_MK_BEGIN
 
 // Default Save Location
-const mkString MKShopData::m_DefaultBackgroundsDataLocation = "GameData/BackgroundsData.json";
+const mkString MKGameBackgroundData::m_DefaultDataLocation = "GameData/BackgroundsData.json";
 
 // JSON Data Name(s)
-const mkString MKShopData::m_BackgroundArrayJSONDataName = "Backgrounds";
-const mkString MKShopData::m_BackgroundNameJSONDataName = "Name";
-const mkString MKShopData::m_BackgroundCostJSONDataName = "Cost";
-const mkString MKShopData::m_BackgroundStaticJSONDataName = "Static";
-const mkString MKShopData::m_BackgroundRearJSONDataName = "Rear";
-const mkString MKShopData::m_BackgroundMiddleJSONDataName = "Middle";
-const mkString MKShopData::m_BackgroundFrontJSONDataName = "Front";
+const mkString MKGameBackgroundData::m_BackgroundArrayJSONDataName = "Backgrounds";
+const mkString MKGameBackgroundData::m_BackgroundNameJSONDataName = "Name";
+const mkString MKGameBackgroundData::m_BackgroundCostJSONDataName = "Cost";
+const mkString MKGameBackgroundData::m_BackgroundStaticJSONDataName = "Static";
+const mkString MKGameBackgroundData::m_BackgroundRearJSONDataName = "Rear";
+const mkString MKGameBackgroundData::m_BackgroundMiddleJSONDataName = "Middle";
+const mkString MKGameBackgroundData::m_BackgroundFrontJSONDataName = "Front";
 
-mkBool MKShopData::LoadBackgroundsData(const mkString& _filePath)
+mkBool MKGameBackgroundData::LoadData(const mkString& _filePath)
 {
     RAPIDJSON_NAMESPACE::Document dataDocument;
     MKJSONHelper::LoadFromJSON(dataDocument, _filePath);
@@ -66,7 +66,7 @@ mkBool MKShopData::LoadBackgroundsData(const mkString& _filePath)
     return true;
 }
 
-MKShopItem_Background* MKShopData::GetBackground(const mkString& _backgroundName)
+MKShopItem_Background* MKGameBackgroundData::GetBackground(const mkString& _backgroundName)
 {
     for (std::vector<MKShopItem_Background>::iterator i = m_Backgrounds.begin(); i != m_Backgrounds.end(); ++i)
     {
