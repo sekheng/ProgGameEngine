@@ -34,12 +34,6 @@ protected:
 	virtual void OnClick(EventCustom * _event) = 0;
 	virtual void OnAxis(EventCustom * _event) = 0;
 
-    void QuitGame()
-    {
-        MKInputManager::GetInstance()->Destroy();
-        MKSceneManager::GetInstance()->Destroy();
-    }
-
 public:
     static const mkS32 UIZOrder = 3000;
 

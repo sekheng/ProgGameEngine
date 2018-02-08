@@ -168,7 +168,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\GameLogic\Powerup\GTSphereShieldPowerUp.cpp" />
     <ClCompile Include="..\Classes\MK\Common\MKMathsHelper.cpp" />
     <ClCompile Include="..\Classes\MK\GameData\MKPlayerData.cpp" />
-    <ClCompile Include="..\Classes\MK\GameData\MKShopData.cpp" />
+    <ClCompile Include="..\Classes\MK\GameData\MKGameBackgroundData.cpp" />
     <ClCompile Include="..\Classes\MK\Graphics\MKSprite.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputDefinition.cpp" />
     <ClCompile Include="..\Classes\MK\Input\MKInputManager.cpp" />
@@ -218,8 +218,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MK\Common\MKMathsHelper.h" />
     <ClInclude Include="..\Classes\MK\Common\MKPasskey.h" />
     <ClInclude Include="..\Classes\MK\Common\MKSingletonTemplate.h" />
+    <ClInclude Include="..\Classes\MK\GameData\MKGameData.h" />
+    <ClInclude Include="..\Classes\MK\GameData\MKGameDataLoader.h" />
     <ClInclude Include="..\Classes\MK\GameData\MKShopItem_Background.h" />
-    <ClInclude Include="..\Classes\MK\GameData\MKShopData.h" />
+    <ClInclude Include="..\Classes\MK\GameData\MKGameBackgroundData.h" />
     <ClInclude Include="..\Classes\MK\GameData\MKPlayerData.h" />
     <ClInclude Include="..\Classes\MK\GameData\MKShopItem.h" />
     <ClInclude Include="..\Classes\MK\Graphics\MKSprite.h" />
@@ -234,6 +236,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MK\SceneManagement\MKScene.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneMacros.h" />
     <ClInclude Include="..\Classes\MK\SceneManagement\MKSceneManager.h" />
+    <ClInclude Include="..\Classes\MK\Shop\MKShopInterface.h" />
     <ClInclude Include="..\Classes\Scenes\AvailableScenes.h" />
     <ClInclude Include="..\Classes\Scenes\GameOverScene.h" />
     <ClInclude Include="..\Classes\Scenes\GameScene.h" />

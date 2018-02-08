@@ -58,6 +58,9 @@
     <Filter Include="MK\GameData">
       <UniqueIdentifier>{53597ddf-6c0b-4ec5-8e25-d7422feec817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MK\Shop">
+      <UniqueIdentifier>{e81f93a1-923d-461a-9121-a8afb3f99068}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -156,11 +159,11 @@
     <ClCompile Include="..\Classes\MK\GameData\MKPlayerData.cpp">
       <Filter>MK\GameData</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MK\GameData\MKShopData.cpp">
-      <Filter>MK\GameData</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameOverScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MK\GameData\MKGameBackgroundData.cpp">
+      <Filter>MK\GameData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +332,6 @@
     <ClInclude Include="..\Classes\MK\GameData\MKPlayerData.h">
       <Filter>MK\GameData</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MK\GameData\MKShopData.h">
-      <Filter>MK\GameData</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\MK\GameData\MKShopItem.h">
       <Filter>MK\GameData</Filter>
     </ClInclude>
@@ -340,6 +340,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameOverScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\Shop\MKShopInterface.h">
+      <Filter>MK\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\GameData\MKGameBackgroundData.h">
+      <Filter>MK\GameData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\GameData\MKGameData.h">
+      <Filter>MK\GameData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MK\GameData\MKGameDataLoader.h">
+      <Filter>MK\GameData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

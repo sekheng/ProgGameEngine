@@ -8,22 +8,16 @@
 
 // Include MK
 #include "../Common/MKMacros.h"
-#include "../Common/MKSingletonTemplate.h"
+#include "MKGameData.h"
 
 // Namespaces
 using namespace std;
 
 NS_MK_BEGIN
 
-class MKPlayerData : public MKSingletonTemplate<MKPlayerData>
+class MKPlayerData : public MKGameData
 {
-    friend class MKSingletonTemplate<MKPlayerData>;
-
 private:
-    // Contructor(s) & Destructor
-    MKPlayerData() {}
-    virtual ~MKPlayerData() {}
-
     // Highscore and Coins
     mkU64 m_Highscore = 0;
     mkU64 m_Coins = 0;
@@ -31,6 +25,10 @@ private:
     vector<mkString> m_OwnedBackgrounds;
 
 public:
+    // Contructor(s) & Destructor
+    MKPlayerData() {}
+    virtual ~MKPlayerData() {}
+
     // Default Save Location
     static const mkString m_DefaultDataLocation;
 
@@ -40,8 +38,8 @@ public:
     static const mkString m_EquippedBackgroundJSONDataName;
     static const mkString m_OwnedBackgroundsJSONDataName;
 
-    mkBool LoadData(const mkString& _filePath = m_DefaultDataLocation);
-    mkBool SaveData(const mkString& _filePath = m_DefaultDataLocation);
+    virtual mkBool LoadData(const mkString& _filePath = m_DefaultDataLocation) override;
+    virtual mkBool SaveData(const mkString& _filePath = m_DefaultDataLocation) override;
 
     inline mkU64 GetHighscore() const { return m_Highscore; }
     inline void SetHighscore(mkU64 _highscore) { m_Highscore = _highscore; }
