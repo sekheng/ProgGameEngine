@@ -29,17 +29,17 @@ public:
     MKPlayerData() {}
     virtual ~MKPlayerData() {}
 
-    // Default Save Location
-    static const mkString m_DefaultDataLocation;
-
     // JSON Data Name(s)
     static const mkString m_HighscoreJSONDataName;
     static const mkString m_CoinJSONDataName;
     static const mkString m_EquippedBackgroundJSONDataName;
     static const mkString m_OwnedBackgroundsJSONDataName;
 
-    virtual mkBool LoadData(const mkString& _filePath = m_DefaultDataLocation) override;
-    virtual mkBool SaveData(const mkString& _filePath = m_DefaultDataLocation) override;
+    virtual mkBool LoadData(const mkString& _filePath) override;
+    virtual mkBool SaveData(const mkString& _filePath) override;
+
+    virtual mkString GetWritablePath() const override;
+    virtual mkString GetCachedPath() const override;
 
     inline mkU64 GetHighscore() const { return m_Highscore; }
     inline void SetHighscore(mkU64 _highscore) { m_Highscore = _highscore; }

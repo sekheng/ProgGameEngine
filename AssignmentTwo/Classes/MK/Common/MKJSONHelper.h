@@ -36,28 +36,21 @@ public:
 
     static bool JsonToFile(RAPIDJSON_NAMESPACE::Document& _jsonObject, const mkString& _filePath)
     {
-        std::ofstream outputFile;
-        outputFile.open(cocos2d::FileUtils::getInstance()->fullPathForFilename(_filePath).c_str());
-        if (!outputFile.is_open()) { return false; }
-
-        std::string jsonObjectData = JsonToString(_jsonObject);
-        outputFile << jsonObjectData;
-
-        outputFile.close();
-
-        return true;
+        return cocos2d::FileUtils::getInstance()->writeStringToFile(JsonToString(_jsonObject), _filePath);
     }
 
-    static void LoadFromJSON(RAPIDJSON_NAMESPACE::Document& _document, const mkString& _filePath)
+    static bool LoadFromJSON(RAPIDJSON_NAMESPACE::Document& _document, const mkString& _filePath)
     {
-        FILE* inputFile = std::fopen(cocos2d::FileUtils::getInstance()->fullPathForFilename(_filePath).c_str(), "r");
-        MK_ASSERTWITHMSG((inputFile != nullptr), "MKJSONHelper::LoadFromJSON - Unable to open file!");
-        std::fseek(inputFile, 0, SEEK_SET);
-        // The number of characters in the file must not exceed m_MaxFileCharacters.
-        char buffer[m_MaxFileCharacters];
+        FILE* inputFile = std::fopen(_filePath.c_str(), "r");
+        if (inputFile == nullptr) { return false; }
+        
+        char buffer[m_MaxFileCharacters]; // The number of characters in the file must not exceed m_MaxFileCharacters.
         RAPIDJSON_NAMESPACE::FileReadStream fileReadStream(inputFile, buffer, sizeof(buffer));
         _document.ParseStream(fileReadStream);
+
         std::fclose(inputFile);
+
+        return true;
     }
 };
 

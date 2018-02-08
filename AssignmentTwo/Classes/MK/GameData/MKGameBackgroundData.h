@@ -27,9 +27,6 @@ public:
     MKGameBackgroundData() {}
     virtual ~MKGameBackgroundData() {}
 
-    // Default Save Location
-    static const mkString m_DefaultDataLocation;
-
     // JSON Data Name(s)
     static const mkString m_BackgroundArrayJSONDataName;
     static const mkString m_BackgroundNameJSONDataName;
@@ -39,8 +36,11 @@ public:
     static const mkString m_BackgroundMiddleJSONDataName;
     static const mkString m_BackgroundFrontJSONDataName;
 
-    virtual mkBool LoadData(const mkString& _filePath = m_DefaultDataLocation) override;
-    virtual mkBool SaveData(const mkString& _filePath = m_DefaultDataLocation) override { return false; }
+    virtual mkBool LoadData(const mkString& _filePath) override;
+    virtual mkBool SaveData(const mkString& _filePath) override { return false; }
+
+    virtual mkString GetWritablePath() const override;
+    virtual mkString GetCachedPath() const override;
 
     MKShopItem_Background* GetBackground(const mkString& _backgroundName);
     inline std::vector<MKShopItem_Background> GetBackgrounds() const { return m_Backgrounds; }

@@ -13,9 +13,6 @@
 
 NS_MK_BEGIN
 
-// Default Save Location
-const mkString MKGameBackgroundData::m_DefaultDataLocation = "GameData/BackgroundsData.json";
-
 // JSON Data Name(s)
 const mkString MKGameBackgroundData::m_BackgroundArrayJSONDataName = "Backgrounds";
 const mkString MKGameBackgroundData::m_BackgroundNameJSONDataName = "Name";
@@ -28,7 +25,10 @@ const mkString MKGameBackgroundData::m_BackgroundFrontJSONDataName = "Front";
 mkBool MKGameBackgroundData::LoadData(const mkString& _filePath)
 {
     RAPIDJSON_NAMESPACE::Document dataDocument;
-    MKJSONHelper::LoadFromJSON(dataDocument, _filePath);
+    if (!MKJSONHelper::LoadFromJSON(dataDocument, _filePath))
+    {
+        return false;
+    }
 
     // Load Backgrounds
     m_Backgrounds.clear();
@@ -64,6 +64,16 @@ mkBool MKGameBackgroundData::LoadData(const mkString& _filePath)
     }
 
     return true;
+}
+
+mkString MKGameBackgroundData::GetWritablePath() const
+{
+    return "";
+}
+
+mkString MKGameBackgroundData::GetCachedPath() const
+{
+    return cocos2d::FileUtils::getInstance()->fullPathForFilename("GameData/BackgroundsData.json");
 }
 
 MKShopItem_Background* MKGameBackgroundData::GetBackground(const mkString& _backgroundName)

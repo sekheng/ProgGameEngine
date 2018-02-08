@@ -5,10 +5,6 @@
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
 #include "../MK/GameData/MKGameDataLoader.h"
-#include "../MK/GameData/MKGameBackgroundData.h"
-
-// Include Input Device Handlers
-#include "../MK/Input/MKKeyboardHandler.h"
 
 // Include Assignment
 #include "AvailableScenes.h"
@@ -38,9 +34,6 @@ static void problemLoading(const char* filename)
 bool MainMenuScene::init()
 {
 	if (!Super::init()) { return false; }
-
-    // Do this in Main Menu as it only needs to be loaded once.
-    MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>()->LoadData();
     
     InitialiseBackground();
     InitialiseUI();
