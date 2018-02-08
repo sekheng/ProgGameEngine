@@ -219,8 +219,12 @@ void MainMenuScene::InitialiseFacebookUI()
     m_FacebookLogoutButton->setVisible(false);
 	this->addChild(m_FacebookLogoutButton);
     
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
     ToggleFacebookUI(sdkbox::PluginFacebook::isLoggedIn());
     sdkbox::PluginFacebook::setListener(this);
+#endif
+#endif
 }
 
 void MainMenuScene::ToggleFacebookUI(bool _isLoggedIn)

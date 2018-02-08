@@ -111,6 +111,8 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
     void ShareHighScoreOnFB();
     virtual void onLogin(bool isLogin, const std::string& msg);
     virtual void onSharedSuccess(const std::string& message);
@@ -124,6 +126,8 @@ public:
     virtual void onInviteFriendsResult( bool result, const std::string& msg );
     
     virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo );
+#endif
+#endif
 };
 
 #endif
