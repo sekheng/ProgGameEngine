@@ -163,8 +163,8 @@ void ShopScene::InitialiseUI()
 
 	Sprite *shopItemButtonSprite = Sprite::create("Textures/UI/City_button.png");
 	ui::Button* button = ui::Button::create("ButtonNormal.png");
-	mkF32 desiredScaleY = 0.2f * visibleSize.height / button->getContentSize().height;
-	mkF32 desiredScaleX = 0.45f * visibleSize.width / button->getContentSize().width;
+	mkF32 desiredScaleY = 0.15f * visibleSize.height / button->getContentSize().height;
+	mkF32 desiredScaleX = 0.3f * visibleSize.width / button->getContentSize().width;
 	mkF32 actualButtonHeight = desiredScaleY * button->getContentSize().height;
 	mkF32 buttonPadding = actualButtonHeight * 0.1f;
 
@@ -174,7 +174,7 @@ void ShopScene::InitialiseUI()
 		Size(visibleSize.width * 0.5f, visibleSize.height * 0.8f),
 		Size(visibleSize.width * 0.5f, shopItem_list.size() * button->getContentSize().height),
 		true,
-		Vec2(visibleSize.width * 0.75f + origin.x, visibleSize.height * 0.5f + origin.y)
+		Vec2(visibleSize.width * 0.75f, visibleSize.height * 0.5f)
 	);
 
 	InitialiseShopItemUI();
@@ -230,7 +230,7 @@ void ShopScene::InitialiseUI()
 	Sprite* backButton = Sprite::create("BackButton.png");
 
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-		Vec2(backButton->getContentSize().width, visibleSize.height - backButton->getContentSize().height),
+		Vec2(origin.x + backButton->getContentSize().width,origin.y + visibleSize.height - backButton->getContentSize().height),
 		"BackButton.png",
 		"BackButton.png",
 		"",
@@ -239,7 +239,7 @@ void ShopScene::InitialiseUI()
 			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		},
-		(0.075f * visibleSize.height) / backButton->getContentSize().height
+		(0.1f * visibleSize.height) / backButton->getContentSize().height
 		);
 	this->addChild(toPrevSceneButton);
 }
