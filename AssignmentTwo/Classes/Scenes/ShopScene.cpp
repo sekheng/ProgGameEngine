@@ -174,7 +174,7 @@ void ShopScene::InitialiseUI()
 		Size(visibleSize.width * 0.5f, visibleSize.height * 0.8f),
 		Size(visibleSize.width * 0.5f, shopItem_list.size() * button->getContentSize().height),
 		true,
-		Vec2(origin.x + visibleSize.width * 0.75f, visibleSize.height * 0.5f)
+		Vec2(origin.x + visibleSize.width * 0.7f, visibleSize.height * 0.5f)
 	);
 
 	InitialiseShopItemUI();
@@ -196,7 +196,7 @@ void ShopScene::InitialiseUI()
 				this->UpdateButtonInfo(shopItem);
 				this->InitialiseShopBackgrounds(shopItemBackground);
 				auto buyEquipButton = MKUICreator::GetInstance()->createButton(
-					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+					Vec2(origin.x + visibleSize.width * 0.3f, origin.y + visibleSize.height * 0.1f),
 					"ButtonNormal.png",
 					"ButtonSelected.png",
 					"BUY / EQUIP ",
