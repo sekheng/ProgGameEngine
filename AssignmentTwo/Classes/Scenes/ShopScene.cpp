@@ -34,10 +34,10 @@ bool ShopScene::init()
 		return false;
 	}
 	playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
-	playerData->LoadData(playerData->GetCachedPath());
+	playerData->LoadData(playerData->GetWritablePath());
 
 	shopItem_Background = MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>();
-	shopItem_Background->LoadData();
+	shopItem_Background->LoadData(shopItem_Background->GetCachedPath());
 	shopItem_list = shopItem_Background->GetBackgrounds();
 
 	InitialiseBackground();
