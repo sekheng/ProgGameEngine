@@ -158,18 +158,15 @@ void GTObstacleSpawner::SpawnObstacleBatch()
         {
         case GinTama::GTObstacleSpawner::MISSILE:
             SpawnMissile();
-            SpawnSaw();
             break;
         case GinTama::GTObstacleSpawner::SPIKE:
             SpawnSpike();
-            SpawnSaw();
             break;
 		case GinTama::GTObstacleSpawner::SAW:
             SpawnSaw();
 			break;
         case GinTama::GTObstacleSpawner::LASER:
             SpawnLaser();
-            SpawnSaw();
             break;
         default:
             CC_ASSERT(false);

@@ -5,10 +5,6 @@
 #include "../MK/SceneManagement/MKSceneManager.h"
 #include "../MK/Common/MKMacros.h"
 #include "../MK/GameData/MKGameDataLoader.h"
-#include "../MK/GameData/MKGameBackgroundData.h"
-
-// Include Input Device Handlers
-#include "../MK/Input/MKKeyboardHandler.h"
 
 // Include Assignment
 #include "AvailableScenes.h"
@@ -38,10 +34,19 @@ static void problemLoading(const char* filename)
 bool MainMenuScene::init()
 {
 	if (!Super::init()) { return false; }
-
-    // Do this in Main Menu as it only needs to be loaded once.
-    MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>()->LoadData();
     
+    // Coins (For Debuging Purposes. Will Remove Soon.)
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+    auto label = Label::createWithTTF("Coins: " + std::to_string(playerData->GetCoins()), "fonts/Marker_Felt.ttf", 24);
+    // position the label on the center of the screen
+    label->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
+        visibleOrigin.y + visibleSize.height - label->getContentSize().height * 2.0f));
+    
+    // add the label as a child to this layer
+    this->addChild(label, 1);
+
     InitialiseBackground();
     InitialiseUI();
     InitialiseFacebookUI();

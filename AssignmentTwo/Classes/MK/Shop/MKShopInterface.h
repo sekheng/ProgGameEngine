@@ -31,7 +31,10 @@ public:
         GetPlayerData()->RemoveCoins(_item.m_Cost);
         GetPlayerData()->AddOwnedBackground(_item.m_Name);
         
-        if (_saveData) { GetPlayerData()->SaveData(); }
+        if (_saveData)
+        {
+            GetPlayerData()->SaveData(GetPlayerData()->GetWritablePath());
+        }
 
         return true;
     }
@@ -42,7 +45,10 @@ public:
 
         GetPlayerData()->SetEquippedBackground(_item.m_Name);
 
-        if (_saveData) { GetPlayerData()->SaveData(); }
+        if (_saveData)
+        {
+            GetPlayerData()->SaveData(GetPlayerData()->GetWritablePath());
+        }
 
         return true;
     }

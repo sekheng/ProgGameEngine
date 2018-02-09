@@ -26,6 +26,9 @@ class StartScreenScene : public MKScene
     typedef MKScene Super;
 
 protected:
+    // Data
+    void InitialiseData();
+
     // Background
     MKSprite* m_Background = nullptr;
     void InitialiseBackground();
@@ -48,7 +51,7 @@ protected:
 public:
     // Constructor(s) & Destructor
     StartScreenScene() {}
-    virtual ~StartScreenScene();
+    virtual ~StartScreenScene() {}
     CREATE_FUNC(StartScreenScene);
 
     virtual bool init();

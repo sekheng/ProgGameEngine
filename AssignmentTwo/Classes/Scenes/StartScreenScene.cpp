@@ -1,17 +1,21 @@
 // Include Game
 #include "StartScreenScene.h"
 
-StartScreenScene::~StartScreenScene()
-{
-}
+// Include MK
+#include "../MK/GameData/MKGameDataLoader.h"
+#include "../MK/GameData/MKPlayerData.h"
+#include "../MK/GameData/MKGameBackgroundData.h"
 
 bool StartScreenScene::init()
 {
     if (!Super::init()) { return false; }
 
+    // Do this in Start Screen as it only needs to be loaded once.
+    InitialiseData();
     InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
+
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
@@ -21,6 +25,7 @@ bool StartScreenScene::init()
     }
 #endif
 #endif
+
     return true;
 }
 
@@ -36,6 +41,34 @@ void StartScreenScene::onExit()
     Super::onExit();
     DeinitialiseInput();
     MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_DEFAULT);
+}
+
+void StartScreenScene::InitialiseData()
+{
+    // Load Game Backgrounds
+    {
+        MKGameBackgroundData* gameBackgroundData = MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>();
+        gameBackgroundData->LoadData(gameBackgroundData->GetCachedPath());
+    }
+
+    // Load Player
+    {
+        // Check if there is already a save file.
+        MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+        mkString writablePath = playerData->GetWritablePath();
+        if (playerData->LoadData(playerData->GetWritablePath()))
+        {
+            CCLOG("Existing player save found.");
+        }
+        else
+        {
+            CCLOG("No existing player save found or save file corrupted. Creating new save.");
+
+            // If there is not save file yet, load the default and save it.
+            MK_ASSERT((playerData->LoadData(playerData->GetCachedPath())));
+            MK_ASSERT((playerData->SaveData(playerData->GetWritablePath())));
+        }
+    }
 }
 
 void StartScreenScene::InitialiseBackground()

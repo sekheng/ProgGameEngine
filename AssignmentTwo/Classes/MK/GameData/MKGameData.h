@@ -31,6 +31,9 @@ public:
     virtual mkBool LoadData(const mkString& _filePath) = 0;
     virtual mkBool SaveData(const mkString& _filePath) = 0;
 
+    virtual mkString GetWritablePath() const = 0;
+    virtual mkString GetCachedPath() const = 0;
+
     // Static Interface Function(s)
     template <typename T>
     static MKGameDataID GetGameDataID()

@@ -13,9 +13,6 @@
 
 NS_MK_BEGIN
 
-// Default Save Location
-const mkString MKPlayerData::m_DefaultDataLocation = "GameData/PlayerData.json";
-
 // JSON Data Name(s)
 const mkString MKPlayerData::m_HighscoreJSONDataName = "Highscore";
 const mkString MKPlayerData::m_CoinJSONDataName = "Coin";
@@ -25,30 +22,33 @@ const mkString MKPlayerData::m_OwnedBackgroundsJSONDataName = "Owned_Backgrounds
 mkBool MKPlayerData::LoadData(const mkString& _filePath)
 {
     RAPIDJSON_NAMESPACE::Document dataDocument;
-    MKJSONHelper::LoadFromJSON(dataDocument, _filePath);
+    if (!MKJSONHelper::LoadFromJSON(dataDocument, _filePath))
+    {
+        return false;
+    }
 
     // Load Highscore
     auto highscore = dataDocument.FindMember(m_HighscoreJSONDataName.c_str());
-    MK_ASSERT(highscore->value.IsUint64());
+    if (!highscore->value.IsUint64()) { return false; }
     SetHighscore(highscore->value.GetUint64());
 
     // Load Coins
     auto coins = dataDocument.FindMember(m_CoinJSONDataName.c_str());
-    MK_ASSERT(coins->value.IsUint64());
+    if (!coins->value.IsUint64()) { return false; }
     SetCoins(coins->value.GetUint64());
 
     // Load Equipped Background
     auto equippedBackground = dataDocument.FindMember(m_EquippedBackgroundJSONDataName.c_str());
-    MK_ASSERT(equippedBackground->value.IsString());
+    if (!equippedBackground->value.IsString()) { return false; }
     SetEquippedBackground(equippedBackground->value.GetString());
 
     // Load Owned Backgrounds
     auto ownedBackgrounds = dataDocument.FindMember(m_OwnedBackgroundsJSONDataName.c_str());
-    MK_ASSERT(ownedBackgrounds->value.IsArray());
+    if (!ownedBackgrounds->value.IsArray()) { return false; }
     m_OwnedBackgrounds.clear();
     for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator i = ownedBackgrounds->value.Begin(); i != ownedBackgrounds->value.End(); ++i)
     {
-        MK_ASSERT(i->IsString());
+        if (!i->IsString()) { return false; }
         AddOwnedBackground(i->GetString());
     }
 
@@ -95,7 +95,19 @@ mkBool MKPlayerData::SaveData(const mkString& _filePath)
     dataDocument.AddMember(ownedBackgroundsName, ownedBackgrounds, dataDocument.GetAllocator());
 
     // Open the file and write to it.
-    return MKJSONHelper::JsonToFile(dataDocument, _filePath);
+    mkBool result = MKJSONHelper::JsonToFile(dataDocument, _filePath);
+
+    return result;
+}
+
+mkString MKPlayerData::GetWritablePath() const
+{
+    return cocos2d::FileUtils::getInstance()->getWritablePath() + "PlayerData.json";
+}
+
+mkString MKPlayerData::GetCachedPath() const
+{
+    return cocos2d::FileUtils::getInstance()->fullPathForFilename("GameData/PlayerData.json");
 }
 
 bool MKPlayerData::OwnsBackground(const mkString& _backgroundName)

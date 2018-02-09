@@ -34,7 +34,7 @@ bool ShopScene::init()
 		return false;
 	}
 	playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
-	playerData->LoadData();
+	playerData->LoadData(playerData->GetCachedPath());
 
 	shopItem_Background = MKGameDataLoader::GetInstance()->GetGameData<MKGameBackgroundData>();
 	shopItem_Background->LoadData();

@@ -28,40 +28,36 @@ using namespace GinTama;
 // Overrides
 bool GameScene::initWithPhysics()
 {
-    if (!Super::initWithPhysics())
-    {
-        return false;
-    }
+    if (!Super::initWithPhysics()) { return false; }
 
     // Load Player Data
-    MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->LoadData();
+    MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+    playerData->LoadData(playerData->GetWritablePath());
 
     // Let's do some physics.
     this->getPhysicsWorld()->setGravity(Vec2(0, -3000));
-    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    // this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
+    // Initialisation
     InitialiseBackgrounds();
     InitialiseGround();
     InitialiseInput();
 	InitialiseUI();
     InitialiseText();
-
-    MKInputManager::GetInstance()->SetCurrentContext(MK_INPUT_CONTEXT_1);
-    scheduleUpdate();
-
     InitialisePlayer();
-
-    // Create Obstacle & PowerUps Spawner
     InitialiseObstacles();
 	InitialisePowerUps();
-
-    // Initialise Camera
     InitialiseCamera();
+
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
 #endif
 #endif
+
+    // Schedule Update
+    scheduleUpdate();
+
 	return true;
 }
 
@@ -281,110 +277,125 @@ void GameScene::InitialiseText()
 
 void GameScene::InitialiseGameOverUI()
 {
-    // need to ensure that the array of GameOverUI is empty!
-    if (m_ArrayOfGameOverUI.size() == 0)
+    // Ensure that the array of GameOverUI is empty!
+    if (!m_ArrayOfGameOverUI.empty()) { return; }
+
+    // Pause the power ups and obstacles.
+    m_ObstacleSpawner->PauseAllObstacles();
+    m_PowerUpSpawner->PauseAllPowerUps();
+
+    // Update Highscore
+    if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
     {
-        Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
-        Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
-        m_ObstacleSpawner->PauseAllObstacles();
-		m_PowerUpSpawner->PauseAllPowerUps();
-        auto visibleSize = Director::getInstance()->getVisibleSize();
-        float UIButtonPosX = (visibleSize.width * 0.5f);
-        float UIButtonPosY = (visibleSize.height * 0.5f);
-        //RESUME BUTTON//
-        auto RetryButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY),
-            "ButtonNormal.png",
-            "ButtonSelected.png",
-            "Retry",
-            [&](Ref*) -> void
+        m_HighScore = m_CharaStatNode->getConvertedDistWalk();
+        def->setIntegerForKey("HIGHSCORE", m_HighScore);
+    }
+
+    // Highscore Text
+    std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
+    m_HighScoreTxt->setString(HighScoreString);
+    m_HighScoreTxt->setVisible(true);
+
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+
+    // Button Position
+    float UIButtonPosX = (visibleSize.width * 0.5f);
+    float UIButtonPosY = (visibleSize.height * 0.5f);
+
+    // Create Button Sprite
+    Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
+
+    // Retry Button
+    auto retryButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Retry",
+        [&](Ref*) -> void
         {
             //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
             // cannot replace the current scene in the same scene
-			Director::getInstance()->getScheduler()->setTimeScale(1.0f);
-			this->getPhysicsWorld()->setSpeed(1.0f);
+            Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+            this->getPhysicsWorld()->setSpeed(1.0f);
             MKSceneManager::GetInstance()->ReplaceScene("GameOverScene");
         },
-			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
-        );
-        GetUINode()->addChild(RetryButton);
-        m_ArrayOfGameOverUI.push_back(RetryButton);
-        //SETTINGS BUTTON//
-        auto ReviveButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale())),
-            "ButtonNormal.png",
-            "ButtonSelected.png",
-            "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
-            [&](Ref*) -> void
+        (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+    );
+    GetUINode()->addChild(retryButton);
+    m_ArrayOfGameOverUI.push_back(retryButton);
+
+    // Revive Button
+    auto reviveButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale())),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
+        [&](Ref*) -> void
         {
             if (m_CharaStatNode->getReviveCounter() > 0)
             {
-				m_HighScoreTxt->setVisible(false);
+                m_HighScoreTxt->setVisible(false);
                 // have to clear the buttons
                 ClearGameOverUI();
                 // then revive the player!
                 m_CharaStatNode->setState(REVIVE);
                 m_ObstacleSpawner->ResumeAllObstacles();
-				m_PowerUpSpawner->ResumeAllPowerUps();
+                m_PowerUpSpawner->ResumeAllPowerUps();
             }
         },
-			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
-        );
-        GetUINode()->addChild(ReviveButton);
-        m_ArrayOfGameOverUI.push_back(ReviveButton);
-        //MAIN MENU BUTTON//
-        auto ToMainMenuButton = MKUICreator::GetInstance()->createButton(
-            Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 2)),
-            "ButtonNormal.png",
-            "ButtonSelected.png",
-            "Main Menu",
-            [&](Ref*) -> void
-        {
-            MKSceneManager::GetInstance()->ReplaceScene("GameScene");
-        },
-			(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
-        );
-        GetUINode()->addChild(ToMainMenuButton);
-        m_ArrayOfGameOverUI.push_back(ToMainMenuButton);
+    	(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+    );
+    GetUINode()->addChild(reviveButton);
+    m_ArrayOfGameOverUI.push_back(reviveButton);
 
-        auto FacebookButton = MKUICreator::GetInstance()->createButton(
-			Vec2(UIButtonPosX, UIButtonPosY - (RetryButton->getContentSize().height * RetryButton->getScale() * 3)),
-			"FacebookButton.png",
-			"FacebookButtonSelected.png",
-			"",
-			[&](Ref*) -> void
-			{
+    // Main Menu Button
+    auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 2)),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Main Menu",
+        [&](Ref*) -> void
+        {
+            // Add Coins to player data.
+            MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->AddCoins(m_HighScore / 100);
+            MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+            MK_ASSERT((playerData->SaveData(playerData->GetWritablePath())));
+
+            MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
+        },
+    	(0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+    );
+    GetUINode()->addChild(toMainMenuButton);
+    m_ArrayOfGameOverUI.push_back(toMainMenuButton);
+
+    // Facebook Button
+    Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
+    auto facebookButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 3)),
+        "FacebookButton.png",
+        "FacebookButtonSelected.png",
+        "",
+		[&](Ref*) -> void
+		{
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
-                //DO FB LOGIC HERE
-                if (sdkbox::PluginFacebook::isLoggedIn())
-                {
-                    //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
-                    ShareHighScoreOnFB();
-                }
-                else
-                {
-                    sdkbox::PluginFacebook::login();
-                }
+            //DO FB LOGIC HERE
+            if (sdkbox::PluginFacebook::isLoggedIn())
+            {
+                //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+                ShareHighScoreOnFB();
+            }
+            else
+            {
+                sdkbox::PluginFacebook::login();
+            }
 #endif
 #endif
-			},
-			(0.1f * visibleSize.height) / facebookButtonSprite->getContentSize().height
-			);
-		GetUINode()->addChild(FacebookButton);
-		m_ArrayOfGameOverUI.push_back(FacebookButton);
-
-		if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
-		{
-			m_HighScore = m_CharaStatNode->getConvertedDistWalk();
-
-			def->setIntegerForKey("HIGHSCORE", m_HighScore);
-		}	
-
-		std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
-		m_HighScoreTxt->setString(HighScoreString);
-		m_HighScoreTxt->setVisible(true);
-    }
+		},
+		(0.1f * visibleSize.height) / facebookButtonSprite->getContentSize().height
+    );
+	GetUINode()->addChild(facebookButton);
+	m_ArrayOfGameOverUI.push_back(facebookButton);
 }
 
 void GameScene::InitialiseObstacles()
