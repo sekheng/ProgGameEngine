@@ -40,7 +40,7 @@ MKKeyboardHandler::~MKKeyboardHandler()
 
 void MKKeyboardHandler::AddHeldKey(cocos2d::EventKeyboard::KeyCode _keyCode)
 {
-	CCLOG("Held Key Added");
+	//CCLOG("Held Key Added");
 	std::map<cocos2d::EventKeyboard::KeyCode, mkU32>::iterator mapIter = m_HeldKeys.find(_keyCode);
 	if (mapIter == m_HeldKeys.end())
 	{
@@ -54,7 +54,7 @@ void MKKeyboardHandler::AddHeldKey(cocos2d::EventKeyboard::KeyCode _keyCode)
 
 void MKKeyboardHandler::RemoveHeldKey(cocos2d::EventKeyboard::KeyCode _keyCode)
 {
-	CCLOG("Held Key Removed");
+	//CCLOG("Held Key Removed");
 	std::map<cocos2d::EventKeyboard::KeyCode, mkU32>::iterator mapIter = m_HeldKeys.find(_keyCode);
 	if (mapIter == m_HeldKeys.end()) { return; }
 	MK_ASSERTWITHMSG((mapIter != m_HeldKeys.end()), "MKKeyboardHandler::RemoveHeldKey - Key not found in m_HeldKeys!");

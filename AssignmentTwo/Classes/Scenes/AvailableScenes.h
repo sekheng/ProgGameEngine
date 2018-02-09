@@ -9,5 +9,6 @@
 #include "SettingsScene.h"
 #include "ShopScene.h"
 #include "GameOverScene.h"
+#include "HighscoreScene.h"
 
 #endif

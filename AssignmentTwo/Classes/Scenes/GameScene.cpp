@@ -17,6 +17,7 @@
 #include "../GT/GameLogic/PowerUp/GTPowerUp.h"
 #include "../GT/Actions/GTFollowNodeAction.h"
 #include "../GT/Actions/GTRepeatActionInstantForever.h"
+#include "../GT/Server/GTServerData.h"
 
 #include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
 
@@ -222,6 +223,7 @@ void GameScene::InitialiseBackgrounds()
             m_Backgrounds[i]->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
 			GetUINode()->addChild(m_Backgrounds[i]);
+            m_Backgrounds[i]->setGlobalZOrder(-1);
 		}
 	}
 }
@@ -244,6 +246,7 @@ void GameScene::InitialiseUI()
 		(0.075f * visibleSize.height) / pauseButtonSprite->getContentSize().height
     );
     GetUINode()->addChild(PauseButton);
+    GetUINode()->setLocalZOrder(1);
 }
 
 void GameScene::InitialiseText()
@@ -294,7 +297,7 @@ void GameScene::InitialiseGameOverUI()
     }
 
     // Highscore Text
-    std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
+    std::string HighScoreString = "HighScore: " + std::to_string(CalculateScore());
     m_HighScoreTxt->setString(HighScoreString);
     m_HighScoreTxt->setVisible(true);
 
@@ -313,7 +316,6 @@ void GameScene::InitialiseGameOverUI()
         "Retry",
         [&](Ref*) -> void
         {
-            //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
             // cannot replace the current scene in the same scene
             Director::getInstance()->getScheduler()->setTimeScale(1.0f);
             this->getPhysicsWorld()->setSpeed(1.0f);
@@ -326,7 +328,7 @@ void GameScene::InitialiseGameOverUI()
 
     // Revive Button
     auto reviveButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale())),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
@@ -348,9 +350,24 @@ void GameScene::InitialiseGameOverUI()
     GetUINode()->addChild(reviveButton);
     m_ArrayOfGameOverUI.push_back(reviveButton);
 
+    // highscore button
+    auto toHighscoreButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Highscore",
+        [&](Ref*) -> void
+    {
+        MKSceneManager::GetInstance()->PushScene("HighscoreScene");
+    },
+        (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+        );
+    GetUINode()->addChild(toHighscoreButton);
+    m_ArrayOfGameOverUI.push_back(toHighscoreButton);
+
     // Main Menu Button
     auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 2)),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Main Menu",
@@ -371,7 +388,7 @@ void GameScene::InitialiseGameOverUI()
     // Facebook Button
     Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
     auto facebookButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 3)),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "FacebookButton.png",
         "FacebookButtonSelected.png",
         "",
@@ -396,6 +413,8 @@ void GameScene::InitialiseGameOverUI()
     );
 	GetUINode()->addChild(facebookButton);
 	m_ArrayOfGameOverUI.push_back(facebookButton);
+
+    GTServerData::SendHighScore(CalculateScore());
 }
 
 void GameScene::InitialiseObstacles()

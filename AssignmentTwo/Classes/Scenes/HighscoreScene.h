@@ -1,24 +1,23 @@
-#ifndef __SETTINGS_SCENE_H__
-#define __SETTINGS_SCENE_H__
+#pragma once
 
-// Include Cocos
 #include "cocos2d.h"
-
-// Include MK
 #include "../MK/Common/MKMacros.h"
 #include "../MK/SceneManagement/MKScene.h"
 #include "../MK/Graphics/MKSprite.h"
+#include "../GT/Server/GTServerData.h"
 
 USING_NS_CC;
 USING_NS_MK
 
-class SettingsScene : public MKScene
+class HighscoreScene : public MKScene
 {
     typedef MKScene Super;
 
 protected:
     // Background
     MKSprite * m_Background = nullptr;
+    float m_LeftSideToShowPlayer, m_RightSideToShowScore;
+
     void InitialiseBackground();
 
     // UI
@@ -29,12 +28,15 @@ protected:
     virtual void OnClick(EventCustom * _event) {}
     virtual void OnAxis(EventCustom * _event) {}
 
+    // wait for highscore
+    void GetGlobalHighScore(network::HttpClient* _client, network::HttpResponse* _response);
+
+    void SpawnGlobalHighScoreUI(const std::string &_dataJson);
+
 public:
-    SettingsScene() {}
-    virtual ~SettingsScene() {}
-    CREATE_FUNC(SettingsScene);
-    
+    HighscoreScene() {}
+    virtual ~HighscoreScene() {}
+    CREATE_FUNC(HighscoreScene);
+
     virtual bool init();
 };
-
-#endif // __SETTINGS_SCENE_H__

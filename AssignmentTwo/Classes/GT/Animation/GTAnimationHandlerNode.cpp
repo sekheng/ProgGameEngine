@@ -263,18 +263,6 @@ bool GTAnimationHandlerNode::initWithJSON_tag(const std::string &_JsonTag)
 
 bool GTAnimationHandlerNode::insertAnimTransSeq(const std::string &_AnimTransName, const cocos2d::Vector<cocos2d::FiniteTimeAction *> &_sequenceOfAct, const std::string &_conditionStr)
 {
-    //switch (m_AutoDestroyed)
-    //{
-    //case true:
-    //{
-    //    GTDestroySelfAct *zeDestroyAct = GTDestroySelfAct::create(_parent);
-    //    // unfortunately this will be the cheapest hack
-    //    const_cast<cocos2d::Vector<cocos2d::FiniteTimeAction *>&>(_sequenceOfAct).pushBack(zeDestroyAct);
-    //}
-    //break;
-    //default:
-    //    break;
-    //}
     Sequence *zeSeqAct = Sequence::create(_sequenceOfAct);
     return insertAnimTransSeq(_AnimTransName, zeSeqAct, _conditionStr);
 }

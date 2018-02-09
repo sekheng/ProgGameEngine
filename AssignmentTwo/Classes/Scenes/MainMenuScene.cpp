@@ -109,8 +109,6 @@ void MainMenuScene::InitialiseUI()
     }
 
     Sprite* buttonSprite = Sprite::create("ButtonNormal.png");
-    //Sprite* FBLoginbuttonSprite = Sprite::create("FacebookLoginButton.png");
-    //Sprite* FBLoginbuttonSelectedSprite = Sprite::create("FacebookLoginButtonSelected.png");
 
     // Start Game Button
     auto toGameButton = MKUICreator::GetInstance()->createButton(
@@ -124,11 +122,12 @@ void MainMenuScene::InitialiseUI()
     },
         (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
+    ++m_NumberOfUIAtMain;
     this->addChild(toGameButton);
 
     // Settings Button
     auto toSettingsButton = MKUICreator::GetInstance()->createButton(
-        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Settings",
@@ -139,10 +138,10 @@ void MainMenuScene::InitialiseUI()
         (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
     this->addChild(toSettingsButton);
-
+    ++m_NumberOfUIAtMain;
     // Shop Button
     auto toShopButton = MKUICreator::GetInstance()->createButton(
-        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (2 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Shop",
@@ -153,10 +152,25 @@ void MainMenuScene::InitialiseUI()
         (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
     this->addChild(toShopButton);
+    ++m_NumberOfUIAtMain;
+
+    auto toHighscoreButton = MKUICreator::GetInstance()->createButton(
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Highscore",
+        [&](Ref*) -> void
+    {
+        MKSceneManager::GetInstance()->PushScene("HighscoreScene");
+    },
+        (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+        );
+    this->addChild(toHighscoreButton);
+    ++m_NumberOfUIAtMain;
 
     // Exit Game Button
     auto exitButton = MKUICreator::GetInstance()->createButton(
-        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (3 * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
+        Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * toGameButton->getScaleY())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Exit",
@@ -172,6 +186,7 @@ void MainMenuScene::InitialiseUI()
         (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
         );
     this->addChild(exitButton);
+    ++m_NumberOfUIAtMain;
 }
 
 void MainMenuScene::InitialiseFacebookUI()
@@ -185,7 +200,7 @@ void MainMenuScene::InitialiseFacebookUI()
 	Sprite* FBLoginbuttonSprite = Sprite::create("FacebookLoginButton.png");
 
 	m_FacebookLoginButton = MKUICreator::GetInstance()->createButton(
-		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
 		"FacebookLoginButton.png",
 		"FacebookLoginButtonSelected.png",
 		"",
@@ -199,7 +214,6 @@ void MainMenuScene::InitialiseFacebookUI()
 #else
             ToggleFacebookUI(true);
 #endif
-			//DO LOGIN STUFF
         },
 		(0.1f * visibleSize.height) / FBLoginbuttonSprite->getContentSize().height
 		);
@@ -207,7 +221,7 @@ void MainMenuScene::InitialiseFacebookUI()
 	this->addChild(m_FacebookLoginButton);
 
     m_FacebookLogoutButton = MKUICreator::GetInstance()->createButton(
-		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (4 * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
+		Vec2(estimatedHalfPoint, (visibleSize.height * 0.6f) - (m_NumberOfUIAtMain * buttonSprite->getContentSize().height * (0.1f * visibleSize.height) / buttonSprite->getContentSize().height)),
 		"FacebookLogoutButton.png",
 		"FacebookLogoutButtonSelected.png",
 		"",
@@ -228,7 +242,7 @@ void MainMenuScene::InitialiseFacebookUI()
 		);
     m_FacebookLogoutButton->setVisible(false);
 	this->addChild(m_FacebookLogoutButton);
-    
+    ++m_NumberOfUIAtMain;
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
     ToggleFacebookUI(sdkbox::PluginFacebook::isLoggedIn());

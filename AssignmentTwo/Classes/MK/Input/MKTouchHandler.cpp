@@ -41,7 +41,7 @@ MKTouchHandler::~MKTouchHandler()
 
 void MKTouchHandler::AddHeldTouch(cocos2d::Touch* _touch)
 {
-	CCLOG("Adding Held Touch");
+	//CCLOG("Adding Held Touch");
 	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
 	if (mapIter == m_HeldTouches.end())
 	{
@@ -56,7 +56,7 @@ void MKTouchHandler::AddHeldTouch(cocos2d::Touch* _touch)
 
 void MKTouchHandler::RemoveHeldTouch(cocos2d::Touch* _touch)
 {
-	CCLOG("Removing Held Touch");
+	//CCLOG("Removing Held Touch");
 	std::map<cocos2d::Touch*, mkU32>::iterator mapIter = m_HeldTouches.find(_touch);
 	if (mapIter == m_HeldTouches.end()) { return; }
 	MK_ASSERTWITHMSG((mapIter != m_HeldTouches.end()), "MKKeyboardHandler::RemoveHeldTouch - Key not found in m_HeldKeys!");
@@ -139,7 +139,7 @@ void MKTouchHandler::ResetCursorPositions()
 
 void MKTouchHandler::PreStateChange()
 {
-	CCLOG("PreStateChange");
+	//CCLOG("PreStateChange");
 	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
 		for (mkU32 j = 0; j < i->second; ++j)
@@ -151,7 +151,7 @@ void MKTouchHandler::PreStateChange()
 
 void MKTouchHandler::PostStateChange()
 {
-	CCLOG("PostStateChange");
+	//CCLOG("PostStateChange");
 	for (std::map<cocos2d::Touch*, mkU32>::iterator i = m_HeldTouches.begin(); i != m_HeldTouches.end(); ++i)
 	{
 		for (mkU32 j = 0; j < i->second; ++j)
@@ -392,11 +392,11 @@ void MKTouchHandler::HandleTouchEnded(cocos2d::Touch* _touch)
 // Callbacks
 void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* _event)
 {
-	CCLOG("On Touch Began");
+	//CCLOG("On Touch Began");
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
 		int id = (*i)->getID();
-		CCLOG(std::to_string(id).c_str());
+		//CCLOG(std::to_string(id).c_str());
 		AddHeldTouch(*i);
 		HandleTouchBegan(*i);
 	}
@@ -404,11 +404,11 @@ void MKTouchHandler::OnTouchesBegan(const std::vector<Touch*>& _touches, Event* 
 
 void MKTouchHandler::OnTouchesEnded(const std::vector<Touch*>& _touches, Event* _event)
 {
-	CCLOG("On Touch Ended");
+	//CCLOG("On Touch Ended");
 	for (std::vector<Touch*>::const_iterator i = _touches.begin(); i != _touches.end(); ++i)
 	{
 		int id = (*i)->getID();
-		CCLOG(std::to_string(id).c_str());
+		//CCLOG(std::to_string(id).c_str());
 		RemoveHeldTouch(*i);
 		HandleTouchEnded(*i);
 	}

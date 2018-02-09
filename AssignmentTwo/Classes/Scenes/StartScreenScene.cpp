@@ -5,12 +5,6 @@
 #include "../MK/GameData/MKGameDataLoader.h"
 #include "../MK/GameData/MKPlayerData.h"
 #include "../MK/GameData/MKGameBackgroundData.h"
-#include "network/HttpClient.h"
-#include "network/HttpRequest.h"
-#include "external/json/document.h"
-#include "external/json/writer.h"
-using namespace RAPIDJSON_NAMESPACE;
-using namespace network;
 
 bool StartScreenScene::init()
 {
@@ -21,27 +15,6 @@ bool StartScreenScene::init()
     InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
-    std::string sendScore = "";
-    Document d;
-    d.SetObject();
-    char arrayOfString[256];
-    d.AddMember("score", 27.0f, d.GetAllocator());
-    StringBuffer buffer;
-    Writer<RAPIDJSON_NAMESPACE::StringBuffer> jsonWriter(buffer);
-    d.Accept(jsonWriter);
-    std::string data = buffer.GetString();
-    HttpRequest *sendRequest = new network::HttpRequest();
-    sendRequest->setUrl("http://localhost:8080/store_score");
-    sendRequest->setRequestData(data.c_str(), data.length());
-    sendRequest->setRequestType(HttpRequest::Type::POST);
-    sendRequest->setResponseCallback([&](network::HttpClient* client, network::HttpResponse* response)
-    {
-        CCLOG("reponse is %s", response->isSucceed() ? "Success" : "Failed");
-        CCLOG("reponse data string: %s", response->getResponseDataString());
-    }
-    );
-    HttpClient::getInstance()->send(sendRequest);
-    sendRequest->release();
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
