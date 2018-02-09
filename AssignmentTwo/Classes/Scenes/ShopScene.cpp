@@ -174,7 +174,7 @@ void ShopScene::InitialiseUI()
 		Size(visibleSize.width * 0.5f, visibleSize.height * 0.8f),
 		Size(visibleSize.width * 0.5f, shopItem_list.size() * button->getContentSize().height),
 		true,
-		Vec2(origin.x + visibleSize.width * 0.7f, visibleSize.height * 0.5f)
+		Vec2(origin.x + visibleSize.width * 0.75f, visibleSize.height * 0.5f)
 	);
 
 	InitialiseShopItemUI();
@@ -186,7 +186,7 @@ void ShopScene::InitialiseUI()
 		MKShopItem* shopItem = &shopItem_list[i];
 		MKShopItem_Background* shopItemBackground = &shopItem_list[i];
 		auto shopButton = MKUICreator::GetInstance()->createButton(
-			Vec2(origin.x + shopScroller->getContentSize().width * 0.5f, origin.y + shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
+			Vec2(origin.x + shopScroller->getContentSize().width * 0.4f, origin.y + shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
 			"ButtonNormal.png",
 			"ButtonSelected.png",
 			shopItem_list[i].m_Name + "(" + std::to_string(shopItem_list[i].m_Cost) + ")",
