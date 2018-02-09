@@ -35,6 +35,18 @@ bool MainMenuScene::init()
 {
 	if (!Super::init()) { return false; }
     
+    // Coins (For Debuging Purposes. Will Remove Soon.)
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
+    auto label = Label::createWithTTF("Coins: " + std::to_string(playerData->GetCoins()), "fonts/Marker_Felt.ttf", 24);
+    // position the label on the center of the screen
+    label->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f,
+        visibleOrigin.y + visibleSize.height - label->getContentSize().height * 2.0f));
+    
+    // add the label as a child to this layer
+    this->addChild(label, 1);
+
     InitialiseBackground();
     InitialiseUI();
     InitialiseFacebookUI();
