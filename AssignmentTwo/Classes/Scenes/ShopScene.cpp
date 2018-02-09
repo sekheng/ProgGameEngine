@@ -186,7 +186,7 @@ void ShopScene::InitialiseUI()
 		MKShopItem* shopItem = &shopItem_list[i];
 		MKShopItem_Background* shopItemBackground = &shopItem_list[i];
 		auto shopButton = MKUICreator::GetInstance()->createButton(
-			Vec2(origin.x + shopScroller->getContentSize().width * 0.5f, shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
+			Vec2(origin.x + shopScroller->getContentSize().width * 0.5f, origin.y + shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
 			"ButtonNormal.png",
 			"ButtonSelected.png",
 			shopItem_list[i].m_Name + "(" + std::to_string(shopItem_list[i].m_Cost) + ")",
@@ -196,7 +196,7 @@ void ShopScene::InitialiseUI()
 				this->UpdateButtonInfo(shopItem);
 				this->InitialiseShopBackgrounds(shopItemBackground);
 				auto buyEquipButton = MKUICreator::GetInstance()->createButton(
-					Vec2(origin.x + visibleSize.width * 0.25f, visibleSize.height * 0.2f),
+					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.2f),
 					"ButtonNormal.png",
 					"ButtonSelected.png",
 					"BUY / EQUIP " + shopItem->m_Name,
@@ -227,8 +227,6 @@ void ShopScene::InitialiseUI()
 	}
 	this->addChild(shopScroller);
 
-
-
 	Sprite* backButton = Sprite::create("BackButton.png");
 
 	auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
@@ -241,7 +239,7 @@ void ShopScene::InitialiseUI()
 			//DeinitialiseInput();
 			MKSceneManager::GetInstance()->PopScene();
 		},
-		(0.1f * visibleSize.height) / backButton->getContentSize().height
+		(0.075f * visibleSize.height) / backButton->getContentSize().height
 		);
 	this->addChild(toPrevSceneButton);
 }
