@@ -195,30 +195,63 @@ void ShopScene::InitialiseUI()
 				//SHOW THE ITEM ON THE LEFT
 				this->UpdateButtonInfo(shopItem);
 				this->InitialiseShopBackgrounds(shopItemBackground);
-				auto buyEquipButton = MKUICreator::GetInstance()->createButton(
-					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-					"ButtonNormal.png",
-					"ButtonSelected.png",
-					"BUY / EQUIP ",
-					[=](Ref*) -> void
-					{
-						//Do Buying/Equipping here
-						if (!playerData->OwnsBackground(shopItem->m_Name))
+				if (!playerData->OwnsBackground(shopItem->m_Name))
+				{
+					auto buyButton = MKUICreator::GetInstance()->createButton(
+						Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+						"ButtonNormal.png",
+						"ButtonSelected.png",
+						"BUY",
+						[=](Ref*) -> void
 						{
+							//Do Buying/Equipping here
+
 							if (MKShopInterface::HasSufficientCoins(*shopItem))
 							{
 								MKShopInterface::PurchaseGameBackground(*shopItem, true);
 							}
-						}
-						else
-						{
-							MKShopInterface::EquipGameBackground(*shopItem, true);
-						}
-					},
-					15,
-					desiredScaleX, desiredScaleY
-					);
-				this->addChild(buyEquipButton);
+						},
+						15,
+						desiredScaleX, desiredScaleY
+						);
+					this->addChild(buyButton);
+				}
+				else if ((playerData->OwnsBackground(shopItem->m_Name)))
+				{
+					if (playerData->GetEquippedBackground() != shopItem->m_Name)
+					{
+						auto equipButton = MKUICreator::GetInstance()->createButton(
+							Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+							"ButtonNormal.png",
+							"ButtonSelected.png",
+							"EQUIP",
+							[=](Ref*) -> void
+							{
+								//Equip Background
+								MKShopInterface::EquipGameBackground(*shopItem, true);
+							},
+							15,
+							desiredScaleX, desiredScaleY
+							);
+						this->addChild(equipButton);
+					}
+					else if (playerData->GetEquippedBackground() == shopItem->m_Name)
+					{
+						auto equippedButton = MKUICreator::GetInstance()->createButton(
+							Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+							"ButtonNormal.png",
+							"ButtonSelected.png",
+							"EQUIPPED",
+							[=](Ref*) -> void
+							{
+								//DO NOT EQUIP
+							},
+							15,
+							desiredScaleX, desiredScaleY
+							);
+						this->addChild(equippedButton);
+					}
+				}
 			},	
 			15,
 			desiredScaleX, desiredScaleY
