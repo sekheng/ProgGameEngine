@@ -284,10 +284,12 @@ void GameScene::InitialiseGameOverUI()
     m_ObstacleSpawner->PauseAllObstacles();
     m_PowerUpSpawner->PauseAllPowerUps();
 
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
     // Update Highscore
     if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
     {
-        m_HighScore = m_CharaStatNode->getConvertedDistWalk();
+        m_HighScore = static_cast<mkU32>(m_CharaStatNode->getConvertedDistWalk() / visibleSize.height);
         def->setIntegerForKey("HIGHSCORE", m_HighScore);
     }
 
@@ -295,8 +297,6 @@ void GameScene::InitialiseGameOverUI()
     std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
     m_HighScoreTxt->setString(HighScoreString);
     m_HighScoreTxt->setVisible(true);
-
-    auto visibleSize = Director::getInstance()->getVisibleSize();
 
     // Button Position
     float UIButtonPosX = (visibleSize.width * 0.5f);
@@ -357,7 +357,7 @@ void GameScene::InitialiseGameOverUI()
         [&](Ref*) -> void
         {
             // Add Coins to player data.
-            MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->AddCoins(m_HighScore / 100);
+            MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->AddCoins(m_HighScore / 50);
             MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
             MK_ASSERT((playerData->SaveData(playerData->GetWritablePath())));
 
@@ -439,7 +439,9 @@ void GameScene::UpdateUINode()
 
 void GameScene::UpdateText()
 {
-    std::string CurrentScoreString = "Score: " + std::to_string(m_CharaStatNode->getConvertedDistWalk());
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+    std::string CurrentScoreString = "Score: " + std::to_string(static_cast<mkU32>((m_CharaStatNode->getConvertedDistWalk() / visibleSize.height)));
 	m_ScoreTxt->setString(CurrentScoreString);
 
 	if (GTSlowTimePowerUp::m_OnContact)
