@@ -199,7 +199,7 @@ void ShopScene::InitialiseUI()
 					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.2f),
 					"ButtonNormal.png",
 					"ButtonSelected.png",
-					"BUY / EQUIP " + shopItem->m_Name,
+					"BUY / EQUIP ",
 					[=](Ref*) -> void
 					{
 						//Do Buying/Equipping here
