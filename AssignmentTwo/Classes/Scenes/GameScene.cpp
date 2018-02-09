@@ -662,8 +662,8 @@ void GameScene::ShareHighScoreOnFB()
     info.type  = sdkbox::FB_LINK;
     info.link = "https://runningfromtripleprog.appspot.com";
     info.title = "Running From Triple Programming!";
-    info.text  = "Jialet liao! I only score " + std::to_string(m_HighScore);
-    info.image = "http://cocos2d-x.org/images/logo.png";
+    info.text  = "Jialat liao! I only run " + std::to_string(m_HighScore);
+    info.image = "https://runningfromtripleprog.appspot.com/static/images/Logo.png";
     sdkbox::PluginFacebook::dialog(info);
 }
 #endif
