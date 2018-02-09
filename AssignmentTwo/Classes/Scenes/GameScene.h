@@ -86,6 +86,9 @@ private:
     void UpdateUINode();
     void UpdateText();
 
+	// Score
+	mkU32 CalculateScore();
+
     // Deinitialisation
     void Deinitialise();
     void ClearGameOverUI();
