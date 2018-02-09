@@ -11,6 +11,7 @@
 #include "../MK/GameData/MKGameBackgroundData.h"
 #include "../MK/GameData/MKGameDataLoader.h"
 #include "../MK/GameData//MKPlayerData.h"
+#include "../MK/Shop/MKShopInterface.h"
 
 #include "../UIClass/UICreator.h"
 
@@ -26,13 +27,26 @@ protected:
     void InitialiseBackground();
 	void InitialiseUI();
 	void InitialisePlayerCoinUI();
+	void InitialiseShopItemUI();
+	void InitialiseShopBackgrounds(MKShopItem_Background* _shopItem);
 
-	MKPlayerData* playerData;
+	//BACKGROUND DISPLAY NODE
+	Node* m_ItemDisplayNode = nullptr;
+
+	//LABELS
 	Label* m_PlayerCoinsLabel = nullptr;
-	//MKGameBackgroundData* shopItem_Background;
+	Label* m_ShopItemName = nullptr;
+	Label* m_ShopItemPrice = nullptr;
+
+	//DATA
+	MKPlayerData* playerData;
+	MKGameBackgroundData* shopItem_Background;
+	std::vector<MKShopItem_Background> shopItem_list;
     MKSprite* m_Background = nullptr;
 
 	std::vector<ui::Button*> shopItemButtons;
+
+	void UpdateButtonInfo(MKShopItem* _shopItem);
 
     // Input
     virtual void OnButton(EventCustom * _event) {}
