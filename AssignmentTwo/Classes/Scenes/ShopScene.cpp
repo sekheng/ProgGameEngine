@@ -135,10 +135,10 @@ void ShopScene::InitialiseShopBackgrounds(MKShopItem_Background* _shopItem)
 	MKSprite* middleBackground = MKSprite::Create(_shopItem->GetBackgroundFile(MKShopItem_Background::MIDDLE));
 	MKSprite* frontBackground = MKSprite::Create(_shopItem->GetBackgroundFile(MKShopItem_Background::FRONT));
 
-	staticBackground->setScale(0.4f * visibleSize.height / staticBackground->getContentSize().height);
-	rearBackground->setScale(0.4f * visibleSize.height / rearBackground->getContentSize().height);
-	middleBackground->setScale(0.4f * visibleSize.height / middleBackground->getContentSize().height);
-	frontBackground->setScale(0.4f * visibleSize.height / frontBackground->getContentSize().height);
+	staticBackground->setScale(0.3f * visibleSize.height / staticBackground->getContentSize().height);
+	rearBackground->setScale(0.3f * visibleSize.height / rearBackground->getContentSize().height);
+	middleBackground->setScale(0.3f * visibleSize.height / middleBackground->getContentSize().height);
+	frontBackground->setScale(0.3f * visibleSize.height / frontBackground->getContentSize().height);
 
 	// DO da resizig.
 	m_ItemDisplayNode->removeAllChildren();
@@ -186,7 +186,7 @@ void ShopScene::InitialiseUI()
 		MKShopItem* shopItem = &shopItem_list[i];
 		MKShopItem_Background* shopItemBackground = &shopItem_list[i];
 		auto shopButton = MKUICreator::GetInstance()->createButton(
-			Vec2(origin.x + shopScroller->getContentSize().width * 0.4f, origin.y + shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
+			Vec2(shopScroller->getContentSize().width * 0.5f, origin.y + shopScroller->getInnerContainerSize().height - ((mkF32)i * (actualButtonHeight + buttonPadding)) - (0.5f * actualButtonHeight)),
 			"ButtonNormal.png",
 			"ButtonSelected.png",
 			shopItem_list[i].m_Name + "(" + std::to_string(shopItem_list[i].m_Cost) + ")",
@@ -196,7 +196,7 @@ void ShopScene::InitialiseUI()
 				this->UpdateButtonInfo(shopItem);
 				this->InitialiseShopBackgrounds(shopItemBackground);
 				auto buyEquipButton = MKUICreator::GetInstance()->createButton(
-					Vec2(origin.x + visibleSize.width * 0.3f, origin.y + visibleSize.height * 0.1f),
+					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
 					"ButtonNormal.png",
 					"ButtonSelected.png",
 					"BUY / EQUIP ",
