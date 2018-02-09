@@ -289,7 +289,7 @@ void GameScene::InitialiseGameOverUI()
     // Update Highscore
     if (m_CharaStatNode->getConvertedDistWalk() > m_HighScore)
     {
-        m_HighScore = static_cast<mkU32>(m_CharaStatNode->getConvertedDistWalk() / visibleSize.height);
+        m_HighScore = CalculateScore();
         def->setIntegerForKey("HIGHSCORE", m_HighScore);
     }
 
@@ -439,9 +439,7 @@ void GameScene::UpdateUINode()
 
 void GameScene::UpdateText()
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-
-    std::string CurrentScoreString = "Score: " + std::to_string(static_cast<mkU32>((m_CharaStatNode->getConvertedDistWalk() / visibleSize.height)));
+    std::string CurrentScoreString = "Score: " + std::to_string(CalculateScore());
 	m_ScoreTxt->setString(CurrentScoreString);
 
 	if (GTSlowTimePowerUp::m_OnContact)
@@ -454,6 +452,13 @@ void GameScene::UpdateText()
 	{
 		m_SlowTimerTxt->setVisible(false);
 	}
+}
+
+mkU32 GameScene::CalculateScore()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	return (mkU32)((mkF32)m_CharaStatNode->getConvertedDistWalk() / visibleSize.height);
 }
 
 // Deinitialisation
