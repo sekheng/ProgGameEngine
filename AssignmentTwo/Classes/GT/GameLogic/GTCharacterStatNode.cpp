@@ -116,18 +116,18 @@ void GTCharacterStatNode::update(float delta)
             // check whether it has crossed over the certain distance
             if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX && !m_RunResetActionPtr)
             {
-                /*m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
                 m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
                 for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
                 {
                     (*it)(-m_ResetDistanceX);
-                }*/
+                }
 
-                //m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
-                //auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
-                //MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
-                //// then make sure the owner of the sprite will run this action!
-                //m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
+                m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
+                auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
+                MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
+                // then make sure the owner of the sprite will run this action!
+                m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
             }
             break;
         }
@@ -232,7 +232,6 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_SpeedX = 0;
             m_DeadPositionX = _parent->getPositionX();
             m_AnimHandler->transitState("Died");
-			//MKSceneManager::GetInstance()->PushScene("GameOverScene");
             break;
         }
         break;
