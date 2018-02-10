@@ -45,12 +45,17 @@ void GTServerData::GetData(const std::string &_linkData, const ccHttpRequestCall
     getRequest->release();
 }
 
-void GTServerData::SendHighScore(const float &_score)
+void GTServerData::SendHighScore(const float &_score, const std::string &_name)
 {
     // we need to store it in json format!
     Document jsonDoc;
     jsonDoc.SetObject();
     jsonDoc.AddMember("score", _score, jsonDoc.GetAllocator());
+    if (_name.length() > 0)
+    {
+        RAPIDJSON_NAMESPACE::Value nameValue(_name.c_str(), _name.size());
+        jsonDoc.AddMember("name", nameValue, jsonDoc.GetAllocator());
+    }
     StringBuffer buffer;
     Writer<StringBuffer> jsonWriter(buffer);
     jsonDoc.Accept(jsonWriter);

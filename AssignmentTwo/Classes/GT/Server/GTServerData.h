@@ -29,7 +29,7 @@ public:
     */
     static void GetData(const std::string &_linkData, const cocos2d::network::ccHttpRequestCallback& _funcCallback);
 
-    static void SendHighScore(const float &_score);
+    static void SendHighScore(const float &_score, const std::string &_name = "");
 
 private:
     static void WaitForResponse(cocos2d::network::HttpClient* _client, cocos2d::network::HttpResponse* _response);
