@@ -51,11 +51,16 @@ void GTPowerUpSpawner::Update(gtF32 _deltaTime)
     }
     if (GTSlowTimePowerUp::m_currentCountDownTimer <= 0.0f)
     {
-        Director::getInstance()->getScheduler()->setTimeScale(1.0f);
-        m_Scene->getPhysicsWorld()->setSpeed(1.0f);
         GTSlowTimePowerUp::m_OnContact = false;
-        GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
     }
+	//To check if it it resets
+	if (!GTSlowTimePowerUp::m_OnContact)
+	{
+		Director::getInstance()->getScheduler()->setTimeScale(1.0f);
+		m_Scene->getPhysicsWorld()->setSpeed(1.0f);
+		GTSlowTimePowerUp::m_currentCountDownTimer = 0.0f;
+
+	}
 }
 
 void GTPowerUpSpawner::DespawnAllPowerUps()

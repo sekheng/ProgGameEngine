@@ -1,5 +1,6 @@
 // Include Cocos
 #include "../GT/Audio/GTSimperMusicSys.h"
+#include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
 
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
@@ -108,6 +109,7 @@ void PauseScene::InitializePauseMenuButtons()
 		"Main Menu",
 		[&](Ref*) -> void
 		{
+			GTSlowTimePowerUp::m_OnContact = false;
             MKSceneManager::GetInstance()->PopScene();
 			MKSceneManager::GetInstance()->ReplaceScene("MainMenuScene");
 		},
