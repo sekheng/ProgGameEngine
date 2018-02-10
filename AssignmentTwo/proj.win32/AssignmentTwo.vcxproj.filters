@@ -64,6 +64,9 @@
     <Filter Include="GT\Server">
       <UniqueIdentifier>{210575d0-7baf-4ba6-b2f3-5fa8d1b28a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GT\Facebook">
+      <UniqueIdentifier>{db3e4248-49db-4064-90f6-dbf976572317}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\HighscoreScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GT\Facebook\GTFacebookHelper.h">
+      <Filter>GT\Facebook</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

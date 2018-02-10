@@ -8,14 +8,14 @@
 
 // Include Assignment
 #include "AvailableScenes.h"
-#include "AudioEngine.h"
 
 #include "../UIClass/UICreator.h"
 #include "MainMenuScene.h"
+#include "../GT/Facebook/GTFacebookHelper.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
-using namespace GinTama;
+USING_NS_GT
 
 static int BGM_ID = -1;
 
@@ -270,17 +270,12 @@ void MainMenuScene::ToggleFacebookUI(bool _isLoggedIn)
 void MainMenuScene::onLogin(bool isLogin, const std::string& msg)
 {
     CCLOG("FB login: %u", isLogin);
-    bool needPermissionForShare = true;
-    for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
-    {
-        if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
-        {
-            needPermissionForShare = false;
-            break;
-        }
-    }
+    bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
     if (needPermissionForShare)
-        sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+    needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+    if (needPermissionForShare)
+        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     ToggleFacebookUI(isLogin);
 }
 void MainMenuScene::onSharedSuccess(const std::string& message)

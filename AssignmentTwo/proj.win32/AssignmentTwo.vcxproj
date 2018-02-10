@@ -199,6 +199,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GT\Animation\GTDestroySelfAct.h" />
     <ClInclude Include="..\Classes\GT\Audio\GTSimperMusicSys.h" />
     <ClInclude Include="..\Classes\GT\Common\GTMacros.h" />
+    <ClInclude Include="..\Classes\GT\Facebook\GTFacebookHelper.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\GTCharacterStatNode.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\GTCollisionCategory.h" />
     <ClInclude Include="..\Classes\GT\GameLogic\GTGameplayMacros.h" />

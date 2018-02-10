@@ -23,6 +23,7 @@
 
 // Include UI
 #include "../UIClass/UICreator.h"
+#include "../GT/Facebook/GTFacebookHelper.h"
 
 using namespace GinTama;
 
@@ -414,7 +415,23 @@ void GameScene::InitialiseGameOverUI()
 	GetUINode()->addChild(facebookButton);
 	m_ArrayOfGameOverUI.push_back(facebookButton);
 
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    if (sdkbox::PluginFacebook::isLoggedIn() && GTFacebookHelper::m_FBName.size() == 0)
+    {
+        sdkbox::FBAPIParam params;
+        params["fields"] = "name, email";
+        sdkbox::PluginFacebook::api("me", "GET", params, "me");    
+    }
+    else
+    {
+        GTServerData::SendHighScore(CalculateScore());
+    }
+#endif
     GTServerData::SendHighScore(CalculateScore());
+#else
+    GTServerData::SendHighScore(CalculateScore());
+#endif
 }
 
 void GameScene::InitialiseObstacles()
@@ -640,24 +657,18 @@ void GameScene::onSharedCancel()
 }
 void GameScene::onAPI(const std::string& key, const std::string& jsonData)
 {
-    
+    CCLOG("On FB API");
 }
 void GameScene::onPermission(bool isLogin, const std::string& msg)
 {
     if (isLogin)
     {
-        bool needPermissionForShare = true;
-        for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
-        {
-            if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
-            {
-                needPermissionForShare = false;
-                break;
-            }
-        }
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
         if (needPermissionForShare)
-            sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
-        //ShareHighScoreOnFB();
+                sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+                sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     }
 }
 void GameScene::onFetchFriends(bool ok, const std::string& msg)
@@ -679,7 +690,7 @@ void GameScene::onInviteFriendsResult( bool result, const std::string& msg )
 
 void GameScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
 {
-    
+    CCLOG("Getting User info");
 }
 
 void GameScene::ShareHighScoreOnFB()
