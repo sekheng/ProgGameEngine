@@ -112,6 +112,10 @@ void GTCharacterStatNode::update(float delta)
         }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
         m_TotalDist += (m_SpeedX * delta);
+        if (m_ActingState == ACTING_STATE::ON_GROUND && MKMathsHelper::ContainsBitmask<mkS32>(m_CurrentState, CHARACTER_STATE::SLIDE_JUMP) > 0)
+        {
+            setState(CHARACTER_STATE::RUNNING);
+        }
     }
 
 }
@@ -194,7 +198,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             if (m_ActingState != ACTING_STATE::ON_GROUND)
             {
                 m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
-                m_physicsNode->applyImpulse(Vec2(0, -10000.f));
+                m_physicsNode->applyImpulse(Vec2(0, -20000.f));
                 m_CurrentState = SLIDE_JUMP;
             }
             GTSimperMusicSys::GetInstance()->playSound("Slide");
@@ -308,6 +312,10 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
     }
     else if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_OBSTACLE, otherPhysicsBody->getCategoryBitmask()))
     {
+        m_physicsNode->resetForces();
+        // depending on the speed, apply the same amount of force invert
+        m_physicsNode->applyImpulse(Vec2(0, -m_physicsNode->getVelocity().y));
+        m_physicsNode->setVelocity(Vec2(0, 0));
         setState(DEAD);
         return true;
     }
