@@ -69,15 +69,16 @@ void GameScene::update(float _deltaTime)
     if (m_CharaStatNode->getCurrentState() == DEAD)
     {
         // create all of the UI needed!
+		GTSlowTimePowerUp::m_OnContact = false;
         InitialiseGameOverUI();
     }
     else
     {
         ScrollBackgrounds(_deltaTime);
+		m_PowerUpSpawner->Update(_deltaTime);
     }
 
     m_ObstacleSpawner->Update(_deltaTime);
-	m_PowerUpSpawner->Update(_deltaTime);
     UpdateUINode();
     UpdateText();
 }
