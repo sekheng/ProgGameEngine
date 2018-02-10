@@ -85,6 +85,8 @@ namespace GinTama
         */
         gtBool OnContactBegin(cocos2d::PhysicsContact &_contact);
 
+        gtBool OnContactSeparate(cocos2d::PhysicsContact &_contact);
+
         cocos2d::PhysicsBody* m_physicsNode;
         cocos2d::PhysicsShape *m_SlidePhyShape, *m_OriginPhyShape;
         CHARACTER_STATE m_CurrentState;
@@ -97,10 +99,17 @@ namespace GinTama
         int m_ReviveCounter;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
-        cocos2d::FiniteTimeAction *m_RunResetActionPtr = nullptr;
 
         std::vector<std::function<void(float)>> m_VectorOfResetDistCalls;
 
         cocos2d::EventListenerPhysicsContact* m_ContactListener = NULL;
+
+        enum ACTING_STATE
+        {
+            ON_GROUND = 0x0001,
+            FLOATING = 0x0002,
+            TOTAL_CURRENT_STATE,
+        };
+        ACTING_STATE m_ActingState;
     };
 }

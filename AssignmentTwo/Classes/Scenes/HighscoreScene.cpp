@@ -11,6 +11,12 @@ USING_NS_GT
 using namespace RAPIDJSON_NAMESPACE;
 
 const static std::string fontName = "fonts/Marker_Felt.ttf";
+static bool SCENE_DESTROYED = true;
+
+HighscoreScene::~HighscoreScene()
+{
+    SCENE_DESTROYED = true;
+}
 
 bool HighscoreScene::init()
 {
@@ -18,7 +24,7 @@ bool HighscoreScene::init()
     {
         return false;
     }
-
+    SCENE_DESTROYED = false;
     InitialiseBackground();
     InitialiseUI();
     // and then send data to server to retrieve highscore!
@@ -106,6 +112,8 @@ void HighscoreScene::GetGlobalHighScore(network::HttpClient* _client, network::H
 
 void HighscoreScene::SpawnGlobalHighScoreUI(const std::string &_dataJson)
 {
+    if (SCENE_DESTROYED)
+        return;
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float highscoreHeight = origin.y + (visibleSize.height * 0.8f);
@@ -127,13 +135,13 @@ void HighscoreScene::SpawnGlobalHighScoreUI(const std::string &_dataJson)
         playerNameLabel->setPosition(Vec2(m_LeftSideToShowPlayer,
             highscoreHeight - (numberOfHighScores * playerNameLabel->getContentSize().height)));
         playerNameLabel->setColor(Color3B::BLACK);
-        this->addChild(playerNameLabel, 1);
+            this->addChild(playerNameLabel, 1);
 
         auto playerScoreLabel = Label::createWithTTF(playerScoreStr, fontName, 28);
         playerScoreLabel->setPosition(Vec2(m_RightSideToShowScore,
            highscoreHeight - (numberOfHighScores * playerScoreLabel->getContentSize().height)));
         playerScoreLabel->setColor(Color3B::BLACK);
-        this->addChild(playerScoreLabel, 1);
+            this->addChild(playerScoreLabel, 1);
 
         numberOfHighScores++;
     }

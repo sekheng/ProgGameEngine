@@ -119,7 +119,6 @@ void GameScene::InitialisePlayer()
 
     // Create player animation.
     GTAnimationHandlerNode* playerAnimationHandler = GTAnimationHandlerNode::create();
-    //playerAnimationHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     FileUtils::getInstance()->addSearchPath("SpriteAnim");
     playerAnimationHandler->initWithJSON_tag("SpriteAnim/MainCharaData.json");
     playerSprite->addChild(playerAnimationHandler);
@@ -658,15 +657,6 @@ void GameScene::onAPI(const std::string& key, const std::string& jsonData)
 }
 void GameScene::onPermission(bool isLogin, const std::string& msg)
 {
-    if (isLogin)
-    {
-        //bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-        //if (needPermissionForShare)
-        //        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-        //needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-        //if (needPermissionForShare)
-        //        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
-    }
 }
 void GameScene::onFetchFriends(bool ok, const std::string& msg)
 {

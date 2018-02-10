@@ -35,7 +35,7 @@ protected:
 
 public:
     HighscoreScene() {}
-    virtual ~HighscoreScene() {}
+    virtual ~HighscoreScene();
     CREATE_FUNC(HighscoreScene);
 
     virtual bool init();

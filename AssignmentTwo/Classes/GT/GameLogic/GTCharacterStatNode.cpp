@@ -8,7 +8,6 @@
 
 USING_NS_GT
 USING_NS_CC;
-USING_NS_MK
 
 const static float ACCEPTABLE_VELY = 0.9f;
 
@@ -26,6 +25,7 @@ GTCharacterStatNode::GTCharacterStatNode()
     , m_TotalDist(0)
     , m_ReviveCounter(1)
     , m_ResetDistanceX(300.0f)
+    , m_ActingState(ACTING_STATE::ON_GROUND)
 {
 	setTag(1);
 }
@@ -82,6 +82,13 @@ void GTCharacterStatNode::update(float delta)
                 m_AnimHandler->transitState("Idle");
             }
             break;
+        case DEAD:
+            // just use the shortcut that Vec2 has provided
+            if (m_physicsNode->getVelocity() != Vec2::ANCHOR_BOTTOM_LEFT)
+            {
+                _parent->setPositionX(m_DeadPositionX);
+            }
+            break;
         default:
             Vec2 zeVel = m_physicsNode->getVelocity();
             if (zeVel.y < -ACCEPTABLE_VELY)
@@ -100,34 +107,6 @@ void GTCharacterStatNode::update(float delta)
                     }
                     m_countingFloat = 0;
                 }
-            }
-            break;
-        }
-        switch (m_CurrentState)
-        {
-        case DEAD:
-            // just use the shortcut that Vec2 has provided
-            if (m_physicsNode->getVelocity() != Vec2::ANCHOR_BOTTOM_LEFT)
-            {
-                _parent->setPositionX(m_DeadPositionX);
-            }
-            break;
-        default:
-            // check whether it has crossed over the certain distance
-            if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX && !m_RunResetActionPtr)
-            {
-                /*m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
-                m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
-                for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
-                {
-                    (*it)(-m_ResetDistanceX);
-                }*/
-
-                //m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
-                //auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
-                //MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
-                //// then make sure the owner of the sprite will run this action!
-                //m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
             }
             break;
         }
@@ -164,6 +143,8 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     // Then set the contact listener when it happens
     setPhysicsBitmasks(m_physicsNode);
     InitialiseContactListener();
+    // initialize on contact exit!
+    m_ContactListener->onContactSeparate = CC_CALLBACK_1(GTCharacterStatNode::OnContactSeparate, this);
 }
 
 bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
@@ -210,10 +191,12 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             GTSimperMusicSys::GetInstance()->playSound("Slide");
             break;
         case JUMPING:
-            // If character is attempting to slide while jump, it will attempt to do an impulse to straight away go down
-            m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
-            m_physicsNode->applyImpulse(Vec2(0, -20000.f));
-            m_CurrentState = SLIDE_JUMP; 
+            if (m_ActingState != ACTING_STATE::ON_GROUND)
+            {
+                m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
+                m_physicsNode->applyImpulse(Vec2(0, -10000.f));
+                m_CurrentState = SLIDE_JUMP;
+            }
             GTSimperMusicSys::GetInstance()->playSound("Slide");
             break;
         default:
@@ -232,12 +215,11 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             m_SpeedX = 0;
             m_DeadPositionX = _parent->getPositionX();
             m_AnimHandler->transitState("Died");
-			//MKSceneManager::GetInstance()->PushScene("GameOverScene");
             break;
         }
         break;
     case REVIVE:
-        MK_ASSERTWITHMSG(m_CurrentState == DEAD, "Player shouldn't be revived when it is still not dead!");
+        MK_ASSERTWITHMSG((m_CurrentState == DEAD), "Player shouldn't be revived when it is still not dead!");
         if (m_ReviveCounter > 0)
         {
             --m_ReviveCounter;
@@ -248,7 +230,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
         }
         break;
     default:
-        MK_ASSERTWITHMSG(true == false, "Something is wrong with setState!");
+        MK_ASSERTWITHMSG((true == false), "Something is wrong with setState!");
         break;
     }
     return false;
@@ -306,6 +288,7 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
 
     if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, otherPhysicsBody->getCategoryBitmask()))
     {
+        m_ActingState = ACTING_STATE::ON_GROUND;
         switch (m_CurrentState)
         {
 		case RUNNING:
@@ -332,8 +315,6 @@ gtBool GTCharacterStatNode::OnContactBegin(cocos2d::PhysicsContact &_contact)
 	{
 		return true;
 	}
-
-
     return false;
 }
 
@@ -367,7 +348,7 @@ gtU32 GTCharacterStatNode::getConvertedDistWalk()
 
 void GTCharacterStatNode::setReviveCounter(const int &_reviveTimes)
 {
-    MK_ASSERTWITHMSG(_reviveTimes < 0, "Revive times cannot be less than 0!");
+    MK_ASSERTWITHMSG((_reviveTimes < 0), "Revive times cannot be less than 0!");
     m_ReviveCounter = _reviveTimes;
 }
 
@@ -383,15 +364,40 @@ void GTCharacterStatNode::PassInvokeFunctionWhenResetDistance(std::function<void
 
 void GTCharacterStatNode::ResetPlayerDistance()
 {
+    // check whether it has crossed over the certain distance
     if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
     {
-        // need to get the new distance as there is a huge delay between the new player position and the old one!
         m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
         m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
         for (std::vector<std::function<void(float)>>::iterator it = m_VectorOfResetDistCalls.begin(), end = m_VectorOfResetDistCalls.end(); it != end; ++it)
         {
             (*it)(-m_ResetDistanceX);
         }
-        m_RunResetActionPtr = nullptr;
     }
+}
+
+gtBool GTCharacterStatNode::OnContactSeparate(cocos2d::PhysicsContact &_contact)
+{
+    PhysicsShape* physicsShapeA = _contact.getShapeA();
+    PhysicsShape* physicsShapeB = _contact.getShapeB();
+    // Ignore this collision if we're not involved.
+    if (physicsShapeA->getBody() != m_physicsNode &&
+        physicsShapeB->getBody() != m_physicsNode)
+    {
+        return false;
+    }
+
+    PhysicsBody* otherPhysicsBody = (physicsShapeA->getBody() != m_physicsNode) ? physicsShapeA->getBody() : physicsShapeB->getBody();
+    // Dafuq? How can we collide with ourselves?
+    if (otherPhysicsBody == m_physicsNode)
+    {
+        return false;
+    }
+    // check to make sure that it is the ground that is being separated
+    if (MKMathsHelper::ContainsBitmask<mkS32>(GT_COLLISION_CATEGORY_GROUND, otherPhysicsBody->getCategoryBitmask()))
+    {
+        m_ActingState = ACTING_STATE::FLOATING;
+        return true;
+    }
+    return false;
 }
