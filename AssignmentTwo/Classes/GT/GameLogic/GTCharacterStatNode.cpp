@@ -108,7 +108,6 @@ void GTCharacterStatNode::update(float delta)
                     m_countingFloat = 0;
                 }
             }
-            ResetPlayerDistance();
             break;
         }
         m_physicsNode->setVelocity(Vec2(m_SpeedX, m_physicsNode->getVelocity().y));
@@ -195,7 +194,7 @@ bool GTCharacterStatNode::setState(CHARACTER_STATE _whatState)
             if (m_ActingState != ACTING_STATE::ON_GROUND)
             {
                 m_physicsNode->setVelocity(Vec2(m_physicsNode->getVelocity().x, 0));
-                m_physicsNode->applyImpulse(Vec2(0, -20000.f));
+                m_physicsNode->applyImpulse(Vec2(0, -10000.f));
                 m_CurrentState = SLIDE_JUMP;
             }
             GTSimperMusicSys::GetInstance()->playSound("Slide");
@@ -366,7 +365,7 @@ void GTCharacterStatNode::PassInvokeFunctionWhenResetDistance(std::function<void
 void GTCharacterStatNode::ResetPlayerDistance()
 {
     // check whether it has crossed over the certain distance
-    if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX && !m_RunResetActionPtr)
+    if (m_physicsNode->getOwner()->getPositionX() > m_ResetDistanceX)
     {
         m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
         m_physicsNode->getOwner()->setPositionX(m_PlayerPosXAfterReset);
@@ -374,12 +373,6 @@ void GTCharacterStatNode::ResetPlayerDistance()
         {
             (*it)(-m_ResetDistanceX);
         }
-
-        m_PlayerPosXAfterReset = m_physicsNode->getOwner()->getPositionX() - m_ResetDistanceX;
-        auto functionCallAction = CallFunc::create(CC_CALLBACK_0(GTCharacterStatNode::ResetPlayerDistance, this));
-        MoveBy *MoveByDistance = MoveBy::create(0.0f, Vec3(-m_ResetDistanceX, 0, 0));
-        // then make sure the owner of the sprite will run this action!
-        m_physicsNode->getOwner()->runAction(Spawn::create(MoveByDistance, functionCallAction, nullptr));
     }
 }
 

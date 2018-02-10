@@ -99,7 +99,6 @@ namespace GinTama
         int m_ReviveCounter;
         MKScene* m_Scene = nullptr;
         GTAnimationHandlerNode *m_AnimHandler;
-        cocos2d::FiniteTimeAction *m_RunResetActionPtr = nullptr;
 
         std::vector<std::function<void(float)>> m_VectorOfResetDistCalls;
 
