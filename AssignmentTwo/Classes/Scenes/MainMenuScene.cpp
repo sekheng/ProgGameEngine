@@ -270,12 +270,12 @@ void MainMenuScene::ToggleFacebookUI(bool _isLoggedIn)
 void MainMenuScene::onLogin(bool isLogin, const std::string& msg)
 {
     CCLOG("FB login: %u", isLogin);
-    bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-    if (needPermissionForShare)
-        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-    needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-    if (needPermissionForShare)
-        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+    //bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+    //if (needPermissionForShare)
+    //    sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+    //needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+    //if (needPermissionForShare)
+    //    sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     ToggleFacebookUI(isLogin);
 }
 void MainMenuScene::onSharedSuccess(const std::string& message)

@@ -147,16 +147,16 @@ void StartScreenScene::OnClick(EventCustom * _event)
 #ifdef SDKBOX_ENABLED
 void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
 {
-    CCLOG("FB login: %u", isLogin);
-    if (isLogin)
-    {
-        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-        if (needPermissionForShare)
-            sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-        if (needPermissionForShare)
-            sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
-    }
+    //CCLOG("FB login: %u", isLogin);
+    //if (isLogin)
+    //{
+    //    bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+    //    if (needPermissionForShare)
+    //        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+    //    needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+    //    if (needPermissionForShare)
+    //        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+    //}
 }
 void StartScreenScene::onSharedSuccess(const std::string& message)
 {

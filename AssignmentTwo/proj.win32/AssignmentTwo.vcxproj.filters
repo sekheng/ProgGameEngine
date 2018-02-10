@@ -177,6 +177,9 @@
     <ClCompile Include="..\Classes\Scenes\HighscoreScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GT\Facebook\GTFacebookHelper.cpp">
+      <Filter>GT\Facebook</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

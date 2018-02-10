@@ -15,8 +15,15 @@
 NS_GT_BEGIN
 
 class GTFacebookHelper
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    : public sdkbox::FacebookListener
+#endif
+#endif
 {
 public:
+    static void Init();
+    static void Destroy();
     /*
     * Helps to check for permissions!
     *
@@ -44,11 +51,31 @@ public:
 #endif
         return false;
     }
+    
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
-    static std::string m_FBName;
+    static std::string GetFbName();
+
+    virtual void onLogin(bool isLogin, const std::string& msg);
+    virtual void onSharedSuccess(const std::string& message);
+    virtual void onSharedFailed(const std::string& message);
+    virtual void onSharedCancel();
+    virtual void onAPI(const std::string& key, const std::string& jsonData);
+    virtual void onPermission(bool isLogin, const std::string& msg);
+    virtual void onFetchFriends(bool ok, const std::string& msg);
+    virtual void onRequestInvitableFriends(const sdkbox::FBInvitableFriendsInfo& friends);
+    virtual void onInviteFriendsWithInviteIdsResult(bool result, const std::string& msg);
+    virtual void onInviteFriendsResult(bool result, const std::string& msg);
+
+    virtual void onGetUserInfo(const sdkbox::FBGraphUser& userInfo);
+
+protected:
+    std::string m_FBName;
 #endif
 #endif
+protected:
+    GTFacebookHelper();
+    virtual ~GTFacebookHelper();
 };
 
 NS_GT_END
