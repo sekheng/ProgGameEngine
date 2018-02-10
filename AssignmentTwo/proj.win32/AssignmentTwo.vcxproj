@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GT\Animation\GTAnimTransAct.cpp" />
     <ClCompile Include="..\Classes\GT\Animation\GTDestroySelfAct.cpp" />
     <ClCompile Include="..\Classes\GT\Audio\GTSimperMusicSys.cpp" />
+    <ClCompile Include="..\Classes\GT\Facebook\GTFacebookHelper.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\GTCharacterStatNode.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleNode.cpp" />
     <ClCompile Include="..\Classes\GT\GameLogic\Obstacle\GTObstacleSpawner.cpp" />

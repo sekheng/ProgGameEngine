@@ -10,6 +10,7 @@
 #include "PluginFacebook/PluginFacebook.h"
 #endif
 #endif
+#include "GT/Facebook/GTFacebookHelper.h"
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
@@ -67,6 +68,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
+    GTFacebookHelper::Init();
     sdkbox::PluginFacebook::init();
 #endif
 #endif

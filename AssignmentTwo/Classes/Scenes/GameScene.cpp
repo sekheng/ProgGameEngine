@@ -400,7 +400,6 @@ void GameScene::InitialiseGameOverUI()
             //DO FB LOGIC HERE
             if (sdkbox::PluginFacebook::isLoggedIn())
             {
-                //sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
                 ShareHighScoreOnFB();
             }
             else
@@ -417,11 +416,9 @@ void GameScene::InitialiseGameOverUI()
 
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
-    if (sdkbox::PluginFacebook::isLoggedIn() && GTFacebookHelper::m_FBName.size() == 0)
+    if (sdkbox::PluginFacebook::isLoggedIn())
     {
-        sdkbox::FBAPIParam params;
-        params["fields"] = "name, email";
-        sdkbox::PluginFacebook::api("me", "GET", params, "me");    
+        GTServerData::SendHighScore(CalculateScore(), GTFacebookHelper::GetFbName());
     }
     else
     {
@@ -663,12 +660,12 @@ void GameScene::onPermission(bool isLogin, const std::string& msg)
 {
     if (isLogin)
     {
-        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-        if (needPermissionForShare)
-                sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-        if (needPermissionForShare)
-                sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+        //bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+        //if (needPermissionForShare)
+        //        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        //needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        //if (needPermissionForShare)
+        //        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     }
 }
 void GameScene::onFetchFriends(bool ok, const std::string& msg)
