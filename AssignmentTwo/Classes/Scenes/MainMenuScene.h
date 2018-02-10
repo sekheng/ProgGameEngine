@@ -42,6 +42,7 @@ protected:
 	//TEMP VARIABLE//
 	ui::Button* m_FacebookLoginButton;
 	ui::Button* m_FacebookLogoutButton;
+    int m_NumberOfUIAtMain = 0;
     void InitialiseFacebookUI();
     void ToggleFacebookUI(bool _isLoggedIn);
 

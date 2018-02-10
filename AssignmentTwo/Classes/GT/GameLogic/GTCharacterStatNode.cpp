@@ -362,7 +362,7 @@ bool GTCharacterStatNode::CharJump()
 gtU32 GTCharacterStatNode::getConvertedDistWalk()
 {
     // dont know what to convert this to for now
-    return m_TotalDist * 100.f;
+    return m_TotalDist;
 }
 
 void GTCharacterStatNode::setReviveCounter(const int &_reviveTimes)

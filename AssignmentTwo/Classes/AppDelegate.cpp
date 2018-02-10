@@ -116,6 +116,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     MKSceneManager::GetInstance()->AddScene<ShopScene>("ShopScene");
     MKSceneManager::GetInstance()->AddScene<PauseScene>("PauseScene");
     MKSceneManager::GetInstance()->AddScene<GameOverScene>("GameOverScene");
+    MKSceneManager::GetInstance()->AddScene<HighscoreScene>("HighscoreScene");
 
     // The first scene to launch.
     MKSceneManager::GetInstance()->ReplaceScene("StartScreenScene");

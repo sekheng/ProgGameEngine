@@ -17,11 +17,13 @@
 #include "../GT/GameLogic/PowerUp/GTPowerUp.h"
 #include "../GT/Actions/GTFollowNodeAction.h"
 #include "../GT/Actions/GTRepeatActionInstantForever.h"
+#include "../GT/Server/GTServerData.h"
 
 #include "../GT/GameLogic/Powerup/GTSlowTimePowerUp.h"
 
 // Include UI
 #include "../UIClass/UICreator.h"
+#include "../GT/Facebook/GTFacebookHelper.h"
 
 using namespace GinTama;
 
@@ -222,6 +224,7 @@ void GameScene::InitialiseBackgrounds()
             m_Backgrounds[i]->SetTextureScale(backgroundWidth / desiredWidth, 1.0f);
 
 			GetUINode()->addChild(m_Backgrounds[i]);
+            m_Backgrounds[i]->setGlobalZOrder(-1);
 		}
 	}
 }
@@ -244,6 +247,7 @@ void GameScene::InitialiseUI()
 		(0.075f * visibleSize.height) / pauseButtonSprite->getContentSize().height
     );
     GetUINode()->addChild(PauseButton);
+    GetUINode()->setLocalZOrder(1);
 }
 
 void GameScene::InitialiseText()
@@ -294,7 +298,7 @@ void GameScene::InitialiseGameOverUI()
     }
 
     // Highscore Text
-    std::string HighScoreString = "HighScore: " + std::to_string(m_HighScore);
+    std::string HighScoreString = "HighScore: " + std::to_string(CalculateScore());
     m_HighScoreTxt->setString(HighScoreString);
     m_HighScoreTxt->setVisible(true);
 
@@ -313,7 +317,6 @@ void GameScene::InitialiseGameOverUI()
         "Retry",
         [&](Ref*) -> void
         {
-            //MKSceneManager::GetInstance()->ReplaceScene("GameScene");
             // cannot replace the current scene in the same scene
             Director::getInstance()->getScheduler()->setTimeScale(1.0f);
             this->getPhysicsWorld()->setSpeed(1.0f);
@@ -326,7 +329,7 @@ void GameScene::InitialiseGameOverUI()
 
     // Revive Button
     auto reviveButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale())),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Revive: " + std::to_string(m_CharaStatNode->getReviveCounter()),
@@ -348,9 +351,24 @@ void GameScene::InitialiseGameOverUI()
     GetUINode()->addChild(reviveButton);
     m_ArrayOfGameOverUI.push_back(reviveButton);
 
+    // highscore button
+    auto toHighscoreButton = MKUICreator::GetInstance()->createButton(
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
+        "ButtonNormal.png",
+        "ButtonSelected.png",
+        "Highscore",
+        [&](Ref*) -> void
+    {
+        MKSceneManager::GetInstance()->PushScene("HighscoreScene");
+    },
+        (0.1f * visibleSize.height) / buttonSprite->getContentSize().height
+        );
+    GetUINode()->addChild(toHighscoreButton);
+    m_ArrayOfGameOverUI.push_back(toHighscoreButton);
+
     // Main Menu Button
     auto toMainMenuButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 2)),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "ButtonNormal.png",
         "ButtonSelected.png",
         "Main Menu",
@@ -371,7 +389,7 @@ void GameScene::InitialiseGameOverUI()
     // Facebook Button
     Sprite* facebookButtonSprite = Sprite::create("FacebookButton.png");
     auto facebookButton = MKUICreator::GetInstance()->createButton(
-        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * 3)),
+        Vec2(UIButtonPosX, UIButtonPosY - (retryButton->getContentSize().height * retryButton->getScale() * m_ArrayOfGameOverUI.size())),
         "FacebookButton.png",
         "FacebookButtonSelected.png",
         "",
@@ -396,6 +414,24 @@ void GameScene::InitialiseGameOverUI()
     );
 	GetUINode()->addChild(facebookButton);
 	m_ArrayOfGameOverUI.push_back(facebookButton);
+
+#ifndef WIN32
+#ifdef SDKBOX_ENABLED
+    if (sdkbox::PluginFacebook::isLoggedIn() && GTFacebookHelper::m_FBName.size() == 0)
+    {
+        sdkbox::FBAPIParam params;
+        params["fields"] = "name, email";
+        sdkbox::PluginFacebook::api("me", "GET", params, "me");    
+    }
+    else
+    {
+        GTServerData::SendHighScore(CalculateScore());
+    }
+#endif
+    GTServerData::SendHighScore(CalculateScore());
+#else
+    GTServerData::SendHighScore(CalculateScore());
+#endif
 }
 
 void GameScene::InitialiseObstacles()
@@ -621,24 +657,18 @@ void GameScene::onSharedCancel()
 }
 void GameScene::onAPI(const std::string& key, const std::string& jsonData)
 {
-    
+    CCLOG("On FB API");
 }
 void GameScene::onPermission(bool isLogin, const std::string& msg)
 {
     if (isLogin)
     {
-        bool needPermissionForShare = true;
-        for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
-        {
-            if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
-            {
-                needPermissionForShare = false;
-                break;
-            }
-        }
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
         if (needPermissionForShare)
-            sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
-        //ShareHighScoreOnFB();
+                sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+                sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     }
 }
 void GameScene::onFetchFriends(bool ok, const std::string& msg)
@@ -660,7 +690,7 @@ void GameScene::onInviteFriendsResult( bool result, const std::string& msg )
 
 void GameScene::onGetUserInfo( const sdkbox::FBGraphUser& userInfo )
 {
-    
+    CCLOG("Getting User info");
 }
 
 void GameScene::ShareHighScoreOnFB()
@@ -669,8 +699,8 @@ void GameScene::ShareHighScoreOnFB()
     info.type  = sdkbox::FB_LINK;
     info.link = "https://runningfromtripleprog.appspot.com";
     info.title = "Running From Triple Programming!";
-    info.text  = "Jialet liao! I only score " + std::to_string(m_HighScore);
-    info.image = "http://cocos2d-x.org/images/logo.png";
+    info.text  = "Jialat liao! I only run " + std::to_string(m_HighScore);
+    info.image = "https://runningfromtripleprog.appspot.com/static/images/Logo.png";
     sdkbox::PluginFacebook::dialog(info);
 }
 #endif

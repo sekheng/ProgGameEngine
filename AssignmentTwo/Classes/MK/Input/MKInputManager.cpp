@@ -137,7 +137,7 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 		return;
 	}
 
-    CCLOG("MKInputManager::SetCurrentContext - PreContextChange Start");
+    //CCLOG("MKInputManager::SetCurrentContext - PreContextChange Start");
 
     // Pre-Context Change
 #if MK_USE_KEYBOARD
@@ -150,14 +150,14 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 
     SendAllInputEvents();
 
-    CCLOG("MKInputManager::SetCurrentContext - PreContextChange End");
+    //CCLOG("MKInputManager::SetCurrentContext - PreContextChange End");
 
-    CCLOG("MKInputManager::SetCurrentContext - ContextChange Start");
+    //CCLOG("MKInputManager::SetCurrentContext - ContextChange Start");
 	// Context Change
 	m_CurrentContext = _currentContext;
-    CCLOG("MKInputManager::SetCurrentContext - ContextChange End");
+    //CCLOG("MKInputManager::SetCurrentContext - ContextChange End");
 
-    CCLOG("MKInputManager::SetCurrentContext - PostContextChange Start");
+    //CCLOG("MKInputManager::SetCurrentContext - PostContextChange Start");
 
 	// Post Context Change
 #if MK_USE_KEYBOARD
@@ -170,7 +170,7 @@ void MKInputManager::SetCurrentContext(MKInputContext _currentContext)
 
     SendAllInputEvents();
 
-    CCLOG("MKInputManager::SetCurrentContext - PostContextChange End");
+    //CCLOG("MKInputManager::SetCurrentContext - PostContextChange End");
 }
 
 MKInputContext MKInputManager::GetCurrentContext() const
@@ -180,7 +180,7 @@ MKInputContext MKInputManager::GetCurrentContext() const
 
 void MKInputManager::SendAllInputEvents()
 {
-    CCLOG("MKInputManager::SendAllInputEvents Start");
+    //CCLOG("MKInputManager::SendAllInputEvents Start");
 
     while (m_InputEventQueue.empty() == false)
     {
@@ -194,7 +194,7 @@ void MKInputManager::SendAllInputEvents()
 #endif // MK_USE_DIRECTOR_DISPATCHER
     }
 
-    CCLOG("MKInputManager::SendAllInputEvents End");
+    //CCLOG("MKInputManager::SendAllInputEvents End");
 }
 
 void MKInputManager::FlushBuffer()
@@ -207,7 +207,7 @@ void MKInputManager::FlushBuffer()
 
 void MKInputManager::Update()
 {
-    CCLOG("MKInputManager::Update Start");
+    //CCLOG("MKInputManager::Update Start");
 
 #if MK_USE_KEYBOARD
 	MKKeyboardHandler::GetInstance()->Update({});
@@ -219,7 +219,7 @@ void MKInputManager::Update()
 
 	SendAllInputEvents();
 
-    CCLOG("MKInputManager::Update End");
+    //CCLOG("MKInputManager::Update End");
 }
 
 NS_MK_END

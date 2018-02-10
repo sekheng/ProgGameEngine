@@ -3,14 +3,6 @@
 
 // Include MK
 #include "../MK/SceneManagement/MKSceneManager.h"
-#include "../MK/Common/MKMacros.h"
-
-// Include Input Device Handlers
-#include "../MK/Input/MKKeyboardHandler.h"
-
-// Include Assignment
-#include "AvailableScenes.h"
-#include "AudioEngine.h"
 
 //#include "ui/UIButton.h"
 #include "../UIClass/UICreator.h"
@@ -39,7 +31,6 @@ bool SettingsScene::init()
 
     InitialiseBackground();
     InitialiseUI();
-	scheduleUpdate();
 
 	return true;
 }
@@ -118,7 +109,7 @@ void SettingsScene::InitialiseUI()
     else
     {
         // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        label->setPosition(Vec2(estimatedHalfPoint,
             origin.y + visibleSize.height - label->getContentSize().height));
 
         // add the label as a child to this layer

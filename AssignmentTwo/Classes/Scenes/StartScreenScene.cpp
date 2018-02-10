@@ -5,6 +5,9 @@
 #include "../MK/GameData/MKGameDataLoader.h"
 #include "../MK/GameData/MKPlayerData.h"
 #include "../MK/GameData/MKGameBackgroundData.h"
+#include "../GT/Facebook/GTFacebookHelper.h"
+
+USING_NS_GT
 
 bool StartScreenScene::init()
 {
@@ -15,7 +18,6 @@ bool StartScreenScene::init()
     InitialiseBackground();
     InitialiseLogo();
     InitialiseStartLabel();
-
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
     sdkbox::PluginFacebook::setListener(this);
@@ -148,17 +150,12 @@ void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
     CCLOG("FB login: %u", isLogin);
     if (isLogin)
     {
-        bool needPermissionForShare = true;
-        for (std::vector<std::string>::iterator it = sdkbox::PluginFacebook::getPermissionList().begin(), end = sdkbox::PluginFacebook::getPermissionList().end(); it != end; ++it)
-        {
-            if ((*it) == sdkbox::FB_PERM_PUBLISH_POST)
-            {
-                needPermissionForShare = false;
-                break;
-            }
-        }
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
         if (needPermissionForShare)
-            sdkbox::PluginFacebook::requestPublishPermissions({sdkbox::FB_PERM_PUBLISH_POST});
+            sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
     }
 }
 void StartScreenScene::onSharedSuccess(const std::string& message)
@@ -175,6 +172,7 @@ void StartScreenScene::onSharedCancel()
 }
 void StartScreenScene::onAPI(const std::string& key, const std::string& jsonData)
 {
+
 }
 void StartScreenScene::onPermission(bool isLogin, const std::string& msg)
 {
