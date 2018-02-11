@@ -115,7 +115,4 @@ void SettingsScene::InitialiseUI()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
-    AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
 }

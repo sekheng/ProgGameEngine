@@ -44,10 +44,6 @@ bool ShopScene::init()
 	InitialiseUI();
 	InitialisePlayerCoinUI();
 
-
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("PlaceHolder/sprite.plist");
-	AnimationCache::getInstance()->addAnimationsWithFile("PlaceHolder/sprite_ani.plist");
-
 	scheduleUpdate();
 
 	return true;
