@@ -30,8 +30,6 @@ protected:
 	void InitialiseShopItemUI();
 	void InitialiseShopBackgrounds(MKShopItem_Background* _shopItem);
 
-	void InitPurchaseButtons(MKShopItem_Background* _shopItem);
-
 	//BACKGROUND DISPLAY NODE
 	Node* m_ItemDisplayNode = nullptr;
 
