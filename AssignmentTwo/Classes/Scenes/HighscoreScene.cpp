@@ -89,13 +89,13 @@ void HighscoreScene::InitialiseUI()
 
     // then display the name and score part!
     float scoreTitleHeight = origin.y + (visibleSize.height * 0.9f);
-    auto playerNameTitle = Label::createWithTTF("Name:", fontName, 32);
+    auto playerNameTitle = Label::createWithTTF("Name:", fontName, 44);
     // position the label on the center of the screen
     playerNameTitle->setPosition(Vec2(m_LeftSideToShowPlayer, scoreTitleHeight - playerNameTitle->getContentSize().height));
     playerNameTitle->setColor(Color3B::BLACK);
     this->addChild(playerNameTitle, 1);
 
-    auto playerScoreTitle = Label::createWithTTF("Score:", fontName, 32);
+    auto playerScoreTitle = Label::createWithTTF("Score:", fontName, 44);
     playerScoreTitle->setPosition(Vec2(m_RightSideToShowScore, scoreTitleHeight - playerScoreTitle->getContentSize().height));
     playerScoreTitle->setColor(Color3B::BLACK);
     this->addChild(playerScoreTitle, 1);
@@ -116,12 +116,13 @@ void HighscoreScene::SpawnGlobalHighScoreUI(const std::string &_dataJson)
         return;
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float highscoreHeight = origin.y + (visibleSize.height * 0.8f);
+    float highscoreHeight = origin.y + (visibleSize.height * 0.75f);
     // then spawn UI here based on the json data!
     // we need to convert it duh
     Document jsonDoc;
     jsonDoc.Parse(_dataJson.c_str());
     int numberOfHighScores = 0;
+    const static float HIGHSCORE_UI_SIZE = 40;
     // then iterate through the array!
     for (RAPIDJSON_NAMESPACE::Value::ConstValueIterator it = jsonDoc.Begin(), end = jsonDoc.End(); it != end; ++it)
     {
@@ -131,13 +132,13 @@ void HighscoreScene::SpawnGlobalHighScoreUI(const std::string &_dataJson)
         std::string playerOrderStr = std::to_string(numberOfHighScores + 1) + ". " + nameOfPlayer;
         std::string playerScoreStr = std::to_string((int)score);
 
-        auto playerNameLabel = Label::createWithTTF(playerOrderStr, fontName, 28);
+        auto playerNameLabel = Label::createWithTTF(playerOrderStr, fontName, HIGHSCORE_UI_SIZE);
         playerNameLabel->setPosition(Vec2(m_LeftSideToShowPlayer,
             highscoreHeight - (numberOfHighScores * playerNameLabel->getContentSize().height)));
         playerNameLabel->setColor(Color3B::BLACK);
             this->addChild(playerNameLabel, 1);
 
-        auto playerScoreLabel = Label::createWithTTF(playerScoreStr, fontName, 28);
+        auto playerScoreLabel = Label::createWithTTF(playerScoreStr, fontName, HIGHSCORE_UI_SIZE);
         playerScoreLabel->setPosition(Vec2(m_RightSideToShowScore,
            highscoreHeight - (numberOfHighScores * playerScoreLabel->getContentSize().height)));
         playerScoreLabel->setColor(Color3B::BLACK);
