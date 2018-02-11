@@ -154,6 +154,143 @@ void ShopScene::UpdateButtonInfo(MKShopItem* _shopItem)
 	m_ShopItemPrice->setString("Price: " + to_string(_shopItem->m_Cost));
 }
 
+void ShopScene::InitialiseBuyButton(MKShopItem* _shopItem)
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
+
+	ui::Button* button = ui::Button::create("ButtonNormal.png");
+	mkF32 desiredScaleY = 0.15f * visibleSize.height / button->getContentSize().height;
+	mkF32 desiredScaleX = 0.3f * visibleSize.width / button->getContentSize().width;
+	mkF32 actualButtonHeight = desiredScaleY * button->getContentSize().height;
+	mkF32 buttonPadding = actualButtonHeight * 0.1f;
+
+	m_buyButton = MKUICreator::GetInstance()->createButton(
+		Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"BUY",
+		[=](Ref*) -> void
+		{
+			//Do Buying/Equipping here
+
+			if (MKShopInterface::HasSufficientCoins(*_shopItem))
+			{
+				MKShopInterface::PurchaseGameBackground(*_shopItem, true);
+				m_equipButton = MKUICreator::GetInstance()->createButton(
+					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+					"ButtonNormal.png",
+					"ButtonSelected.png",
+					"EQUIP",
+					[=](Ref*) -> void
+					{
+						//Equip Background
+						MKShopInterface::EquipGameBackground(*_shopItem, true);
+						if (playerData->OwnsBackground(_shopItem->m_Name) && playerData->GetEquippedBackground() == _shopItem->m_Name)
+						{
+							m_equippedButton = MKUICreator::GetInstance()->createButton(
+								Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+								"ButtonNormal.png",
+								"ButtonSelected.png",
+								"EQUIPPED",
+								[=](Ref*) -> void
+								{
+									//Equip Background
+									MKShopInterface::EquipGameBackground(*_shopItem, true);
+								},
+								15,
+								desiredScaleX, desiredScaleY
+								);
+							this->addChild(m_equippedButton);
+						}
+					},
+					15,
+					desiredScaleX, desiredScaleY
+					);
+				this->addChild(m_equipButton);
+			}
+		},
+		15,
+		desiredScaleX, desiredScaleY
+		);
+	this->addChild(m_buyButton);
+}
+void ShopScene::InitialiseEquipButton(MKShopItem* _shopItem)
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
+
+	ui::Button* button = ui::Button::create("ButtonNormal.png");
+	mkF32 desiredScaleY = 0.15f * visibleSize.height / button->getContentSize().height;
+	mkF32 desiredScaleX = 0.3f * visibleSize.width / button->getContentSize().width;
+	mkF32 actualButtonHeight = desiredScaleY * button->getContentSize().height;
+	mkF32 buttonPadding = actualButtonHeight * 0.1f;
+
+	m_equipButton = MKUICreator::GetInstance()->createButton(
+		Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"EQUIP",
+		[=](Ref*) -> void
+		{
+			//Equip Background
+			MKShopInterface::EquipGameBackground(*_shopItem, true);
+			if (playerData->OwnsBackground(_shopItem->m_Name) && playerData->GetEquippedBackground() == _shopItem->m_Name)
+			{
+				m_equippedButton = MKUICreator::GetInstance()->createButton(
+					Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+					"ButtonNormal.png",
+					"ButtonSelected.png",
+					"EQUIPPED",
+					[=](Ref*) -> void
+					{
+						//Equip Background
+						MKShopInterface::EquipGameBackground(*_shopItem, true);
+					},
+					15,
+					desiredScaleX, desiredScaleY
+					);
+				this->addChild(m_equippedButton);
+			}
+		},
+		15,
+		desiredScaleX, desiredScaleY
+		);
+	this->addChild(m_equipButton);
+}
+void ShopScene::InitialiseEquippedButton(MKShopItem* _shopItem)
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	float halfWidth = visibleSize.width * 0.5f;
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	float estimatedHalfPoint = origin.x + halfWidth;
+
+	ui::Button* button = ui::Button::create("ButtonNormal.png");
+	mkF32 desiredScaleY = 0.15f * visibleSize.height / button->getContentSize().height;
+	mkF32 desiredScaleX = 0.3f * visibleSize.width / button->getContentSize().width;
+	mkF32 actualButtonHeight = desiredScaleY * button->getContentSize().height;
+	mkF32 buttonPadding = actualButtonHeight * 0.1f;
+
+	m_equippedButton = MKUICreator::GetInstance()->createButton(
+		Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
+		"ButtonNormal.png",
+		"ButtonSelected.png",
+		"EQUIPPED",
+		[=](Ref*) -> void
+		{
+			//Equip Background
+			MKShopInterface::EquipGameBackground(*_shopItem, true);
+		},
+		15,
+		desiredScaleX, desiredScaleY
+		);
+	this->addChild(m_equippedButton);
+}
+
 void ShopScene::InitialiseUI()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -197,108 +334,18 @@ void ShopScene::InitialiseUI()
 				this->InitialiseShopBackgrounds(shopItemBackground);
 				if (!playerData->OwnsBackground(shopItem->m_Name))
 				{
-					m_buyButton = MKUICreator::GetInstance()->createButton(
-						Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-						"ButtonNormal.png",
-						"ButtonSelected.png",
-						"BUY",
-						[=](Ref*) -> void
-						{
-							//Do Buying/Equipping here
 
-							if (MKShopInterface::HasSufficientCoins(*shopItem))
-							{
-								MKShopInterface::PurchaseGameBackground(*shopItem, true);
-								m_equipButton = MKUICreator::GetInstance()->createButton(
-									Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-									"ButtonNormal.png",
-									"ButtonSelected.png",
-									"EQUIP",
-									[=](Ref*) -> void
-									{
-										//Equip Background
-										MKShopInterface::EquipGameBackground(*shopItem, true);
-										if (playerData->OwnsBackground(shopItem->m_Name) && playerData->GetEquippedBackground() == shopItem->m_Name)
-										{
-											m_equippedButton = MKUICreator::GetInstance()->createButton(
-												Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-												"ButtonNormal.png",
-												"ButtonSelected.png",
-												"EQUIPPED",
-												[=](Ref*) -> void
-												{
-													//Equip Background
-													MKShopInterface::EquipGameBackground(*shopItem, true);
-												},
-												15,
-												desiredScaleX, desiredScaleY
-												);
-											this->addChild(m_equippedButton);
-										}
-									},
-									15,
-									desiredScaleX, desiredScaleY
-									);
-								this->addChild(m_equipButton);
-							}
-						},
-						15,
-						desiredScaleX, desiredScaleY
-						);
-					this->addChild(m_buyButton);
+					//BUY BUTTON//
+					InitialiseBuyButton(shopItem);
 				}
-				// Allow Player To Equip
+				//EQUIP BUTTON//
 				if (playerData->OwnsBackground(shopItem->m_Name))
 				{
-					m_equipButton = MKUICreator::GetInstance()->createButton(
-						Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-						"ButtonNormal.png",
-						"ButtonSelected.png",
-						"EQUIP",
-						[=](Ref*) -> void
-						{
-							//Equip Background
-							MKShopInterface::EquipGameBackground(*shopItem, true);
-							if (playerData->OwnsBackground(shopItem->m_Name) && playerData->GetEquippedBackground() == shopItem->m_Name)
-							{
-								m_equippedButton = MKUICreator::GetInstance()->createButton(
-									Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-									"ButtonNormal.png",
-									"ButtonSelected.png",
-									"EQUIPPED",
-									[=](Ref*) -> void
-									{
-										//Equip Background
-										MKShopInterface::EquipGameBackground(*shopItem, true);
-									},
-									15,
-									desiredScaleX, desiredScaleY
-									);
-								this->addChild(m_equippedButton);
-							}
-						},
-						15,
-						desiredScaleX, desiredScaleY
-						);
-					this->addChild(m_equipButton);
-					
+					InitialiseEquipButton(shopItem);
 				}
 				if (playerData->GetEquippedBackground() == shopItem->m_Name)
 				{
-					m_equippedButton = MKUICreator::GetInstance()->createButton(
-						Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.1f),
-						"ButtonNormal.png",
-						"ButtonSelected.png",
-						"EQUIPPED",
-						[=](Ref*) -> void
-						{
-							//Equip Background
-							MKShopInterface::EquipGameBackground(*shopItem, true);
-						},
-						15,
-						desiredScaleX, desiredScaleY
-						);
-					this->addChild(m_equippedButton);
+					InitialiseEquippedButton(shopItem);
 				}
 			},	
 			15,
