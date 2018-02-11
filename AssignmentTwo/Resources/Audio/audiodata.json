@@ -2,7 +2,7 @@
    "master_vol":1.0,
    "audiodata_arr":[  
       {  
-         "location":"PlaceHolder/testbgm.mp3",
+         "location":"Audio/testbgm.mp3",
 		 "NameID":"testbgm",
 		 "volume":0.3,
 		 "loop":true
