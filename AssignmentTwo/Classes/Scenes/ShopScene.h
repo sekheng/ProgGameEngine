@@ -30,6 +30,8 @@ protected:
 	void InitialiseShopItemUI();
 	void InitialiseShopBackgrounds(MKShopItem_Background* _shopItem);
 
+	void InitPurchaseButtons(MKShopItem_Background* _shopItem);
+
 	//BACKGROUND DISPLAY NODE
 	Node* m_ItemDisplayNode = nullptr;
 
@@ -37,6 +39,11 @@ protected:
 	Label* m_PlayerCoinsLabel = nullptr;
 	Label* m_ShopItemName = nullptr;
 	Label* m_ShopItemPrice = nullptr;
+
+	//BUTTONS
+	ui::Button* m_buyButton;
+	ui::Button* m_equipButton;
+	ui::Button* m_equippedButton;
 
 	//DATA
 	MKPlayerData* playerData;
