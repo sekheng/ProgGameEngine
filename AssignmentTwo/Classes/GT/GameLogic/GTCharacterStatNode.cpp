@@ -10,6 +10,8 @@ USING_NS_GT
 USING_NS_CC;
 
 const static float ACCEPTABLE_VELY = 0.9f;
+const static int SLIDING_PHYSICS_TAG = 2;
+const static int ORIGINAL_PHYSICS_TAG = 0;
 
 GTCharacterStatNode::GTCharacterStatNode()
     : m_CurrentState(RUNNING)
@@ -88,6 +90,12 @@ void GTCharacterStatNode::update(float delta)
             {
                 _parent->setPositionX(m_DeadPositionX);
             }
+            // then check whether is it in the sliding physics body or original physics body
+            if (m_physicsNode->getFirstShape()->getTag() == SLIDING_PHYSICS_TAG)
+            {
+                m_physicsNode->removeShape(m_SlidePhyShape, false);
+                m_physicsNode->addShape(m_OriginPhyShape, false);
+            }
             break;
         default:
             Vec2 zeVel = m_physicsNode->getVelocity();
@@ -136,6 +144,7 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_physicsNode->retain();
     m_OriginPhyShape = _physicsBody->getShape(0);
     m_OriginPhyShape->retain();
+    m_OriginPhyShape->setTag(ORIGINAL_PHYSICS_TAG);
     // then have another
     Size zeSlideSize = Size(_physicsBody->getOwner()->getContentSize().width * 0.5f, _physicsBody->getOwner()->getContentSize().height * 0.3f);
     m_SlidePhyShape = PhysicsShapeBox::create(zeSlideSize, _physicsBody->getFirstShape()->getMaterial(), _physicsBody->getFirstShape()->getOffset());
@@ -143,7 +152,7 @@ void GTCharacterStatNode::setPhysicsNode(cocos2d::PhysicsBody *_physicsBody)
     m_SlidePhyShape->setCategoryBitmask(GT_COLLISION_CATEGORY_PLAYER);
     m_SlidePhyShape->setCollisionBitmask(GT_COLLISION_CATEGORY_GROUND);
     m_SlidePhyShape->setContactTestBitmask(GT_COLLISION_CATEGORY_GROUND | GT_COLLISION_CATEGORY_OBSTACLE | GT_COLLISION_CATEGORY_POWERUP);
-
+    m_SlidePhyShape->setTag(SLIDING_PHYSICS_TAG);
     // Then set the contact listener when it happens
     setPhysicsBitmasks(m_physicsNode);
     InitialiseContactListener();
