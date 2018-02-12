@@ -24,8 +24,10 @@
 // Include UI
 #include "../UIClass/UICreator.h"
 #include "../GT/Facebook/GTFacebookHelper.h"
+#include "external/json/document.h"
 
 using namespace GinTama;
+using namespace rapidjson;
 
 // Overrides
 bool GameScene::initWithPhysics()
@@ -375,7 +377,7 @@ void GameScene::InitialiseGameOverUI()
         [&](Ref*) -> void
         {
             // Add Coins to player data.
-            MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->AddCoins(m_HighScore / 50);
+            MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>()->AddCoins(CalculateScore());
             MKPlayerData* playerData = MKGameDataLoader::GetInstance()->GetGameData<MKPlayerData>();
             MK_ASSERT((playerData->SaveData(playerData->GetWritablePath())));
 
@@ -416,7 +418,7 @@ void GameScene::InitialiseGameOverUI()
 
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
-    if (sdkbox::PluginFacebook::isLoggedIn())
+    if (sdkbox::PluginFacebook::isLoggedIn() && GTFacebookHelper::GetFbName().size() > 0)
     {
         GTServerData::SendHighScore(CalculateScore(), GTFacebookHelper::GetFbName());
     }
@@ -638,6 +640,21 @@ void GameScene::onLogin(bool isLogin, const std::string& msg)
     if (isLogin)
     {
         ShareHighScoreOnFB();
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+        GTFacebookHelper::ResetFBName();
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+        {
+            sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+        }
+        else
+        {
+            sdkbox::FBAPIParam params;
+            params["fields"] = "name, email";
+            sdkbox::PluginFacebook::api("me", "GET", params, "me");
+        }
     }
 }
 void GameScene::onSharedSuccess(const std::string& message)
@@ -655,9 +672,19 @@ void GameScene::onSharedCancel()
 void GameScene::onAPI(const std::string& key, const std::string& jsonData)
 {
     CCLOG("On FB API");
+    Document jsonDoc;
+    jsonDoc.Parse(jsonData.c_str());
+    std::string nameOfPlayer = jsonDoc.FindMember("name")->value.GetString();
+    GTFacebookHelper::SetFBName(nameOfPlayer);
 }
 void GameScene::onPermission(bool isLogin, const std::string& msg)
 {
+    if (isLogin)
+    {
+        sdkbox::FBAPIParam params;
+        params["fields"] = "name, email";
+        sdkbox::PluginFacebook::api("me", "GET", params, "me");
+    }
 }
 void GameScene::onFetchFriends(bool ok, const std::string& msg)
 {

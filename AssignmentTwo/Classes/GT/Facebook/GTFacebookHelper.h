@@ -54,7 +54,9 @@ public:
     
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
+    static void ResetFBName();
     static std::string GetFbName();
+    static void SetFBName(const std::string &_name);
 
     virtual void onLogin(bool isLogin, const std::string& msg);
     virtual void onSharedSuccess(const std::string& message);
@@ -76,6 +78,8 @@ protected:
 protected:
     GTFacebookHelper();
     virtual ~GTFacebookHelper();
+    
+    static GTFacebookHelper* m_Instance;
 };
 
 NS_GT_END

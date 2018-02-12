@@ -2,11 +2,10 @@
 #include "cocos2d.h"
 USING_NS_GT
 
-static GTFacebookHelper *m_Instance = nullptr;
+GTFacebookHelper *GTFacebookHelper::m_Instance = nullptr;
 
 GTFacebookHelper::GTFacebookHelper()
 {
-    CCLOG("Something");
 }
 
 GTFacebookHelper::~GTFacebookHelper()
@@ -19,7 +18,7 @@ void GTFacebookHelper::Init()
     m_Instance = new GTFacebookHelper();
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
-    sdkbox::PluginFacebook::setListener(this);
+    sdkbox::PluginFacebook::setListener(m_Instance);
 #endif
 #endif
 }
@@ -31,11 +30,19 @@ void GTFacebookHelper::Destroy()
 
 #ifndef WIN32
 #ifdef SDKBOX_ENABLED
+void GTFacebookHelper::ResetFBName()
+{
+    m_Instance->m_FBName = "";
+}
+
 std::string GTFacebookHelper::GetFbName()
 {
     return m_Instance->m_FBName;
 }
-
+void GTFacebookHelper::SetFBName(const std::string &_name)
+{
+    m_Instance->m_FBName = _name;
+}
 void GTFacebookHelper::onLogin(bool isLogin, const std::string& msg)
 {
     if (isLogin)

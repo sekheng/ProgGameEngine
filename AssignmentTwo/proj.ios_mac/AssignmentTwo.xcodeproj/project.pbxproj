@@ -76,14 +76,12 @@
 		EBB55718202BFE5000BD6781 /* BackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FE202BFE4E00BD6781 /* BackButton.png */; };
 		EBB55719202BFE5000BD6781 /* FacebookLoginButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB556FF202BFE4E00BD6781 /* FacebookLoginButtonSelected.png */; };
 		EBB5571A202BFE5000BD6781 /* Textures in Resources */ = {isa = PBXBuildFile; fileRef = EBB55700202BFE4E00BD6781 /* Textures */; };
-		EBB5571B202BFE5000BD6781 /* Player in Resources */ = {isa = PBXBuildFile; fileRef = EBB55701202BFE4F00BD6781 /* Player */; };
 		EBB5571C202BFE5000BD6781 /* FacebookButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55702202BFE4F00BD6781 /* FacebookButtonSelected.png */; };
 		EBB5571D202BFE5000BD6781 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55703202BFE4F00BD6781 /* CloseSelected.png */; };
 		EBB5571E202BFE5000BD6781 /* FacebookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55704202BFE4F00BD6781 /* FacebookButton.png */; };
 		EBB5571F202BFE5000BD6781 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55705202BFE4F00BD6781 /* CloseNormal.png */; };
 		EBB55720202BFE5000BD6781 /* SpriteAnim in Resources */ = {isa = PBXBuildFile; fileRef = EBB55706202BFE4F00BD6781 /* SpriteAnim */; };
 		EBB55721202BFE5000BD6781 /* PauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB55707202BFE4F00BD6781 /* PauseIcon.png */; };
-		EBB55722202BFE5000BD6781 /* PlaceHolder in Resources */ = {isa = PBXBuildFile; fileRef = EBB55708202BFE4F00BD6781 /* PlaceHolder */; };
 		EBB55723202BFE5000BD6781 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = EBB55709202BFE4F00BD6781 /* Audio */; };
 		EBB55724202BFE5000BD6781 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570A202BFE4F00BD6781 /* HelloWorld.png */; };
 		EBB55725202BFE5000BD6781 /* FacebookLogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB5570B202BFE5000BD6781 /* FacebookLogoutButton.png */; };
@@ -124,6 +122,9 @@
 		EBB5582E202C3BD100BD6781 /* StartScreenScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55812202C3BCD00BD6781 /* StartScreenScene.cpp */; };
 		EBB5582F202C3BD100BD6781 /* MKInputDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55817202C3BCE00BD6781 /* MKInputDefinition.cpp */; };
 		EBB55830202C3BD100BD6781 /* MKSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5581B202C3BCF00BD6781 /* MKSceneManager.cpp */; };
+		EBB55857203119F200BD6781 /* GTServerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55856203119F100BD6781 /* GTServerData.cpp */; };
+		EBB5585A203119FD00BD6781 /* GTFacebookHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB55858203119FC00BD6781 /* GTFacebookHelper.cpp */; };
+		EBB5585D20311A4600BD6781 /* HighscoreScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBB5585C20311A4600BD6781 /* HighscoreScene.cpp */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -238,14 +239,12 @@
 		EBB556FE202BFE4E00BD6781 /* BackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackButton.png; sourceTree = "<group>"; };
 		EBB556FF202BFE4E00BD6781 /* FacebookLoginButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLoginButtonSelected.png; sourceTree = "<group>"; };
 		EBB55700202BFE4E00BD6781 /* Textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textures; sourceTree = "<group>"; };
-		EBB55701202BFE4F00BD6781 /* Player */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Player; sourceTree = "<group>"; };
 		EBB55702202BFE4F00BD6781 /* FacebookButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookButtonSelected.png; sourceTree = "<group>"; };
 		EBB55703202BFE4F00BD6781 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		EBB55704202BFE4F00BD6781 /* FacebookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookButton.png; sourceTree = "<group>"; };
 		EBB55705202BFE4F00BD6781 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		EBB55706202BFE4F00BD6781 /* SpriteAnim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SpriteAnim; sourceTree = "<group>"; };
 		EBB55707202BFE4F00BD6781 /* PauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PauseIcon.png; sourceTree = "<group>"; };
-		EBB55708202BFE4F00BD6781 /* PlaceHolder */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PlaceHolder; sourceTree = "<group>"; };
 		EBB55709202BFE4F00BD6781 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
 		EBB5570A202BFE4F00BD6781 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		EBB5570B202BFE5000BD6781 /* FacebookLogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookLogoutButton.png; sourceTree = "<group>"; };
@@ -349,6 +348,12 @@
 		EBB5581E202C3BD000BD6781 /* MKInputDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKInputDefinition.h; path = MK/Input/MKInputDefinition.h; sourceTree = "<group>"; };
 		EBB5581F202C3BD000BD6781 /* MKSceneMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MKSceneMacros.h; path = MK/SceneManagement/MKSceneMacros.h; sourceTree = "<group>"; };
 		EBB55820202C3BD100BD6781 /* UICreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICreator.h; path = UIClass/UICreator.h; sourceTree = "<group>"; };
+		EBB55855203119F100BD6781 /* GTServerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTServerData.h; path = GT/Server/GTServerData.h; sourceTree = "<group>"; };
+		EBB55856203119F100BD6781 /* GTServerData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTServerData.cpp; path = GT/Server/GTServerData.cpp; sourceTree = "<group>"; };
+		EBB55858203119FC00BD6781 /* GTFacebookHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GTFacebookHelper.cpp; path = GT/Facebook/GTFacebookHelper.cpp; sourceTree = "<group>"; };
+		EBB55859203119FC00BD6781 /* GTFacebookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTFacebookHelper.h; path = GT/Facebook/GTFacebookHelper.h; sourceTree = "<group>"; };
+		EBB5585B20311A4600BD6781 /* HighscoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HighscoreScene.h; path = Scenes/HighscoreScene.h; sourceTree = "<group>"; };
+		EBB5585C20311A4600BD6781 /* HighscoreScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HighscoreScene.cpp; path = Scenes/HighscoreScene.cpp; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		F6BE4C118113F25FB67FA493 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -509,8 +514,6 @@
 				EBB5570A202BFE4F00BD6781 /* HelloWorld.png */,
 				EBB556F6202BFE4E00BD6781 /* mainspritecharaidlespritesheet.png */,
 				EBB55707202BFE4F00BD6781 /* PauseIcon.png */,
-				EBB55708202BFE4F00BD6781 /* PlaceHolder */,
-				EBB55701202BFE4F00BD6781 /* Player */,
 				EBB556F9202BFE4E00BD6781 /* ProgressBar.png */,
 				EBB556FA202BFE4E00BD6781 /* Shaders */,
 				EBB5570D202BFE5000BD6781 /* SliderBall.png */,
@@ -527,6 +530,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EBB5585C20311A4600BD6781 /* HighscoreScene.cpp */,
+				EBB5585B20311A4600BD6781 /* HighscoreScene.h */,
+				EBB55858203119FC00BD6781 /* GTFacebookHelper.cpp */,
+				EBB55859203119FC00BD6781 /* GTFacebookHelper.h */,
+				EBB55856203119F100BD6781 /* GTServerData.cpp */,
+				EBB55855203119F100BD6781 /* GTServerData.h */,
 				EBB55811202C3BCD00BD6781 /* AvailableScenes.h */,
 				EBB55810202C3BCC00BD6781 /* GameOverScene.cpp */,
 				EBB55806202C3BCA00BD6781 /* GameOverScene.h */,
@@ -725,7 +734,7 @@
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = R6CX4RP75W;
+						DevelopmentTeam = 23ZZ7TJ856;
 					};
 				};
 			};
@@ -822,12 +831,10 @@
 				EBB5571D202BFE5000BD6781 /* CloseSelected.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
-				EBB5571B202BFE5000BD6781 /* Player in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				EBB55716202BFE5000BD6781 /* Tileset in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 				EBB55724202BFE5000BD6781 /* HelloWorld.png in Resources */,
-				EBB55722202BFE5000BD6781 /* PlaceHolder in Resources */,
 				241E4FA58074205B445032E6 /* sdkbox_config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,6 +859,8 @@
 				EBB5582C202C3BD100BD6781 /* MKPlayerData.cpp in Sources */,
 				EBB557E9202C3BAA00BD6781 /* GTObstacle_Spike.cpp in Sources */,
 				EBB557DE202C3BAA00BD6781 /* GTInvulnerablePowerUp.cpp in Sources */,
+				EBB55857203119F200BD6781 /* GTServerData.cpp in Sources */,
+				EBB5585D20311A4600BD6781 /* HighscoreScene.cpp in Sources */,
 				EBB557E6202C3BAA00BD6781 /* GTSimperMusicSys.cpp in Sources */,
 				EBB557EA202C3BAA00BD6781 /* GTSphereShield.cpp in Sources */,
 				EBB5582D202C3BD100BD6781 /* GameOverScene.cpp in Sources */,
@@ -864,6 +873,7 @@
 				EBB557AE202C3B9100BD6781 /* AppDelegate.cpp in Sources */,
 				EBB557ED202C3BAA00BD6781 /* GTSphereShieldPowerUp.cpp in Sources */,
 				EBB5582B202C3BD100BD6781 /* PauseScene.cpp in Sources */,
+				EBB5585A203119FD00BD6781 /* GTFacebookHelper.cpp in Sources */,
 				EBB557E5202C3BAA00BD6781 /* GTObstacle_Saw.cpp in Sources */,
 				EBB55824202C3BD100BD6781 /* MKMathsHelper.cpp in Sources */,
 				EBB557EB202C3BAA00BD6781 /* GTAnimTransAct.cpp in Sources */,
@@ -918,7 +928,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = R6CX4RP75W;
+				DEVELOPMENT_TEAM = 23ZZ7TJ856;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -951,7 +961,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = leng.peng.SekHeng;
+				PRODUCT_BUNDLE_IDENTIFIER = leng.peng.SekHeng2;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -966,7 +976,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = R6CX4RP75W;
+				DEVELOPMENT_TEAM = 23ZZ7TJ856;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -998,7 +1008,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = leng.peng.SekHeng;
+				PRODUCT_BUNDLE_IDENTIFIER = leng.peng.SekHeng2;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

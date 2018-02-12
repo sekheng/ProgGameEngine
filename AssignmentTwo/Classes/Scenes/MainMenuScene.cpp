@@ -12,6 +12,7 @@
 #include "../UIClass/UICreator.h"
 #include "MainMenuScene.h"
 #include "../GT/Facebook/GTFacebookHelper.h"
+#include "external/json/document.h"
 
 using namespace experimental;
 using namespace RAPIDJSON_NAMESPACE;
@@ -270,12 +271,24 @@ void MainMenuScene::ToggleFacebookUI(bool _isLoggedIn)
 void MainMenuScene::onLogin(bool isLogin, const std::string& msg)
 {
     CCLOG("FB login: %u", isLogin);
-    //bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-    //if (needPermissionForShare)
-    //    sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-    //needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-    //if (needPermissionForShare)
-    //    sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+    if (isLogin)
+    {
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+        GTFacebookHelper::ResetFBName();
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+        {
+            sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+        }
+        else
+        {
+            sdkbox::FBAPIParam params;
+            params["fields"] = "name, email";
+            sdkbox::PluginFacebook::api("me", "GET", params, "me");
+        }
+    }
     ToggleFacebookUI(isLogin);
 }
 void MainMenuScene::onSharedSuccess(const std::string& message)
@@ -289,10 +302,20 @@ void MainMenuScene::onSharedCancel()
 }
 void MainMenuScene::onAPI(const std::string& key, const std::string& jsonData)
 {
-    
+    CCLOG("JSON DATA: %s", jsonData.c_str());
+    Document jsonDoc;
+    jsonDoc.Parse(jsonData.c_str());
+    std::string nameOfPlayer = jsonDoc.FindMember("name")->value.GetString();
+    GTFacebookHelper::SetFBName(nameOfPlayer);
 }
 void MainMenuScene::onPermission(bool isLogin, const std::string& msg)
 {
+    if (isLogin)
+    {
+            sdkbox::FBAPIParam params;
+            params["fields"] = "name, email";
+            sdkbox::PluginFacebook::api("me", "GET", params, "me");
+    }
 }
 void MainMenuScene::onFetchFriends(bool ok, const std::string& msg)
 {

@@ -6,6 +6,7 @@
 #include "../MK/GameData/MKPlayerData.h"
 #include "../MK/GameData/MKGameBackgroundData.h"
 #include "../GT/Facebook/GTFacebookHelper.h"
+#include "external/json/document.h"
 
 USING_NS_GT
 
@@ -24,6 +25,12 @@ bool StartScreenScene::init()
     if (!sdkbox::PluginFacebook::isLoggedIn())
     {
         sdkbox::PluginFacebook::login();
+    }
+    else
+    {
+        sdkbox::FBAPIParam params;
+        params["fields"] = "name, email";
+        sdkbox::PluginFacebook::api("me", "GET", params, "me");
     }
 #endif
 #endif
@@ -148,15 +155,24 @@ void StartScreenScene::OnClick(EventCustom * _event)
 void StartScreenScene::onLogin(bool isLogin, const std::string& msg)
 {
     //CCLOG("FB login: %u", isLogin);
-    //if (isLogin)
-    //{
-    //    bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
-    //    if (needPermissionForShare)
-    //        sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
-    //    needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
-    //    if (needPermissionForShare)
-    //        sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
-    //}
+    if (isLogin)
+    {
+        bool needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_PUBLISH_PERMISSIONS);
+        GTFacebookHelper::ResetFBName();
+        if (needPermissionForShare)
+            sdkbox::PluginFacebook::requestPublishPermissions(ALL_PUBLISH_PERMISSIONS);
+        needPermissionForShare = GTFacebookHelper::CheckForPermissionsNeeded(ALL_READ_PERMISSIONS);
+        if (needPermissionForShare)
+        {
+            sdkbox::PluginFacebook::requestReadPermissions(ALL_READ_PERMISSIONS);
+        }
+        else
+        {
+            sdkbox::FBAPIParam params;
+            params["fields"] = "name, email";
+            sdkbox::PluginFacebook::api("me", "GET", params, "me");
+        }
+    }
 }
 void StartScreenScene::onSharedSuccess(const std::string& message)
 {
@@ -172,10 +188,19 @@ void StartScreenScene::onSharedCancel()
 }
 void StartScreenScene::onAPI(const std::string& key, const std::string& jsonData)
 {
-
+    rapidjson::Document jsonDoc;
+    jsonDoc.Parse(jsonData.c_str());
+    std::string nameOfPlayer = jsonDoc.FindMember("name")->value.GetString();
+    GTFacebookHelper::SetFBName(nameOfPlayer);
 }
 void StartScreenScene::onPermission(bool isLogin, const std::string& msg)
 {
+    if (isLogin)
+    {
+        sdkbox::FBAPIParam params;
+        params["fields"] = "name, email";
+        sdkbox::PluginFacebook::api("me", "GET", params, "me");
+    }
 }
 void StartScreenScene::onFetchFriends(bool ok, const std::string& msg)
 {

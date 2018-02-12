@@ -68,7 +68,7 @@ void HighscoreScene::InitialiseUI()
     Sprite* backButton = Sprite::create("BackButton.png");
 
     auto toPrevSceneButton = MKUICreator::GetInstance()->createButton(
-        Vec2(backButton->getContentSize().width, visibleSize.height - backButton->getContentSize().height),
+        Vec2(backButton->getContentSize().width + origin.x, visibleSize.height - backButton->getContentSize().height),
         "BackButton.png",
         "BackButton.png",
         "",
